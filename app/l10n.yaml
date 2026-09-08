@@ -1,0 +1,8 @@
+# Localisation config. Every user-visible string goes through l10n from day one
+# (RULES.md §22), with Vietnamese as the first candidate second locale (F-096).
+arb-dir: lib/core/l10n
+template-arb-file: app_en.arb
+output-dir: lib/core/l10n/gen
+output-localization-file: app_localizations.dart
+output-class: AppL10n
+nullable-getter: false

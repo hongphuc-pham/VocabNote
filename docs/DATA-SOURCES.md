@@ -117,11 +117,25 @@ diacritics inconsistently across Android OEMs — and IPA fidelity is the point 
 Permissive licences only: **MIT, BSD-2/3, Apache-2.0, OFL**. No GPL/AGPL/LGPL, no
 source-available or "free for non-commercial" licences.
 
-- `flutter pub deps --json` feeds a licence report generated in CI; a new non-permissive
-  licence fails the build.
+- `app/tool/check_licences.dart` reads `pubspec.lock`, inspects every resolved package's
+  licence file and fails the build on anything non-permissive. CI runs it on every push;
+  run it locally with `dart run tool/check_licences.dart`.
 - The in-app licences screen uses Flutter's `showLicensePage()` (which aggregates package
   licences automatically) **plus** our own section for the data sources above, which
   `showLicensePage` does not know about.
+
+### Known exemption — `dbus` (MPL-2.0) *(recorded at M0)*
+
+A licence audit of the full tree turns up exactly one non-permissive package: `dbus`, which
+is **MPL-2.0**. It arrives transitively through `file_picker_linux` and
+`flutter_local_notifications_linux` — the Linux desktop implementations of two federated
+plugins.
+
+VocabNote ships **Android and iOS only**, so Flutter never compiles those implementation
+packages and no MPL code reaches a released artefact. The exemption is recorded by name in
+`check_licences.dart`, never by wildcard, so a genuinely new copyleft dependency cannot hide
+behind it. Re-verify at each release: if a desktop target is ever added, this stops being
+exempt and the plugin must be replaced.
 
 ---
 

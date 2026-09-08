@@ -1,0 +1,125 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "VocabNote",
+  "@appTitle": {
+    "description": "The application name. Not translated."
+  },
+
+  "navWords": "Words",
+  "@navWords": {
+    "description": "Bottom navigation label for the words tab."
+  },
+  "navPractice": "Practice",
+  "@navPractice": {
+    "description": "Bottom navigation label for the practice tab."
+  },
+  "navLists": "Lists",
+  "@navLists": {
+    "description": "Bottom navigation label for the lists tab."
+  },
+
+  "wordsTitle": "My words",
+  "@wordsTitle": {
+    "description": "App bar title on the words (home) screen."
+  },
+  "practiceTitle": "Practice",
+  "@practiceTitle": {
+    "description": "App bar title on the practice hub."
+  },
+  "listsTitle": "Lists",
+  "@listsTitle": {
+    "description": "App bar title on the lists screen."
+  },
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "App bar title on the settings screen."
+  },
+  "settingsOpenLabel": "Open settings",
+  "@settingsOpenLabel": {
+    "description": "Accessibility label for the icon-only settings button in the app bar."
+  },
+  "backLabel": "Go back",
+  "@backLabel": {
+    "description": "Accessibility label for an icon-only back button."
+  },
+
+  "guideTitle": "How to use",
+  "@guideTitle": {
+    "description": "Title of the six-card usage guide. Always present in Settings."
+  },
+  "helpTitle": "Help & feedback",
+  "@helpTitle": {
+    "description": "Title of the help and feedback screen. Always present in Settings."
+  },
+  "backupTitle": "Backup",
+  "@backupTitle": {
+    "description": "Title of the backup export/import screen."
+  },
+  "licencesTitle": "Data sources & licences",
+  "@licencesTitle": {
+    "description": "Title of the licences and attribution screen."
+  },
+  "onboardingTitle": "Welcome",
+  "@onboardingTitle": {
+    "description": "Title of the onboarding flow."
+  },
+
+  "wordDetailTitle": "Word",
+  "@wordDetailTitle": {
+    "description": "Placeholder app bar title for the word detail screen."
+  },
+  "wordEditTitle": "Edit word",
+  "@wordEditTitle": {
+    "description": "App bar title when adding or editing a word."
+  },
+  "ipaEditorTitle": "Edit IPA highlights",
+  "@ipaEditorTitle": {
+    "description": "App bar title for the IPA highlight editor."
+  },
+  "listDetailTitle": "List",
+  "@listDetailTitle": {
+    "description": "Placeholder app bar title for a single list."
+  },
+  "practiceRunTitle": "Practice",
+  "@practiceRunTitle": {
+    "description": "App bar title while a practice session is running."
+  },
+  "practiceSummaryTitle": "Summary",
+  "@practiceSummaryTitle": {
+    "description": "App bar title on the session summary screen."
+  },
+
+  "comingSoonTitle": "Coming soon",
+  "@comingSoonTitle": {
+    "description": "Heading on a placeholder screen that is not built yet."
+  },
+  "comingSoonBody": "This screen arrives in a later milestone.",
+  "@comingSoonBody": {
+    "description": "Body text on a placeholder screen that is not built yet."
+  },
+  "comingSoonRoute": "Route: {route}",
+  "@comingSoonRoute": {
+    "description": "Shows which route a placeholder screen is standing in for. Developer-facing, removed once the real screens land.",
+    "placeholders": {
+      "route": {
+        "type": "String",
+        "example": "/words/:id"
+      }
+    }
+  },
+
+  "routeNotFoundTitle": "Page not found",
+  "@routeNotFoundTitle": {
+    "description": "Heading shown when a route cannot be resolved."
+  },
+  "routeNotFoundBody": "We couldn't find that page. Let's get you back to your words.",
+  "@routeNotFoundBody": {
+    "description": "Body text shown when a route cannot be resolved."
+  },
+  "routeNotFoundAction": "Go to my words",
+  "@routeNotFoundAction": {
+    "description": "Button that returns the user to the words screen from an unresolved route."
+  }
+}
