@@ -1,0 +1,48 @@
+# --- Flutter / Dart ---
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+pubspec.lock          # app is not a published package; keep locked builds via CI cache instead
+*.g.dart.bak
+coverage/
+doc/api/
+
+# Generated code IS committed (build_runner output) so CI and reviewers see diffs.
+# Do NOT ignore *.g.dart / *.freezed.dart / schema_versions.dart
+
+# --- IDE ---
+.idea/
+.vscode/
+*.iml
+*.iws
+.metadata
+
+# --- Android ---
+app/android/.gradle/
+app/android/local.properties
+app/android/key.properties
+app/android/app/upload-keystore.jks
+*.jks
+*.keystore
+
+# --- iOS / macOS ---
+app/ios/Pods/
+app/ios/.symlinks/
+app/ios/Flutter/Flutter.framework
+app/ios/Flutter/Flutter.podspec
+app/ios/Flutter/Generated.xcconfig
+app/ios/Flutter/flutter_export_environment.sh
+**/*.mobileprovision
+**/*.p12
+.DS_Store
+
+# --- Local artefacts ---
+*.log
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+/tmp/
+/scratch/
