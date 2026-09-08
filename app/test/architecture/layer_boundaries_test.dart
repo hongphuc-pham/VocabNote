@@ -125,7 +125,7 @@ void main() {
     // The exemption is the dangerous part of this file, so it is itself
     // tested: every exempted path must exist, and the list must not grow
     // quietly.
-    expect(_compositionRoots, hasLength(2));
+    expect(_compositionRoots, hasLength(3));
     for (final root in _compositionRoots) {
       expect(File(root).existsSync(), isTrue, reason: '$root is missing');
     }
@@ -148,6 +148,38 @@ void main() {
     }
 
     expect(offenders, isEmpty, reason: offenders.join('\n'));
+  });
+
+  test('a library directive comes before every other directive', () {
+    // Not architecture, but it belongs to the same family of "this compiles
+    // everywhere except where it does not". A `library;` placed after the
+    // imports is legal to the analyzer's eye in some contexts but makes
+    // build_runner refuse the file outright, with an error that names the
+    // line rather than the cause. Cheap to check, tedious to rediscover.
+    final offenders = <String>[];
+
+    for (final file in sources) {
+      final content = file.readAsStringSync();
+      final directives = RegExp(
+        '^(library;|import |export |part )',
+        multiLine: true,
+      ).allMatches(content).toList();
+
+      if (directives.isEmpty) continue;
+      if (!content.contains(RegExp('^library;', multiLine: true))) continue;
+
+      if (!directives.first.group(1)!.startsWith('library')) {
+        offenders.add(file.path.replaceAll(r'\', '/'));
+      }
+    }
+
+    expect(
+      offenders,
+      isEmpty,
+      reason:
+          'Move `library;` (and its doc comment) above the imports:\n'
+          '${offenders.join('\n')}',
+    );
   });
 
   test('data never imports presentation', () {
@@ -198,11 +230,16 @@ void main() {
 /// `main.dart` is: a composition root is the place where wiring is *supposed*
 /// to cross layers, so it is exempted by name rather than by category.
 ///
-/// Keep this list at two entries. If a third file wants in, the design is
+/// Keep this list at three entries. If a fourth file wants in, the design is
 /// drifting and the answer is an interface, not another exemption.
 const List<String> _compositionRoots = <String>[
   'lib/core/router/app_router.dart',
   'lib/bootstrap.dart',
+  // Supplies the `data/` implementations for the DI seam that
+  // `application/repositories.dart` declares. Kept here rather than in
+  // bootstrap so tests can build the same overrides against an in-memory
+  // database without duplicating the list.
+  'lib/data/composition_root.dart',
 ];
 
 /// What each layer is allowed to import.

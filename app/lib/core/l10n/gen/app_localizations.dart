@@ -308,6 +308,426 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Export my data'**
   String get recoveryExportAction;
+
+  /// Placeholder in the words search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search your words'**
+  String get wordsSearchHint;
+
+  /// Accessibility label for the search icon button.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get wordsSearchLabel;
+
+  /// Accessibility label for the button that closes the search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Close search'**
+  String get wordsCloseSearchLabel;
+
+  /// Accessibility label for the sort menu button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get wordsSortLabel;
+
+  /// Filter chip showing every word. Not a stored list.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// Filter chip showing starred words only.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites'**
+  String get filterFavourites;
+
+  /// Filter chip showing words whose practice card is due.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get filterDueToday;
+
+  /// Filter chip showing words with no pronunciation typed yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No IPA yet'**
+  String get filterNoIpa;
+
+  /// Sort option: most recently changed first.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently updated'**
+  String get sortRecent;
+
+  /// Sort option: alphabetical.
+  ///
+  /// In en, this message translates to:
+  /// **'A to Z'**
+  String get sortAlphabetical;
+
+  /// Sort option: weakest practice cards first.
+  ///
+  /// In en, this message translates to:
+  /// **'Least known'**
+  String get sortLeastKnown;
+
+  /// Label on the floating button that opens the add-word form.
+  ///
+  /// In en, this message translates to:
+  /// **'Add word'**
+  String get addWordAction;
+
+  /// Heading of the empty state when the user has no words at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first word goes here'**
+  String get emptyWordsTitle;
+
+  /// Body of the empty state when the user has no words at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a word, write how it sounds, and mark the part you keep getting wrong.'**
+  String get emptyWordsBody;
+
+  /// Primary button in the empty state.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word'**
+  String get emptyWordsAction;
+
+  /// Secondary link in the empty state, opening the guide.
+  ///
+  /// In en, this message translates to:
+  /// **'See how it works'**
+  String get emptyWordsGuide;
+
+  /// Heading when a filter matches no words.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get emptyFilterTitle;
+
+  /// Body when a filter matches no words.
+  ///
+  /// In en, this message translates to:
+  /// **'No words match this filter. Try another one, or add a new word.'**
+  String get emptyFilterBody;
+
+  /// Heading when a search returns nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches'**
+  String get emptySearchTitle;
+
+  /// Body when a search returns nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matched {term}. Check the spelling, or add it as a new word.'**
+  String emptySearchBody(String term);
+
+  /// Button that resets the filter and search.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get emptyFilterClear;
+
+  /// Screen-reader label for the note count on a word row.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 note} other{{count} notes}}'**
+  String wordNoteCountLabel(int count);
+
+  /// Accessibility label for the star button when the word is not a favourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {word} to favourites'**
+  String wordFavouriteLabel(String word);
+
+  /// Accessibility label for the star button when the word is already a favourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {word} from favourites'**
+  String wordUnfavouriteLabel(String word);
+
+  /// Heading when the words list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not load your words'**
+  String get wordsLoadFailedTitle;
+
+  /// Body when the words list fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong reading your database. Nothing has been lost.'**
+  String get wordsLoadFailedBody;
+
+  /// Generic retry button.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get retryAction;
+
+  /// Menu item that deletes a word.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteWordAction;
+
+  /// Snackbar shown after deleting a word.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted {word}'**
+  String wordDeletedSnack(String word);
+
+  /// Button that restores a just-deleted word.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoAction;
+
+  /// App bar title when adding a word.
+  ///
+  /// In en, this message translates to:
+  /// **'Add word'**
+  String get editorTitleAdd;
+
+  /// App bar title when editing a word.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit word'**
+  String get editorTitleEdit;
+
+  /// App bar action that saves the form.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveAction;
+
+  /// Generic cancel button.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
+
+  /// Label for the headword field.
+  ///
+  /// In en, this message translates to:
+  /// **'Word'**
+  String get fieldWord;
+
+  /// Hint for the headword field.
+  ///
+  /// In en, this message translates to:
+  /// **'The word you are studying'**
+  String get fieldWordHint;
+
+  /// Button that queries the dictionary for the typed word.
+  ///
+  /// In en, this message translates to:
+  /// **'Look up'**
+  String get lookUpAction;
+
+  /// Quiet subtitle under the Look up button.
+  ///
+  /// In en, this message translates to:
+  /// **'optional - typing it yourself helps you remember'**
+  String get lookUpHint;
+
+  /// Label for the British pronunciation field.
+  ///
+  /// In en, this message translates to:
+  /// **'IPA (UK)'**
+  String get fieldIpaUk;
+
+  /// Label for the American pronunciation field.
+  ///
+  /// In en, this message translates to:
+  /// **'IPA (US)'**
+  String get fieldIpaUs;
+
+  /// Label for the part-of-speech chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Part of speech'**
+  String get fieldPartOfSpeech;
+
+  /// Label for the definition field.
+  ///
+  /// In en, this message translates to:
+  /// **'Definition'**
+  String get fieldDefinition;
+
+  /// Label for the example sentence field.
+  ///
+  /// In en, this message translates to:
+  /// **'Example'**
+  String get fieldExample;
+
+  /// Label for the first-note field, shown only when adding.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get fieldNote;
+
+  /// Hint for the first-note field.
+  ///
+  /// In en, this message translates to:
+  /// **'Something to remind yourself'**
+  String get fieldNoteHint;
+
+  /// Label for the list-membership chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to lists'**
+  String get fieldLists;
+
+  /// Shown in place of list chips when the user has no lists.
+  ///
+  /// In en, this message translates to:
+  /// **'No lists yet'**
+  String get fieldListsEmpty;
+
+  /// Part-of-speech chip.
+  ///
+  /// In en, this message translates to:
+  /// **'noun'**
+  String get posNoun;
+
+  /// Part-of-speech chip.
+  ///
+  /// In en, this message translates to:
+  /// **'verb'**
+  String get posVerb;
+
+  /// Part-of-speech chip.
+  ///
+  /// In en, this message translates to:
+  /// **'adjective'**
+  String get posAdjective;
+
+  /// Part-of-speech chip.
+  ///
+  /// In en, this message translates to:
+  /// **'adverb'**
+  String get posAdverb;
+
+  /// Part-of-speech chip for anything else.
+  ///
+  /// In en, this message translates to:
+  /// **'other'**
+  String get posOther;
+
+  /// Accessibility label for the row of IPA symbol buttons above the keyboard.
+  ///
+  /// In en, this message translates to:
+  /// **'IPA symbols'**
+  String get ipaKeyboardLabel;
+
+  /// Accessibility label for one IPA symbol button.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert {symbol}'**
+  String ipaSymbolLabel(String symbol);
+
+  /// Non-blocking banner shown when the typed word already exists.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have {word}'**
+  String duplicateBanner(String word);
+
+  /// Button in the duplicate banner that opens the existing word.
+  ///
+  /// In en, this message translates to:
+  /// **'Open it'**
+  String get duplicateBannerOpen;
+
+  /// Button in the duplicate banner that dismisses it and lets the user save anyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep both'**
+  String get duplicateBannerDismiss;
+
+  /// Shown while a dictionary look-up is in flight.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking up {word}...'**
+  String lookupSearching(String word);
+
+  /// Heading of the look-up results card.
+  ///
+  /// In en, this message translates to:
+  /// **'From the dictionary'**
+  String get lookupResultsTitle;
+
+  /// Shown when the dictionary has no entry.
+  ///
+  /// In en, this message translates to:
+  /// **'No entry found for {word}. You can still type it in yourself.'**
+  String lookupNoResults(String word);
+
+  /// Quiet inline message when a look-up fails. The form stays fully usable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the dictionary - you can still type it in.'**
+  String get lookupFailed;
+
+  /// Button that hides the look-up results card.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get lookupDismiss;
+
+  /// Link to the Wiktionary page a result came from.
+  ///
+  /// In en, this message translates to:
+  /// **'View source'**
+  String get lookupViewSource;
+
+  /// Attribution line under look-up results.
+  ///
+  /// In en, this message translates to:
+  /// **'{source} - {license}'**
+  String lookupAttributionLine(String source, String license);
+
+  /// Badge on a suggestion that came from the bundled offline dictionary.
+  ///
+  /// In en, this message translates to:
+  /// **'offline'**
+  String get lookupOfflineBadge;
+
+  /// Accessibility label for a suggestion chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {value}'**
+  String lookupApplyLabel(String value);
+
+  /// Title of the dialog shown before a suggestion overwrites typed text.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace what you typed?'**
+  String get overwriteTitle;
+
+  /// Body of the overwrite confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace {current} with {replacement}.'**
+  String overwriteBody(String current, String replacement);
+
+  /// Confirm button in the overwrite dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get overwriteReplace;
+
+  /// Cancel button in the overwrite dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep mine'**
+  String get overwriteKeep;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

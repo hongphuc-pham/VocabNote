@@ -126,4 +126,248 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get recoveryExportAction => 'Export my data';
+
+  @override
+  String get wordsSearchHint => 'Search your words';
+
+  @override
+  String get wordsSearchLabel => 'Search';
+
+  @override
+  String get wordsCloseSearchLabel => 'Close search';
+
+  @override
+  String get wordsSortLabel => 'Sort';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterFavourites => 'Favourites';
+
+  @override
+  String get filterDueToday => 'Due today';
+
+  @override
+  String get filterNoIpa => 'No IPA yet';
+
+  @override
+  String get sortRecent => 'Recently updated';
+
+  @override
+  String get sortAlphabetical => 'A to Z';
+
+  @override
+  String get sortLeastKnown => 'Least known';
+
+  @override
+  String get addWordAction => 'Add word';
+
+  @override
+  String get emptyWordsTitle => 'Your first word goes here';
+
+  @override
+  String get emptyWordsBody =>
+      'Save a word, write how it sounds, and mark the part you keep getting wrong.';
+
+  @override
+  String get emptyWordsAction => 'Add a word';
+
+  @override
+  String get emptyWordsGuide => 'See how it works';
+
+  @override
+  String get emptyFilterTitle => 'Nothing here yet';
+
+  @override
+  String get emptyFilterBody =>
+      'No words match this filter. Try another one, or add a new word.';
+
+  @override
+  String get emptySearchTitle => 'No matches';
+
+  @override
+  String emptySearchBody(String term) {
+    return 'Nothing matched $term. Check the spelling, or add it as a new word.';
+  }
+
+  @override
+  String get emptyFilterClear => 'Clear filters';
+
+  @override
+  String wordNoteCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes',
+      one: '1 note',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String wordFavouriteLabel(String word) {
+    return 'Add $word to favourites';
+  }
+
+  @override
+  String wordUnfavouriteLabel(String word) {
+    return 'Remove $word from favourites';
+  }
+
+  @override
+  String get wordsLoadFailedTitle => 'We could not load your words';
+
+  @override
+  String get wordsLoadFailedBody =>
+      'Something went wrong reading your database. Nothing has been lost.';
+
+  @override
+  String get retryAction => 'Try again';
+
+  @override
+  String get deleteWordAction => 'Delete';
+
+  @override
+  String wordDeletedSnack(String word) {
+    return 'Deleted $word';
+  }
+
+  @override
+  String get undoAction => 'Undo';
+
+  @override
+  String get editorTitleAdd => 'Add word';
+
+  @override
+  String get editorTitleEdit => 'Edit word';
+
+  @override
+  String get saveAction => 'Save';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get fieldWord => 'Word';
+
+  @override
+  String get fieldWordHint => 'The word you are studying';
+
+  @override
+  String get lookUpAction => 'Look up';
+
+  @override
+  String get lookUpHint => 'optional - typing it yourself helps you remember';
+
+  @override
+  String get fieldIpaUk => 'IPA (UK)';
+
+  @override
+  String get fieldIpaUs => 'IPA (US)';
+
+  @override
+  String get fieldPartOfSpeech => 'Part of speech';
+
+  @override
+  String get fieldDefinition => 'Definition';
+
+  @override
+  String get fieldExample => 'Example';
+
+  @override
+  String get fieldNote => 'Note';
+
+  @override
+  String get fieldNoteHint => 'Something to remind yourself';
+
+  @override
+  String get fieldLists => 'Add to lists';
+
+  @override
+  String get fieldListsEmpty => 'No lists yet';
+
+  @override
+  String get posNoun => 'noun';
+
+  @override
+  String get posVerb => 'verb';
+
+  @override
+  String get posAdjective => 'adjective';
+
+  @override
+  String get posAdverb => 'adverb';
+
+  @override
+  String get posOther => 'other';
+
+  @override
+  String get ipaKeyboardLabel => 'IPA symbols';
+
+  @override
+  String ipaSymbolLabel(String symbol) {
+    return 'Insert $symbol';
+  }
+
+  @override
+  String duplicateBanner(String word) {
+    return 'You already have $word';
+  }
+
+  @override
+  String get duplicateBannerOpen => 'Open it';
+
+  @override
+  String get duplicateBannerDismiss => 'Keep both';
+
+  @override
+  String lookupSearching(String word) {
+    return 'Looking up $word...';
+  }
+
+  @override
+  String get lookupResultsTitle => 'From the dictionary';
+
+  @override
+  String lookupNoResults(String word) {
+    return 'No entry found for $word. You can still type it in yourself.';
+  }
+
+  @override
+  String get lookupFailed =>
+      'Could not reach the dictionary - you can still type it in.';
+
+  @override
+  String get lookupDismiss => 'Dismiss';
+
+  @override
+  String get lookupViewSource => 'View source';
+
+  @override
+  String lookupAttributionLine(String source, String license) {
+    return '$source - $license';
+  }
+
+  @override
+  String get lookupOfflineBadge => 'offline';
+
+  @override
+  String lookupApplyLabel(String value) {
+    return 'Use $value';
+  }
+
+  @override
+  String get overwriteTitle => 'Replace what you typed?';
+
+  @override
+  String overwriteBody(String current, String replacement) {
+    return 'This will replace $current with $replacement.';
+  }
+
+  @override
+  String get overwriteReplace => 'Replace';
+
+  @override
+  String get overwriteKeep => 'Keep mine';
 }

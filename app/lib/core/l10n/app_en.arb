@@ -149,5 +149,364 @@
   "recoveryExportAction": "Export my data",
   "@recoveryExportAction": {
     "description": "Button that exports whatever can be read, from the recovery screen."
+  },
+  "wordsSearchHint": "Search your words",
+  "@wordsSearchHint": {
+    "description": "Placeholder in the words search field."
+  },
+  "wordsSearchLabel": "Search",
+  "@wordsSearchLabel": {
+    "description": "Accessibility label for the search icon button."
+  },
+  "wordsCloseSearchLabel": "Close search",
+  "@wordsCloseSearchLabel": {
+    "description": "Accessibility label for the button that closes the search field."
+  },
+  "wordsSortLabel": "Sort",
+  "@wordsSortLabel": {
+    "description": "Accessibility label for the sort menu button."
+  },
+  "filterAll": "All",
+  "@filterAll": {
+    "description": "Filter chip showing every word. Not a stored list."
+  },
+  "filterFavourites": "Favourites",
+  "@filterFavourites": {
+    "description": "Filter chip showing starred words only."
+  },
+  "filterDueToday": "Due today",
+  "@filterDueToday": {
+    "description": "Filter chip showing words whose practice card is due."
+  },
+  "filterNoIpa": "No IPA yet",
+  "@filterNoIpa": {
+    "description": "Filter chip showing words with no pronunciation typed yet."
+  },
+  "sortRecent": "Recently updated",
+  "@sortRecent": {
+    "description": "Sort option: most recently changed first."
+  },
+  "sortAlphabetical": "A to Z",
+  "@sortAlphabetical": {
+    "description": "Sort option: alphabetical."
+  },
+  "sortLeastKnown": "Least known",
+  "@sortLeastKnown": {
+    "description": "Sort option: weakest practice cards first."
+  },
+  "addWordAction": "Add word",
+  "@addWordAction": {
+    "description": "Label on the floating button that opens the add-word form."
+  },
+  "emptyWordsTitle": "Your first word goes here",
+  "@emptyWordsTitle": {
+    "description": "Heading of the empty state when the user has no words at all."
+  },
+  "emptyWordsBody": "Save a word, write how it sounds, and mark the part you keep getting wrong.",
+  "@emptyWordsBody": {
+    "description": "Body of the empty state when the user has no words at all."
+  },
+  "emptyWordsAction": "Add a word",
+  "@emptyWordsAction": {
+    "description": "Primary button in the empty state."
+  },
+  "emptyWordsGuide": "See how it works",
+  "@emptyWordsGuide": {
+    "description": "Secondary link in the empty state, opening the guide."
+  },
+  "emptyFilterTitle": "Nothing here yet",
+  "@emptyFilterTitle": {
+    "description": "Heading when a filter matches no words."
+  },
+  "emptyFilterBody": "No words match this filter. Try another one, or add a new word.",
+  "@emptyFilterBody": {
+    "description": "Body when a filter matches no words."
+  },
+  "emptySearchTitle": "No matches",
+  "@emptySearchTitle": {
+    "description": "Heading when a search returns nothing."
+  },
+  "emptySearchBody": "Nothing matched {term}. Check the spelling, or add it as a new word.",
+  "@emptySearchBody": {
+    "description": "Body when a search returns nothing.",
+    "placeholders": {
+      "term": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "emptyFilterClear": "Clear filters",
+  "@emptyFilterClear": {
+    "description": "Button that resets the filter and search."
+  },
+  "wordNoteCountLabel": "{count, plural, =1{1 note} other{{count} notes}}",
+  "@wordNoteCountLabel": {
+    "description": "Screen-reader label for the note count on a word row.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "wordFavouriteLabel": "Add {word} to favourites",
+  "@wordFavouriteLabel": {
+    "description": "Accessibility label for the star button when the word is not a favourite.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "wordUnfavouriteLabel": "Remove {word} from favourites",
+  "@wordUnfavouriteLabel": {
+    "description": "Accessibility label for the star button when the word is already a favourite.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "wordsLoadFailedTitle": "We could not load your words",
+  "@wordsLoadFailedTitle": {
+    "description": "Heading when the words list fails to load."
+  },
+  "wordsLoadFailedBody": "Something went wrong reading your database. Nothing has been lost.",
+  "@wordsLoadFailedBody": {
+    "description": "Body when the words list fails to load."
+  },
+  "retryAction": "Try again",
+  "@retryAction": {
+    "description": "Generic retry button."
+  },
+  "deleteWordAction": "Delete",
+  "@deleteWordAction": {
+    "description": "Menu item that deletes a word."
+  },
+  "wordDeletedSnack": "Deleted {word}",
+  "@wordDeletedSnack": {
+    "description": "Snackbar shown after deleting a word.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "undoAction": "Undo",
+  "@undoAction": {
+    "description": "Button that restores a just-deleted word."
+  },
+  "editorTitleAdd": "Add word",
+  "@editorTitleAdd": {
+    "description": "App bar title when adding a word."
+  },
+  "editorTitleEdit": "Edit word",
+  "@editorTitleEdit": {
+    "description": "App bar title when editing a word."
+  },
+  "saveAction": "Save",
+  "@saveAction": {
+    "description": "App bar action that saves the form."
+  },
+  "cancelAction": "Cancel",
+  "@cancelAction": {
+    "description": "Generic cancel button."
+  },
+  "fieldWord": "Word",
+  "@fieldWord": {
+    "description": "Label for the headword field."
+  },
+  "fieldWordHint": "The word you are studying",
+  "@fieldWordHint": {
+    "description": "Hint for the headword field."
+  },
+  "lookUpAction": "Look up",
+  "@lookUpAction": {
+    "description": "Button that queries the dictionary for the typed word."
+  },
+  "lookUpHint": "optional - typing it yourself helps you remember",
+  "@lookUpHint": {
+    "description": "Quiet subtitle under the Look up button."
+  },
+  "fieldIpaUk": "IPA (UK)",
+  "@fieldIpaUk": {
+    "description": "Label for the British pronunciation field."
+  },
+  "fieldIpaUs": "IPA (US)",
+  "@fieldIpaUs": {
+    "description": "Label for the American pronunciation field."
+  },
+  "fieldPartOfSpeech": "Part of speech",
+  "@fieldPartOfSpeech": {
+    "description": "Label for the part-of-speech chips."
+  },
+  "fieldDefinition": "Definition",
+  "@fieldDefinition": {
+    "description": "Label for the definition field."
+  },
+  "fieldExample": "Example",
+  "@fieldExample": {
+    "description": "Label for the example sentence field."
+  },
+  "fieldNote": "Note",
+  "@fieldNote": {
+    "description": "Label for the first-note field, shown only when adding."
+  },
+  "fieldNoteHint": "Something to remind yourself",
+  "@fieldNoteHint": {
+    "description": "Hint for the first-note field."
+  },
+  "fieldLists": "Add to lists",
+  "@fieldLists": {
+    "description": "Label for the list-membership chips."
+  },
+  "fieldListsEmpty": "No lists yet",
+  "@fieldListsEmpty": {
+    "description": "Shown in place of list chips when the user has no lists."
+  },
+  "posNoun": "noun",
+  "@posNoun": {
+    "description": "Part-of-speech chip."
+  },
+  "posVerb": "verb",
+  "@posVerb": {
+    "description": "Part-of-speech chip."
+  },
+  "posAdjective": "adjective",
+  "@posAdjective": {
+    "description": "Part-of-speech chip."
+  },
+  "posAdverb": "adverb",
+  "@posAdverb": {
+    "description": "Part-of-speech chip."
+  },
+  "posOther": "other",
+  "@posOther": {
+    "description": "Part-of-speech chip for anything else."
+  },
+  "ipaKeyboardLabel": "IPA symbols",
+  "@ipaKeyboardLabel": {
+    "description": "Accessibility label for the row of IPA symbol buttons above the keyboard."
+  },
+  "ipaSymbolLabel": "Insert {symbol}",
+  "@ipaSymbolLabel": {
+    "description": "Accessibility label for one IPA symbol button.",
+    "placeholders": {
+      "symbol": {
+        "type": "String",
+        "example": "sh"
+      }
+    }
+  },
+  "duplicateBanner": "You already have {word}",
+  "@duplicateBanner": {
+    "description": "Non-blocking banner shown when the typed word already exists.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "duplicateBannerOpen": "Open it",
+  "@duplicateBannerOpen": {
+    "description": "Button in the duplicate banner that opens the existing word."
+  },
+  "duplicateBannerDismiss": "Keep both",
+  "@duplicateBannerDismiss": {
+    "description": "Button in the duplicate banner that dismisses it and lets the user save anyway."
+  },
+  "lookupSearching": "Looking up {word}...",
+  "@lookupSearching": {
+    "description": "Shown while a dictionary look-up is in flight.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "lookupResultsTitle": "From the dictionary",
+  "@lookupResultsTitle": {
+    "description": "Heading of the look-up results card."
+  },
+  "lookupNoResults": "No entry found for {word}. You can still type it in yourself.",
+  "@lookupNoResults": {
+    "description": "Shown when the dictionary has no entry.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "cough"
+      }
+    }
+  },
+  "lookupFailed": "Could not reach the dictionary - you can still type it in.",
+  "@lookupFailed": {
+    "description": "Quiet inline message when a look-up fails. The form stays fully usable."
+  },
+  "lookupDismiss": "Dismiss",
+  "@lookupDismiss": {
+    "description": "Button that hides the look-up results card."
+  },
+  "lookupViewSource": "View source",
+  "@lookupViewSource": {
+    "description": "Link to the Wiktionary page a result came from."
+  },
+  "lookupAttributionLine": "{source} - {license}",
+  "@lookupAttributionLine": {
+    "description": "Attribution line under look-up results.",
+    "placeholders": {
+      "source": {
+        "type": "String",
+        "example": "Wiktionary"
+      },
+      "license": {
+        "type": "String",
+        "example": "CC BY-SA 4.0"
+      }
+    }
+  },
+  "lookupOfflineBadge": "offline",
+  "@lookupOfflineBadge": {
+    "description": "Badge on a suggestion that came from the bundled offline dictionary."
+  },
+  "lookupApplyLabel": "Use {value}",
+  "@lookupApplyLabel": {
+    "description": "Accessibility label for a suggestion chip.",
+    "placeholders": {
+      "value": {
+        "type": "String",
+        "example": "kof"
+      }
+    }
+  },
+  "overwriteTitle": "Replace what you typed?",
+  "@overwriteTitle": {
+    "description": "Title of the dialog shown before a suggestion overwrites typed text."
+  },
+  "overwriteBody": "This will replace {current} with {replacement}.",
+  "@overwriteBody": {
+    "description": "Body of the overwrite confirmation dialog.",
+    "placeholders": {
+      "current": {
+        "type": "String",
+        "example": "kof"
+      },
+      "replacement": {
+        "type": "String",
+        "example": "kQf"
+      }
+    }
+  },
+  "overwriteReplace": "Replace",
+  "@overwriteReplace": {
+    "description": "Confirm button in the overwrite dialog."
+  },
+  "overwriteKeep": "Keep mine",
+  "@overwriteKeep": {
+    "description": "Cancel button in the overwrite dialog."
   }
 }

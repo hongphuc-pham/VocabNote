@@ -52,6 +52,12 @@ abstract final class Routes {
   /// First-run onboarding.
   static const String onboarding = '/onboarding';
 
+  /// The placeholder id used by the add form.
+  ///
+  /// `/words/new/edit` opens an empty form; every other id edits that word.
+  /// A uuid can never collide with it.
+  static const String newWordId = 'new';
+
   /// Path parameter holding a word id.
   static const String wordIdParam = 'wordId';
 
@@ -69,6 +75,9 @@ abstract final class Routes {
 
   /// Builds the path to a word's editor.
   static String wordEditOf(String id) => '$words/$id/edit';
+
+  /// The path that opens an empty add form.
+  static String get wordAdd => '$words/$newWordId/edit';
 
   /// Builds the path to a word's IPA highlight editor.
   static String wordIpaOf(String id) => '$words/$id/ipa';

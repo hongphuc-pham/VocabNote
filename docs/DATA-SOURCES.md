@@ -38,6 +38,29 @@ Everything below was checked in September 2026; re-verify before each public rel
 - Content the user typed themselves is `source = 'manual'` and carries **no** attribution,
   because it is theirs.
 
+### Response shape, verified against the live API *(checked at M2)*
+
+```
+{ word, entries: [ { language:{code,name}, partOfSpeech,
+                     pronunciations:[{type,text,tags[]}],
+                     senses:[{definition,examples[],tags[]}] } ],
+  source: { url, license:{name,url} } }
+```
+
+Three things worth knowing, all of which change how the client behaves:
+
+1. **A miss is HTTP 200 with `entries: []`**, not a 404. The offline fallback is
+   therefore triggered by an empty list, not by a status code.
+2. **The accent lives in `pronunciations[].tags`** — `Received Pronunciation`
+   for UK, `General American` for US. There is no accent field. An *untagged*
+   transcription is offered for the US field only, never presented as UK.
+3. **`text` arrives with slashes** (`/kɒf/`). They are stripped before storage,
+   because `words.ipa_uk` holds bare symbols and the UI adds the slashes back.
+
+Real captured responses are committed under
+`app/test/fixtures/dictionary/` and the parser is tested against them, so a
+change in the API's shape fails a test rather than a user's form.
+
 ### Rejected alternative — `dictionaryapi.dev`
 Popular and convenient, but its data provenance traces back to scraped **Google Dictionary**
 content (Oxford-licensed) and the site publishes no licence or terms. That is exactly the risk
@@ -53,9 +76,17 @@ we were asked to avoid, so it is **not** used. Recorded here so nobody "helpfull
 | Licence | Unrestricted for research **and commercial** use; asks that the origin be acknowledged |
 | Coverage | ~134k North-American English entries, ARPAbet phonemes |
 
-- A build script (`tool/build_ipa_fallback.dart`) converts ARPAbet → IPA and emits
-  `assets/data/ipa_fallback.json.gz`. The script, the mapping table and the source revision
-  are committed so the asset is reproducible.
+- A build script (`app/tool/build_ipa_fallback.dart`) converts ARPAbet → IPA and emits
+  `assets/data/ipa_fallback.json.gz`. The script, the mapping table
+  (`app/tool/arpabet_to_ipa.dart`) and the source revision are committed so the asset is
+  reproducible — anyone re-running it gets the same file.
+- **Pinned revision** `0f8072f814306c5ee4fbf992ed853601b12c01f9` (2024-12-17). A commit SHA,
+  never `master`: a moving branch would mean two people generating different assets.
+- Generated at M2: **126,037 entries, 854 KB gzipped** (3.1 MB raw JSON). Only the primary
+  pronunciation of each word is kept; CMUdict's `(2)`/`(3)` variants are dropped, because a
+  fallback offered to someone with no network wants one confident answer, not three.
+- Loaded **lazily and off the main thread**, never at startup: the parsed map is ~15 MB and
+  eagerly loading it would blow the 2s cold-start budget (F-092).
 - Words filled from it get `source = 'offline'` and `source_attribution = 'CMU Pronouncing Dictionary (CMU)'`.
 - Acknowledge CMU in *Settings → Data sources & licences*.
 - Caveat surfaced in the UI: this is **US** pronunciation only, and it is a broad transcription

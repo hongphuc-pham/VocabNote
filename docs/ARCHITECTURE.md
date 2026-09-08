@@ -139,6 +139,22 @@ and a licence check (permissive only — MIT/BSD/Apache-2.0/OFL).
 | `meta` | **added** | `@immutable` in `domain/`, which may not import Flutter (§1). BSD-3, Dart team. |
 | `dynamic_color` | **not added** | Material You needs one integer from one platform channel; `RULES.md` §18 prefers the helper. See `core/utils/dynamic_color.dart` and `MainActivity.kt`. |
 
+### 3.3 The DI seam between application and data *(decided at M2)*
+
+§1 says application "depends on interfaces only", and §20 of `RULES.md` forbids the import
+that would otherwise be needed to reach a Riverpod provider constructing a repository. So:
+
+- `application/repositories.dart` **declares** every repository provider, typed against its
+  `domain/` interface, throwing `UnimplementedError` by default;
+- `data/composition_root.dart` **supplies** the implementations as a list of overrides;
+- `bootstrap.dart` applies them. Tests call the same function against an in-memory database,
+  so there is one list rather than two that drift apart.
+
+`data/composition_root.dart` is the third and final entry on the composition-root exemption
+list in `test/architecture/layer_boundaries_test.dart`. The test is what forced this
+structure — the first draft had `application → data` and `presentation → data`, and it
+failed the build, which is exactly what it is for.
+
 ### 3.2 Enforcing the layer direction *(decided at M0)*
 
 With `custom_lint` unavailable, the dependency rule in §1 is enforced by

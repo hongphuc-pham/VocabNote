@@ -11,8 +11,12 @@ import 'package:meta/meta.dart';
 ///
 /// Sealed, so a `switch` over a failure is exhaustive and adding a new kind
 /// makes every handler that ignores it a compile error.
+/// Implements [Exception] so the application layer can rethrow a failure into
+/// Riverpod's error capture, where it becomes `AsyncValue.error` for the UI.
+/// That is not a bare exception crossing a layer boundary - the boundary
+/// already converted it; this is the presentation layer's own error channel.
 @immutable
-sealed class AppFailure {
+sealed class AppFailure implements Exception {
   /// Creates a failure.
   const new({this.cause, this.stackTrace});
 
