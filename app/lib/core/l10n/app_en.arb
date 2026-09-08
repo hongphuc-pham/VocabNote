@@ -1,11 +1,9 @@
 {
   "@@locale": "en",
-
   "appTitle": "VocabNote",
   "@appTitle": {
     "description": "The application name. Not translated."
   },
-
   "navWords": "Words",
   "@navWords": {
     "description": "Bottom navigation label for the words tab."
@@ -18,7 +16,6 @@
   "@navLists": {
     "description": "Bottom navigation label for the lists tab."
   },
-
   "wordsTitle": "My words",
   "@wordsTitle": {
     "description": "App bar title on the words (home) screen."
@@ -31,7 +28,6 @@
   "@listsTitle": {
     "description": "App bar title on the lists screen."
   },
-
   "settingsTitle": "Settings",
   "@settingsTitle": {
     "description": "App bar title on the settings screen."
@@ -44,7 +40,6 @@
   "@backLabel": {
     "description": "Accessibility label for an icon-only back button."
   },
-
   "guideTitle": "How to use",
   "@guideTitle": {
     "description": "Title of the six-card usage guide. Always present in Settings."
@@ -65,7 +60,6 @@
   "@onboardingTitle": {
     "description": "Title of the onboarding flow."
   },
-
   "wordDetailTitle": "Word",
   "@wordDetailTitle": {
     "description": "Placeholder app bar title for the word detail screen."
@@ -90,7 +84,6 @@
   "@practiceSummaryTitle": {
     "description": "App bar title on the session summary screen."
   },
-
   "comingSoonTitle": "Coming soon",
   "@comingSoonTitle": {
     "description": "Heading on a placeholder screen that is not built yet."
@@ -109,7 +102,6 @@
       }
     }
   },
-
   "routeNotFoundTitle": "Page not found",
   "@routeNotFoundTitle": {
     "description": "Heading shown when a route cannot be resolved."
@@ -121,5 +113,41 @@
   "routeNotFoundAction": "Go to my words",
   "@routeNotFoundAction": {
     "description": "Button that returns the user to the words screen from an unresolved route."
+  },
+  "recoverySchemaTooNewTitle": "This data was made by a newer VocabNote",
+  "@recoverySchemaTooNewTitle": {
+    "description": "Heading when the database on disk was written by a newer version of the app."
+  },
+  "recoverySchemaTooNewBody": "Please update VocabNote to open your words. Opening them with this older version could damage them, so we haven't tried.",
+  "@recoverySchemaTooNewBody": {
+    "description": "Body when the database was written by a newer version. Explains why the app refuses to open it."
+  },
+  "recoveryMigrationTitle": "We couldn't finish updating your words",
+  "@recoveryMigrationTitle": {
+    "description": "Heading when a database migration failed."
+  },
+  "recoveryMigrationBody": "Something went wrong while moving your words to the new version. Your original database is still on your phone, exactly as it was.",
+  "@recoveryMigrationBody": {
+    "description": "Body when a migration failed and no backup was restored."
+  },
+  "recoveryMigrationBodyRestored": "Something went wrong while moving your words to the new version, so we put the backup we took beforehand straight back. Nothing was lost.",
+  "@recoveryMigrationBodyRestored": {
+    "description": "Body when a migration failed and the pre-migration backup was successfully restored."
+  },
+  "recoveryGenericTitle": "We couldn't open your words",
+  "@recoveryGenericTitle": {
+    "description": "Heading when the database could not be opened for some other reason."
+  },
+  "recoveryGenericBody": "The file holding your words couldn't be read. It's still on your phone and nothing has been removed.",
+  "@recoveryGenericBody": {
+    "description": "Body when the database could not be opened for some other reason."
+  },
+  "recoveryNothingDeleted": "Nothing has been deleted. VocabNote never resets your database to recover from a problem.",
+  "@recoveryNothingDeleted": {
+    "description": "Reassurance shown on the recovery screen. States the app's data-safety promise plainly."
+  },
+  "recoveryExportAction": "Export my data",
+  "@recoveryExportAction": {
+    "description": "Button that exports whatever can be read, from the recovery screen."
   }
 }

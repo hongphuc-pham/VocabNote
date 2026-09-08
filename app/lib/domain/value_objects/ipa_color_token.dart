@@ -9,7 +9,12 @@
 /// what "amber" looks like.
 ///
 /// Adding a token is an additive schema change: old rows keep their names.
-enum IpaColorToken {
+library;
+
+import 'package:vocabnote/domain/value_objects/storage_enum.dart';
+
+/// One of the five IPA highlight colours.
+enum IpaColorToken implements StorageEnum {
   /// Warm yellow.
   amber,
 
@@ -26,6 +31,8 @@ enum IpaColorToken {
   blue;
 
   /// The value written to `ipa_highlights.color_token`.
+  @override
+  @override
   String get storageValue => name;
 
   /// Parses a value read back from the database.

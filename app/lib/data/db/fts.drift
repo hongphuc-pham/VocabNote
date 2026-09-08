@@ -1,0 +1,85 @@
+-- The base tables live in Dart, so they have to be imported for drift to
+-- resolve `words` and `word_notes` in the triggers below.
+import 'tables/words.dart';
+import 'tables/word_notes.dart';
+
+-- Full-text search over words and their notes (F-041).
+--
+-- `words_fts` is DERIVED. It holds nothing the rest of the schema does not
+-- already have, so `docs/DATABASE.md` section 2 permits dropping and rebuilding
+-- it in any migration. `rebuildFtsIndex()` in `fts.dart` does exactly that, and
+-- migrations should call it rather than trying to patch the index in place.
+--
+-- `word_id` is UNINDEXED: it is the join key back to `words`, not something
+-- anyone searches for. Soft-deleted words stay in the index and are filtered
+-- out by the query joining to `words`, which keeps the triggers simple and
+-- makes an undelete instant.
+
+CREATE VIRTUAL TABLE words_fts USING fts5 (
+    word_id UNINDEXED,
+    headword,
+    definition,
+    example,
+    notes,
+    tokenize = 'unicode61 remove_diacritics 2'
+);
+
+-- Keep the index in step with `words`. -------------------------------------
+
+CREATE TRIGGER words_fts_after_insert AFTER INSERT ON words BEGIN
+  INSERT INTO words_fts (word_id, headword, definition, example, notes)
+  VALUES (
+    new.id,
+    new.headword,
+    coalesce(new.definition, ''),
+    coalesce(new.example, ''),
+    ''
+  );
+END;
+
+CREATE TRIGGER words_fts_after_update AFTER UPDATE ON words BEGIN
+  UPDATE words_fts
+     SET headword   = new.headword,
+         definition = coalesce(new.definition, ''),
+         example    = coalesce(new.example, '')
+   WHERE word_id = new.id;
+END;
+
+CREATE TRIGGER words_fts_after_delete AFTER DELETE ON words BEGIN
+  DELETE FROM words_fts WHERE word_id = old.id;
+END;
+
+-- Keep the `notes` column in step with `word_notes`. ------------------------
+--
+-- Every note for the word is re-aggregated rather than appended, so an edit or
+-- a delete cannot leave stale text behind in the index.
+
+CREATE TRIGGER notes_fts_after_insert AFTER INSERT ON word_notes BEGIN
+  UPDATE words_fts
+     SET notes = coalesce(
+           (SELECT group_concat(body, ' ') FROM word_notes
+             WHERE word_id = new.word_id),
+           ''
+         )
+   WHERE word_id = new.word_id;
+END;
+
+CREATE TRIGGER notes_fts_after_update AFTER UPDATE ON word_notes BEGIN
+  UPDATE words_fts
+     SET notes = coalesce(
+           (SELECT group_concat(body, ' ') FROM word_notes
+             WHERE word_id = new.word_id),
+           ''
+         )
+   WHERE word_id = new.word_id;
+END;
+
+CREATE TRIGGER notes_fts_after_delete AFTER DELETE ON word_notes BEGIN
+  UPDATE words_fts
+     SET notes = coalesce(
+           (SELECT group_concat(body, ' ') FROM word_notes
+             WHERE word_id = old.word_id),
+           ''
+         )
+   WHERE word_id = old.word_id;
+END;

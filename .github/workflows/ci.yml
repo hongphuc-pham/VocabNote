@@ -59,6 +59,18 @@ jobs:
       - name: Check dependency licences
         run: dart run tool/check_licences.dart
 
+      # DATABASE.md section 3.8 / RULES.md section 7: upgrading must never
+      # destroy user data. There is no backend to restore from, so this gate
+      # runs before the tests rather than after them.
+      - name: Check for destructive migration patterns
+        run: dart run tool/check_migration_safety.dart
+
+      # RULES.md section 29: migration tests are blocking. Run them on their
+      # own first so a failure here is unmistakable in the log, then again as
+      # part of the full suite.
+      - name: Migration tests (blocking)
+        run: flutter test test/migration --reporter expanded
+
       - name: Analyze
         run: flutter analyze --fatal-infos --fatal-warnings
 

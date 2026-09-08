@@ -62,6 +62,8 @@ package enters `pubspec.yaml`; `docs/ARCHITECTURE.md` §3.1 records what was del
 | `url_launcher` | BSD-3 | Cambridge link, mailto feedback, GitHub issues — the only allowed Cambridge integration. |
 | `package_info_plus`, `device_info_plus` | BSD-3 | The three diagnostics shown in the feedback preview (F-072). |
 | `characters` | BSD-3 | Grapheme-cluster indexing for IPA (ADR-006). Used only by `core/extensions/grapheme.dart`. |
+| `sqlite3` | MIT | Reads `PRAGMA user_version` **before** Drift opens the file, so a database from a newer build can be refused rather than migrated downwards (DATABASE.md §3.10). Already in the tree via `drift_flutter`. |
+| `path` | BSD-3 | Joins the database and backup paths. Already in the tree via `path_provider`. |
 | `collection` | BSD-3 | Equality and sorting helpers. |
 | `uuid` | MIT | TEXT UUID primary keys, so exports merge across devices. |
 | `intl` | BSD-3 | Date and number formatting for l10n. |

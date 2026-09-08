@@ -254,6 +254,60 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Go to my words'**
   String get routeNotFoundAction;
+
+  /// Heading when the database on disk was written by a newer version of the app.
+  ///
+  /// In en, this message translates to:
+  /// **'This data was made by a newer VocabNote'**
+  String get recoverySchemaTooNewTitle;
+
+  /// Body when the database was written by a newer version. Explains why the app refuses to open it.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update VocabNote to open your words. Opening them with this older version could damage them, so we haven\'t tried.'**
+  String get recoverySchemaTooNewBody;
+
+  /// Heading when a database migration failed.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t finish updating your words'**
+  String get recoveryMigrationTitle;
+
+  /// Body when a migration failed and no backup was restored.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while moving your words to the new version. Your original database is still on your phone, exactly as it was.'**
+  String get recoveryMigrationBody;
+
+  /// Body when a migration failed and the pre-migration backup was successfully restored.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while moving your words to the new version, so we put the backup we took beforehand straight back. Nothing was lost.'**
+  String get recoveryMigrationBodyRestored;
+
+  /// Heading when the database could not be opened for some other reason.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t open your words'**
+  String get recoveryGenericTitle;
+
+  /// Body when the database could not be opened for some other reason.
+  ///
+  /// In en, this message translates to:
+  /// **'The file holding your words couldn\'t be read. It\'s still on your phone and nothing has been removed.'**
+  String get recoveryGenericBody;
+
+  /// Reassurance shown on the recovery screen. States the app's data-safety promise plainly.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing has been deleted. VocabNote never resets your database to recover from a problem.'**
+  String get recoveryNothingDeleted;
+
+  /// Button that exports whatever can be read, from the recovery screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data'**
+  String get recoveryExportAction;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

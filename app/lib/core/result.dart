@@ -5,6 +5,8 @@
 /// value out without handling the other case.
 library;
 
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:vocabnote/core/failure.dart';
 
@@ -126,6 +128,37 @@ final class Err<T, F> extends Result<T, F> {
 
   @override
   String toString() => 'Err($failure)';
+}
+
+/// A stream of results — what a repository exposes for anything the UI watches.
+typedef ResultStream<T> = Stream<Result<T, AppFailure>>;
+
+/// Turns a plain stream into one that reports failures as values.
+extension GuardedStream<T> on Stream<T> {
+  /// Wraps each event in [Ok] and each error in [Err].
+  ///
+  /// `docs/RULES.md` §24 applies to streams as much as to futures: a database
+  /// error reaching a widget as an unhandled stream error is exactly the bare
+  /// exception crossing a layer boundary that the rule forbids. Mapping it to a
+  /// value means the UI has to decide what to render, which is the point.
+  ///
+  /// The stream is **not** closed by an error, so a transient failure does not
+  /// permanently kill a watch the user is still looking at.
+  ResultStream<T> guarded({
+    AppFailure Function(Object error, StackTrace stackTrace)? onError,
+  }) {
+    return transform(
+      StreamTransformer<T, Result<T, AppFailure>>.fromHandlers(
+        handleData: (value, sink) => sink.add(Ok<T, AppFailure>(value)),
+        handleError: (error, stackTrace, sink) {
+          final failure =
+              onError?.call(error, stackTrace) ??
+              UnexpectedFailure(cause: error, stackTrace: stackTrace);
+          sink.add(Err<T, AppFailure>(failure));
+        },
+      ),
+    );
+  }
 }
 
 /// Helpers for running code that still throws — a plugin, or `dart:io`.
