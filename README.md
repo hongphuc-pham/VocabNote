@@ -161,10 +161,9 @@ Issues from **Settings → Help & feedback**. See `F-072` in [`docs/FEATURES.md`
 
 ## 8. Licence
 
-**Not yet chosen — no `LICENSE` file is present.** Under GitHub's terms, public code without
-a licence is "all rights reserved": people may view and fork it within GitHub, but nobody has
-permission to use, modify or redistribute it. Pick one before treating this as open source;
-MIT or Apache-2.0 are the usual fits for a free app.
+**MIT** — see [`LICENSE`](LICENSE). Use it, change it, ship it; just keep the copyright notice.
 
-This is separate from the *data* licences in section 6, which apply regardless of what the
-code is licensed under.
+This is separate from the *data* licences in section 6, which bind regardless of the code
+licence. In particular, dictionary content pulled from Wiktionary is **CC BY-SA 4.0** and
+must stay attributed, and the bundled fonts are under the SIL OFL — none of that is relaxed
+by the MIT licence on the code.
