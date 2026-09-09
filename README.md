@@ -6,9 +6,14 @@ You type a word, get (or write) its IPA, highlight the exact sounds you keep get
 leave yourself notes, listen to it, and practise it as flashcards. No account. No server.
 No subscription. Your words live on your phone and stay yours.
 
-> **Status:** M0–M2 complete. You can add words by hand or from the dictionary, search them
-> instantly, and delete with Undo. Pronunciation and IPA highlighting land at M3.
-> Current state and how to resume: [`docs/PROGRESS.md`](docs/PROGRESS.md).
+> **Status: M0–M3 complete.** You can add words by hand or from the dictionary, search them
+> instantly, hear them in UK or US English (with a 0.6× slow replay), colour the exact IPA
+> symbols you keep getting wrong, and delete with Undo. Lists, notes and practice land at
+> M4–M5.
+>
+> 348 tests passing · `flutter analyze --fatal-infos --fatal-warnings` clean · no schema
+> change since M1. **Nothing has yet been run on a physical device or emulator** — see
+> [`docs/PROGRESS.md`](docs/PROGRESS.md) §5 for what that leaves unverified.
 
 ---
 
@@ -30,9 +35,14 @@ No subscription. Your words live on your phone and stay yours.
 - **My Words** — a searchable, filterable list of everything you are studying.
 - **Add a word** — type it yourself, or tap *Look up* to pre-fill IPA, definition, examples
   and part of speech from a free open dictionary. Every field remains editable.
-- **Word detail** — big headword, UK/US audio via device text-to-speech, IPA, your notes.
+- **Word detail** — big headword, UK and US rows each with a play button (hold for a 0.6×
+  slow replay), IPA in your highlight colours, definition with attribution, and your notes.
 - **IPA highlighting** — select any run of IPA symbols and colour it, with an optional label
   such as `I say /s/ here` or `stress`. This is the signature feature.
+  Selection snaps to **grapheme clusters**, so a run can never split `t͡ʃ` or orphan a length
+  mark; you can tap, tap-again to extend, or drag; overlaps are allowed; undo covers the whole
+  session and nothing is written until you press *Done*. If you later edit the transcription,
+  highlights that still fit are kept and the rest are listed for confirmation before they go.
 - **Notes (comments)** — as many timestamped notes per word as you like.
 - **Lists** — group words into decks (e.g. *IELTS speaking*, *work vocabulary*).
 - **Practice** — a pluggable game framework. v1 ships **Flashcards** in two modes:
@@ -75,8 +85,20 @@ VocabNote/
 │  ├─ UI-UX.md               <- design tokens, screens, flows, copy, a11y
 │  ├─ DATA-SOURCES.md        <- dictionary/audio sources and licence compliance
 │  └─ RULES.md               <- engineering + product rules, definition of done
-└─ app/                      <- Flutter project (created at M0)
+├─ drift_schemas/            <- exported schema snapshots, one per version
+└─ app/                      <- the Flutter project
+   ├─ lib/
+   │  ├─ core/               <- theme, l10n, router, grapheme indexing, Result
+   │  ├─ domain/             <- entities, value objects, repository interfaces
+   │  ├─ data/               <- Drift, dictionary client, TTS, composition root
+   │  ├─ application/        <- Riverpod controllers; the DI seam
+   │  └─ presentation/       <- screens and widgets
+   ├─ test/                  <- unit, widget, migration and architecture tests
+   └─ tool/                  <- licence, migration-safety and asset scripts
 ```
+
+The dependency rule is `presentation → application → domain ← data`, and it is enforced by a
+test rather than by convention.
 
 ## 5. Getting started
 
@@ -88,18 +110,26 @@ flutter --version
 cd app
 flutter pub get
 dart run build_runner build          # riverpod, freezed, json, drift
+                                     # NOT --delete-conflicting-outputs: removed in 2.16
 flutter gen-l10n                     # regenerates lib/core/l10n/gen/
 flutter run
 ```
 
-Common tasks:
+Before pushing — CI runs exactly these, in this order, and any of them failing fails the
+build:
 
 ```bash
-dart format .                                     # CI fails on unformatted code
-flutter analyze                                   # lints must be clean
-flutter test                                      # unit + widget + architecture tests
-dart run tool/check_licences.dart                 # permissive licences only
+dart format --output=none --set-exit-if-changed .
+dart run tool/check_licences.dart            # permissive licences only
+dart run tool/check_migration_safety.dart    # no destructive migration patterns
+flutter test test/migration                  # blocking (RULES §29)
+flutter analyze --fatal-infos --fatal-warnings
+flutter test
 ```
+
+The architecture test (`test/architecture/layer_boundaries_test.dart`) enforces the layer
+direction and the grapheme rule in place of `riverpod_lint`, which cannot be installed
+alongside Drift — see `docs/ARCHITECTURE.md` §3.1.
 
 From M1, after any schema change:
 
@@ -131,6 +161,10 @@ Issues from **Settings → Help & feedback**. See `F-072` in [`docs/FEATURES.md`
 
 ## 8. Licence
 
-Not yet chosen. Pick before the first public release — MIT or Apache-2.0 are the usual fits
-for a free app. Note this is separate from the *data* licences in section 6, which apply
-regardless of the code licence.
+**Not yet chosen — no `LICENSE` file is present.** Under GitHub's terms, public code without
+a licence is "all rights reserved": people may view and fork it within GitHub, but nobody has
+permission to use, modify or redistribute it. Pick one before treating this as open source;
+MIT or Apache-2.0 are the usual fits for a free app.
+
+This is separate from the *data* licences in section 6, which apply regardless of what the
+code is licensed under.
