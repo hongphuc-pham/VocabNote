@@ -18,6 +18,7 @@ import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/domain/value_objects/headword.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
+import 'package:vocabnote/presentation/design/section.dart';
 import 'package:vocabnote/presentation/words/highlight_legend.dart';
 import 'package:vocabnote/presentation/words/pronunciation_row.dart';
 import 'package:vocabnote/presentation/words/word_notes_section.dart';
@@ -215,7 +216,7 @@ class _DetailBody extends StatelessWidget {
         _Pronunciation(detail: detail),
         const SizedBox(height: AppSpacing.lg),
         if (word.definition case final String definition)
-          _Section(
+          VnSection(
             heading: l10n.fieldDefinition,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,13 +225,13 @@ class _DetailBody extends StatelessWidget {
                 if (word.source.requiresAttribution &&
                     word.sourceAttribution != null) ...<Widget>[
                   const SizedBox(height: AppSpacing.xs),
-                  _Attribution(attribution: word.sourceAttribution!),
+                  VnQuietText(word.sourceAttribution!),
                 ],
               ],
             ),
           ),
         if (word.example case final String example)
-          _Section(
+          VnSection(
             heading: l10n.fieldExample,
             child: Text(
               '"$example"',
@@ -425,50 +426,6 @@ class _CambridgeLink extends StatelessWidget {
       onPressed: () => _open(context, url),
       icon: const Icon(Icons.open_in_new),
       label: Text(l10n.detailCambridgeAction),
-    );
-  }
-}
-
-/// A headed block of content.
-class _Section extends StatelessWidget {
-  const new({required this.heading, required this.child});
-
-  final String heading;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(heading, style: theme.textTheme.titleMedium),
-          const SizedBox(height: AppSpacing.xs),
-          child,
-        ],
-      ),
-    );
-  }
-}
-
-/// The credit line a sourced definition owes (RULES §14, §16).
-class _Attribution extends StatelessWidget {
-  const new({required this.attribution});
-
-  final String attribution;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Text(
-      attribution,
-      style: theme.textTheme.bodySmall?.copyWith(
-        color: theme.colorScheme.outline,
-      ),
     );
   }
 }
