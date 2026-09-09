@@ -1,0 +1,23 @@
+# Normalise line endings so `dart format --set-exit-if-changed` agrees on every
+# platform. The formatter always emits LF; a CRLF checkout on Windows would make
+# CI and a local run disagree about a file nobody edited.
+* text=auto eol=lf
+
+# Binary assets — never touched by the eol filter.
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.webp    binary
+*.gz      binary
+*.zip     binary
+*.vnb     binary
+*.ttf     binary
+*.otf     binary
+*.jks     binary
+*.keystore binary
+
+# Generated code is committed (RULES.md §27) but is noise in review diffs.
+*.g.dart          linguist-generated=true
+*.freezed.dart    linguist-generated=true
+*.gr.dart         linguist-generated=true
+app/lib/core/l10n/gen/**  linguist-generated=true

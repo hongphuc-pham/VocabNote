@@ -40,6 +40,40 @@ breaks a **🔴 hard rule** is rejected without discussion.
 18. Prefer the platform or a 30-line helper over a package that does one small thing.
 19. Pin with caret ranges; `flutter pub outdated` is reviewed monthly, not automated blindly.
 
+### Dependency ledger
+
+Every direct dependency, its licence and the one line that justifies it. Added to whenever a
+package enters `pubspec.yaml`; `docs/ARCHITECTURE.md` §3.1 records what was deliberately
+*not* added, and why.
+
+| Package | Licence | Why it is here |
+|---|---|---|
+| `flutter_riverpod`, `riverpod_annotation`, `riverpod_generator` | MIT | State and DI (ADR-002). v3 — see ARCHITECTURE §3.1. |
+| `go_router` | BSD-3 | Declarative routing, deep-link ready. |
+| `drift`, `drift_flutter`, `drift_dev` | MIT | Typed SQL with tested, versioned migrations (ADR-001). |
+| `freezed`, `freezed_annotation`, `json_serializable`, `json_annotation`, `build_runner` | MIT / BSD-3 | Immutable models and safe JSON. |
+| `flutter_tts` | MIT | Device speech; the only audio source in v1 (ADR-003). |
+| `dio` | MIT | Dictionary look-up with timeouts, retry and 429 back-off. |
+| `path_provider` | BSD-3 | Resolves the database and backup directories. |
+| `share_plus` | BSD-3 | Hands a `.vnb` backup to the OS share sheet (F-073). |
+| `file_picker` | MIT | Chooses a `.vnb` file to import (F-074). |
+| `archive` | MIT | Reads and writes the `.vnb` ZIP. |
+| `flutter_local_notifications`, `timezone` | BSD-3 / BSD-2 | Optional daily reminder, scheduled in the device timezone (F-066). |
+| `url_launcher` | BSD-3 | Cambridge link, mailto feedback, GitHub issues — the only allowed Cambridge integration. |
+| `package_info_plus`, `device_info_plus` | BSD-3 | The three diagnostics shown in the feedback preview (F-072). |
+| `characters` | BSD-3 | Grapheme-cluster indexing for IPA (ADR-006). Used only by `core/extensions/grapheme.dart`. |
+| `sqlite3` | MIT | Reads `PRAGMA user_version` **before** Drift opens the file, so a database from a newer build can be refused rather than migrated downwards (DATABASE.md §3.10). Already in the tree via `drift_flutter`. |
+| `path` | BSD-3 | Joins the database and backup paths. Already in the tree via `path_provider`. |
+| `collection` | BSD-3 | Equality and sorting helpers. |
+| `uuid` | MIT | TEXT UUID primary keys, so exports merge across devices. |
+| `intl` | BSD-3 | Date and number formatting for l10n. |
+| `meta` | BSD-3 | `@immutable` in `domain/`, which may not import Flutter. |
+| `cupertino_icons` | MIT | Ships with the Flutter template; iOS-style glyphs. |
+| dev: `very_good_analysis` | MIT | The lint baseline. |
+| dev: `mocktail` | MIT | Mocks without codegen. |
+| dev: `alchemist` | MIT | Golden tests in light and dark (RULES §32). |
+| dev: `integration_test` | BSD-3 | The one end-to-end path per release (RULES §33). |
+
 ## 5. Code rules
 
 20. 🔴 Layer direction: `presentation → application → domain ← data`. `domain` imports nothing

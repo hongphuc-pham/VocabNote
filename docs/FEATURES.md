@@ -11,7 +11,7 @@ before the milestone is closed.
 | ID | Pri | Feature | Acceptance criteria |
 |---|---|---|---|
 | F-001 | M | Add a word by typing | Headword required, trimmed; duplicate `headword_normalized` warns but does not block ("You already have *cough* — open it?"); saves in ≤2 taps from the FAB. |
-| F-002 | M | Manual IPA entry | A dedicated IPA field with a **symbol keyboard row** (ˈ ˌ ː ə ɜ æ ɑ ɒ ʌ ʊ ɪ ʃ ʒ tʃ dʒ θ ð ŋ ɹ). Typing IPA by hand is a supported first-class path. |
+| F-002 | M | Manual IPA entry | A dedicated IPA field with a **symbol keyboard row** (ˈ ˌ ː ə ɜ æ ɑ ɒ ʌ ʊ ɪ i u ʃ ʒ tʃ dʒ θ ð ŋ ɹ — 21 symbols). Typing IPA by hand is a supported first-class path. *Corrected at M2: this row previously omitted `i` and `u`, which `UI-UX.md` §4.2 lists. §4.2 is the source of truth.* |
 | F-003 | M | Manual definition, example, part of speech, notes | All optional, all free text. |
 | F-004 | M | Dictionary look-up (opt-in per word) | Tapping *Look up* queries FreeDictionaryAPI.com and shows results as **suggestion chips per field**; nothing is written until the user taps a suggestion. Never auto-overwrites text the user has typed. |
 | F-005 | M | Offline IPA fallback | With no network (or API miss), the bundled CMUdict-derived asset supplies US IPA. Result is labelled *offline* in the source field. |

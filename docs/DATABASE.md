@@ -8,7 +8,7 @@
 
 | Item | Value |
 |---|---|
-| Engine | SQLite via Drift (`sqlite3_flutter_libs`, bundled — same version on both platforms) |
+| Engine | SQLite via Drift (`package:sqlite3` 3.x bundles the native libraries — same version on both platforms; `sqlite3_flutter_libs` is an EOL stub since 0.6.0, see ARCHITECTURE §3.1) |
 | Path | `getApplicationSupportDirectory()/vocabnote/vocabnote.sqlite` |
 | Android | `/data/data/<pkg>/files/…` — survives app updates, cleared on uninstall |
 | iOS | `Library/Application Support/…` — survives app updates, cleared on uninstall |
@@ -62,6 +62,11 @@ hex, so themes can change) · `label` TEXT NULL · `created_at`.
 `id` PK · `name` TEXT NOT NULL · `color_token` TEXT NOT NULL · `icon_key` TEXT NULL ·
 `sort_order` INTEGER NOT NULL · `created_at` · `updated_at`.
 
+> **No seeded "All words" row** *(decided at M1)*. **All** is a filter chip
+> (`UI-UX.md` §4.1), not a list. A row would be renameable, recolourable, reorderable and
+> deletable, none of which is true of "all your words". `onCreate` therefore seeds only the
+> `settings` row and the `app_meta` keys.
+
 ### `word_list_items`
 `list_id` FK CASCADE · `word_id` FK CASCADE · `added_at` · PRIMARY KEY (`list_id`,`word_id`).
 
@@ -108,9 +113,15 @@ It is a **derived** table: it may be dropped and rebuilt in any migration withou
    ```bash
    dart run drift_dev schema dump  lib/data/db/app_database.dart drift_schemas/
    dart run drift_dev schema steps drift_schemas/ lib/data/db/schema_versions.dart
-   dart run drift_dev schema generate drift_schemas/ test/migration/generated/
+   dart run drift_dev schema generate --data-classes --companions drift_schemas/ test/migration/generated/
    ```
+
    `drift_schemas/` and `schema_versions.dart` are **committed**.
+
+   The `--data-classes --companions` flags matter: without them the generated helpers have
+   table definitions but no companions, and a migration test cannot write rows the way an
+   older version wrote them. Note also that those helpers type booleans as `int`, so a
+   seed writes `Value(1)`, not `Value(true)`.
 5. **A migration test is part of the same PR.** For new version *n* you must add:
    - `n-1 → n` with seeded rows, asserting every row survives with correct values;
    - `1 → n` end-to-end (a user who skipped five releases must upgrade cleanly);
@@ -120,6 +131,11 @@ It is a **derived** table: it may be dropped and rebuilt in any migration withou
    `vocabnote.pre-v<n>.bak` before opening when the on-disk version is lower than
    `schemaVersion`. On success the backup is kept until the next migration; on failure it is
    restored and the app shows a recovery screen with *Export my data*.
+   Implemented in `data/db/database_opener.dart` (so it can be tested against a temporary
+   directory rather than a device) and surfaced by
+   `presentation/common/recovery_screen.dart`. The on-disk version is read with a raw
+   `PRAGMA user_version` **before** Drift opens the file — asking Drift would run the
+   migration, which is the very thing being decided.
 7. **Migrations run in a transaction** and are idempotent — safe to re-run after a crash.
 8. **Never `deleteDatabase()`, never "recreate on error", never `if (from != to) drop`.**
    Any PR containing those patterns is rejected. There is a CI grep for them.
@@ -150,10 +166,24 @@ MigrationStrategy get migration => MigrationStrategy(
   ),
   beforeOpen: (details) async {
     await customStatement('PRAGMA foreign_keys = ON');
-    if (kDebugMode) await validateDatabaseSchema();
+    if (kDebugMode) await _assertExpectedTablesExist();   // see note below
   },
 );
 ```
+
+> **Correction, made at M1.** Earlier revisions of this section showed drift's own
+> `validateDatabaseSchema()` inside `beforeOpen`. That call lives in `package:drift_dev`, a
+> **dev** dependency — invoking it from `lib/` would ship the Dart analyzer inside the app.
+> So the split is:
+>
+> * **production**, in `beforeOpen` under `kDebugMode`: `_assertExpectedTablesExist()`, a
+>   cheap check that every expected table is present, which turns a confusing "no such
+>   column" three screens later into an obvious failure at startup;
+> * **tests**, in `test/migration/`: the real `db.validateDatabaseSchema()` plus
+>   `SchemaVerifier.migrateAndValidate()`, which compare the live schema against the
+>   committed snapshot column by column.
+>
+> The blocking check is the one in CI; the runtime one is a convenience.
 
 Test (`test/migration/v1_to_v2_test.dart`): open v1 with a seeded word + note + highlight +
 card, migrate, assert all four rows are intact and `synonyms` is `NULL`.

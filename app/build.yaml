@@ -1,0 +1,30 @@
+# Code-generation configuration.
+#
+# Generated output is committed (`docs/RULES.md` §27) and CI regenerates and
+# fails on any diff, so this file is effectively part of the schema.
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          sql:
+            dialect: sqlite
+            options:
+              version: "3.45"
+              # Drift's static analyser refuses to parse `USING fts5(...)`
+              # unless the module is registered. Without this, `words_fts` and
+              # every trigger touching it silently fail to analyse and drop out
+              # of the generated schema.
+              modules:
+                - fts5
+
+          # Keep timestamps as INTEGER. `docs/DATABASE.md` §2 specifies epoch
+          # milliseconds UTC, which `EpochMillisConverter` handles; letting
+          # drift store them as ISO text would change the column type.
+          store_date_time_values_as_text: false
+
+          # Table names come from the Dart class name, so this has to be
+          # snake_case for `WordNotes` to become `word_notes` as DATABASE.md §2
+          # specifies. Every multi-word *column* is pinned explicitly with
+          # `named('...')` and does not rely on this.
+          case_from_dart_to_sql: snake_case

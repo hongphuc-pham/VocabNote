@@ -6,8 +6,9 @@ You type a word, get (or write) its IPA, highlight the exact sounds you keep get
 leave yourself notes, listen to it, and practise it as flashcards. No account. No server.
 No subscription. Your words live on your phone and stay yours.
 
-> **Status:** design phase. This repository currently contains the plan, architecture and
-> rules. Code starts at Milestone M0 in [`docs/PLAN.md`](docs/PLAN.md).
+> **Status:** M0–M2 complete. You can add words by hand or from the dictionary, search them
+> instantly, and delete with Undo. Pronunciation and IPA highlighting land at M3.
+> Current state and how to resume: [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ---
 
@@ -49,7 +50,7 @@ Full, numbered list with acceptance criteria: [`docs/FEATURES.md`](docs/FEATURES
 | Layer | Choice | Why |
 |-------|--------|-----|
 | Framework | Flutter 3.x / Dart 3 | One codebase, Android + iOS |
-| State | Riverpod 2 (+ codegen) | Testable, compile-safe, no BuildContext coupling |
+| State | Riverpod 3 (+ codegen) | Testable, compile-safe, no BuildContext coupling. v2 is unmaintained and cannot resolve alongside Drift — see `ARCHITECTURE.md` §3.1 |
 | Navigation | go_router | Declarative, deep-link ready |
 | Database | Drift over SQLite | Typed SQL, **first-class versioned migrations**, FTS5 search |
 | Audio | flutter_tts | Offline, free, no licensing burden, UK/US voices |
@@ -65,6 +66,7 @@ Full, numbered list with acceptance criteria: [`docs/FEATURES.md`](docs/FEATURES
 VocabNote/
 ├─ README.md                 <- you are here
 ├─ docs/
+│  ├─ PROGRESS.md            <- where the work is, what's waiting on you, how to resume
 │  ├─ PLAN.md                <- milestones, scope per release, phase-2 backlog
 │  ├─ FEATURES.md            <- numbered features + acceptance criteria
 │  ├─ ARCHITECTURE.md        <- layers, folder tree, packages, infra, CI
@@ -76,23 +78,35 @@ VocabNote/
 └─ app/                      <- Flutter project (created at M0)
 ```
 
-## 5. Getting started (once M0 lands)
+## 5. Getting started
+
+Built and verified against **Flutter 3.47.2 / Dart 3.13.2** (stable). CI pins the same
+version; anything from 3.24 up should work, but that is the one that is actually tested.
 
 ```bash
-flutter --version           # 3.24+ recommended
+flutter --version
 cd app
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build          # riverpod, freezed, json, drift
+flutter gen-l10n                     # regenerates lib/core/l10n/gen/
 flutter run
 ```
 
 Common tasks:
 
 ```bash
+dart format .                                     # CI fails on unformatted code
 flutter analyze                                   # lints must be clean
-flutter test                                      # unit + widget + migration tests
+flutter test                                      # unit + widget + architecture tests
+dart run tool/check_licences.dart                 # permissive licences only
+```
+
+From M1, after any schema change:
+
+```bash
 dart run drift_dev schema dump lib/data/db/app_database.dart drift_schemas/
 dart run drift_dev schema steps drift_schemas/ lib/data/db/schema_versions.dart
+dart run drift_dev schema generate drift_schemas/ test/migration/generated/
 ```
 
 ## 6. Data, licences and privacy

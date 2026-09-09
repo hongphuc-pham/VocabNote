@@ -30,7 +30,9 @@ everything below.
 ```
 
 **Dependency rule:** presentation → application → domain ← data. Domain imports nothing but
-Dart and `freezed`. Data never imports presentation. Any violation fails the import lint.
+Dart, `meta` and `freezed`. Data never imports presentation. Any violation fails
+`test/architecture/layer_boundaries_test.dart` — see §3.2 for why that is a test and not a
+lint, and for the one documented exception.
 
 ## 2. Folder tree
 
@@ -104,7 +106,7 @@ app/
 ├─ drift_schemas/                     # exported schema JSON, one per version — COMMITTED
 ├─ tool/build_ipa_fallback.dart       # regenerates the offline asset from CMUdict
 ├─ test/
-│  ├─ unit/  widget/  migration/  golden/
+│  ├─ unit/  widget/  migration/  golden/  architecture/
 └─ integration_test/
 ```
 
@@ -112,20 +114,62 @@ app/
 
 | Package | Use |
 |---|---|
-| `flutter_riverpod`, `riverpod_annotation`, `riverpod_generator`, `riverpod_lint` | state + DI |
+| `flutter_riverpod`, `riverpod_annotation`, `riverpod_generator` | state + DI |
 | `go_router` | routing |
-| `drift`, `drift_flutter`, `sqlite3_flutter_libs`, `drift_dev` | database + migrations |
+| `drift`, `drift_flutter`, `drift_dev` | database + migrations |
 | `freezed`, `json_serializable`, `build_runner` | models/codegen |
 | `flutter_tts` | pronunciation audio |
 | `dio` | dictionary lookup |
 | `path_provider`, `share_plus`, `file_picker`, `archive` | backup export/import |
 | `flutter_local_notifications`, `timezone` | daily reminder |
 | `url_launcher`, `package_info_plus`, `device_info_plus` | Cambridge link, feedback |
-| `characters`, `collection`, `uuid`, `intl` | utilities |
+| `characters`, `collection`, `uuid`, `intl`, `meta` | utilities |
 | dev: `mocktail`, `alchemist` (goldens), `integration_test`, `very_good_analysis` | testing/lints |
 
 Rule: **no package enters `pubspec.yaml` without a line in `docs/RULES.md` §4 justifying it**
 and a licence check (permissive only — MIT/BSD/Apache-2.0/OFL).
+
+### 3.1 Deviations from the original list, and why *(decided at M0)*
+
+| Package | Decision | Reason |
+|---|---|---|
+| `riverpod_lint` | **not installed** | It requires `custom_lint`, which pins `analyzer ^8`, while `drift_dev` requires `analyzer >=13`. The two cannot coexist. Drift is ADR-001 and not negotiable, so the lint is dropped until `custom_lint` catches up. Re-check at each milestone. |
+| Riverpod **2** → **3** | **Riverpod 3** | Riverpod 2 with codegen is not installable alongside Drift: `riverpod_generator` 2.x needs `source_gen ^2`, `drift_dev` needs `source_gen >=3`. Riverpod 2.6.1 is also 22 months old and unmaintained, failing `RULES.md` §17. |
+| `sqlite3_flutter_libs` | **not a direct dependency** | Since `0.6.0+eol` the package is an empty stub — `package:sqlite3` 3.x bundles the native libraries itself. It still arrives transitively via `drift_flutter`; listing it directly would advertise a dependency that does nothing. |
+| `meta` | **added** | `@immutable` in `domain/`, which may not import Flutter (§1). BSD-3, Dart team. |
+| `dynamic_color` | **not added** | Material You needs one integer from one platform channel; `RULES.md` §18 prefers the helper. See `core/utils/dynamic_color.dart` and `MainActivity.kt`. |
+
+### 3.3 The DI seam between application and data *(decided at M2)*
+
+§1 says application "depends on interfaces only", and §20 of `RULES.md` forbids the import
+that would otherwise be needed to reach a Riverpod provider constructing a repository. So:
+
+- `application/repositories.dart` **declares** every repository provider, typed against its
+  `domain/` interface, throwing `UnimplementedError` by default;
+- `data/composition_root.dart` **supplies** the implementations as a list of overrides;
+- `bootstrap.dart` applies them. Tests call the same function against an in-memory database,
+  so there is one list rather than two that drift apart.
+
+`data/composition_root.dart` is the third and final entry on the composition-root exemption
+list in `test/architecture/layer_boundaries_test.dart`. The test is what forced this
+structure — the first draft had `application → data` and `presentation → data`, and it
+failed the build, which is exactly what it is for.
+
+### 3.2 Enforcing the layer direction *(decided at M0)*
+
+With `custom_lint` unavailable, the dependency rule in §1 is enforced by
+`test/architecture/layer_boundaries_test.dart`, which fails the build on a
+violation exactly as a lint would. It also checks that `domain/` imports nothing
+but Dart, `meta` and `freezed`, and that only `core/extensions/grapheme.dart`
+touches `package:characters` (ADR-006).
+
+**One documented exception.** §2 places the router in `core/router/`, but a
+router must name screens, and §1 forbids `core → presentation`. Both rules
+cannot hold for that one file, so `core/router/app_router.dart` and
+`bootstrap.dart` are exempt *by name* as composition roots — the places where
+wiring is supposed to cross layers. Nothing else under `core/` may import
+`presentation/`, and that is separately tested. If a third file wants the
+exemption, the answer is an interface, not a longer list.
 
 ## 4. Cross-cutting decisions
 
