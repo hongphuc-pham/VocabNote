@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabnote/application/lists/list_controller.dart';
+import 'package:vocabnote/application/words/highlight_revalidation.dart';
 import 'package:vocabnote/application/words/lookup_controller.dart';
 import 'package:vocabnote/application/words/word_draft.dart';
 import 'package:vocabnote/application/words/word_editor_controller.dart';
@@ -11,6 +12,7 @@ import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
 import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/domain/entities/word_list.dart';
 import 'package:vocabnote/domain/entities/word_suggestion.dart';
@@ -149,15 +151,81 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
     );
   }
 
-  Future<void> _save() async {
+  /// Asks before dropping highlights an IPA edit has invalidated (F-023).
+  ///
+  /// Returns the split to apply after the word is saved, or null when the user
+  /// backed out. `Ok` with no losses is the ordinary case and asks nothing.
+  Future<HighlightRevalidation?> _confirmHighlightLosses(
+    WordDraft draft,
+  ) async {
+    // A new word has no stored highlights to lose.
+    final id = draft.id;
+    if (id == null) {
+      return const HighlightRevalidation(
+        kept: <IpaHighlight>[],
+        dropped: <IpaHighlight>[],
+      );
+    }
+
+    final checked = await ref
+        .read(highlightRevalidatorProvider.notifier)
+        .check(
+          wordId: id,
+          ipaUk: draft.ipaUk.trim().isEmpty ? null : draft.ipaUk.trim(),
+          ipaUs: draft.ipaUs.trim().isEmpty ? null : draft.ipaUs.trim(),
+        );
+
+    // A failed check must not silently destroy anything: fall back to changing
+    // no highlights at all, which leaves them to be re-validated on read.
+    final revalidation = checked.valueOrNull;
+    if (revalidation == null || !revalidation.hasLosses) return revalidation;
+
+    if (!mounted) return null;
+    final l10n = AppL10n.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.ipaRevalidateTitle),
+        content: Text(l10n.ipaRevalidateBody(revalidation.dropped.length)),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.ipaRevalidateCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.ipaRevalidateConfirm),
+          ),
+        ],
+      ),
+    );
+
+    return (confirmed ?? false) ? revalidation : null;
+  }
+
+  Future<void> _save(WordDraft draft) async {
+    // Asked *before* the word is written, so a user who changes their mind
+    // still has both the old transcription and their colours (F-023).
+    final revalidation = await _confirmHighlightLosses(draft);
+    if (revalidation == null || !mounted) return;
+
     setState(() => _saving = true);
     final result = await _controller.save();
     if (!mounted) return;
     setState(() => _saving = false);
 
-    result.fold(
-      (_) => context.pop(),
-      (failure) => ScaffoldMessenger.of(context).showSnackBar(
+    await result.fold(
+      (saved) async {
+        // Pruned after the word is saved, so the highlights are measured
+        // against a transcription that is actually on disk.
+        if (revalidation.hasLosses) {
+          await ref
+              .read(highlightRevalidatorProvider.notifier)
+              .prune(wordId: saved.id, revalidation: revalidation);
+        }
+        if (mounted) context.pop();
+      },
+      (failure) async => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppL10n.of(context).wordsLoadFailedBody)),
       ),
     );
@@ -187,7 +255,9 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
             actions: <Widget>[
               TextButton(
                 // Enabled only once the headword is non-empty (§4.2).
-                onPressed: draft.canSave && !_saving ? _save : null,
+                onPressed: draft.canSave && !_saving
+                    ? () => _save(draft)
+                    : null,
                 child: Text(l10n.saveAction),
               ),
             ],

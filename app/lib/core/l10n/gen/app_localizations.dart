@@ -872,6 +872,198 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Edit'**
   String get detailEditAction;
+
+  /// Heading above the list of labelled IPA highlights on word detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds you marked'**
+  String get detailLegendHeading;
+
+  /// One legend line: the colour name and the label the user wrote.
+  ///
+  /// In en, this message translates to:
+  /// **'{color}: {label}'**
+  String detailLegendEntry(String color, String label);
+
+  /// Accessibility label for a tappable legend line.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {label} in the transcription'**
+  String detailLegendJumpLabel(String label);
+
+  /// Name of the amber IPA highlight colour. Shown as text so colour is never the only cue.
+  ///
+  /// In en, this message translates to:
+  /// **'amber'**
+  String get ipaColorAmber;
+
+  /// Name of the coral IPA highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'coral'**
+  String get ipaColorCoral;
+
+  /// Name of the violet IPA highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'violet'**
+  String get ipaColorViolet;
+
+  /// Name of the teal IPA highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'teal'**
+  String get ipaColorTeal;
+
+  /// Name of the blue IPA highlight colour.
+  ///
+  /// In en, this message translates to:
+  /// **'blue'**
+  String get ipaColorBlue;
+
+  /// Button that opens the word on dictionary.cambridge.org in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Cambridge Dictionary'**
+  String get detailCambridgeAction;
+
+  /// Shown when no app on the device could open the dictionary link.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open your browser.'**
+  String get detailCambridgeFailed;
+
+  /// Instruction at the top of the IPA highlight editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a symbol, or drag across several, then choose a colour.'**
+  String get ipaEditorIntro;
+
+  /// Announced when a run of IPA symbols is selected. UI-UX section 4.4.
+  ///
+  /// In en, this message translates to:
+  /// **'selected {symbols}'**
+  String ipaEditorSelectedLabel(String symbols);
+
+  /// Shown where the selection would be announced, before anything is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing selected yet'**
+  String get ipaEditorNothingSelected;
+
+  /// App bar action that saves the highlight session.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get ipaEditorDoneAction;
+
+  /// App bar action that steps back one change in the editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get ipaEditorUndoAction;
+
+  /// Title of the sheet that colours the selected run.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour this sound'**
+  String get ipaEditorColorHeading;
+
+  /// Hint on the optional label field in the colour sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Why is it hard? (optional)'**
+  String get ipaEditorLabelHint;
+
+  /// Button that removes the highlight being edited.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete highlight'**
+  String get ipaEditorDeleteAction;
+
+  /// Accessibility label for one colour swatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {color}'**
+  String ipaEditorColorLabel(String color);
+
+  /// Shown when writing the highlight session to the database failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save your highlights.'**
+  String get ipaEditorSaveFailed;
+
+  /// Heading when the editor is opened for a word with no transcription.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to highlight yet'**
+  String get ipaEditorNoIpaTitle;
+
+  /// Body when the editor is opened for a word with no transcription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transcription first, then come back to colour the sounds you find hard.'**
+  String get ipaEditorNoIpaBody;
+
+  /// Title of the confirmation shown when leaving the editor unsaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard your colours?'**
+  String get ipaEditorDiscardTitle;
+
+  /// Body of the confirmation shown when leaving the editor unsaved.
+  ///
+  /// In en, this message translates to:
+  /// **'You have changes that have not been saved.'**
+  String get ipaEditorDiscardBody;
+
+  /// Button that leaves the editor without saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get ipaEditorDiscardAction;
+
+  /// Button that returns to the editor instead of discarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get ipaEditorKeepEditingAction;
+
+  /// Title of the dialog shown when an IPA edit invalidates highlights (F-023).
+  ///
+  /// In en, this message translates to:
+  /// **'Some highlights no longer fit'**
+  String get ipaRevalidateTitle;
+
+  /// Body of the F-023 confirmation, listing how many highlights would be dropped.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{One coloured run no longer matches the new transcription and will be removed.} other{{count} coloured runs no longer match the new transcription and will be removed.}}'**
+  String ipaRevalidateBody(int count);
+
+  /// Button that accepts dropping the highlights that no longer fit.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove them'**
+  String get ipaRevalidateConfirm;
+
+  /// Button that returns to the word form instead of dropping highlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get ipaRevalidateCancel;
+
+  /// One-time notice shown when the preferred speech voice is unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no British English voice, so words are spoken in the closest voice it does have. You can add voices in your device settings, under Text-to-speech.'**
+  String get voiceFallbackNotice;
+
+  /// Button that dismisses the one-time voice notice for good.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get voiceFallbackDismiss;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

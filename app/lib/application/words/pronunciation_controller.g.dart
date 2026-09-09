@@ -56,7 +56,7 @@ final class PronunciationProvider
   }
 }
 
-String _$pronunciationHash() => r'1a42afbbdb682e983cb4e1806428f289c46b17ec';
+String _$pronunciationHash() => r'56646ae5c4a9b82a5d53d5653abc83df6432a718';
 
 /// Speaks transcriptions on demand.
 ///

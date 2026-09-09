@@ -38,4 +38,11 @@ abstract final class AppMetaKeys {
 
   /// A random, local-only identifier. Never leaves the device.
   static const String installId = 'install_id';
+
+  /// Whether the "this device has no en-GB voice" notice has been shown.
+  ///
+  /// Shown once and then never again (`docs/DATA-SOURCES.md` §4). A key rather
+  /// than a settings column because it is a one-off acknowledgement, not
+  /// something the user configures — and `app_meta` is where loose state goes.
+  static const String voiceFallbackNoticeShown = 'voice_fallback_notice_shown';
 }

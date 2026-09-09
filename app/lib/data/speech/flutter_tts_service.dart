@@ -11,17 +11,26 @@ import 'package:vocabnote/domain/value_objects/voice_resolution.dart';
 /// talks to [SpeechService], which is what lets F-027 (record yourself) and
 /// F-028 (Wikimedia recordings) arrive later without a screen changing.
 ///
-/// **Nothing touches a platform channel until the first call.** Construction
-/// happens in `repositoryOverrides`, which widget tests also run, and a plugin
-/// call during `ProviderContainer` set-up would fail there for no good reason.
+/// **Nothing touches a platform channel until the first call**, and the engine
+/// itself is not built until then either. `FlutterTts`'s own constructor calls
+/// `setMethodCallHandler`, which asserts unless a `WidgetsFlutterBinding`
+/// already exists — so building it eagerly makes every plain unit test that
+/// happens to construct `repositoryOverrides` fail on a speech engine it never
+/// asked for.
 class FlutterTtsService implements SpeechService {
   /// Creates the service.
   ///
   /// [engine] is injectable so tests can assert the policy — fallback order,
   /// clamping, error mapping — against a mock instead of a real speech engine.
-  new({FlutterTts? engine}) : _engine = engine ?? FlutterTts();
+  new({FlutterTts? engine}) : _injected = engine;
 
-  final FlutterTts _engine;
+  /// The engine a test supplied, if any.
+  final FlutterTts? _injected;
+
+  /// The real engine, built on first use. See the class doc for why not sooner.
+  FlutterTts? _lazy;
+
+  FlutterTts get _engine => _injected ?? (_lazy ??= FlutterTts());
 
   /// Whether [FlutterTts.awaitSpeakCompletion] has been switched on.
   ///
@@ -148,10 +157,15 @@ class FlutterTtsService implements SpeechService {
 
   @override
   Future<void> dispose() async {
+    // Never builds an engine just to shut it down: an app that closed without
+    // ever speaking has nothing to stop.
+    final engine = _injected ?? _lazy;
+    if (engine == null) return;
+
     // Swallowed on purpose: tearing the app down is not a moment at which a
     // speech engine complaint is worth surfacing, or can be acted on.
     try {
-      await _engine.stop();
+      await engine.stop();
     } on Object {
       // See above.
     }

@@ -26,6 +26,7 @@ class PronunciationRow extends ConsumerWidget {
     required this.ipa,
     required this.locale,
     required this.highlights,
+    this.emphasisedHighlightId,
     super.key,
   });
 
@@ -40,6 +41,9 @@ class PronunciationRow extends ConsumerWidget {
 
   /// The highlights on this transcription only.
   final List<IpaHighlight> highlights;
+
+  /// The highlight the legend is currently pointing at (F-024).
+  final String? emphasisedHighlightId;
 
   /// The row's accent label.
   String _accentLabel(AppL10n l10n) => switch (locale) {
@@ -93,6 +97,7 @@ class PronunciationRow extends ConsumerWidget {
               ipa: ipa,
               highlights: highlights,
               style: context.type.ipaLarge,
+              emphasisedHighlightId: emphasisedHighlightId,
             ),
           ),
           const SizedBox(width: AppSpacing.sm),

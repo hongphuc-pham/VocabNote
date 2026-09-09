@@ -26,8 +26,18 @@ class HighlightsDao extends DatabaseAccessor<AppDatabase>
           .watch();
 
   /// One-shot version of [watchForWord].
+  ///
+  /// A real query, **not** `watchForWord(...).first`: that opens a stream
+  /// subscription and waits for Drift to deliver the first event on a timer,
+  /// which is both wasteful and — under a widget test's fake clock — never.
   Future<List<IpaHighlightRow>> getForWord(String wordId) =>
-      watchForWord(wordId).first;
+      (select(ipaHighlights)
+            ..where((h) => h.wordId.equals(wordId))
+            ..orderBy(<OrderClauseGenerator<IpaHighlights>>[
+              (h) => OrderingTerm.asc(h.target),
+              (h) => OrderingTerm.asc(h.startGrapheme),
+            ]))
+          .get();
 
   /// Watches the highlights for one word and one transcription.
   Stream<List<IpaHighlightRow>> watchForTarget(

@@ -11,8 +11,8 @@ part of 'word_detail_controller.dart';
 /// Watches one word and everything hanging off it.
 ///
 /// Emits null once the word is gone — soft-deleted from the list screen while
-/// this one is open, for instance — so the screen can say so rather than
-/// showing a stale copy of something the user just deleted.
+/// this one is open, or purged — so the screen can say so rather than showing
+/// a stale copy of something the user just deleted.
 ///
 /// The three streams are joined with [combineLatest3] at this layer. Riverpod 3
 /// removed `StreamProvider.stream`, so combining by reaching into other
@@ -25,8 +25,8 @@ final wordDetailProvider = WordDetailFamily._();
 /// Watches one word and everything hanging off it.
 ///
 /// Emits null once the word is gone — soft-deleted from the list screen while
-/// this one is open, for instance — so the screen can say so rather than
-/// showing a stale copy of something the user just deleted.
+/// this one is open, or purged — so the screen can say so rather than showing
+/// a stale copy of something the user just deleted.
 ///
 /// The three streams are joined with [combineLatest3] at this layer. Riverpod 3
 /// removed `StreamProvider.stream`, so combining by reaching into other
@@ -44,8 +44,8 @@ final class WordDetailProvider
   /// Watches one word and everything hanging off it.
   ///
   /// Emits null once the word is gone — soft-deleted from the list screen while
-  /// this one is open, for instance — so the screen can say so rather than
-  /// showing a stale copy of something the user just deleted.
+  /// this one is open, or purged — so the screen can say so rather than showing
+  /// a stale copy of something the user just deleted.
   ///
   /// The three streams are joined with [combineLatest3] at this layer. Riverpod 3
   /// removed `StreamProvider.stream`, so combining by reaching into other
@@ -95,13 +95,13 @@ final class WordDetailProvider
   }
 }
 
-String _$wordDetailHash() => r'a9f7788d9d742b2ec0035c67f34c9abcc07bf8f3';
+String _$wordDetailHash() => r'039b4cda6b5242ae5bb34922f6c68981ab354eb6';
 
 /// Watches one word and everything hanging off it.
 ///
 /// Emits null once the word is gone — soft-deleted from the list screen while
-/// this one is open, for instance — so the screen can say so rather than
-/// showing a stale copy of something the user just deleted.
+/// this one is open, or purged — so the screen can say so rather than showing
+/// a stale copy of something the user just deleted.
 ///
 /// The three streams are joined with [combineLatest3] at this layer. Riverpod 3
 /// removed `StreamProvider.stream`, so combining by reaching into other
@@ -122,8 +122,8 @@ final class WordDetailFamily extends $Family
   /// Watches one word and everything hanging off it.
   ///
   /// Emits null once the word is gone — soft-deleted from the list screen while
-  /// this one is open, for instance — so the screen can say so rather than
-  /// showing a stale copy of something the user just deleted.
+  /// this one is open, or purged — so the screen can say so rather than showing
+  /// a stale copy of something the user just deleted.
   ///
   /// The three streams are joined with [combineLatest3] at this layer. Riverpod 3
   /// removed `StreamProvider.stream`, so combining by reaching into other

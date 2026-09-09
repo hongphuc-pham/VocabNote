@@ -3,17 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vocabnote/application/settings/settings_controller.dart';
 import 'package:vocabnote/application/words/pronunciation_controller.dart';
+import 'package:vocabnote/application/words/voice_notice_controller.dart';
 import 'package:vocabnote/application/words/word_actions_controller.dart';
 import 'package:vocabnote/application/words/word_detail_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/utils/external_links.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
+import 'package:vocabnote/domain/value_objects/headword.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
+import 'package:vocabnote/presentation/words/highlight_legend.dart';
 import 'package:vocabnote/presentation/words/pronunciation_row.dart';
 import 'package:vocabnote/presentation/words/word_notes_section.dart';
 
@@ -206,6 +211,7 @@ class _DetailBody extends StatelessWidget {
           ),
         ],
         const SizedBox(height: AppSpacing.lg),
+        const _VoiceNotice(),
         _Pronunciation(detail: detail),
         const SizedBox(height: AppSpacing.lg),
         if (word.definition case final String definition)
@@ -235,22 +241,54 @@ class _DetailBody extends StatelessWidget {
           ),
         const SizedBox(height: AppSpacing.sm),
         WordNotesSection(wordId: word.id, notes: detail.notes),
+        const SizedBox(height: AppSpacing.xl),
+        _CambridgeLink(headword: word.headword),
       ],
     );
   }
 }
 
-/// The UK and US rows, or an invitation to add a transcription.
-class _Pronunciation extends StatelessWidget {
+/// The UK and US rows, the legend, or an invitation to add a transcription.
+class _Pronunciation extends StatefulWidget {
   const new({required this.detail});
 
   final WordDetail detail;
 
   @override
+  State<_Pronunciation> createState() => _PronunciationState();
+}
+
+class _PronunciationState extends State<_Pronunciation> {
+  /// The highlight the user last tapped in the legend (F-024).
+  IpaHighlight? _emphasised;
+  Timer? _clearEmphasis;
+
+  /// How long a tapped legend line points at its run.
+  ///
+  /// Long enough to find the symbols, short enough that it does not read as a
+  /// permanent selection. Emphasis rather than movement, so reduce-motion has
+  /// nothing to suppress (F-093).
+  static const Duration _emphasisDuration = Duration(milliseconds: 1600);
+
+  @override
+  void dispose() {
+    _clearEmphasis?.cancel();
+    super.dispose();
+  }
+
+  void _jumpTo(IpaHighlight highlight) {
+    _clearEmphasis?.cancel();
+    setState(() => _emphasised = highlight);
+    _clearEmphasis = Timer(_emphasisDuration, () {
+      if (mounted) setState(() => _emphasised = null);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
     final theme = Theme.of(context);
-    final word = detail.word;
+    final word = widget.detail.word;
 
     if (word.hasNoIpa) {
       return EmptyState(
@@ -270,14 +308,16 @@ class _Pronunciation extends StatelessWidget {
             headword: word.headword.value,
             ipa: ipa.value,
             locale: TtsLocale.enGb,
-            highlights: detail.highlightsFor(HighlightTarget.ipaUk),
+            highlights: widget.detail.highlightsFor(HighlightTarget.ipaUk),
+            emphasisedHighlightId: _emphasised?.id,
           ),
         if (word.ipaUs case final ipa?)
           PronunciationRow(
             headword: word.headword.value,
             ipa: ipa.value,
             locale: TtsLocale.enUs,
-            highlights: detail.highlightsFor(HighlightTarget.ipaUs),
+            highlights: widget.detail.highlightsFor(HighlightTarget.ipaUs),
+            emphasisedHighlightId: _emphasised?.id,
           ),
         const SizedBox(height: AppSpacing.xs),
         Text(
@@ -287,12 +327,104 @@ class _Pronunciation extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.md),
+        HighlightLegend(
+          highlights: widget.detail.highlights,
+          emphasised: _emphasised,
+          onJumpTo: _jumpTo,
+        ),
+        const SizedBox(height: AppSpacing.md),
         OutlinedButton.icon(
           onPressed: () => context.push(Routes.wordIpaOf(word.id)),
           icon: const Icon(Icons.format_color_text),
           label: Text(l10n.detailEditHighlightsAction),
         ),
       ],
+    );
+  }
+}
+
+/// The one-time notice that this device has no British voice.
+///
+/// `docs/DATA-SOURCES.md` §4. Sits above the transcriptions because that is
+/// where the user is about to press play and be surprised.
+///
+/// It names where to look in the OS rather than deep-linking there: opening
+/// Android's text-to-speech settings needs a package that is not in the
+/// dependency ledger, and `docs/RULES.md` §42 says to ask before adding one.
+class _VoiceNotice extends ConsumerWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = AppL10n.of(context);
+    final show = ref.watch(voiceNoticeProvider).value ?? false;
+    if (!show) return const SizedBox.shrink();
+
+    return Card(
+      color: theme.colorScheme.surfaceContainerHighest,
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(l10n.voiceFallbackNotice, style: theme.textTheme.bodyMedium),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () =>
+                    ref.read(voiceNoticeProvider.notifier).dismiss(),
+                child: Text(l10n.voiceFallbackDismiss),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The link out to Cambridge (F-025).
+///
+/// A link and nothing more. `docs/RULES.md` §13 allows linking out and forbids
+/// every other integration - no scraping, no embedded webview of their pages.
+class _CambridgeLink extends StatelessWidget {
+  const new({required this.headword});
+
+  final Headword headword;
+
+  Future<void> _open(BuildContext context, Uri url) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppL10n.of(context);
+
+    // Deliberately no `canLaunchUrl` gate: on Android 11+ it returns false in
+    // cases where `launchUrl` works, and url_launcher's own README says to
+    // launch and handle failure instead.
+    final launched = await launchUrl(
+      url,
+      // The user's own browser, never an embedded view.
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!launched && context.mounted) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.detailCambridgeFailed)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppL10n.of(context);
+    final url = CambridgeDictionary.entryFor(headword.normalized);
+    // No headword to look up means no dead button.
+    if (url == null) return const SizedBox.shrink();
+
+    return OutlinedButton.icon(
+      onPressed: () => _open(context, url),
+      icon: const Icon(Icons.open_in_new),
+      label: Text(l10n.detailCambridgeAction),
     );
   }
 }

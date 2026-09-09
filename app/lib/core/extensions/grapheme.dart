@@ -85,6 +85,19 @@ extension GraphemeText on String {
   bool isValidGraphemeRange(GraphemeRange range) =>
       range.isValidFor(graphemeLength);
 
+  /// This string cut to at most [maxGraphemes] clusters.
+  ///
+  /// Grapheme-safe truncation, which a plain `substring` is not: cutting a
+  /// label by code unit can split an accented letter from its diacritic or
+  /// leave half a surrogate pair, and the result is a broken glyph in the
+  /// user's own note. Returns the string unchanged when it already fits.
+  String truncateGraphemes(int maxGraphemes) {
+    if (maxGraphemes <= 0) return '';
+    final clusters = characters;
+    if (clusters.length <= maxGraphemes) return this;
+    return clusters.take(maxGraphemes).toString();
+  }
+
   /// Splits this string into the clusters covered by [range] and those not.
   ///
   /// Returns `(before, inside, after)`, any of which may be empty. Used to

@@ -38,6 +38,10 @@ class _FakeSpeech implements SpeechService {
   /// Makes the next `speak` fail, as a device with no voice does.
   bool failNext = false;
 
+  /// Makes voice resolution report a fallback, as a device with no en-GB voice
+  /// does (`DATA-SOURCES.md` §4).
+  bool forceFallback = false;
+
   @override
   AsyncResult<Set<TtsLocale>> availableLocales() async =>
       const Ok<Set<TtsLocale>, AppFailure>(<TtsLocale>{TtsLocale.enGb});
@@ -45,7 +49,10 @@ class _FakeSpeech implements SpeechService {
   @override
   AsyncResult<VoiceResolution> resolveVoice(TtsLocale preferred) async =>
       Ok<VoiceResolution, AppFailure>(
-        VoiceResolution(preferred: preferred, resolved: preferred),
+        VoiceResolution(
+          preferred: preferred,
+          resolved: forceFallback ? null : preferred,
+        ),
       );
 
   @override
@@ -134,10 +141,13 @@ void main() {
         ...repositoryOverrides(db, speechService: speech),
       ],
     );
-    addTearDown(container.dispose);
+    // Container first, then the database: closing Drift while a provider still
+    // holds a live watch deadlocks the test after its body has finished.
+    addTearDown(() async {
+      container.dispose();
+      await db.close();
+    });
   });
-
-  tearDown(() => db.close());
 
   group('layout', () {
     testWidgets('shows the headword, both accents and the definition', (
@@ -309,6 +319,47 @@ void main() {
         us.highlights,
         isEmpty,
         reason: 'a UK highlight must never leak onto the US transcription',
+      );
+    });
+  });
+
+  group('the voice notice (DATA-SOURCES §4)', () {
+    testWidgets('stays hidden when the preferred voice exists', (tester) async {
+      final id = await seedWord();
+      await pumpDetail(tester, id);
+
+      expect(find.text('Got it'), findsNothing);
+    });
+
+    testWidgets('says so once when the device fell back to another voice', (
+      tester,
+    ) async {
+      speech.forceFallback = true;
+      final id = await seedWord();
+      await pumpDetail(tester, id);
+
+      expect(find.text('Got it'), findsOneWidget);
+    });
+
+    testWidgets('dismissing it records the fact, so it never returns', (
+      tester,
+    ) async {
+      speech.forceFallback = true;
+      final id = await seedWord();
+      await pumpDetail(tester, id);
+
+      await tester.tap(find.text('Got it'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Got it'), findsNothing);
+
+      final recorded = await container
+          .read(settingsRepositoryProvider)
+          .isVoiceNoticeShown();
+      expect(
+        recorded.valueOrNull,
+        isTrue,
+        reason: 'a notice shown again after dismissal is nagging',
       );
     });
   });

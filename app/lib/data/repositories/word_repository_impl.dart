@@ -213,6 +213,16 @@ class WordRepositoryImpl implements WordRepository {
       .guarded(onError: (_, _) => _dbFailure('watch highlights'));
 
   @override
+  AsyncResult<List<IpaHighlight>> getHighlights(String wordId) => Results.guard(
+    () async =>
+        (await _db.highlightsDao.getForWord(wordId))
+            .map((row) => row.toEntityOrNull())
+            .whereType<IpaHighlight>()
+            .toList(),
+    onError: (_, _) => _dbFailure('read highlights'),
+  );
+
+  @override
   AsyncResult<void> replaceHighlights({
     required String wordId,
     required HighlightTarget target,

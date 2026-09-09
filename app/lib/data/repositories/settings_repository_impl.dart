@@ -53,6 +53,19 @@ class SettingsRepositoryImpl implements SettingsRepository {
   );
 
   @override
+  AsyncResult<bool> isVoiceNoticeShown() => Results.guard(
+    () => _db.metaDao.getBool(AppMetaKeys.voiceFallbackNoticeShown),
+    onError: (_, _) => _dbFailure('read voice notice state'),
+  );
+
+  @override
+  AsyncResult<void> markVoiceNoticeShown() => Results.guard(
+    () =>
+        _db.metaDao.setBool(AppMetaKeys.voiceFallbackNoticeShown, value: true),
+    onError: (_, _) => _dbFailure('record voice notice'),
+  );
+
+  @override
   AsyncResult<String?> installId() => Results.guard(
     // Random, local-only, and never transmitted (DATA-SOURCES.md §7).
     () => _db.metaDao.get(AppMetaKeys.installId),
