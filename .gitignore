@@ -46,3 +46,6 @@ app/ios/Flutter/flutter_export_environment.sh
 *.sqlite-shm
 /tmp/
 /scratch/
+
+# Local task working state (hyperpowers). Deleted when the work lands.
+plans/

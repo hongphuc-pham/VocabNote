@@ -41,5 +41,27 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+
+        <!-- Required for flutter_tts to see the device speech engine (F-020).
+             From Android 11 (API 30) package visibility hides other apps unless
+             they are declared here, and the symptom is not an error: speech
+             simply never happens. The app supports API 26+, so most devices
+             running it are affected.
+             https://developer.android.com/training/package-visibility -->
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
+
+        <!-- Required for url_launcher to open the Cambridge Dictionary link
+             (F-025) and the mailto: feedback address (F-072) in an external
+             app. Same package-visibility rule as above. -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO"/>
+            <data android:scheme="mailto"/>
+        </intent>
     </queries>
 </manifest>

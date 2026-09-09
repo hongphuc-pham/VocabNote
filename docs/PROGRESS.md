@@ -18,7 +18,8 @@ Last updated: **9 September 2026**, after M2.
 | **M3 — Pronunciation & highlighting** | **next** | — |
 | M4–M8 | not started | — |
 
-Everything is on branch **`feat/m0-foundations`**, which is now a misnomer — see §5.
+M0–M2 sit on **`feat/m0-m2-foundations`** (renamed 9 Sep from `feat/m0-foundations`, which had
+become a misnomer). M3 is being built on **`feat/m3-pronunciation`**, cut from it.
 
 ```
 259 tests passing · flutter analyze clean · dart format clean
@@ -81,7 +82,7 @@ Nothing blocks M3, but four things deserve a decision when you have a moment.
 | 1 | **Riverpod 3, not 2** | Your stack said Riverpod 2. It is not installable alongside Drift — `riverpod_generator` 2.x needs `source_gen ^2`, `drift_dev` needs `>=3` — and 2.6.1 is 22 months unmaintained. Proceeded with 3.4.3. Recorded in `ARCHITECTURE.md` §3.1. Reversible only by dropping Drift, which breaks ADR-001. |
 | 2 | **`riverpod_lint` is absent** | Impossible to install: `custom_lint` caps at `analyzer ^8`, `drift_dev` needs `>=13`. The layer rule is enforced by `test/architecture/layer_boundaries_test.dart` instead, which fails the build the same way. Re-check each milestone. |
 | 3 | **Index on `study_cards(box, lapses)`** | The least-known sort takes ~80ms on 5,000 words — the slowest query in the app by 15×. An index would fix it, but that is a schema change: version bump, migration, tests. Logged as an M7 item. |
-| 4 | **Branch naming** | See §5. |
+| 4 | ~~**Branch naming**~~ | ✅ Settled 9 Sep: renamed to `feat/m0-m2-foundations`, M3 on its own branch. |
 
 Two smaller ones, mentioned once and not worth blocking on:
 
@@ -116,11 +117,6 @@ All of these are in the binding docs, not just here.
 
 ## 5. Known gaps and loose ends
 
-**Branch.** Everything sits on `feat/m0-foundations`, which now carries three milestones.
-`RULES.md` §36 wants one milestone-sized concern per branch. Options: leave it and open one
-PR for M0–M2, or split retroactively. My suggestion is to leave it, rename the branch to
-something honest like `feat/m0-m2-foundations`, and start M3 on its own branch.
-
 **Never verified, and cannot be from Windows:**
 
 - **iOS build.** The CI job exists but has never run.
@@ -144,9 +140,11 @@ something honest like `feat/m0-m2-foundations`, and start M3 on its own branch.
 Features **F-020–F-025**. Restated before coding, per the working agreement.
 
 1. **`SpeechService`** in `domain/repositories/`, implemented by `FlutterTtsService`:
-   `speak(text, {locale, rate, pitch})`, `stop()`, `availableLocales()`; startup detection
-   falling back `en-GB → en-US → device default`, surfaced once with a link to OS voice
-   settings; rate and pitch from the settings row.
+   `speak(text, {locale, rate, pitch})`, `stop()`, `availableLocales()`, `resolveVoice()`;
+   startup detection falling back `en-GB → en-US → device default`, surfaced once with a link
+   to OS voice settings; rate and pitch from the settings row. The slow-replay rate for F-021
+   is the existing `AppSettings.slowTtsRate` getter (`ttsRate * 0.6`) — there is no
+   `slowReplayFactor` constant. ✅ **Done.**
 2. **Word detail screen** exactly as `UI-UX.md` §4.3 — displayWord headword, part of speech,
    UK and US IPA rows each with a play button (long-press = 0.6× slow replay), highlight
    legend, definition with attribution and *View source*, example, notes list with Add, and

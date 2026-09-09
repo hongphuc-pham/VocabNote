@@ -20,6 +20,7 @@ import 'package:vocabnote/domain/repositories/dictionary_repository.dart';
 import 'package:vocabnote/domain/repositories/list_repository.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
 import 'package:vocabnote/domain/repositories/settings_repository.dart';
+import 'package:vocabnote/domain/repositories/speech_service.dart';
 import 'package:vocabnote/domain/repositories/word_repository.dart';
 
 part 'repositories.g.dart';
@@ -46,6 +47,17 @@ PracticeRepository practiceRepository(Ref ref) => throw UnimplementedError(
 @Riverpod(keepAlive: true)
 SettingsRepository settingsRepository(Ref ref) => throw UnimplementedError(
   'settingsRepositoryProvider must be overridden in bootstrap() or in a test.',
+);
+
+/// The device speech engine (ADR-003).
+///
+/// Declared here like a repository even though it is a device service rather
+/// than a store, because it is the same kind of seam: ADR-003 promises that a
+/// future `RemoteAudioService` can replace it without a screen changing, and
+/// that only holds while nothing above `data/` names a speech plugin.
+@Riverpod(keepAlive: true)
+SpeechService speechService(Ref ref) => throw UnimplementedError(
+  'speechServiceProvider must be overridden in bootstrap() or in a test.',
 );
 
 /// Dictionary look-up: cache, then API, then the bundled offline asset.

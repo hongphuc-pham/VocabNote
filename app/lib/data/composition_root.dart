@@ -11,6 +11,7 @@ import 'package:vocabnote/data/repositories/list_repository_impl.dart';
 import 'package:vocabnote/data/repositories/practice_repository_impl.dart';
 import 'package:vocabnote/data/repositories/settings_repository_impl.dart';
 import 'package:vocabnote/data/repositories/word_repository_impl.dart';
+import 'package:vocabnote/data/speech/flutter_tts_service.dart';
 
 /// Wires `data/` implementations into the `application/` DI seam.
 ///
@@ -39,6 +40,10 @@ List<Override> repositoryOverrides(AppDatabase database, {String? appVersion}) {
     settingsRepositoryProvider.overrideWithValue(
       SettingsRepositoryImpl(database),
     ),
+    // Constructed eagerly but inert: nothing reaches a platform channel until
+    // the first call, so widget tests that build these overrides do not need a
+    // speech engine to exist.
+    speechServiceProvider.overrideWithValue(FlutterTtsService()),
     dictionaryRepositoryProvider.overrideWithValue(
       DictionaryRepositoryImpl(
         client: client,

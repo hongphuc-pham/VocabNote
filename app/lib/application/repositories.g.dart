@@ -206,6 +206,67 @@ final class SettingsRepositoryProvider
 String _$settingsRepositoryHash() =>
     r'fb266767dae061d3152a2cb58c226260e3b9e90c';
 
+/// The device speech engine (ADR-003).
+///
+/// Declared here like a repository even though it is a device service rather
+/// than a store, because it is the same kind of seam: ADR-003 promises that a
+/// future `RemoteAudioService` can replace it without a screen changing, and
+/// that only holds while nothing above `data/` names a speech plugin.
+
+@ProviderFor(speechService)
+final speechServiceProvider = SpeechServiceProvider._();
+
+/// The device speech engine (ADR-003).
+///
+/// Declared here like a repository even though it is a device service rather
+/// than a store, because it is the same kind of seam: ADR-003 promises that a
+/// future `RemoteAudioService` can replace it without a screen changing, and
+/// that only holds while nothing above `data/` names a speech plugin.
+
+final class SpeechServiceProvider
+    extends $FunctionalProvider<SpeechService, SpeechService, SpeechService>
+    with $Provider<SpeechService> {
+  /// The device speech engine (ADR-003).
+  ///
+  /// Declared here like a repository even though it is a device service rather
+  /// than a store, because it is the same kind of seam: ADR-003 promises that a
+  /// future `RemoteAudioService` can replace it without a screen changing, and
+  /// that only holds while nothing above `data/` names a speech plugin.
+  SpeechServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'speechServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$speechServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<SpeechService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SpeechService create(Ref ref) {
+    return speechService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SpeechService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SpeechService>(value),
+    );
+  }
+}
+
+String _$speechServiceHash() => r'29b12740eff03a583766bc282efa2bfad9165b99';
+
 /// Dictionary look-up: cache, then API, then the bundled offline asset.
 
 @ProviderFor(dictionaryRepository)

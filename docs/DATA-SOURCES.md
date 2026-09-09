@@ -114,7 +114,16 @@ whenever their markup changes, and risks store removal. So:
 - Uses the OS speech engine (Google TTS / Samsung TTS on Android, AVSpeechSynthesizer on iOS).
   No content is bundled, so **no licence obligation**, no storage cost, and it works offline.
 - Voice selection is limited to what the user's device has installed. If no `en-GB` voice
-  exists, fall back to `en-US` and say so once, with a link to the OS voice settings.
+  exists, fall back to `en-US` and say so once, with a link to the OS voice settings. The
+  fallback order is `en-GB → en-US → device default`, resolved once and cached
+  (`SpeechService.resolveVoice`); having no English voice at all is not an error, because a
+  rough synthesised approximation is more use than silence.
+- 🔴 **`AndroidManifest.xml` must declare `android.intent.action.TTS_SERVICE` under
+  `<queries>`.** From Android 11 (API 30) package visibility hides the speech engine otherwise,
+  and the symptom is silence, not an error. The same applies to `url_launcher`: `VIEW`/`https`
+  for the Cambridge link (F-025) and `SENDTO`/`mailto` for feedback (F-072). `canLaunchUrl`
+  can still return false where `launchUrl` would work, so the Cambridge button launches and
+  handles failure rather than gating itself on a probe.
 
 **Known limitation, stated honestly in the app.** TTS is a synthesised reference, not a native
 speaker. It is a good model for stress, rhythm and vowel targets, and it is reliable for every
