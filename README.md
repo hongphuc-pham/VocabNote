@@ -85,6 +85,7 @@ VocabNote/
 │  ├─ UI-UX.md               <- design tokens, screens, flows, copy, a11y
 │  ├─ DATA-SOURCES.md        <- dictionary/audio sources and licence compliance
 │  └─ RULES.md               <- engineering + product rules, definition of done
+├─ Makefile / make.ps1       <- the same task list, for make and for PowerShell
 ├─ drift_schemas/            <- exported schema snapshots, one per version
 └─ app/                      <- the Flutter project
    ├─ lib/
@@ -115,8 +116,27 @@ flutter gen-l10n                     # regenerates lib/core/l10n/gen/
 flutter run
 ```
 
-Before pushing — CI runs exactly these, in this order, and any of them failing fails the
-build:
+Before pushing, run the whole gate in one command — the same six steps CI runs, in the same
+order, stopping at the first failure:
+
+```bash
+make ci                # or, with no `make` installed:  .\make.ps1 ci
+```
+
+`make` is not on Windows by default. Either `winget install ezwinports.make`, or use
+`make.ps1`, which is the same task list and needs nothing installed. `make help` /
+`.\make.ps1 help` lists everything; the ones you will reach for most:
+
+| Task | What it does |
+|---|---|
+| `ci` | Format check, licences, migration safety, migration tests, analyze, all tests |
+| `test` · `test-unit` · `test-widget` | The whole suite, or just one layer of it |
+| `test-migration` | The blocking upgrade-safety tests (RULES §29) |
+| `test-arch` | The layer-direction and grapheme rules (RULES §20, §21) |
+| `setup` · `gen` · `l10n` | Packages, code generation, localisations |
+| `emulator` · `run` · `run-emulator` | Boot the AVD, run on it, or both |
+
+Or the individual commands, if you prefer:
 
 ```bash
 dart format --output=none --set-exit-if-changed .
