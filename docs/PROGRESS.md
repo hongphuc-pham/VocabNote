@@ -117,6 +117,12 @@ All of these are in the binding docs, not just here.
 
 ## 5. Known gaps and loose ends
 
+**Verified on a device, 10 September.** The app was built, installed and driven on the
+Pixel_9_Pro emulator (Android 17): add a word, type IPA with the symbol row, save, open the
+detail screen, select a symbol, colour it, label it, save, and see the tint-plus-underline and
+the legend. Two bugs were found doing it, both fixed - see §6. Screens render correctly in
+Charis SIL.
+
 **Never verified, and cannot be from Windows:**
 
 - **iOS build.** The CI job exists but has never run.
@@ -169,6 +175,21 @@ controllers, one device-speech adapter behind a domain interface.
   tap-and-drag, but §1 forbids hiding an action behind a gesture and a screen-reader user
   cannot pan, so the drag is the fast path over the same state rather than the only route.
   Slow replay is likewise a `CustomSemanticsAction` as well as a long-press.
+
+**Two bugs found by actually running it**, neither catchable by the existing tests:
+
+1. **The IPA symbol row (F-002) never appeared.** Its `FocusNode`s had no listeners, so
+   `hasFocus` changing never rebuilt anything and the row that `bottomNavigationBar` selects
+   was never shown. Manual IPA entry - a 🔴 hard rule (RULES §3) - was therefore impossible
+   on a real phone, because no phone keyboard has ɒ. Shipped in M2, unnoticed for two
+   milestones.
+2. **Tapping a symbol stole focus from the field.** The code carried a comment saying "keep
+   the field focused" that nothing implemented; the `InkWell` took focus, which (once bug 1
+   was fixed) dismissed the row mid-word and sent the next keystroke nowhere. Fixed with
+   `canRequestFocus: false` and covered by `test/widget/ipa_keyboard_row_test.dart`.
+
+Both are pure widget wiring on the one screen that has no widget test, which is exactly why
+348 passing tests said nothing about them.
 
 **The one thing M3 could not do:** widget-test the word editor screen. `pumpAndSettle` on it
 times out — something animates indefinitely on open — which is why F-023's confirm dialog has

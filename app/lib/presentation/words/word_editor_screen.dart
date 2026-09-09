@@ -52,7 +52,25 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
   bool _saving = false;
 
   @override
+  void initState() {
+    super.initState();
+    // The IPA symbol row (F-002) lives in `bottomNavigationBar` and is chosen
+    // by which transcription field has focus. A FocusNode does not rebuild
+    // anything on its own, so without these listeners `hasFocus` changes and
+    // nothing repaints - the row simply never appears, and the only way to
+    // type ɒ is a keyboard the user does not have.
+    _ipaUkFocus.addListener(_onIpaFocusChanged);
+    _ipaUsFocus.addListener(_onIpaFocusChanged);
+  }
+
+  void _onIpaFocusChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   void dispose() {
+    _ipaUkFocus.removeListener(_onIpaFocusChanged);
+    _ipaUsFocus.removeListener(_onIpaFocusChanged);
     for (final c in <TextEditingController>[
       _headword,
       _ipaUk,
