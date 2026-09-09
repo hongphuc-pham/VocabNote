@@ -122,11 +122,12 @@ All of these are in the binding docs, not just here.
 - **iOS build.** The CI job exists but has never run.
 - **CI green.** No GitHub remote yet, so the workflow has never executed. Every step was run
   locally.
-- **On-device rendering.** No emulator image or device available, so Charis SIL's IPA glyphs
-  have never been seen rendered. Widget tests use Ahem. M7's goldens will cover it. This now
-  covers the whole of M3: the chips, the five swatches and the highlight colours have never
-  been seen, and the two `<queries>` manifest fixes have never been exercised against a real
-  Android.
+- **On-device rendering.** ~~No emulator image or device available~~ — **this was wrong.** A
+  `Pixel_9_Pro` AVD exists and boots to Android 17 (API 37); `make emulator` starts it. The
+  claim went unchecked from M0 to M3, which is why nothing had been seen rendered for three
+  milestones. Charis SIL's glyphs, the IPA chips, the five swatches and the `<queries>`
+  manifest fixes can all be verified here now. Widget tests still use Ahem, so M7's goldens
+  are still needed for the metrics.
 
 **Deliberately deferred, by milestone:**
 
