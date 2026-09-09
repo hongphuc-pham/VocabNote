@@ -127,8 +127,10 @@ All of these are in the binding docs, not just here.
 
 **Deliberately deferred, by milestone:**
 
-- Word detail screen is still a placeholder (M3 owns it).
-- No widget test for the editor screen; its logic has 23 unit tests instead.
+- ~~Word detail screen is still a placeholder~~ — built in M3.
+- No widget test for the editor screen; its logic has 23 unit tests instead. Note that the
+  screen was also **never wired into the router** until M3 found it: *Add word* opened a
+  placeholder for a whole milestone, and no test noticed.
 - Look-up has not been driven end-to-end through the UI in a test.
 - `recovery_screen.dart`'s *Export my data* button is wired but disabled until F-073 (M6).
 - `WordSort.leastKnown` has a query and a perf test but no correctness test.
@@ -149,6 +151,7 @@ Features **F-020–F-025**. Restated before coding, per the working agreement.
    UK and US IPA rows each with a play button (long-press = 0.6× slow replay), highlight
    legend, definition with attribution and *View source*, example, notes list with Add, and
    *Open in Cambridge Dictionary ↗* via `url_launcher` in external application mode.
+   ✅ **Done** except the legend (F-024) and the Cambridge link (F-025).
 3. **`IpaText`** — already exists from M2 in `presentation/common/`, doing the tinted
    background plus 2px underline. M3 adds the large detail-screen variant and the legend.
 4. **IPA highlight editor** (`UI-UX.md` §4.4) — grapheme chips with ≥48dp targets, tap to

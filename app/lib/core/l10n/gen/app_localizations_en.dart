@@ -370,4 +370,85 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get overwriteKeep => 'Keep mine';
+
+  @override
+  String get detailAccentUk => 'UK';
+
+  @override
+  String get detailAccentUs => 'US';
+
+  @override
+  String detailPlayLabel(String word, String accent) {
+    return 'Play $word in $accent';
+  }
+
+  @override
+  String detailPlaySlowLabel(String word, String accent) {
+    return 'Play $word slowly in $accent';
+  }
+
+  @override
+  String get detailStopLabel => 'Stop';
+
+  @override
+  String detailPlayingLabel(String word) {
+    return 'Speaking $word';
+  }
+
+  @override
+  String get detailSlowHint => 'Hold to hear it slowly';
+
+  @override
+  String get detailSpeechFailed => 'This device has no speech voice available.';
+
+  @override
+  String get detailSpeechSettingsAction => 'Voice settings';
+
+  @override
+  String get detailNoIpaTitle => 'No pronunciation yet';
+
+  @override
+  String get detailNoIpaBody =>
+      'Add a transcription to hear this word and to colour the sounds you find hard.';
+
+  @override
+  String get detailAddIpaAction => 'Add pronunciation';
+
+  @override
+  String get detailEditHighlightsAction => 'Edit IPA highlights';
+
+  @override
+  String get detailNotesHeading => 'My notes';
+
+  @override
+  String get detailAddNoteAction => 'Add';
+
+  @override
+  String get detailNoNotesBody => 'No notes yet.';
+
+  @override
+  String get detailNoteDeleteAction => 'Delete note';
+
+  @override
+  String get detailNoteDeletedSnack => 'Note deleted';
+
+  @override
+  String get detailNoteHeading => 'Add a note';
+
+  @override
+  String get detailNotFoundTitle => 'This word is gone';
+
+  @override
+  String get detailNotFoundBody =>
+      'It was deleted. You can undo a deletion from the words list for a few seconds.';
+
+  @override
+  String get detailLoadFailedTitle => 'Could not open this word';
+
+  @override
+  String get detailLoadFailedBody =>
+      'Something went wrong reading it from your device.';
+
+  @override
+  String get detailEditAction => 'Edit';
 }

@@ -728,6 +728,150 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Keep mine'**
   String get overwriteKeep;
+
+  /// Short label on the British transcription row of the word detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'UK'**
+  String get detailAccentUk;
+
+  /// Short label on the American transcription row of the word detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'US'**
+  String get detailAccentUs;
+
+  /// Accessibility label for the play button on a transcription row.
+  ///
+  /// In en, this message translates to:
+  /// **'Play {word} in {accent}'**
+  String detailPlayLabel(String word, String accent);
+
+  /// Accessibility label for the slow replay, reached by long-pressing play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play {word} slowly in {accent}'**
+  String detailPlaySlowLabel(String word, String accent);
+
+  /// Accessibility label for the play button while it is speaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get detailStopLabel;
+
+  /// Announced while a word is being spoken.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaking {word}'**
+  String detailPlayingLabel(String word);
+
+  /// Hint under the play buttons explaining the long-press slow replay.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold to hear it slowly'**
+  String get detailSlowHint;
+
+  /// Shown when the device speech engine could not speak the word.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no speech voice available.'**
+  String get detailSpeechFailed;
+
+  /// Button that opens the operating system voice settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice settings'**
+  String get detailSpeechSettingsAction;
+
+  /// Heading shown on word detail when neither transcription is filled in.
+  ///
+  /// In en, this message translates to:
+  /// **'No pronunciation yet'**
+  String get detailNoIpaTitle;
+
+  /// Body shown on word detail when neither transcription is filled in.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transcription to hear this word and to colour the sounds you find hard.'**
+  String get detailNoIpaBody;
+
+  /// Button that opens the word editor to add a transcription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add pronunciation'**
+  String get detailAddIpaAction;
+
+  /// Button that opens the IPA highlight editor from word detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit IPA highlights'**
+  String get detailEditHighlightsAction;
+
+  /// Heading of the notes section on word detail.
+  ///
+  /// In en, this message translates to:
+  /// **'My notes'**
+  String get detailNotesHeading;
+
+  /// Button that adds a note to the word.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get detailAddNoteAction;
+
+  /// Shown in the notes section when the word has none.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes yet.'**
+  String get detailNoNotesBody;
+
+  /// Accessibility label for removing one note.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete note'**
+  String get detailNoteDeleteAction;
+
+  /// Confirmation shown after a note is removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Note deleted'**
+  String get detailNoteDeletedSnack;
+
+  /// Title of the sheet that adds a note.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note'**
+  String get detailNoteHeading;
+
+  /// Heading shown when the word being viewed no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'This word is gone'**
+  String get detailNotFoundTitle;
+
+  /// Body shown when the word being viewed no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'It was deleted. You can undo a deletion from the words list for a few seconds.'**
+  String get detailNotFoundBody;
+
+  /// Heading shown when the word detail screen fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open this word'**
+  String get detailLoadFailedTitle;
+
+  /// Body shown when the word detail screen fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong reading it from your device.'**
+  String get detailLoadFailedBody;
+
+  /// Button that opens the word editor from word detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get detailEditAction;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

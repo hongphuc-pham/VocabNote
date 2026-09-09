@@ -508,5 +508,122 @@
   "overwriteKeep": "Keep mine",
   "@overwriteKeep": {
     "description": "Cancel button in the overwrite dialog."
+  },
+  "detailAccentUk": "UK",
+  "@detailAccentUk": {
+    "description": "Short label on the British transcription row of the word detail screen."
+  },
+  "detailAccentUs": "US",
+  "@detailAccentUs": {
+    "description": "Short label on the American transcription row of the word detail screen."
+  },
+  "detailPlayLabel": "Play {word} in {accent}",
+  "@detailPlayLabel": {
+    "description": "Accessibility label for the play button on a transcription row.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      },
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "detailPlaySlowLabel": "Play {word} slowly in {accent}",
+  "@detailPlaySlowLabel": {
+    "description": "Accessibility label for the slow replay, reached by long-pressing play.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      },
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "detailStopLabel": "Stop",
+  "@detailStopLabel": {
+    "description": "Accessibility label for the play button while it is speaking."
+  },
+  "detailPlayingLabel": "Speaking {word}",
+  "@detailPlayingLabel": {
+    "description": "Announced while a word is being spoken.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "detailSlowHint": "Hold to hear it slowly",
+  "@detailSlowHint": {
+    "description": "Hint under the play buttons explaining the long-press slow replay."
+  },
+  "detailSpeechFailed": "This device has no speech voice available.",
+  "@detailSpeechFailed": {
+    "description": "Shown when the device speech engine could not speak the word."
+  },
+  "detailSpeechSettingsAction": "Voice settings",
+  "@detailSpeechSettingsAction": {
+    "description": "Button that opens the operating system voice settings."
+  },
+  "detailNoIpaTitle": "No pronunciation yet",
+  "@detailNoIpaTitle": {
+    "description": "Heading shown on word detail when neither transcription is filled in."
+  },
+  "detailNoIpaBody": "Add a transcription to hear this word and to colour the sounds you find hard.",
+  "@detailNoIpaBody": {
+    "description": "Body shown on word detail when neither transcription is filled in."
+  },
+  "detailAddIpaAction": "Add pronunciation",
+  "@detailAddIpaAction": {
+    "description": "Button that opens the word editor to add a transcription."
+  },
+  "detailEditHighlightsAction": "Edit IPA highlights",
+  "@detailEditHighlightsAction": {
+    "description": "Button that opens the IPA highlight editor from word detail."
+  },
+  "detailNotesHeading": "My notes",
+  "@detailNotesHeading": {
+    "description": "Heading of the notes section on word detail."
+  },
+  "detailAddNoteAction": "Add",
+  "@detailAddNoteAction": {
+    "description": "Button that adds a note to the word."
+  },
+  "detailNoNotesBody": "No notes yet.",
+  "@detailNoNotesBody": {
+    "description": "Shown in the notes section when the word has none."
+  },
+  "detailNoteDeleteAction": "Delete note",
+  "@detailNoteDeleteAction": {
+    "description": "Accessibility label for removing one note."
+  },
+  "detailNoteDeletedSnack": "Note deleted",
+  "@detailNoteDeletedSnack": {
+    "description": "Confirmation shown after a note is removed."
+  },
+  "detailNoteHeading": "Add a note",
+  "@detailNoteHeading": {
+    "description": "Title of the sheet that adds a note."
+  },
+  "detailNotFoundTitle": "This word is gone",
+  "@detailNotFoundTitle": {
+    "description": "Heading shown when the word being viewed no longer exists."
+  },
+  "detailNotFoundBody": "It was deleted. You can undo a deletion from the words list for a few seconds.",
+  "@detailNotFoundBody": {
+    "description": "Body shown when the word being viewed no longer exists."
+  },
+  "detailLoadFailedTitle": "Could not open this word",
+  "@detailLoadFailedTitle": {
+    "description": "Heading shown when the word detail screen fails to load."
+  },
+  "detailLoadFailedBody": "Something went wrong reading it from your device.",
+  "@detailLoadFailedBody": {
+    "description": "Body shown when the word detail screen fails to load."
+  },
+  "detailEditAction": "Edit",
+  "@detailEditAction": {
+    "description": "Button that opens the word editor from word detail."
   }
 }
