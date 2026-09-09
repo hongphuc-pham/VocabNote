@@ -6,9 +6,9 @@ You type a word, get (or write) its IPA, highlight the exact sounds you keep get
 leave yourself notes, listen to it, and practise it as flashcards. No account. No server.
 No subscription. Your words live on your phone and stay yours.
 
-> **Status:** M0 (Foundations) complete. The app builds and runs with a themed three-tab
-> shell, every route wired to a placeholder, and CI green. The data layer lands at M1 —
-> see [`docs/PLAN.md`](docs/PLAN.md).
+> **Status:** M0–M2 complete. You can add words by hand or from the dictionary, search them
+> instantly, and delete with Undo. Pronunciation and IPA highlighting land at M3.
+> Current state and how to resume: [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ---
 
@@ -66,6 +66,7 @@ Full, numbered list with acceptance criteria: [`docs/FEATURES.md`](docs/FEATURES
 VocabNote/
 ├─ README.md                 <- you are here
 ├─ docs/
+│  ├─ PROGRESS.md            <- where the work is, what's waiting on you, how to resume
 │  ├─ PLAN.md                <- milestones, scope per release, phase-2 backlog
 │  ├─ FEATURES.md            <- numbered features + acceptance criteria
 │  ├─ ARCHITECTURE.md        <- layers, folder tree, packages, infra, CI
