@@ -81,11 +81,10 @@ app/
 │  │  ├─ words/                       # controllers, search, lookup-merge logic
 │  │  ├─ highlights/
 │  │  ├─ practice/
-│  │  │  ├─ game_registry.dart
-│  │  │  ├─ game_contracts.dart       # see docs/GAMES.md
-│  │  │  ├─ card_pool_providers.dart
-│  │  │  ├─ scheduler/                # review_scheduler.dart, leitner_scheduler.dart
-│  │  │  └─ games/flashcard/
+│  │  │  ├─ game_contracts.dart       # contracts + GameRegistry, see docs/GAMES.md
+│  │  │  ├─ practice_session_controller.dart  # the runner
+│  │  │  ├─ practice_hub_controller.dart
+│  │  │  └─ scheduler/                # leitner_scheduler.dart, review_schedule.dart
 │  │  ├─ settings/
 │  │  └─ backup/
 │  │
@@ -94,7 +93,8 @@ app/
 │     ├─ onboarding/
 │     ├─ words/                       # list, detail, editor, ipa_highlight_editor
 │     ├─ lists/
-│     ├─ practice/                    # hub, config sheet, flashcard screen, summary
+│     ├─ practice/                    # hub, config sheet, run screen, summary, registry
+│     │  └─ games/flashcard/          # a game: presentation implementing the contracts
 │     ├─ settings/                    # settings, help, guide, licences, backup
 │     └─ common/                      # buttons, empty states, IpaText, WordTile …
 │

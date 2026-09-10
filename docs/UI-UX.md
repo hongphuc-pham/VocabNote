@@ -211,6 +211,8 @@ Score ring, time, words to review again, **Add missed words to a list**, **Pract
 Appearance      Theme · Text size hint
 Pronunciation   Voice (UK/US) · Speed · Pitch · Autoplay on open · Test voice ▶
 Practice        Daily goal · Prompt side · Daily reminder (off by default)
+                Review pace (gentle · standard · intensive) · Interval per box
+                Repeat missed cards in the same session (default once)
 Your data       Export backup · Import backup · Storage used · Delete all data
 Help            How to use  ▸        ← always present (F-071)
                 Help & feedback ▸    ← always present (F-072)

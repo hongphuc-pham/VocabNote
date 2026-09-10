@@ -66,7 +66,7 @@ before the milestone is closed.
 
 | ID | Pri | Feature | Acceptance criteria |
 |---|---|---|---|
-| F-070 | M | Settings screen | Appearance (system/light/dark), pronunciation (voice, speed, pitch, autoplay), practice (daily goal, prompt side, reminder), data (backup, restore, storage used), about. |
+| F-070 | M | Settings screen | Appearance (system/light/dark), pronunciation (voice, speed, pitch, autoplay), practice (daily goal, prompt side, reminder, review pace and interval per box, repeats of missed cards), data (backup, restore, storage used), about. *Extended at M5: the repetition schedule became the user's choice — see `GAMES.md` §5.* |
 | F-071 | M | **How to use — guide** | Always present in Settings. 6 short illustrated cards: add a word · fill from the dictionary · type your own IPA · highlight the sound you struggle with · leave a note · practise daily. Re-openable any time; also shown once at onboarding. |
 | F-072 | M | **Help & feedback** | Always present in Settings: searchable FAQ, "Send feedback" (opens mail with app version, OS version and device model pre-filled — nothing else, and it is shown to the user before sending), and a GitHub Issues link. No data is transmitted without an explicit tap. |
 | F-073 | M | Export backup | Produces `.vnb` ZIP, shared via the OS share sheet. |
