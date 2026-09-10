@@ -261,4 +261,89 @@ void main() {
       expect(find.text('through'), findsOneWidget, reason: 'still unfiltered');
     });
   });
+
+  group('reorder (A3)', () {
+    setUp(() async {
+      await seedList(db, id: 'l1', name: 'First');
+      await seedList(db, id: 'l2', name: 'Second', sortOrder: 1);
+      await seedList(db, id: 'l3', name: 'Third', sortOrder: 2);
+    });
+
+    Future<void> openActions(WidgetTester tester, String name) async {
+      await tester.tap(find.byTooltip('Actions for $name'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('moving a list down changes the stored order', (tester) async {
+      await pumpLists(tester);
+      await openActions(tester, 'First');
+      await tester.tap(find.text('Move down'));
+      await settleAsync(tester);
+
+      final rows = await db.select(db.wordLists).get()
+        ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+      expect(rows.map((r) => r.name), <String>['Second', 'First', 'Third']);
+    });
+
+    testWidgets('moving up is the inverse of moving down', (tester) async {
+      await pumpLists(tester);
+      await openActions(tester, 'Third');
+      await tester.tap(find.text('Move up'));
+      await settleAsync(tester);
+      await openActions(tester, 'Third');
+      await tester.tap(find.text('Move down'));
+      await settleAsync(tester);
+
+      final rows = await db.select(db.wordLists).get()
+        ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+      expect(rows.map((r) => r.name), <String>['First', 'Second', 'Third']);
+    });
+
+    testWidgets('the first list is not offered Move up', (tester) async {
+      // Offering a move that cannot happen is worse than not offering it: the
+      // user taps, nothing changes, and they cannot tell whether it failed.
+      await pumpLists(tester);
+      await openActions(tester, 'First');
+
+      expect(find.text('Move up'), findsNothing);
+      expect(find.text('Move down'), findsOneWidget);
+    });
+
+    testWidgets('the last list is not offered Move down', (tester) async {
+      await pumpLists(tester);
+      await openActions(tester, 'Third');
+
+      expect(find.text('Move down'), findsNothing);
+      expect(find.text('Move up'), findsOneWidget);
+    });
+
+    testWidgets('the grid renders in the stored order, not insertion order', (
+      tester,
+    ) async {
+      // Persistence itself is asserted above, by reading sort_order back out
+      // of the database. What this adds is that the grid *reads* that order -
+      // a stored order the UI ignores would look identical to no reorder at
+      // all.
+      //
+      // Deliberately not a second `pumpLists`: rebuilding the app in one test
+      // leaves the first container's Drift stream timers pending, and the test
+      // fails on "a Timer is still pending" rather than on anything real.
+      await pumpLists(tester);
+      await openActions(tester, 'First');
+      await tester.tap(find.text('Move down'));
+      await settleAsync(tester);
+
+      final names = tester
+          .widgetList<Text>(
+            find.descendant(
+              of: find.byType(GridView),
+              matching: find.byType(Text),
+            ),
+          )
+          .map((t) => t.data)
+          .where((d) => d == 'First' || d == 'Second' || d == 'Third')
+          .toList();
+      expect(names, <String>['Second', 'First', 'Third']);
+    });
+  });
 }

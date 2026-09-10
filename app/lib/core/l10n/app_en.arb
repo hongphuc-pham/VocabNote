@@ -292,6 +292,14 @@
   "@listNameRequired": {
     "description": "Validation message when a list name is blank."
   },
+  "moveListUpAction": "Move up",
+  "@moveListUpAction": {
+    "description": "Menu item that moves a list one place earlier in the grid."
+  },
+  "moveListDownAction": "Move down",
+  "@moveListDownAction": {
+    "description": "Menu item that moves a list one place later in the grid."
+  },
   "renameListAction": "Rename or recolour",
   "@renameListAction": {
     "description": "Menu item that edits a list."

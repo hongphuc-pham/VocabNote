@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 // Riverpod 3 ships its own AsyncResult; ours is the Result-based one.
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide AsyncResult;
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -88,6 +90,16 @@ class _FakeSpeech implements SpeechService {
 /// is, and navigated through the real router so the route wiring is covered
 /// too. Only the speech engine is faked: a widget test has no audio device.
 void main() {
+  setUpAll(() {
+    // The note sheet autofocuses; a blinking caret never lets pumpAndSettle
+    // finish. See word_editor_screen_test.dart for the full story.
+    EditableText.debugDeterministicCursor = true;
+  });
+
+  tearDownAll(() {
+    EditableText.debugDeterministicCursor = false;
+  });
+
   late AppDatabase db;
   late _FakeSpeech speech;
   late ProviderContainer container;
@@ -361,6 +373,55 @@ void main() {
         isTrue,
         reason: 'a notice shown again after dismissal is nagging',
       );
+    });
+  });
+
+  group('notes (F-003, A7)', () {
+    Future<void> settleAsync(WidgetTester tester) async {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('an existing note can be edited, not only added or deleted', (
+      tester,
+    ) async {
+      final id = await seedWord();
+      await container
+          .read(wordRepositoryProvider)
+          .addNote(wordId: id, body: 'mouth more open');
+      await pumpDetail(tester, id);
+
+      await tester.tap(find.byTooltip('Edit note'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).last, 'jaw lower');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save'));
+      await settleAsync(tester);
+
+      final rows = await db.select(db.wordNotes).get();
+      expect(rows.single.body, 'jaw lower');
+    });
+
+    testWidgets('clearing the field cancels rather than destroying the note', (
+      tester,
+    ) async {
+      // Deleting has its own button and its own undo. An emptied edit field is
+      // far more likely to be a change of mind than a request to destroy.
+      final id = await seedWord();
+      await container
+          .read(wordRepositoryProvider)
+          .addNote(wordId: id, body: 'mouth more open');
+      await pumpDetail(tester, id);
+
+      await tester.tap(find.byTooltip('Edit note'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).last, '   ');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save'));
+      await settleAsync(tester);
+
+      final rows = await db.select(db.wordNotes).get();
+      expect(rows.single.body, 'mouth more open');
     });
   });
 }

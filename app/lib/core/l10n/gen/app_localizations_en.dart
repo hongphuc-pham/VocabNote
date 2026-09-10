@@ -237,6 +237,12 @@ class AppL10nEn extends AppL10n {
   String get listNameRequired => 'Give the list a name.';
 
   @override
+  String get moveListUpAction => 'Move up';
+
+  @override
+  String get moveListDownAction => 'Move down';
+
+  @override
   String get renameListAction => 'Rename or recolour';
 
   @override

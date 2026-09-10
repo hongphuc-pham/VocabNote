@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -35,6 +37,28 @@ class WordNotesSection extends ConsumerWidget {
     await ref
         .read(wordNotesProvider.notifier)
         .add(wordId: wordId, body: trimmed);
+  }
+
+  Future<void> _editNote(
+    BuildContext context,
+    WidgetRef ref,
+    WordNote note,
+  ) async {
+    // The notifier is read before the await: a WidgetRef is only good for the
+    // build that produced it, and this runs after the sheet closes.
+    final notes = ref.read(wordNotesProvider.notifier);
+    final body = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => _AddNoteSheet(existing: note.body),
+    );
+
+    final trimmed = body?.trim() ?? '';
+    // An emptied note is a cancel, not a delete. Deleting has its own button
+    // and its own undo; clearing the field must not destroy anything.
+    if (trimmed.isEmpty || trimmed == note.body) return;
+
+    await notes.update(note.copyWith(body: trimmed));
   }
 
   Future<void> _deleteNote(
@@ -89,6 +113,7 @@ class WordNotesSection extends ConsumerWidget {
           for (final note in notes)
             _NoteRow(
               note: note,
+              onEdit: () => unawaited(_editNote(context, ref, note)),
               onDelete: () => _deleteNote(context, ref, note),
             ),
       ],
@@ -98,9 +123,10 @@ class WordNotesSection extends ConsumerWidget {
 
 /// One note: its date and body, with a delete button.
 class _NoteRow extends StatelessWidget {
-  const new({required this.note, required this.onDelete});
+  const new({required this.note, required this.onEdit, required this.onDelete});
 
   final WordNote note;
+  final VoidCallback onEdit;
   final VoidCallback onDelete;
 
   @override
@@ -127,20 +153,29 @@ class _NoteRow extends StatelessWidget {
           ),
           const VnGap(VnSpace.sm, axis: Axis.horizontal),
           Expanded(
-            child: Text.rich(
-              TextSpan(
-                children: <InlineSpan>[
-                  TextSpan(
-                    text: '$date — ',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.outline,
+            child: InkWell(
+              onTap: onEdit,
+              child: Text.rich(
+                TextSpan(
+                  children: <InlineSpan>[
+                    TextSpan(
+                      text: '$date — ',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.outline,
+                      ),
                     ),
-                  ),
-                  TextSpan(text: note.body),
-                ],
+                    TextSpan(text: note.body),
+                  ],
+                ),
+                style: theme.textTheme.bodyMedium,
               ),
-              style: theme.textTheme.bodyMedium,
             ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.edit_outlined),
+            iconSize: context.metrics.spaceLg,
+            tooltip: l10n.editNoteAction,
+            onPressed: onEdit,
           ),
           IconButton(
             icon: const Icon(Icons.close),
@@ -156,14 +191,19 @@ class _NoteRow extends StatelessWidget {
 
 /// The sheet that writes a new note.
 class _AddNoteSheet extends StatefulWidget {
-  const new();
+  const new({this.existing});
+
+  /// The note being edited, or null when writing a new one.
+  final String? existing;
 
   @override
   State<_AddNoteSheet> createState() => _AddNoteSheetState();
 }
 
 class _AddNoteSheetState extends State<_AddNoteSheet> {
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.existing ?? '',
+  );
 
   @override
   void dispose() {
@@ -190,7 +230,12 @@ class _AddNoteSheetState extends State<_AddNoteSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text(l10n.detailNoteHeading, style: theme.textTheme.titleMedium),
+          Text(
+            widget.existing == null
+                ? l10n.detailNoteHeading
+                : l10n.editNoteAction,
+            style: theme.textTheme.titleMedium,
+          ),
           const VnGap(VnSpace.md),
           TextField(
             controller: _controller,

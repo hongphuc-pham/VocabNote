@@ -84,6 +84,21 @@ class _Grid extends ConsumerWidget {
 
   final List<WordListSummary> lists;
 
+  /// Moves [list] one place, by rewriting the whole order.
+  ///
+  /// The repository takes the complete order rather than a moved pair: a
+  /// partial write would leave two lists claiming the same position.
+  List<String> _moved(WordList list, {required int by}) {
+    final ids = lists.map((s) => s.list.id).toList();
+    final from = ids.indexOf(list.id);
+    final to = (from + by).clamp(0, ids.length - 1);
+    if (from == to) return ids;
+    ids
+      ..removeAt(from)
+      ..insert(to, list.id);
+    return ids;
+  }
+
   Future<void> _actions(
     BuildContext context,
     WidgetRef ref,
@@ -91,6 +106,9 @@ class _Grid extends ConsumerWidget {
   ) async {
     // Read before the first await - see the note on `_create`.
     final actions = ref.read(listActionsProvider.notifier);
+    final index = lists.indexWhere((s) => s.list.id == list.id);
+    final isFirst = index <= 0;
+    final isLast = index == lists.length - 1;
     final chosen = await showModalBottomSheet<_ListAction>(
       context: context,
       builder: (context) {
@@ -104,6 +122,21 @@ class _Grid extends ConsumerWidget {
                 title: Text(l10n.renameListAction),
                 onTap: () => Navigator.of(context).pop(_ListAction.edit),
               ),
+              // Reordering is a drag, and `docs/UI-UX.md` §1 forbids an action
+              // that only a gesture can reach - a screen-reader user cannot
+              // pan. These two are the same operation, one step at a time.
+              if (!isFirst)
+                ListTile(
+                  leading: const Icon(Icons.arrow_upward),
+                  title: Text(l10n.moveListUpAction),
+                  onTap: () => Navigator.of(context).pop(_ListAction.moveUp),
+                ),
+              if (!isLast)
+                ListTile(
+                  leading: const Icon(Icons.arrow_downward),
+                  title: Text(l10n.moveListDownAction),
+                  onTap: () => Navigator.of(context).pop(_ListAction.moveDown),
+                ),
               ListTile(
                 leading: const Icon(Icons.delete_outline),
                 title: Text(l10n.deleteListAction),
@@ -123,6 +156,10 @@ class _Grid extends ConsumerWidget {
         await actions.rename(list.copyWith(color: draft.color), draft.name);
       case _ListAction.delete:
         await _confirmDelete(context, actions, list);
+      case _ListAction.moveUp:
+        await actions.reorder(_moved(list, by: -1));
+      case _ListAction.moveDown:
+        await actions.reorder(_moved(list, by: 1));
     }
   }
 
@@ -160,6 +197,11 @@ class _Grid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final metrics = context.metrics;
 
+    // ReorderableGridView is not in Flutter, and RULES §18 prefers the
+    // platform or a short helper over a package for one small job. The drag is
+    // therefore the *fast* path over the same `reorder` call the Move up /
+    // Move down items make - exactly the shape M3 settled on for the IPA
+    // editor's selection (`context.md` §4).
     return GridView.builder(
       padding: EdgeInsets.fromLTRB(
         metrics.spaceLg,
@@ -190,4 +232,4 @@ class _Grid extends ConsumerWidget {
   }
 }
 
-enum _ListAction { edit, delete }
+enum _ListAction { edit, delete, moveUp, moveDown }

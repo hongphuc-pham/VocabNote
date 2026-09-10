@@ -513,6 +513,18 @@ abstract class AppL10n {
   /// **'Give the list a name.'**
   String get listNameRequired;
 
+  /// Menu item that moves a list one place earlier in the grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get moveListUpAction;
+
+  /// Menu item that moves a list one place later in the grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get moveListDownAction;
+
   /// Menu item that edits a list.
   ///
   /// In en, this message translates to:
