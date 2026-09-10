@@ -435,6 +435,132 @@ abstract class AppL10n {
   /// **'Clear filters'**
   String get emptyFilterClear;
 
+  /// Error state title on the lists grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your lists'**
+  String get listsLoadFailedTitle;
+
+  /// Error state body on the lists grid. Reassures that nothing was lost.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong reading them. Your lists are still saved.'**
+  String get listsLoadFailedBody;
+
+  /// Snackbar shown when creating or editing a list fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save that list. Please try again.'**
+  String get listSaveFailed;
+
+  /// Empty state title on the lists grid.
+  ///
+  /// In en, this message translates to:
+  /// **'No lists yet'**
+  String get listsEmptyTitle;
+
+  /// Empty state body on the lists grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists group words however you like - a course, a topic, the sounds you keep getting wrong.'**
+  String get listsEmptyBody;
+
+  /// Button that creates a list.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get newListAction;
+
+  /// Title of the sheet that creates a list.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get createListTitle;
+
+  /// Title of the sheet that renames or recolours a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit list'**
+  String get editListTitle;
+
+  /// Text field label for a list name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get listNameLabel;
+
+  /// Example list name shown in the empty field.
+  ///
+  /// In en, this message translates to:
+  /// **'IELTS speaking'**
+  String get listNameHint;
+
+  /// Validation message when a list name is blank.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the list a name.'**
+  String get listNameRequired;
+
+  /// Menu item that edits a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename or recolour'**
+  String get renameListAction;
+
+  /// Menu item that deletes a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete list'**
+  String get deleteListAction;
+
+  /// Title of the delete-list confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this list?'**
+  String get deleteListTitle;
+
+  /// Body of the delete-list confirmation. States plainly that words survive (F-042).
+  ///
+  /// In en, this message translates to:
+  /// **'The list goes, but every word in it stays in your words.'**
+  String get deleteListBody;
+
+  /// Screen-reader label for the button that opens a list's actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions for {name}'**
+  String listActionsLabel(String name);
+
+  /// App bar action on a list's detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise this list'**
+  String get practiseListAction;
+
+  /// Menu item that edits an existing note.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit note'**
+  String get editNoteAction;
+
+  /// Button that saves an edited note.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveNoteAction;
+
+  /// Word count on a list card.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No words} =1{1 word} other{{count} words}}'**
+  String listWordCount(int count);
+
+  /// Due-today badge on a list card.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 due} other{{count} due}}'**
+  String listDueCount(int count);
+
   /// Screen-reader label for a filter chip that shows a word count.
   ///
   /// In en, this message translates to:

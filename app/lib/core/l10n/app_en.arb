@@ -240,6 +240,105 @@
   "@emptyFilterClear": {
     "description": "Button that resets the filter and search."
   },
+  "listsLoadFailedTitle": "Couldn't load your lists",
+  "@listsLoadFailedTitle": {
+    "description": "Error state title on the lists grid."
+  },
+  "listsLoadFailedBody": "Something went wrong reading them. Your lists are still saved.",
+  "@listsLoadFailedBody": {
+    "description": "Error state body on the lists grid. Reassures that nothing was lost."
+  },
+  "listSaveFailed": "Couldn't save that list. Please try again.",
+  "@listSaveFailed": {
+    "description": "Snackbar shown when creating or editing a list fails."
+  },
+  "listsEmptyTitle": "No lists yet",
+  "@listsEmptyTitle": {
+    "description": "Empty state title on the lists grid."
+  },
+  "listsEmptyBody": "Lists group words however you like - a course, a topic, the sounds you keep getting wrong.",
+  "@listsEmptyBody": {
+    "description": "Empty state body on the lists grid."
+  },
+  "newListAction": "New list",
+  "@newListAction": {
+    "description": "Button that creates a list."
+  },
+  "createListTitle": "New list",
+  "@createListTitle": {
+    "description": "Title of the sheet that creates a list."
+  },
+  "editListTitle": "Edit list",
+  "@editListTitle": {
+    "description": "Title of the sheet that renames or recolours a list."
+  },
+  "listNameLabel": "Name",
+  "@listNameLabel": {
+    "description": "Text field label for a list name."
+  },
+  "listNameHint": "IELTS speaking",
+  "@listNameHint": {
+    "description": "Example list name shown in the empty field."
+  },
+  "listNameRequired": "Give the list a name.",
+  "@listNameRequired": {
+    "description": "Validation message when a list name is blank."
+  },
+  "renameListAction": "Rename or recolour",
+  "@renameListAction": {
+    "description": "Menu item that edits a list."
+  },
+  "deleteListAction": "Delete list",
+  "@deleteListAction": {
+    "description": "Menu item that deletes a list."
+  },
+  "deleteListTitle": "Delete this list?",
+  "@deleteListTitle": {
+    "description": "Title of the delete-list confirmation."
+  },
+  "deleteListBody": "The list goes, but every word in it stays in your words.",
+  "@deleteListBody": {
+    "description": "Body of the delete-list confirmation. States plainly that words survive (F-042)."
+  },
+  "listActionsLabel": "Actions for {name}",
+  "@listActionsLabel": {
+    "description": "Screen-reader label for the button that opens a list's actions.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "practiseListAction": "Practise this list",
+  "@practiseListAction": {
+    "description": "App bar action on a list's detail screen."
+  },
+  "editNoteAction": "Edit note",
+  "@editNoteAction": {
+    "description": "Menu item that edits an existing note."
+  },
+  "saveNoteAction": "Save",
+  "@saveNoteAction": {
+    "description": "Button that saves an edited note."
+  },
+  "listWordCount": "{count, plural, =0{No words} =1{1 word} other{{count} words}}",
+  "@listWordCount": {
+    "description": "Word count on a list card.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "listDueCount": "{count, plural, =1{1 due} other{{count} due}}",
+  "@listDueCount": {
+    "description": "Due-today badge on a list card.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "filterCountLabel": "{label}, {count, plural, =1{1 word} other{{count} words}}",
   "@filterCountLabel": {
     "description": "Screen-reader label for a filter chip that shows a word count.",

@@ -66,11 +66,29 @@ void main() {
     });
 
     testWidgets('switches to lists', (tester) async {
+      // Asserted the placeholder's "Route: /lists" until M4 built the real
+      // screen. The lists grid's own title is the durable assertion.
       await pumpApp(tester);
 
       await tester.tap(find.text('Lists'));
       await tester.pumpAndSettle();
-      expect(find.text('Route: ${Routes.lists}'), findsOneWidget);
+      expect(find.widgetWithText(AppBar, 'Lists'), findsOneWidget);
+    });
+
+    testWidgets('each branch FAB has its own hero tag', (tester) async {
+      // The shell is a StatefulShellRoute.indexedStack, so every branch stays
+      // in the tree. Two FABs with the default tag is a "multiple heroes share
+      // the same tag" crash the moment a second branch grows one - which is
+      // exactly what happened when the lists grid replaced the placeholder.
+      await pumpApp(tester);
+
+      final tags = tester
+          .widgetList<FloatingActionButton>(find.byType(FloatingActionButton))
+          .map((fab) => fab.heroTag)
+          .toList();
+      expect(tags, isNotEmpty);
+      expect(tags.whereType<Object>().toSet(), hasLength(tags.length));
+      expect(tags.contains(null), isFalse, reason: 'null is the default tag');
     });
 
     testWidgets('there is no fourth destination for settings', (tester) async {

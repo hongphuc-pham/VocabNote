@@ -90,6 +90,10 @@ class _WordsScreenState extends ConsumerState<WordsScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        // The shell is an indexed stack, so every branch's FAB is in the tree
+        // at once and the default hero tag collides. The route path is already
+        // unique per branch.
+        heroTag: Routes.words,
         onPressed: () => context.push(Routes.wordAdd),
         icon: const Icon(Icons.add),
         label: Text(l10n.addWordAction),

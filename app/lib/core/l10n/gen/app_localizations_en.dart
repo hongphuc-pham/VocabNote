@@ -195,6 +195,91 @@ class AppL10nEn extends AppL10n {
   String get emptyFilterClear => 'Clear filters';
 
   @override
+  String get listsLoadFailedTitle => 'Couldn\'t load your lists';
+
+  @override
+  String get listsLoadFailedBody =>
+      'Something went wrong reading them. Your lists are still saved.';
+
+  @override
+  String get listSaveFailed => 'Couldn\'t save that list. Please try again.';
+
+  @override
+  String get listsEmptyTitle => 'No lists yet';
+
+  @override
+  String get listsEmptyBody =>
+      'Lists group words however you like - a course, a topic, the sounds you keep getting wrong.';
+
+  @override
+  String get newListAction => 'New list';
+
+  @override
+  String get createListTitle => 'New list';
+
+  @override
+  String get editListTitle => 'Edit list';
+
+  @override
+  String get listNameLabel => 'Name';
+
+  @override
+  String get listNameHint => 'IELTS speaking';
+
+  @override
+  String get listNameRequired => 'Give the list a name.';
+
+  @override
+  String get renameListAction => 'Rename or recolour';
+
+  @override
+  String get deleteListAction => 'Delete list';
+
+  @override
+  String get deleteListTitle => 'Delete this list?';
+
+  @override
+  String get deleteListBody =>
+      'The list goes, but every word in it stays in your words.';
+
+  @override
+  String listActionsLabel(String name) {
+    return 'Actions for $name';
+  }
+
+  @override
+  String get practiseListAction => 'Practise this list';
+
+  @override
+  String get editNoteAction => 'Edit note';
+
+  @override
+  String get saveNoteAction => 'Save';
+
+  @override
+  String listWordCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words',
+      one: '1 word',
+      zero: 'No words',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String listDueCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count due',
+      one: '1 due',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String filterCountLabel(String label, int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
