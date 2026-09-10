@@ -465,6 +465,54 @@ abstract class AppL10n {
   /// **'Add a word to this list from the word\'s own screen.'**
   String get listEmptyBody;
 
+  /// Name of the flashcard game on the practice hub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashcards'**
+  String get gameFlashcardTitle;
+
+  /// One-line description of the flashcard game.
+  ///
+  /// In en, this message translates to:
+  /// **'See a word, recall it, then say how it went.'**
+  String get gameFlashcardDescription;
+
+  /// Hint on the first card of a session only.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to reveal'**
+  String get flashcardTapToReveal;
+
+  /// Screen-reader label for the unflipped card.
+  ///
+  /// In en, this message translates to:
+  /// **'Card front. Tap to reveal the answer.'**
+  String get flashcardFrontLabel;
+
+  /// Screen-reader label for the flipped card.
+  ///
+  /// In en, this message translates to:
+  /// **'Card back. Choose how well you knew it.'**
+  String get flashcardBackLabel;
+
+  /// Grading button: the user did not know the word.
+  ///
+  /// In en, this message translates to:
+  /// **'Again'**
+  String get gradeAgain;
+
+  /// Grading button: the user knew the word.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get gradeGood;
+
+  /// Grading button: the user knew the word easily.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get gradeEasy;
+
   /// Empty state title on the lists grid.
   ///
   /// In en, this message translates to:

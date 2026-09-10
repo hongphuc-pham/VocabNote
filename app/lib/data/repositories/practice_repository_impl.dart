@@ -65,7 +65,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
     return await _attachHighlights(pool, seed: seed);
   }, onError: (_, _) => _dbFailure('load practice pool'));
 
-  /// Loads the highlights for a whole pool in one query and attaches them.
+  /// Loads the highlights and first notes for a whole pool and attaches them.
   ///
   /// A running game must never touch the database, so everything a round can
   /// need is resolved before the session starts (`docs/GAMES.md` §2).
@@ -81,6 +81,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
 
     final ids = pool.map((entry) => entry.word.id).toSet();
     final grouped = await _db.highlightsDao.watchGroupedByWord().first;
+    final firstNotes = await _db.notesDao.firstBodyByWord(ids);
 
     final cards = <PracticeCardData>[
       for (final entry in pool)
@@ -92,6 +93,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
                 .map((row) => row.toEntityOrNull())
                 .whereType<IpaHighlight>()
                 .toList(),
+            firstNote: firstNotes[entry.word.id],
           ),
     ];
 

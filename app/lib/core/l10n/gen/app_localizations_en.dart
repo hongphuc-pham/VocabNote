@@ -212,6 +212,31 @@ class AppL10nEn extends AppL10n {
       'Add a word to this list from the word\'s own screen.';
 
   @override
+  String get gameFlashcardTitle => 'Flashcards';
+
+  @override
+  String get gameFlashcardDescription =>
+      'See a word, recall it, then say how it went.';
+
+  @override
+  String get flashcardTapToReveal => 'Tap to reveal';
+
+  @override
+  String get flashcardFrontLabel => 'Card front. Tap to reveal the answer.';
+
+  @override
+  String get flashcardBackLabel => 'Card back. Choose how well you knew it.';
+
+  @override
+  String get gradeAgain => 'Again';
+
+  @override
+  String get gradeGood => 'Good';
+
+  @override
+  String get gradeEasy => 'Easy';
+
+  @override
   String get listsEmptyTitle => 'No lists yet';
 
   @override

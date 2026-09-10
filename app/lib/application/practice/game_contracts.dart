@@ -211,13 +211,24 @@ class GameAnswer {
 @immutable
 class GameRoundCallbacks {
   /// Creates the callbacks.
-  const new({required this.onAnswer, this.onSpeak});
+  const new({required this.onAnswer, this.onSpeak, this.intervalLabel});
 
   /// Called **exactly once** per round, with the user's answer.
   final void Function(GameAnswer answer) onAnswer;
 
   /// Speaks the current card, when the game offers playback.
   final VoidCallback? onSpeak;
+
+  /// How long until the card returns if graded a given outcome - "2d", "10m".
+  ///
+  /// `UI-UX.md` §4.7 wants each grading button to show its next interval, "so
+  /// the schedule is never mysterious". The runner supplies it because the
+  /// runner owns scheduling; a game that computed this would need the
+  /// scheduler, and F-067 would be false.
+  ///
+  /// **Null in a quick test**, and that is the point: a quick test does not
+  /// move the schedule, so any interval shown on its buttons would be a lie.
+  final String Function(ReviewOutcome outcome)? intervalLabel;
 }
 
 /// A practice game (`docs/GAMES.md` §2).

@@ -14,6 +14,7 @@ class PracticeCardData {
     required this.word,
     required this.card,
     this.highlights = const <IpaHighlight>[],
+    this.firstNote,
   });
 
   /// The word being practised.
@@ -24,6 +25,11 @@ class PracticeCardData {
 
   /// Its highlights, for the reverse of the flashcard.
   final List<IpaHighlight> highlights;
+
+  /// The oldest note on the word, shown on the back of a card
+  /// (`docs/UI-UX.md` §4.7). Denormalised here for the same reason as
+  /// [highlights]: a running game must never query.
+  final String? firstNote;
 }
 
 /// How a pool is chosen (`docs/GAMES.md` section 2, `CardSelection`).

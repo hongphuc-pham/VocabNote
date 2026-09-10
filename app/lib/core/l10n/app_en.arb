@@ -260,6 +260,38 @@
   "@listEmptyBody": {
     "description": "Empty state body on a list's detail screen."
   },
+  "gameFlashcardTitle": "Flashcards",
+  "@gameFlashcardTitle": {
+    "description": "Name of the flashcard game on the practice hub."
+  },
+  "gameFlashcardDescription": "See a word, recall it, then say how it went.",
+  "@gameFlashcardDescription": {
+    "description": "One-line description of the flashcard game."
+  },
+  "flashcardTapToReveal": "Tap to reveal",
+  "@flashcardTapToReveal": {
+    "description": "Hint on the first card of a session only."
+  },
+  "flashcardFrontLabel": "Card front. Tap to reveal the answer.",
+  "@flashcardFrontLabel": {
+    "description": "Screen-reader label for the unflipped card."
+  },
+  "flashcardBackLabel": "Card back. Choose how well you knew it.",
+  "@flashcardBackLabel": {
+    "description": "Screen-reader label for the flipped card."
+  },
+  "gradeAgain": "Again",
+  "@gradeAgain": {
+    "description": "Grading button: the user did not know the word."
+  },
+  "gradeGood": "Good",
+  "@gradeGood": {
+    "description": "Grading button: the user knew the word."
+  },
+  "gradeEasy": "Easy",
+  "@gradeEasy": {
+    "description": "Grading button: the user knew the word easily."
+  },
   "listsEmptyTitle": "No lists yet",
   "@listsEmptyTitle": {
     "description": "Empty state title on the lists grid."
