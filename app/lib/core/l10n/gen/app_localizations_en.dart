@@ -329,6 +329,46 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
+  String get summaryTitle => 'How that went';
+
+  @override
+  String get summaryMissedHeading => 'Worth another look';
+
+  @override
+  String get summaryAddMissed => 'Add these to a list';
+
+  @override
+  String get summaryDone => 'Done';
+
+  @override
+  String get summaryMissingTitle => 'That session has finished';
+
+  @override
+  String get summaryMissingBody =>
+      'Your answers were saved as you went. Start another whenever you like.';
+
+  @override
+  String summaryScore(int correct, int total) {
+    return 'Nice work - $correct of $total';
+  }
+
+  @override
+  String summaryTime(int minutes, int seconds) {
+    return '${minutes}m ${seconds}s';
+  }
+
+  @override
+  String summaryAddedToList(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words added to $name',
+      one: '1 word added to $name',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get listsEmptyTitle => 'No lists yet';
 
   @override

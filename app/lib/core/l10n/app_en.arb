@@ -407,6 +407,66 @@
       }
     }
   },
+  "summaryTitle": "How that went",
+  "@summaryTitle": {
+    "description": "Title of the session summary screen."
+  },
+  "summaryMissedHeading": "Worth another look",
+  "@summaryMissedHeading": {
+    "description": "Heading above the words the user got wrong. Never 'wrong' (UI-UX 4.8)."
+  },
+  "summaryAddMissed": "Add these to a list",
+  "@summaryAddMissed": {
+    "description": "Button that adds every missed word to a chosen list."
+  },
+  "summaryDone": "Done",
+  "@summaryDone": {
+    "description": "Button that leaves the summary."
+  },
+  "summaryMissingTitle": "That session has finished",
+  "@summaryMissingTitle": {
+    "description": "Shown when the summary is opened with no session in memory."
+  },
+  "summaryMissingBody": "Your answers were saved as you went. Start another whenever you like.",
+  "@summaryMissingBody": {
+    "description": "Body when there is no session to summarise. Reassures that nothing was lost."
+  },
+  "summaryScore": "Nice work - {correct} of {total}",
+  "@summaryScore": {
+    "description": "The score line. Warm, never a grade.",
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "summaryTime": "{minutes}m {seconds}s",
+  "@summaryTime": {
+    "description": "How long the session took.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "summaryAddedToList": "{count, plural, =1{1 word added to {name}} other{{count} words added to {name}}}",
+  "@summaryAddedToList": {
+    "description": "Snackbar after adding missed words to a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "listsEmptyTitle": "No lists yet",
   "@listsEmptyTitle": {
     "description": "Empty state title on the lists grid."

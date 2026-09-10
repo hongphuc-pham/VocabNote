@@ -1,3 +1,14 @@
+@Tags(<String>['perf'])
+library;
+
+// Tagged `perf` and run alone (`app/dart_test.yaml`, `make test-perf`).
+//
+// These measure wall-clock time, so under the suite's own parallelism they
+// measure how loaded the machine is rather than how fast the query is: the
+// least-known sort takes ~2ms in isolation and was seen at 186ms with eight
+// other test processes competing. Raising the bounds would have stopped them
+// measuring anything; running them alone keeps them honest.
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/domain/repositories/word_query.dart';

@@ -1,6 +1,8 @@
 /// The user's chosen repetition schedule (F-061, extends `docs/GAMES.md` §5).
 library;
 
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 /// How quickly intervals grow, as a one-tap choice.
@@ -35,6 +37,19 @@ enum IntervalPace {
 class ReviewSchedule {
   /// Creates a schedule from [intervalDays], one entry per box.
   const new(this.intervalDays);
+
+  /// Rebuilds a schedule from the stored JSON string.
+  ///
+  /// Never throws. `jsonDecode` does throw on malformed text, and a schedule is
+  /// read at the start of every session - a corrupt setting must not be able
+  /// to stop the user practising.
+  factory fromStoredJson(String stored) {
+    try {
+      return ReviewSchedule.fromJson(jsonDecode(stored));
+    } on FormatException {
+      return standard;
+    }
+  }
 
   /// Rebuilds a schedule, falling back to [standard] if it is unusable.
   ///

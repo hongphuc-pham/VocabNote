@@ -55,6 +55,17 @@ class ListActions extends _$ListActions {
   AsyncResult<void> reorder(List<String> orderedIds) =>
       ref.read(listRepositoryProvider).reorder(orderedIds);
 
+  /// Adds one word to one list. Doing it twice is not an error.
+  ///
+  /// Additive, unlike [setListsForWord]: the summary screen's "add these to a
+  /// list" must not remove the missed words from lists they are already in.
+  AsyncResult<void> addWordToList({
+    required String listId,
+    required String wordId,
+  }) => ref
+      .read(listRepositoryProvider)
+      .addWordToList(listId: listId, wordId: wordId);
+
   /// Sets exactly which lists a word belongs to.
   AsyncResult<void> setListsForWord({
     required String wordId,

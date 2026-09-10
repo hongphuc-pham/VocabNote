@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabnote/application/practice/game_contracts.dart';
 import 'package:vocabnote/application/practice/practice_session_controller.dart';
+import 'package:vocabnote/application/practice/scheduler/review_schedule.dart';
 import 'package:vocabnote/application/settings/settings_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
@@ -62,10 +63,19 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
 
   Future<void> _start() async {
     _config = widget.config ?? _dailyFromSettings();
+    final settings = ref.read(appSettingsOrDefaultsProvider);
     final game = ref.read(gameRegistryProvider).byId(widget.gameId);
     final started = await ref
         .read(practiceSessionRunnerProvider.notifier)
-        .start(config: _config, game: game);
+        .start(
+          config: _config,
+          game: game,
+          // The user's own pace, not the default. `fromJson` falls back to the
+          // documented table if the stored value is ever unusable, so a
+          // corrupt setting can never stop practice.
+          schedule: ReviewSchedule.fromStoredJson(settings.reviewScheduleJson),
+          againRepeats: settings.againRepeats,
+        );
     if (!mounted) return;
     setState(() {
       _starting = false;

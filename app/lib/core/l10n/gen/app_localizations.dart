@@ -663,6 +663,60 @@ abstract class AppL10n {
   /// **'All (max {max})'**
   String quickTestSizeAll(int max);
 
+  /// Title of the session summary screen.
+  ///
+  /// In en, this message translates to:
+  /// **'How that went'**
+  String get summaryTitle;
+
+  /// Heading above the words the user got wrong. Never 'wrong' (UI-UX 4.8).
+  ///
+  /// In en, this message translates to:
+  /// **'Worth another look'**
+  String get summaryMissedHeading;
+
+  /// Button that adds every missed word to a chosen list.
+  ///
+  /// In en, this message translates to:
+  /// **'Add these to a list'**
+  String get summaryAddMissed;
+
+  /// Button that leaves the summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get summaryDone;
+
+  /// Shown when the summary is opened with no session in memory.
+  ///
+  /// In en, this message translates to:
+  /// **'That session has finished'**
+  String get summaryMissingTitle;
+
+  /// Body when there is no session to summarise. Reassures that nothing was lost.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers were saved as you went. Start another whenever you like.'**
+  String get summaryMissingBody;
+
+  /// The score line. Warm, never a grade.
+  ///
+  /// In en, this message translates to:
+  /// **'Nice work - {correct} of {total}'**
+  String summaryScore(int correct, int total);
+
+  /// How long the session took.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m {seconds}s'**
+  String summaryTime(int minutes, int seconds);
+
+  /// Snackbar after adding missed words to a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word added to {name}} other{{count} words added to {name}}}'**
+  String summaryAddedToList(int count, String name);
+
   /// Empty state title on the lists grid.
   ///
   /// In en, this message translates to:

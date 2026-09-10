@@ -11,6 +11,7 @@ import 'package:vocabnote/presentation/lists/list_detail_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_run_screen.dart';
+import 'package:vocabnote/presentation/practice/practice_summary_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
 import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
 import 'package:vocabnote/presentation/words/word_detail_screen.dart';
@@ -115,10 +116,7 @@ GoRoute get _practiceBranch => GoRoute(
       path: 'summary/:${Routes.sessionIdParam}',
       name: RouteNames.practiceSummary,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).practiceSummaryTitle,
-        routePath: Routes.practiceSummary,
-      ),
+      builder: (context, state) => const PracticeSummaryScreen(),
     ),
     GoRoute(
       path: ':${Routes.gameIdParam}/run',

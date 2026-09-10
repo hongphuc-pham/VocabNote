@@ -75,7 +75,12 @@ jobs:
         run: flutter analyze --fatal-infos --fatal-warnings
 
       - name: Test
-        run: flutter test --coverage --reporter expanded
+        run: flutter test --coverage --reporter expanded --exclude-tags perf
+
+      # Timed budgets, run alone. Under the suite's own parallelism these
+      # measure how loaded the runner is rather than how fast the query is.
+      - name: Performance budgets
+        run: flutter test --tags perf -j 1 --reporter expanded
 
       - name: Upload coverage
         if: always()

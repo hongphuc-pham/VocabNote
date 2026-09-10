@@ -271,6 +271,8 @@ extension SettingsRowMapper on SettingsRow {
     reminderTimeMinutes: reminderTimeMinutes,
     promptSide: promptSide,
     lookupEnabled: lookupEnabled,
+    reviewScheduleJson: reviewSchedule,
+    againRepeats: againRepeats,
   );
 }
 
@@ -289,5 +291,7 @@ extension AppSettingsEntityMapper on AppSettings {
     reminderTimeMinutes: Value(reminderTimeMinutes),
     promptSide: Value(promptSide),
     lookupEnabled: Value(lookupEnabled),
+    reviewSchedule: Value(reviewScheduleJson),
+    againRepeats: Value(againRepeats),
   );
 }

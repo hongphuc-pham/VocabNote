@@ -63,8 +63,11 @@ migration-safety: ## Fail on destructive migration patterns (RULES §7)
 
 # --------------------------------------------------------------------- tests
 
-test: ## Run every test
-	cd $(APP) && $(FLUTTER) test
+test: ## Run the suite (everything except the timed measurements)
+	cd $(APP) && $(FLUTTER) test --exclude-tags perf
+
+test-perf: ## The wall-clock budgets, alone - see app/dart_test.yaml
+	cd $(APP) && $(FLUTTER) test --tags perf -j 1
 
 test-unit: ## Unit tests only — domain, application, data, core
 	cd $(APP) && $(FLUTTER) test test/unit
@@ -79,7 +82,7 @@ test-arch: ## The layer-boundary and grapheme rules (RULES §20, §21)
 	cd $(APP) && $(FLUTTER) test test/architecture
 
 # The full gate, in CI's exact order. Run this before pushing.
-ci: fmt-check licences migration-safety test-migration analyze test ## Everything CI runs, in order
+ci: fmt-check licences migration-safety test-migration analyze test test-perf ## Everything CI runs, in order
 	@echo "All checks passed."
 
 # ------------------------------------------------------------------ the app
