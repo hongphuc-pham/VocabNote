@@ -80,7 +80,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
     if (pool.isEmpty) return <PracticeCardData>[];
 
     final ids = pool.map((entry) => entry.word.id).toSet();
-    final grouped = await _db.highlightsDao.watchGroupedByWord().first;
+    final grouped = await _db.highlightsDao.groupedByWords(ids);
     final firstNotes = await _db.notesDao.firstBodyByWord(ids);
 
     return <PracticeCardData>[

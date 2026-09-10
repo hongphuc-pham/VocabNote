@@ -226,6 +226,97 @@ void main() {
     });
   });
 
+  group('an answer is recorded once, however fast the taps', () {
+    test('a second answer while the first is saving is ignored', () async {
+      // A double tap, or a swipe followed by a tap, reaches the runner twice
+      // before the round has moved on. Both calls read the same round: two
+      // answer rows, the card counted as missed twice so the score drops, and
+      // the second call spending the repeat budget and dropping the repeat.
+      await seedDue(3);
+      await runner().start(
+        config: configFor(PracticeMode.quickTest),
+        game: DummyGame(),
+      );
+      final game = DummyGame();
+      const again = GameAnswer(
+        result: ReviewOutcome.again,
+        elapsed: Duration(seconds: 1),
+      );
+
+      await Future.wait(<Future<void>>[
+        runner().answer(game, again),
+        runner().answer(game, again),
+      ]);
+
+      expect(await db.select(db.practiceAnswers).get(), hasLength(1));
+      final state = container.read(practiceSessionRunnerProvider)!;
+      expect(state.index, 1);
+      expect(state.rounds, hasLength(4), reason: 'three cards plus a repeat');
+    });
+
+    test('answering resumes normally once the save has finished', () async {
+      await seedDue(2);
+      await runner().start(
+        config: configFor(PracticeMode.quickTest),
+        game: DummyGame(),
+      );
+
+      await playThrough(ReviewOutcome.good);
+
+      expect(await db.select(db.practiceAnswers).get(), hasLength(2));
+    });
+  });
+
+  group('one runner, two sessions', () {
+    test('nothing missed last session carries into the next', () async {
+      // "Practise again" starts the next session on the same runner. A card
+      // missed last time must not appear in this summary, or lower its score.
+      await seedDue(2);
+      await runner().start(
+        config: configFor(PracticeMode.quickTest),
+        game: DummyGame(),
+        againRepeats: 0,
+      );
+      await playThrough(ReviewOutcome.again);
+
+      await runner().start(
+        config: configFor(PracticeMode.quickTest),
+        game: DummyGame(),
+        againRepeats: 0,
+      );
+      await playThrough(ReviewOutcome.good);
+
+      final summary = container.read(practiceSessionRunnerProvider)!.summary!;
+      expect(summary.missed, isEmpty);
+      expect(summary.correctRounds, summary.totalRounds);
+    });
+  });
+
+  group('where an answer is recorded', () {
+    test('at its position in the session, repeats included', () async {
+      // A repeat is built by the game as a one-card session, so its own index
+      // is 0. Recording that put every repeat at position 0 - ahead of the
+      // round it repeats, in `answersForSession`'s order.
+      await seedDue(2);
+      await runner().start(
+        config: configFor(PracticeMode.quickTest),
+        game: DummyGame(),
+      );
+      await playThrough(ReviewOutcome.again);
+
+      final positions = [
+        for (final answer in await db.select(db.practiceAnswers).get())
+          answer.roundIndex,
+      ]..sort();
+      expect(positions, <int>[
+        0,
+        1,
+        2,
+        3,
+      ], reason: 'two cards, one repeat each');
+    });
+  });
+
   group('in-session repeats', () {
     test('an again card is asked again later in the same sitting', () async {
       await seedDue(3);

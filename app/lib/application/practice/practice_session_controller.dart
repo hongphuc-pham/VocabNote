@@ -124,7 +124,11 @@ class PracticeSessionRunner extends _$PracticeSessionRunner {
   }) async {
     _schedule = schedule;
     _againRepeats = againRepeats;
+    // The runner can outlive a session - "Practise again" starts the next one
+    // on it - so nothing from the last one may carry over. A stale miss would
+    // appear in the new summary and lower its score.
     _repeatsUsed.clear();
+    _missed.clear();
 
     final repository = ref.read(practiceRepositoryProvider);
     final pool = await repository.loadPool(
@@ -170,9 +174,26 @@ class PracticeSessionRunner extends _$PracticeSessionRunner {
   int _againRepeats = kDefaultAgainRepeats;
   final Map<String, int> _repeatsUsed = <String, int>{};
   final List<PracticeCardData> _missed = <PracticeCardData>[];
+  bool _answering = false;
 
   /// Records [answer] for the current round and moves on.
+  ///
+  /// One answer per round. The round only moves on once the answer is saved,
+  /// so a double tap - or a swipe and a tap - would otherwise grade the same
+  /// round twice: two answer rows, the card counted as missed twice, and the
+  /// repeat budget spent twice. Guarded here so that every game gets this, not
+  /// only the ones that remember to guard their own buttons (F-067).
   Future<void> answer(PracticeGame<GameRound> game, GameAnswer answer) async {
+    if (_answering) return;
+    _answering = true;
+    try {
+      await _record(game, answer);
+    } finally {
+      _answering = false;
+    }
+  }
+
+  Future<void> _record(PracticeGame<GameRound> game, GameAnswer answer) async {
     final current = state;
     if (current == null) return;
     final round = current.current;
@@ -193,7 +214,9 @@ class PracticeSessionRunner extends _$PracticeSessionRunner {
         id: const Uuid().v4(),
         sessionId: current.sessionId ?? '',
         wordId: round.card.word.id,
-        roundIndex: round.index,
+        // The position in *this* session, not the round's own index: a repeat
+        // is built as a one-card session, so its index is always 0.
+        roundIndex: current.index,
         result: result,
         answeredAt: DateTime.now(),
         responseMs: answer.elapsed.inMilliseconds,

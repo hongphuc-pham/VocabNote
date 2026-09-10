@@ -286,6 +286,113 @@ void main() {
     });
   });
 
+  group('answering once', () {
+    testWidgets('a double tap reports one answer, not two', (tester) async {
+      // `onAnswer` is "exactly once" per round, and the round is only swapped
+      // after the runner has saved - so a second tap lands on the same round.
+      final answers = <GameAnswer>[];
+      await pumpRound(tester, roundFor(card()), onAnswer: answers.add);
+      await tester.tap(find.byType(Card));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const ValueKey<String>('grade-good')));
+      await tester.tap(find.byKey(const ValueKey<String>('grade-good')));
+      await tester.pumpAndSettle();
+
+      expect(answers, hasLength(1));
+    });
+
+    testWidgets('a new round opens fresh even at the same index', (
+      tester,
+    ) async {
+      // A repeat is built as a one-card session, so two repeats in a row are
+      // both index 0. Keyed on the index, the second opened already revealed
+      // and - once answering was guarded - could not be answered at all.
+      final answers = <GameAnswer>[];
+      await pumpRound(tester, roundFor(card(id: 'a')), onAnswer: answers.add);
+      await tester.tap(find.byType(Card));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey<String>('grade-again')));
+      await tester.pumpAndSettle();
+
+      await pumpRound(
+        tester,
+        roundFor(card(id: 'b', definition: 'The second card')),
+        onAnswer: answers.add,
+      );
+      expect(find.text('The second card'), findsNothing, reason: 'the front');
+      await tester.tap(find.byType(Card));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey<String>('grade-good')));
+      await tester.pumpAndSettle();
+
+      expect(answers.map((answer) => answer.result), <ReviewOutcome>[
+        ReviewOutcome.again,
+        ReviewOutcome.good,
+      ]);
+    });
+  });
+
+  group('swiping to grade (UI-UX §4.7)', () {
+    Future<List<ReviewOutcome>> swipe(
+      WidgetTester tester,
+      Offset offset, {
+      bool reveal = true,
+      double speed = 1000,
+    }) async {
+      final answers = <GameAnswer>[];
+      await pumpRound(tester, roundFor(card()), onAnswer: answers.add);
+      if (reveal) {
+        await tester.tap(find.byType(Card));
+        await tester.pumpAndSettle();
+      }
+      await tester.fling(find.byType(Card), offset, speed);
+      await tester.pumpAndSettle();
+      return answers.map((answer) => answer.result).toList();
+    }
+
+    testWidgets('a slow sideways drag is not a swipe', (tester) async {
+      // 150 px/s is already a fling to Flutter (anything over 50), and about
+      // what a thumb nudging the card while reading the back produces. It
+      // must not grade the card.
+      expect(await swipe(tester, const Offset(300, 0), speed: 150), isEmpty);
+    });
+
+    testWidgets('left is Again', (tester) async {
+      expect(await swipe(tester, const Offset(-300, 0)), <ReviewOutcome>[
+        ReviewOutcome.again,
+      ]);
+    });
+
+    testWidgets('right is Good', (tester) async {
+      expect(await swipe(tester, const Offset(300, 0)), <ReviewOutcome>[
+        ReviewOutcome.good,
+      ]);
+    });
+
+    testWidgets('a sideways swipe before the reveal does nothing', (
+      tester,
+    ) async {
+      // The same rule as the disabled buttons: no grade for a question the
+      // user has not seen the answer to.
+      expect(await swipe(tester, const Offset(300, 0), reveal: false), isEmpty);
+      expect(find.text('To expel air from the lungs'), findsNothing);
+    });
+
+    testWidgets('the buttons still work, so a swipe is never the only way', (
+      tester,
+    ) async {
+      final answers = <GameAnswer>[];
+      await pumpRound(tester, roundFor(card()), onAnswer: answers.add);
+      await tester.tap(find.byType(Card));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey<String>('grade-easy')));
+      await tester.pumpAndSettle();
+
+      expect(answers.single.result, ReviewOutcome.easy);
+    });
+  });
+
   group('accessibility', () {
     testWidgets('the card announces which side is showing', (tester) async {
       // UI-UX §6: the flip card announces its state rather than silently

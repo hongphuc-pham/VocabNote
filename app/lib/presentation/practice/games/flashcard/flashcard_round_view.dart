@@ -28,8 +28,17 @@ class FlashcardRoundView extends StatefulWidget {
   State<FlashcardRoundView> createState() => _FlashcardRoundViewState();
 }
 
+/// How fast a sideways swipe must be to grade the card, in logical pixels per
+/// second.
+///
+/// Flutter counts anything over 50 as a fling, which a thumb resting on the
+/// card while reading the back can manage. A grade moves the schedule, so only
+/// a swipe that was plainly meant counts.
+const double _swipeGradeVelocity = 300;
+
 class _FlashcardRoundViewState extends State<FlashcardRoundView> {
   bool _revealed = false;
+  bool _answered = false;
   final Stopwatch _elapsed = Stopwatch()..start();
 
   @override
@@ -38,8 +47,13 @@ class _FlashcardRoundViewState extends State<FlashcardRoundView> {
     // A new round reuses this State when the runner swaps the card, so the
     // reveal has to be reset explicitly. Without this the second card of a
     // session opens already answered.
-    if (oldWidget.round.index != widget.round.index) {
+    //
+    // By identity, not by `index`: a repeat is built as a one-card session,
+    // so two repeats in a row are both index 0, and the second would open
+    // revealed and - with answering guarded - never accept an answer.
+    if (!identical(oldWidget.round, widget.round)) {
       _revealed = false;
+      _answered = false;
       _elapsed
         ..reset()
         ..start();
@@ -57,8 +71,11 @@ class _FlashcardRoundViewState extends State<FlashcardRoundView> {
 
   void _answer(ReviewOutcome result) {
     // Grading before revealing would record an answer the user never saw the
-    // question for.
-    if (!_revealed) return;
+    // question for. Grading twice would record one answer as two: the round is
+    // only swapped once the runner has saved, so a double tap - or a swipe and
+    // a tap - both land here.
+    if (!_revealed || _answered) return;
+    _answered = true;
     _elapsed.stop();
     widget.callbacks.onAnswer(
       GameAnswer(result: result, elapsed: _elapsed.elapsed),
@@ -78,6 +95,7 @@ class _FlashcardRoundViewState extends State<FlashcardRoundView> {
               round: widget.round,
               revealed: _revealed,
               onReveal: _reveal,
+              onSwipe: _answer,
               onSpeak: widget.callbacks.onSpeak,
             ),
           ),
@@ -99,12 +117,14 @@ class _Card extends StatelessWidget {
     required this.round,
     required this.revealed,
     required this.onReveal,
+    required this.onSwipe,
     this.onSpeak,
   });
 
   final FlashcardRound round;
   final bool revealed;
   final VoidCallback onReveal;
+  final void Function(ReviewOutcome outcome) onSwipe;
   final VoidCallback? onSpeak;
 
   @override
@@ -124,6 +144,15 @@ class _Card extends StatelessWidget {
         // (UI-UX §1).
         onVerticalDragEnd: (details) {
           if ((details.primaryVelocity ?? 0) < 0) onReveal();
+        },
+        // Left = Again, right = Good (UI-UX §4.7), AnkiMobile's mapping too.
+        // A shortcut for the buttons below, never instead of them (WCAG
+        // 2.5.1), and ignored until the answer is showing - `onSwipe` refuses
+        // an unrevealed card exactly as the disabled buttons do.
+        onHorizontalDragEnd: (details) {
+          final velocity = details.primaryVelocity ?? 0;
+          if (velocity.abs() < _swipeGradeVelocity) return;
+          onSwipe(velocity < 0 ? ReviewOutcome.again : ReviewOutcome.good);
         },
         child: Card(
           child: SizedBox.expand(

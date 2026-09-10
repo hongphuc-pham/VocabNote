@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vocabnote/application/lists/list_actions_controller.dart';
 import 'package:vocabnote/application/lists/list_controller.dart';
+import 'package:vocabnote/application/practice/game_contracts.dart';
 import 'package:vocabnote/application/practice/practice_session_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
+import 'package:vocabnote/domain/entities/practice_session.dart';
 import 'package:vocabnote/domain/entities/word_list.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
@@ -23,13 +26,24 @@ class PracticeSummaryScreen extends ConsumerWidget {
   /// Creates the summary.
   const new({super.key});
 
+  /// The choices just made, for another go.
+  ///
+  /// A quick test draws a fresh sample: "again" means more practice, not the
+  /// same words in the same order. A daily review keeps its config and picks
+  /// up whatever is still due - a word just failed is back in ten minutes.
+  static GameConfig _again(GameConfig config) =>
+      config.mode == PracticeMode.quickTest
+      ? config.withSeed(Random().nextInt(1 << 31))
+      : config;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppL10n.of(context);
     final metrics = context.metrics;
-    final summary = ref.watch(practiceSessionRunnerProvider)?.summary;
+    final session = ref.watch(practiceSessionRunnerProvider);
+    final summary = session?.summary;
 
-    if (summary == null) {
+    if (session == null || summary == null) {
       // Reached by URL, or after the runner was disposed. There is nothing to
       // summarise and nothing to recover, so say so and offer the way back
       // rather than showing an empty score.
@@ -59,6 +73,14 @@ class PracticeSummaryScreen extends ConsumerWidget {
             _MissedWords(summary: summary),
             const VnGap(VnSpace.xl),
           ],
+          FilledButton.tonal(
+            onPressed: () => context.go(
+              Routes.practiceRunOf(session.config.gameId),
+              extra: _again(session.config),
+            ),
+            child: Text(l10n.summaryPractiseAgain),
+          ),
+          const VnGap(VnSpace.sm),
           FilledButton(
             onPressed: () => context.go(Routes.practice),
             child: Text(l10n.summaryDone),

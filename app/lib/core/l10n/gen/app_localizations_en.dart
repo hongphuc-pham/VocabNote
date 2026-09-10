@@ -341,6 +341,9 @@ class AppL10nEn extends AppL10n {
   String get summaryDone => 'Done';
 
   @override
+  String get summaryPractiseAgain => 'Practise again';
+
+  @override
   String get summaryMissingTitle => 'That session has finished';
 
   @override

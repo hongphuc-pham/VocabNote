@@ -687,6 +687,12 @@ abstract class AppL10n {
   /// **'Done'**
   String get summaryDone;
 
+  /// Button on the summary that starts another session with the same choices (UI-UX 4.8).
+  ///
+  /// In en, this message translates to:
+  /// **'Practise again'**
+  String get summaryPractiseAgain;
+
   /// Shown when the summary is opened with no session in memory.
   ///
   /// In en, this message translates to:

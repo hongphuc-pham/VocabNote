@@ -423,6 +423,10 @@
   "@summaryDone": {
     "description": "Button that leaves the summary."
   },
+  "summaryPractiseAgain": "Practise again",
+  "@summaryPractiseAgain": {
+    "description": "Button on the summary that starts another session with the same choices (UI-UX 4.8)."
+  },
   "summaryMissingTitle": "That session has finished",
   "@summaryMissingTitle": {
     "description": "Shown when the summary is opened with no session in memory."

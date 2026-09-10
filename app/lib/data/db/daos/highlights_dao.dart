@@ -113,6 +113,32 @@ class HighlightsDao extends DatabaseAccessor<AppDatabase>
             return grouped;
           });
 
+  /// The highlights on each of [wordIds], grouped by word, in one query.
+  ///
+  /// For a practice pool, which is resolved before a session starts. A
+  /// one-shot read rather than [watchGroupedByWord]`.first`: that loaded every
+  /// highlight in the library to use thirty words' worth, and awaiting `.first`
+  /// on a watch stream never completes under a widget test's fake clock.
+  Future<Map<String, List<IpaHighlightRow>>> groupedByWords(
+    Set<String> wordIds,
+  ) async {
+    if (wordIds.isEmpty) return <String, List<IpaHighlightRow>>{};
+
+    final rows =
+        await (select(ipaHighlights)
+              ..where((h) => h.wordId.isIn(wordIds))
+              ..orderBy(<OrderClauseGenerator<IpaHighlights>>[
+                (h) => OrderingTerm.asc(h.startGrapheme),
+              ]))
+            .get();
+
+    final grouped = <String, List<IpaHighlightRow>>{};
+    for (final row in rows) {
+      grouped.putIfAbsent(row.wordId, () => <IpaHighlightRow>[]).add(row);
+    }
+    return grouped;
+  }
+
   /// Watches which words have at least one highlight.
   ///
   /// Lets the words list decide whether to render coloured IPA without loading

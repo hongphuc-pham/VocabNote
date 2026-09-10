@@ -161,6 +161,22 @@ class GameConfig {
   /// never damage a schedule the user has spent weeks building (F-062).
   bool get affectsScheduling => mode == PracticeMode.daily;
 
+  /// The same choices with a different [seed].
+  ///
+  /// For *Practise again* on the summary, which draws a fresh sample rather
+  /// than replaying the words just seen.
+  GameConfig withSeed(int? seed) => GameConfig(
+    gameId: gameId,
+    mode: mode,
+    selection: selection,
+    limit: limit,
+    source: source,
+    sourceId: sourceId,
+    promptSide: promptSide,
+    ttsAutoPlay: ttsAutoPlay,
+    seed: seed,
+  );
+
   /// The config as it is stored in `practice_sessions.config_json`.
   Map<String, dynamic> toJson() => <String, dynamic>{
     'gameId': gameId,

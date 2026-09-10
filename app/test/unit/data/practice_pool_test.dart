@@ -248,6 +248,26 @@ void main() {
     });
   });
 
+  test("a card carries its own highlights, and no other word's", () async {
+    // The back of a flashcard shows the user's highlights (UI-UX §4.7), and a
+    // running game may not query, so they travel with the pool.
+    await seedWord(db, id: 'a', headword: 'a', ipaUk: 'kɒf');
+    await seedWord(db, id: 'b', headword: 'b', ipaUk: 'bɪt');
+    await seedHighlight(db, id: 'h1', wordId: 'a');
+    await seedHighlight(db, id: 'h2', wordId: 'a', start: 2, end: 3);
+    await seedHighlight(db, id: 'h3', wordId: 'b');
+
+    final result = await repository.loadPool(
+      selection: CardSelection.newest,
+      mode: PracticeMode.quickTest,
+      limit: 10,
+    );
+    final byId = {for (final card in result.valueOrNull!) card.word.id: card};
+
+    expect(byId['a']!.highlights, hasLength(2));
+    expect(byId['b']!.highlights, hasLength(1));
+  });
+
   test('weakest: lowest box first, then most lapses', () async {
     await seedWord(db, id: 'box2', headword: 'box2', box: 2);
     await seedWord(db, id: 'box0-one-lapse', headword: 'a');
