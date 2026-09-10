@@ -5,10 +5,11 @@ import 'package:vocabnote/application/words/highlight_editor_controller.dart';
 import 'package:vocabnote/application/words/word_detail_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/words/highlight_color_sheet.dart';
 import 'package:vocabnote/presentation/words/highlight_legend.dart';
 import 'package:vocabnote/presentation/words/ipa_chip_row.dart';
@@ -232,10 +233,10 @@ class _EditorState extends ConsumerState<_Editor> {
                 label: Text(l10n.ipaEditorColorHeading),
               ),
         body: ListView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
+          padding: EdgeInsets.all(context.metrics.spaceLg),
           children: <Widget>[
             Text(l10n.ipaEditorIntro, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: AppSpacing.lg),
+            const VnGap(VnSpace.lg),
             IpaChipRow(
               chips: state.chips,
               highlights: state.highlights,
@@ -243,7 +244,7 @@ class _EditorState extends ConsumerState<_Editor> {
               onSelectAt: editor.selectAt,
               onExtendTo: editor.extendTo,
             ),
-            const SizedBox(height: AppSpacing.md),
+            const VnGap(VnSpace.md),
             // Announced live, so a screen-reader user hears "selected ʃ ɜː"
             // as the run changes (`UI-UX.md` §4.4).
             Semantics(
@@ -257,7 +258,7 @@ class _EditorState extends ConsumerState<_Editor> {
                 ),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const VnGap(VnSpace.lg),
             HighlightLegend(
               highlights: state.highlights,
               onJumpTo: _editHighlight,

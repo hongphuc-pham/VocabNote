@@ -435,6 +435,12 @@ abstract class AppL10n {
   /// **'Clear filters'**
   String get emptyFilterClear;
 
+  /// Screen-reader label for a filter chip that shows a word count.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, {count, plural, =1{1 word} other{{count} words}}'**
+  String filterCountLabel(String label, int count);
+
   /// Screen-reader label for the note count on a word row.
   ///
   /// In en, this message translates to:

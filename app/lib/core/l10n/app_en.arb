@@ -240,6 +240,18 @@
   "@emptyFilterClear": {
     "description": "Button that resets the filter and search."
   },
+  "filterCountLabel": "{label}, {count, plural, =1{1 word} other{{count} words}}",
+  "@filterCountLabel": {
+    "description": "Screen-reader label for a filter chip that shows a word count.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "wordNoteCountLabel": "{count, plural, =1{1 note} other{{count} notes}}",
   "@wordNoteCountLabel": {
     "description": "Screen-reader label for the note count on a word row.",

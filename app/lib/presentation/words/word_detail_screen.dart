@@ -11,13 +11,14 @@ import 'package:vocabnote/application/words/word_actions_controller.dart';
 import 'package:vocabnote/application/words/word_detail_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/utils/external_links.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/domain/value_objects/headword.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/design/section.dart';
 import 'package:vocabnote/presentation/words/highlight_legend.dart';
 import 'package:vocabnote/presentation/words/pronunciation_row.dart';
@@ -199,11 +200,11 @@ class _DetailBody extends StatelessWidget {
     final word = detail.word;
 
     return ListView(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.all(context.metrics.spaceLg),
       children: <Widget>[
         Text(word.headword.value, style: theme.textTheme.headlineMedium),
         if (word.partOfSpeech case final String pos) ...<Widget>[
-          const SizedBox(height: AppSpacing.xs),
+          const VnGap(VnSpace.xs),
           Text(
             pos,
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -211,10 +212,10 @@ class _DetailBody extends StatelessWidget {
             ),
           ),
         ],
-        const SizedBox(height: AppSpacing.lg),
+        const VnGap(VnSpace.lg),
         const _VoiceNotice(),
         _Pronunciation(detail: detail),
-        const SizedBox(height: AppSpacing.lg),
+        const VnGap(VnSpace.lg),
         if (word.definition case final String definition)
           VnSection(
             heading: l10n.fieldDefinition,
@@ -224,7 +225,7 @@ class _DetailBody extends StatelessWidget {
                 Text(definition, style: theme.textTheme.bodyLarge),
                 if (word.source.requiresAttribution &&
                     word.sourceAttribution != null) ...<Widget>[
-                  const SizedBox(height: AppSpacing.xs),
+                  const VnGap(VnSpace.xs),
                   VnQuietText(word.sourceAttribution!),
                 ],
               ],
@@ -240,9 +241,9 @@ class _DetailBody extends StatelessWidget {
               ),
             ),
           ),
-        const SizedBox(height: AppSpacing.sm),
+        const VnGap(VnSpace.sm),
         WordNotesSection(wordId: word.id, notes: detail.notes),
-        const SizedBox(height: AppSpacing.xl),
+        const VnGap(VnSpace.xl),
         _CambridgeLink(headword: word.headword),
       ],
     );
@@ -320,20 +321,20 @@ class _PronunciationState extends State<_Pronunciation> {
             highlights: widget.detail.highlightsFor(HighlightTarget.ipaUs),
             emphasisedHighlightId: _emphasised?.id,
           ),
-        const SizedBox(height: AppSpacing.xs),
+        const VnGap(VnSpace.xs),
         Text(
           l10n.detailSlowHint,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.outline,
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
+        const VnGap(VnSpace.md),
         HighlightLegend(
           highlights: widget.detail.highlights,
           emphasised: _emphasised,
           onJumpTo: _jumpTo,
         ),
-        const SizedBox(height: AppSpacing.md),
+        const VnGap(VnSpace.md),
         OutlinedButton.icon(
           onPressed: () => context.push(Routes.wordIpaOf(word.id)),
           icon: const Icon(Icons.format_color_text),
@@ -364,9 +365,9 @@ class _VoiceNotice extends ConsumerWidget {
 
     return Card(
       color: theme.colorScheme.surfaceContainerHighest,
-      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      margin: EdgeInsets.only(bottom: context.metrics.spaceMd),
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: EdgeInsets.all(context.metrics.spaceMd),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

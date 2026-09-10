@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/value_objects/ipa_color_token.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// The labels under the transcription (`docs/UI-UX.md` §4.3, F-024).
 ///
@@ -64,7 +65,7 @@ class HighlightLegend extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(l10n.detailLegendHeading, style: theme.textTheme.titleSmall),
-        const SizedBox(height: AppSpacing.xs),
+        const VnGap(VnSpace.xs),
         for (final highlight in labelled)
           _LegendLine(
             highlight: highlight,
@@ -107,21 +108,23 @@ class _LegendLine extends StatelessWidget {
           onTap: onTap,
           child: Container(
             constraints: const BoxConstraints(minHeight: _minHeight),
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+            padding: EdgeInsets.symmetric(vertical: context.metrics.spaceXs),
             child: Row(
               children: <Widget>[
                 // The swatch repeats what the name says, rather than replacing
                 // it. Both cues, never one.
                 Container(
-                  width: AppSpacing.lg,
-                  height: AppSpacing.lg,
+                  width: context.metrics.spaceLg,
+                  height: context.metrics.spaceLg,
                   decoration: BoxDecoration(
                     color: colors.fill,
                     border: Border.all(color: colors.line, width: 2),
-                    borderRadius: BorderRadius.circular(AppRadii.chip / 3),
+                    borderRadius: BorderRadius.circular(
+                      context.metrics.radiusChip / 3,
+                    ),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
+                const VnGap(VnSpace.sm, axis: Axis.horizontal),
                 Expanded(
                   child: Text(
                     l10n.detailLegendEntry(name, label),

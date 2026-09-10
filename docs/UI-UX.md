@@ -18,16 +18,39 @@ Every screen answers one question and offers one obvious next action.
 
 ## 2. Design tokens
 
-### Colour (Material 3, generated from seeds; dynamic colour honoured on Android 12+)
+### Colour — "Phonetic Naturalist" (Material 3, one tonal palette per brand hue)
+
+An olive-and-terracotta field notebook, not a gamified quiz app.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `primary` seed | `#4C6FFF` | same seed | actions, selected states |
-| `secondary` seed | `#FF8A5B` | same seed | streaks, encouragement accents |
+| `primary` seed | `#4E6E34` | same seed | actions, selected states |
+| `secondary` seed | `#D9653B` | same seed | playback, streaks, encouragement accents |
 | `tertiary` seed | `#16A38C` | same seed | "known" / success |
 | `surface` | `#FBFAFF` | `#121318` | page background |
 | `surfaceContainer` | `#F1F0F7` | `#1D1E24` | cards, sheets |
 | `outlineVariant` | `#DDDCE5` | `#3A3B42` | hairlines |
+
+**The three brand values are seeds, not role values.** Each one generates its own Material
+tonal palette, and a role is always taken together with its `on-` partner from the *same*
+palette — so `colorScheme.secondary` is that terracotta hue at tone 40 (light) / 80 (dark),
+not the literal `#D9653B`. Writing a brand hex straight into a role instead leaves its `on-`
+partner generated from a different palette, which is not readable: that shipped from M0 to M3
+as white on `#FF8A5B` at 2.32:1, and as a *purple* `onTertiary` on teal.
+
+The surfaces are the exception and stay pinned. They are near-neutral, so they carry no hue
+to disagree with.
+
+**Contrast is asserted, not assumed.** `test/unit/core/theme_contrast_test.dart` holds every
+pair below to WCAG AA in both brightnesses — 4.5:1 for text, 3:1 for icons and boundaries:
+`onSurface`/`surface`, `onSurface`/`surfaceContainer`, `onSurfaceVariant`/`surface`,
+`onPrimary`/`primary`, `onSecondary`/`secondary`, `onTertiary`/`tertiary`,
+`outline`/`surface`, `primary`/`surface`.
+
+**No dynamic colour.** Material You replaced the primary seed outright, so on Android 12+
+most users would never have seen the app's own identity. The platform channel that read
+`android.R.color.system_accent1_500` was removed in the M3 restyle; the app always ships its
+brand. See `ARCHITECTURE.md` §3.1.
 
 **IPA highlight palette** — five tokens, distinguishable for the common colour-vision
 deficiencies, and never used for anything else:
@@ -57,6 +80,13 @@ colourblind user still sees the underline.
 
 All sizes scale with the OS text-size setting; layouts are tested at 200%.
 
+**Charis SIL is a deliberate deviation from the design system**, which specifies Noto Serif
+for phonetic display. Both fonts cover IPA Extensions, Spacing Modifier Letters and the
+combining diacritics, so coverage is not the question. Charis SIL is the phonetics-specific
+one — 3,900+ glyphs, ligated sequences for transcription, a correct single-storey ɡ by
+default — it is already bundled and verified rendering on device, and it is a serif, so it
+satisfies the design's stated intent. Switching would bundle a second font to lose all that.
+
 ### Shape, space, motion
 
 - Radius: 12 chips · 16 cards · 28 sheets and dialogs · full pills for filters
@@ -81,9 +111,19 @@ Routes: `/words`, `/words/:id`, `/words/:id/edit`, `/words/:id/ipa`, `/lists`, `
 
 ### 4.1 Words (home)
 - App bar: title *My words*, search icon (expands to an inline field), settings icon.
-- Filter chips row: `All · Favourites · Due today · No IPA yet · <list names>`.
-- Rows: headword (titleL) · IPA inline with the user's highlights rendered · a note-count and
-  a small box-level dot on the right. 72dp tall, whole row tappable.
+- Filter chips row: `All · Favourites · Due today · No IPA yet · <list names>`. **All** and
+  each list chip carry a count badge. *Favourites*, *Due today* and *No IPA yet* do not —
+  their counts are not streamed today, and three extra queries is feature work, not styling.
+- Cards, one per word: headword (titleL) with its part of speech as a quiet badge · the
+  transcription **labelled with the accent it is** (`preferredIpa` silently falls back to US,
+  so an unlabelled one is ambiguous), rendered with the user's highlights · a note-count.
+  Tonal `surfaceContainer`, 16dp radius, whole card tappable.
+  - Was a flat 72dp row until the Phonetic Naturalist restyle. On a phonetics app the IPA is
+    the content rather than a subtitle, and a card gives it room.
+  - The design also draws a per-row play button and a waveform. Neither is built: playback
+    from the list is not in `FEATURES.md`, and there is no recording feature to visualise.
+  - The box-level dot this section used to promise was never built. It belongs with M5's
+    practice work, which is where the box level comes from.
 - FAB: `+ Add word`.
 - Empty state: friendly illustration, "Your first word goes here", one-line explanation,
   **Add a word** button and a secondary **See how it works** link into the guide.

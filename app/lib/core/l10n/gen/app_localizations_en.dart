@@ -195,6 +195,17 @@ class AppL10nEn extends AppL10n {
   String get emptyFilterClear => 'Clear filters';
 
   @override
+  String filterCountLabel(String label, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words',
+      one: '1 word',
+    );
+    return '$label, $_temp0';
+  }
+
+  @override
   String wordNoteCountLabel(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

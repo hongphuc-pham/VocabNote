@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/presentation/common/placeholder_screen.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
@@ -215,7 +216,7 @@ class _RouteNotFoundScreen extends StatelessWidget {
       appBar: AppBar(title: Text(l10n.routeNotFoundTitle)),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xxl),
+          padding: EdgeInsets.all(context.metrics.spaceXxl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -224,7 +225,7 @@ class _RouteNotFoundScreen extends StatelessWidget {
                 style: theme.textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.sm),
+              const VnGap(VnSpace.sm),
               Text(
                 l10n.comingSoonRoute(location),
                 style: theme.textTheme.labelLarge?.copyWith(
@@ -232,7 +233,7 @@ class _RouteNotFoundScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const VnGap(VnSpace.xl),
               FilledButton(
                 onPressed: () => context.go(Routes.words),
                 child: Text(l10n.routeNotFoundAction),

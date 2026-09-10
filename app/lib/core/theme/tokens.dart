@@ -9,17 +9,20 @@ import 'package:flutter/material.dart';
 
 /// The colour seeds Material 3 generates both schemes from.
 ///
-/// The same seeds are used in light and dark; Material derives the tonal
-/// palettes. On Android 12+ the device's dynamic colour replaces
-/// [AppColorSeeds.primary] and these become the fallback.
+/// The "Phonetic Naturalist" design system: an olive-and-terracotta field
+/// notebook rather than a generic quiz app. The same seeds are used in light
+/// and dark; Material derives a tonal palette from each.
+///
+/// These are seeds, not role values. A hue is never written straight into
+/// `colorScheme.secondary` — see `app_theme.dart` for why that broke contrast.
 abstract final class AppColorSeeds {
-  /// Actions and selected states.
-  static const Color primary = Color(0xFF4C6FFF);
+  /// Actions and selected states. Earthy olive: accuracy and growth.
+  static const Color primary = Color(0xFF4E6E34);
 
-  /// Streaks and encouragement accents.
-  static const Color secondary = Color(0xFFFF8A5B);
+  /// Streaks, playback and encouragement accents. Warm terracotta.
+  static const Color secondary = Color(0xFFD9653B);
 
-  /// "Known" and success states.
+  /// "Known" and success states. Deep coastal teal.
   static const Color tertiary = Color(0xFF16A38C);
 }
 

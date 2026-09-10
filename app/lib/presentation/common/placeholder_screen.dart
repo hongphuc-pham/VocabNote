@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// Stands in for a screen that a later milestone builds.
 ///
@@ -35,28 +36,28 @@ class PlaceholderScreen extends StatelessWidget {
       appBar: AppBar(title: Text(title), actions: actions),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xxl),
+          padding: EdgeInsets.all(context.metrics.spaceXxl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Icon(
                 Icons.construction_outlined,
-                size: AppSpacing.xxl,
+                size: context.metrics.spaceXxl,
                 color: theme.colorScheme.outline,
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               Text(
                 l10n.comingSoonTitle,
                 style: theme.textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.sm),
+              const VnGap(VnSpace.sm),
               Text(
                 l10n.comingSoonBody,
                 style: theme.textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const VnGap(VnSpace.xl),
               Text(
                 l10n.comingSoonRoute(routePath),
                 style: theme.textTheme.labelLarge?.copyWith(

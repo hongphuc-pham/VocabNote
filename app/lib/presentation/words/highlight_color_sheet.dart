@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/value_objects/ipa_color_token.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/words/highlight_legend.dart';
 
 /// What the colour sheet came back with.
@@ -82,18 +83,19 @@ class _HighlightColorSheetState extends State<HighlightColorSheet> {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: AppSpacing.lg,
-        right: AppSpacing.lg,
-        top: AppSpacing.lg,
+        left: context.metrics.spaceLg,
+        right: context.metrics.spaceLg,
+        top: context.metrics.spaceLg,
         // Above the keyboard, not behind it.
-        bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpacing.lg,
+        bottom:
+            MediaQuery.viewInsetsOf(context).bottom + context.metrics.spaceLg,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(l10n.ipaEditorColorHeading, style: theme.textTheme.titleMedium),
-          const SizedBox(height: AppSpacing.md),
+          const VnGap(VnSpace.md),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -105,7 +107,7 @@ class _HighlightColorSheetState extends State<HighlightColorSheet> {
                 ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const VnGap(VnSpace.lg),
           TextField(
             controller: _label,
             // The cap the entity documents, enforced where it is typed so the
@@ -118,7 +120,7 @@ class _HighlightColorSheetState extends State<HighlightColorSheet> {
             ),
             onSubmitted: (_) => _confirm(),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const VnGap(VnSpace.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -133,7 +135,7 @@ class _HighlightColorSheetState extends State<HighlightColorSheet> {
                 onPressed: () => Navigator.of(context).pop(),
                 child: Text(l10n.cancelAction),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const VnGap(VnSpace.sm, axis: Axis.horizontal),
               FilledButton(onPressed: _confirm, child: Text(l10n.saveAction)),
             ],
           ),

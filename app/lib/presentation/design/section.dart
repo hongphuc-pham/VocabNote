@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// A headed block of content.
 ///
@@ -50,7 +51,7 @@ class VnSection extends StatelessWidget {
               ?trailing,
             ],
           ),
-          SizedBox(height: metrics.spaceXs),
+          const VnGap(VnSpace.xs),
           child,
         ],
       ),

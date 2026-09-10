@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vocabnote/application/words/word_notes_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/entities/word_note.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// The *My notes* block on word detail (`docs/UI-UX.md` §4.3, F-003).
 ///
@@ -76,7 +77,7 @@ class WordNotesSection extends ConsumerWidget {
         ),
         if (notes.isEmpty)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            padding: EdgeInsets.symmetric(vertical: context.metrics.spaceSm),
             child: Text(
               l10n.detailNoNotesBody,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -112,19 +113,19 @@ class _NoteRow extends StatelessWidget {
     ).format(note.createdAt);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      padding: EdgeInsets.symmetric(vertical: context.metrics.spaceXs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.xs),
+            padding: EdgeInsets.only(top: context.metrics.spaceXs),
             child: Icon(
               Icons.circle,
-              size: AppSpacing.sm,
+              size: context.metrics.spaceSm,
               color: theme.colorScheme.outlineVariant,
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          const VnGap(VnSpace.sm, axis: Axis.horizontal),
           Expanded(
             child: Text.rich(
               TextSpan(
@@ -143,7 +144,7 @@ class _NoteRow extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.close),
-            iconSize: AppSpacing.lg,
+            iconSize: context.metrics.spaceLg,
             tooltip: l10n.detailNoteDeleteAction,
             onPressed: onDelete,
           ),
@@ -179,17 +180,18 @@ class _AddNoteSheetState extends State<_AddNoteSheet> {
       // Lifts the sheet above the keyboard rather than letting it cover the
       // field the user is typing into.
       padding: EdgeInsets.only(
-        left: AppSpacing.lg,
-        right: AppSpacing.lg,
-        top: AppSpacing.lg,
-        bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpacing.lg,
+        left: context.metrics.spaceLg,
+        right: context.metrics.spaceLg,
+        top: context.metrics.spaceLg,
+        bottom:
+            MediaQuery.viewInsetsOf(context).bottom + context.metrics.spaceLg,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(l10n.detailNoteHeading, style: theme.textTheme.titleMedium),
-          const SizedBox(height: AppSpacing.md),
+          const VnGap(VnSpace.md),
           TextField(
             controller: _controller,
             autofocus: true,
@@ -200,7 +202,7 @@ class _AddNoteSheetState extends State<_AddNoteSheet> {
               border: const OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          const VnGap(VnSpace.md),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -208,7 +210,7 @@ class _AddNoteSheetState extends State<_AddNoteSheet> {
                 onPressed: () => Navigator.of(context).pop(),
                 child: Text(l10n.cancelAction),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const VnGap(VnSpace.sm, axis: Axis.horizontal),
               FilledButton(
                 onPressed: () => Navigator.of(context).pop(_controller.text),
                 child: Text(l10n.saveAction),

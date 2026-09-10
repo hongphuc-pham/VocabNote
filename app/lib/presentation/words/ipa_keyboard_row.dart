@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// The IPA symbol row docked above the keyboard (`docs/UI-UX.md` §4.2, F-002).
 ///
@@ -76,15 +77,16 @@ class IpaKeyboardRow extends StatelessWidget {
       label: l10n.ipaKeyboardLabel,
       child: SizedBox(
         // Tall enough for a 48dp target plus breathing room.
-        height: kMinTouchTarget + AppSpacing.md,
+        height: context.metrics.minTouchTarget + context.metrics.spaceMd,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+          padding: EdgeInsets.symmetric(
+            horizontal: context.metrics.spaceMd,
+            vertical: context.metrics.spaceSm,
           ),
           itemCount: symbols.length,
-          separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.xs),
+          separatorBuilder: (_, _) =>
+              const VnGap(VnSpace.xs, axis: Axis.horizontal),
           itemBuilder: (context, index) {
             final symbol = symbols[index];
             return _SymbolButton(
@@ -125,10 +127,10 @@ class _SymbolButton extends StatelessWidget {
       message: label,
       child: Material(
         color: background,
-        borderRadius: AppRadii.chipBorder,
+        borderRadius: context.metrics.chipBorder,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: AppRadii.chipBorder,
+          borderRadius: context.metrics.chipBorder,
           // The button must never take focus. The transcription field has it,
           // and this row is only shown *because* it does - so stealing focus
           // dismisses the row mid-word and sends the next keystroke nowhere.
@@ -138,9 +140,9 @@ class _SymbolButton extends StatelessWidget {
           child: ConstrainedBox(
             // >= 48dp, including for the narrow marks like the stress bar
             // (docs/UI-UX.md §6).
-            constraints: const BoxConstraints(
-              minWidth: kMinTouchTarget,
-              minHeight: kMinTouchTarget,
+            constraints: BoxConstraints(
+              minWidth: context.metrics.minTouchTarget,
+              minHeight: context.metrics.minTouchTarget,
             ),
             child: Center(
               child: Text(symbol, style: style.copyWith(fontSize: 20)),

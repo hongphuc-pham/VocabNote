@@ -11,13 +11,7 @@ import 'package:vocabnote/core/theme/app_theme.dart';
 /// and cheap - it is on the cold-start budget of 2s (`F-092`).
 class VocabNoteApp extends ConsumerWidget {
   /// Creates the app.
-  ///
-  /// [dynamicSeed] is the device's Material You accent on Android 12+, read
-  /// once during bootstrap; null everywhere else, and the brand seed is used.
-  const new({this.dynamicSeed, super.key});
-
-  /// The device accent colour, when the platform offers one.
-  final Color? dynamicSeed;
+  const new({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,8 +25,8 @@ class VocabNoteApp extends ConsumerWidget {
       // onGenerateTitle so it follows the device language.
       onGenerateTitle: (context) => AppL10n.of(context).appTitle,
 
-      theme: AppTheme.light(dynamicSeed: dynamicSeed),
-      darkTheme: AppTheme.dark(dynamicSeed: dynamicSeed),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
 
       localizationsDelegates: AppL10n.localizationsDelegates,
       supportedLocales: AppL10n.supportedLocales,

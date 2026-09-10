@@ -10,12 +10,13 @@ import 'package:vocabnote/application/words/word_draft.dart';
 import 'package:vocabnote/application/words/word_editor_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/domain/entities/word_list.dart';
 import 'package:vocabnote/domain/entities/word_suggestion.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/words/ipa_keyboard_row.dart';
 import 'package:vocabnote/presentation/words/lookup_card.dart';
 
@@ -281,7 +282,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
             ],
           ),
           body: ListView(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: EdgeInsets.all(context.metrics.spaceLg),
             children: <Widget>[
               _HeadwordField(
                 controller: _headword,
@@ -298,19 +299,19 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                   ),
                   onDismiss: () => setState(() => _duplicateDismissed = true),
                 ),
-              const SizedBox(height: AppSpacing.sm),
+              const VnGap(VnSpace.sm),
               _LookUpButton(
                 headword: _headword.text,
                 onPressed: () =>
                     ref.read(lookupProvider.notifier).lookup(_headword.text),
               ),
-              const SizedBox(height: AppSpacing.md),
+              const VnGap(VnSpace.md),
               _LookupSection(
                 state: lookup,
                 onAccept: (suggestion, results) =>
                     _accept(suggestion, results, draft),
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               _IpaField(
                 label: l10n.fieldIpaUk,
                 controller: _ipaUk,
@@ -321,7 +322,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                     ..markFieldManual(SuggestionField.ipaUk);
                 },
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               _IpaField(
                 label: l10n.fieldIpaUs,
                 controller: _ipaUs,
@@ -332,7 +333,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                     ..markFieldManual(SuggestionField.ipaUs);
                 },
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const VnGap(VnSpace.xl),
               _PartOfSpeechChips(
                 selected: draft.partOfSpeech,
                 onSelected: (value) {
@@ -341,7 +342,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                     ..markFieldManual(SuggestionField.partOfSpeech);
                 },
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               _MultilineField(
                 label: l10n.fieldDefinition,
                 controller: _definition,
@@ -351,7 +352,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                     ..markFieldManual(SuggestionField.definition);
                 },
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               _MultilineField(
                 label: l10n.fieldExample,
                 controller: _example,
@@ -362,7 +363,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                 },
               ),
               if (!draft.isEditing) ...<Widget>[
-                const SizedBox(height: AppSpacing.lg),
+                const VnGap(VnSpace.lg),
                 _MultilineField(
                   label: l10n.fieldNote,
                   hint: l10n.fieldNoteHint,
@@ -371,7 +372,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                       _controller.edit((d) => d.copyWith(firstNote: value)),
                 ),
               ],
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               _ListChips(
                 selected: draft.listIds,
                 onToggle: (id) => _controller.edit(
@@ -382,7 +383,7 @@ class _WordEditorScreenState extends ConsumerState<WordEditorScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: AppSpacing.xxl),
+              const VnGap(VnSpace.xxl),
             ],
           ),
           // Docked above the keyboard, and only while an IPA field has focus.
@@ -444,11 +445,11 @@ class _DuplicateBanner extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.only(top: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.md),
+      margin: EdgeInsets.only(top: context.metrics.spaceSm),
+      padding: EdgeInsets.all(context.metrics.spaceMd),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainer,
-        borderRadius: AppRadii.cardBorder,
+        borderRadius: context.metrics.cardBorder,
       ),
       child: Row(
         children: <Widget>[
@@ -487,7 +488,7 @@ class _LookUpButton extends StatelessWidget {
           icon: const Icon(Icons.search),
           label: Text(l10n.lookUpAction),
         ),
-        const SizedBox(width: AppSpacing.md),
+        const VnGap(VnSpace.md, axis: Axis.horizontal),
         Expanded(
           child: Text(
             l10n.lookUpHint,
@@ -514,15 +515,15 @@ class _LookupSection extends ConsumerWidget {
     return switch (state) {
       LookupIdle() => const SizedBox.shrink(),
       LookupLoading(:final headword) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+        padding: EdgeInsets.symmetric(vertical: context.metrics.spaceMd),
         child: Row(
           children: <Widget>[
-            const SizedBox(
-              width: AppSpacing.lg,
-              height: AppSpacing.lg,
-              child: CircularProgressIndicator(strokeWidth: 2),
+            SizedBox(
+              width: context.metrics.spaceLg,
+              height: context.metrics.spaceLg,
+              child: const CircularProgressIndicator(strokeWidth: 2),
             ),
-            const SizedBox(width: AppSpacing.md),
+            const VnGap(VnSpace.md, axis: Axis.horizontal),
             Text(AppL10n.of(context).lookupSearching(headword)),
           ],
         ),
@@ -593,9 +594,9 @@ class _PartOfSpeechChips extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(l10n.fieldPartOfSpeech, style: theme.textTheme.labelLarge),
-        const SizedBox(height: AppSpacing.sm),
+        const VnGap(VnSpace.sm),
         Wrap(
-          spacing: AppSpacing.sm,
+          spacing: context.metrics.spaceSm,
           children: <Widget>[
             for (final option in options)
               ChoiceChip(
@@ -659,7 +660,7 @@ class _ListChips extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(l10n.fieldLists, style: theme.textTheme.labelLarge),
-        const SizedBox(height: AppSpacing.sm),
+        const VnGap(VnSpace.sm),
         if (lists.isEmpty)
           Text(
             l10n.fieldListsEmpty,
@@ -669,7 +670,7 @@ class _ListChips extends ConsumerWidget {
           )
         else
           Wrap(
-            spacing: AppSpacing.sm,
+            spacing: context.metrics.spaceSm,
             children: <Widget>[
               for (final summary in lists)
                 FilterChip(
