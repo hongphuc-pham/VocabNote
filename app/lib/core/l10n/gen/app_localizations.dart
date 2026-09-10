@@ -453,6 +453,18 @@ abstract class AppL10n {
   /// **'Couldn\'t save that list. Please try again.'**
   String get listSaveFailed;
 
+  /// Empty state title on a list's detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this list yet'**
+  String get listEmptyTitle;
+
+  /// Empty state body on a list's detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word to this list from the word\'s own screen.'**
+  String get listEmptyBody;
+
   /// Empty state title on the lists grid.
   ///
   /// In en, this message translates to:

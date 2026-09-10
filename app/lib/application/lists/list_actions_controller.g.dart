@@ -14,7 +14,7 @@ part of 'list_actions_controller.dart';
 /// deliberately separate, so a screen that only displays lists does not depend
 /// on a notifier that can delete them.
 ///
-/// Kept alive like [WordActions] and `WordNotes`: nothing here holds state, and
+/// Kept alive like `WordActions` and `WordNotes`: nothing here holds state, and
 /// an action fired from a snackbar must still find its notifier alive after the
 /// screen that started it has gone.
 
@@ -27,7 +27,7 @@ final listActionsProvider = ListActionsProvider._();
 /// deliberately separate, so a screen that only displays lists does not depend
 /// on a notifier that can delete them.
 ///
-/// Kept alive like [WordActions] and `WordNotes`: nothing here holds state, and
+/// Kept alive like `WordActions` and `WordNotes`: nothing here holds state, and
 /// an action fired from a snackbar must still find its notifier alive after the
 /// screen that started it has gone.
 final class ListActionsProvider extends $NotifierProvider<ListActions, void> {
@@ -37,7 +37,7 @@ final class ListActionsProvider extends $NotifierProvider<ListActions, void> {
   /// deliberately separate, so a screen that only displays lists does not depend
   /// on a notifier that can delete them.
   ///
-  /// Kept alive like [WordActions] and `WordNotes`: nothing here holds state, and
+  /// Kept alive like `WordActions` and `WordNotes`: nothing here holds state, and
   /// an action fired from a snackbar must still find its notifier alive after the
   /// screen that started it has gone.
   ListActionsProvider._()
@@ -75,7 +75,7 @@ String _$listActionsHash() => r'1b41c4a9cdee038eda346610811251bdb4a1b3bf';
 /// deliberately separate, so a screen that only displays lists does not depend
 /// on a notifier that can delete them.
 ///
-/// Kept alive like [WordActions] and `WordNotes`: nothing here holds state, and
+/// Kept alive like `WordActions` and `WordNotes`: nothing here holds state, and
 /// an action fired from a snackbar must still find its notifier alive after the
 /// screen that started it has gone.
 

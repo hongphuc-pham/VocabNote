@@ -252,6 +252,14 @@
   "@listSaveFailed": {
     "description": "Snackbar shown when creating or editing a list fails."
   },
+  "listEmptyTitle": "Nothing in this list yet",
+  "@listEmptyTitle": {
+    "description": "Empty state title on a list's detail screen."
+  },
+  "listEmptyBody": "Add a word to this list from the word's own screen.",
+  "@listEmptyBody": {
+    "description": "Empty state body on a list's detail screen."
+  },
   "listsEmptyTitle": "No lists yet",
   "@listsEmptyTitle": {
     "description": "Empty state title on the lists grid."

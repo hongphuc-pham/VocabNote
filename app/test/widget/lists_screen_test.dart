@@ -202,4 +202,63 @@ void main() {
       expect(find.text('Delete list'), findsOneWidget);
     });
   });
+
+  group('list detail (A5)', () {
+    setUp(() async {
+      await seedWord(db, id: 'w1', headword: 'cough', ipaUk: 'kɒf');
+      await seedWord(db, id: 'w2', headword: 'through');
+      await seedList(db, id: 'l1', name: 'IELTS');
+      await seedMembership(db, listId: 'l1', wordId: 'w1');
+    });
+
+    testWidgets('shows only the words in that list', (tester) async {
+      await pumpLists(tester);
+
+      await tester.tap(find.text('IELTS'));
+      await settleAsync(tester);
+
+      expect(find.text('cough'), findsOneWidget);
+      expect(find.text('through'), findsNothing, reason: 'not in this list');
+    });
+
+    testWidgets('offers Practise this list', (tester) async {
+      await pumpLists(tester);
+
+      await tester.tap(find.text('IELTS'));
+      await settleAsync(tester);
+
+      expect(find.text('Practise this list'), findsOneWidget);
+    });
+
+    testWidgets('an empty list says so rather than looking broken', (
+      tester,
+    ) async {
+      await seedList(db, id: 'l2', name: 'Empty', sortOrder: 1);
+      await pumpLists(tester);
+
+      await tester.tap(find.text('Empty'));
+      await settleAsync(tester);
+
+      expect(find.text('Nothing in this list yet'), findsOneWidget);
+    });
+
+    testWidgets('opening a list leaves the words tab filter alone', (
+      tester,
+    ) async {
+      // The detail screen reads a family provider, not the words tab's global
+      // query. If it shared that query, coming back would find the tab
+      // silently filtered to one list.
+      await pumpLists(tester);
+      await tester.tap(find.text('IELTS'));
+      await settleAsync(tester);
+      await tester.pageBack();
+      await settleAsync(tester);
+
+      await tester.tap(find.text('Words'));
+      await settleAsync(tester);
+
+      expect(find.text('cough'), findsOneWidget);
+      expect(find.text('through'), findsOneWidget, reason: 'still unfiltered');
+    });
+  });
 }

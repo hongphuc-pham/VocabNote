@@ -6,6 +6,7 @@ import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/presentation/common/placeholder_screen.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
+import 'package:vocabnote/presentation/lists/list_detail_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
@@ -140,10 +141,8 @@ GoRoute get _listsBranch => GoRoute(
       path: ':${Routes.listIdParam}',
       name: RouteNames.listDetail,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).listDetailTitle,
-        routePath: Routes.listDetail,
-      ),
+      builder: (context, state) =>
+          ListDetailScreen(listId: state.pathParameters[Routes.listIdParam]!),
     ),
   ],
 );

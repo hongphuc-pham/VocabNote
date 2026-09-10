@@ -160,3 +160,188 @@ final class ListIdsForWordFamily extends $Family
   @override
   String toString() => r'listIdsForWordProvider';
 }
+
+/// One list, watched by id - the detail screen's title and colour.
+
+@ProviderFor(listById)
+final listByIdProvider = ListByIdFamily._();
+
+/// One list, watched by id - the detail screen's title and colour.
+
+final class ListByIdProvider
+    extends
+        $FunctionalProvider<AsyncValue<WordList?>, WordList?, Stream<WordList?>>
+    with $FutureModifier<WordList?>, $StreamProvider<WordList?> {
+  /// One list, watched by id - the detail screen's title and colour.
+  ListByIdProvider._({
+    required ListByIdFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'listByIdProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$listByIdHash();
+
+  @override
+  String toString() {
+    return r'listByIdProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $StreamProviderElement<WordList?> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<WordList?> create(Ref ref) {
+    final argument = this.argument as String;
+    return listById(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ListByIdProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$listByIdHash() => r'3d298492fee3e83c1a81df0fb862b64df5b731e3';
+
+/// One list, watched by id - the detail screen's title and colour.
+
+final class ListByIdFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<WordList?>, String> {
+  ListByIdFamily._()
+    : super(
+        retry: null,
+        name: r'listByIdProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// One list, watched by id - the detail screen's title and colour.
+
+  ListByIdProvider call(String listId) =>
+      ListByIdProvider._(argument: listId, from: this);
+
+  @override
+  String toString() => r'listByIdProvider';
+}
+
+/// The words in one list.
+///
+/// A family rather than the global `wordListProvider`: the detail screen must
+/// not disturb the filter the user left on the words tab, and going back should
+/// find that tab exactly as it was.
+
+@ProviderFor(wordsInList)
+final wordsInListProvider = WordsInListFamily._();
+
+/// The words in one list.
+///
+/// A family rather than the global `wordListProvider`: the detail screen must
+/// not disturb the filter the user left on the words tab, and going back should
+/// find that tab exactly as it was.
+
+final class WordsInListProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<WordListEntry>>,
+          List<WordListEntry>,
+          Stream<List<WordListEntry>>
+        >
+    with
+        $FutureModifier<List<WordListEntry>>,
+        $StreamProvider<List<WordListEntry>> {
+  /// The words in one list.
+  ///
+  /// A family rather than the global `wordListProvider`: the detail screen must
+  /// not disturb the filter the user left on the words tab, and going back should
+  /// find that tab exactly as it was.
+  WordsInListProvider._({
+    required WordsInListFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'wordsInListProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$wordsInListHash();
+
+  @override
+  String toString() {
+    return r'wordsInListProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $StreamProviderElement<List<WordListEntry>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<WordListEntry>> create(Ref ref) {
+    final argument = this.argument as String;
+    return wordsInList(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is WordsInListProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$wordsInListHash() => r'24aa3cf9abd79dc3c56c9ae42db577c9e3ba89e6';
+
+/// The words in one list.
+///
+/// A family rather than the global `wordListProvider`: the detail screen must
+/// not disturb the filter the user left on the words tab, and going back should
+/// find that tab exactly as it was.
+
+final class WordsInListFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<List<WordListEntry>>, String> {
+  WordsInListFamily._()
+    : super(
+        retry: null,
+        name: r'wordsInListProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// The words in one list.
+  ///
+  /// A family rather than the global `wordListProvider`: the detail screen must
+  /// not disturb the filter the user left on the words tab, and going back should
+  /// find that tab exactly as it was.
+
+  WordsInListProvider call(String listId) =>
+      WordsInListProvider._(argument: listId, from: this);
+
+  @override
+  String toString() => r'wordsInListProvider';
+}

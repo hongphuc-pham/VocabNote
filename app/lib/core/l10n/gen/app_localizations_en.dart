@@ -205,6 +205,13 @@ class AppL10nEn extends AppL10n {
   String get listSaveFailed => 'Couldn\'t save that list. Please try again.';
 
   @override
+  String get listEmptyTitle => 'Nothing in this list yet';
+
+  @override
+  String get listEmptyBody =>
+      'Add a word to this list from the word\'s own screen.';
+
+  @override
   String get listsEmptyTitle => 'No lists yet';
 
   @override

@@ -85,6 +85,13 @@ abstract final class Routes {
   /// Builds the path to one list.
   static String listDetailOf(String id) => '$lists/$id';
 
+  /// Practice, scoped to one list (F-042, UI-UX §4.5).
+  ///
+  /// The list travels as a query parameter rather than a path segment: it
+  /// narrows an existing screen rather than naming a different one, and M5
+  /// can ignore it without the route breaking.
+  static String practiceForList(String id) => '$practice?list=$id';
+
   /// Builds the path that runs [gameId].
   static String practiceRunOf(String gameId) => '$practice/$gameId/run';
 
