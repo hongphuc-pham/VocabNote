@@ -49,6 +49,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
         limit: effectiveLimit,
         source: source,
         sourceId: sourceId,
+        seed: seed,
       ),
       CardSelection.weakest => await _db.practiceDao.weakestCards(
         limit: effectiveLimit,
@@ -62,7 +63,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
       ),
     };
 
-    return await _attachHighlights(pool, seed: seed);
+    return await _attachHighlights(pool);
   }, onError: (_, _) => _dbFailure('load practice pool'));
 
   /// Loads the highlights and first notes for a whole pool and attaches them.
@@ -70,35 +71,30 @@ class PracticeRepositoryImpl implements PracticeRepository {
   /// A running game must never touch the database, so everything a round can
   /// need is resolved before the session starts (`docs/GAMES.md` §2).
   ///
-  /// When [seed] is given the pool is shuffled deterministically, so a session
-  /// can be replayed exactly - which is why the seed is stored on the session
-  /// row.
+  /// The pool's order is kept. A daily review is already due-first, and a
+  /// quick test was drawn by its seed in the query; shuffling here would throw
+  /// the first away and add nothing to the second.
   Future<List<PracticeCardData>> _attachHighlights(
-    List<WordWithCard> pool, {
-    int? seed,
-  }) async {
+    List<WordWithCard> pool,
+  ) async {
     if (pool.isEmpty) return <PracticeCardData>[];
 
     final ids = pool.map((entry) => entry.word.id).toSet();
     final grouped = await _db.highlightsDao.watchGroupedByWord().first;
     final firstNotes = await _db.notesDao.firstBodyByWord(ids);
 
-    final cards = <PracticeCardData>[
+    return <PracticeCardData>[
       for (final entry in pool)
-        if (ids.contains(entry.word.id))
-          PracticeCardData(
-            word: entry.word.toEntity(),
-            card: entry.card.toEntity(),
-            highlights: (grouped[entry.word.id] ?? const <IpaHighlightRow>[])
-                .map((row) => row.toEntityOrNull())
-                .whereType<IpaHighlight>()
-                .toList(),
-            firstNote: firstNotes[entry.word.id],
-          ),
+        PracticeCardData(
+          word: entry.word.toEntity(),
+          card: entry.card.toEntity(),
+          highlights: (grouped[entry.word.id] ?? const <IpaHighlightRow>[])
+              .map((row) => row.toEntityOrNull())
+              .whereType<IpaHighlight>()
+              .toList(),
+          firstNote: firstNotes[entry.word.id],
+        ),
     ];
-
-    if (seed != null) cards.shuffle(Random(seed));
-    return cards;
   }
 
   @override

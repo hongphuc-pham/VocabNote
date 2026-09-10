@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:drift/drift.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/tables/practice_answers.dart';
@@ -81,7 +83,9 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
 
   /// The cards due now, soonest first, capped at [limit].
   ///
-  /// Suspended cards and deleted or archived words never appear.
+  /// Suspended cards and deleted or archived words never appear. Cards due at
+  /// the same moment come in a random order (F-061), or a batch of words
+  /// added together would be practised in the same order every day.
   Future<List<WordWithCard>> dueCards({
     required int limit,
     DateTime? now,
@@ -96,12 +100,22 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
               at.toUtc().millisecondsSinceEpoch,
             ),
       )
-      ..orderBy(<OrderingTerm>[OrderingTerm.asc(studyCards.dueAt)])
+      ..orderBy(<OrderingTerm>[
+        OrderingTerm.asc(studyCards.dueAt),
+        OrderingTerm.random(),
+      ])
       ..limit(limit);
     return _readPool(query);
   }
 
-  /// A random pool, capped at [limit] - the quick test.
+  /// A random pool of at most [limit], in the order it was drawn - the quick
+  /// test.
+  ///
+  /// Drawn in Dart from ids in a fixed order, not with SQL `RANDOM()`, which
+  /// cannot be seeded: the session stores [seed] so it can be replayed, and a
+  /// seed that only reordered an unrepeatable sample would replay nothing.
+  /// `Random(seed)` is only stable within one SDK release, so the durable
+  /// record of what a session asked is still `practice_answers`.
   ///
   /// The 30-card ceiling is enforced by the caller in `GameConfig` **and**
   /// again here by whatever [limit] it passes, so neither layer can be the
@@ -110,11 +124,21 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
     required int limit,
     CardSourceKind source = CardSourceKind.all,
     String? sourceId,
-  }) {
-    final query = _poolQuery(source, sourceId)
-      ..orderBy(<OrderingTerm>[OrderingTerm.random()])
-      ..limit(limit);
-    return _readPool(query);
+    int? seed,
+  }) async {
+    final idQuery = _poolQuery(source, sourceId, idsOnly: true)
+      ..orderBy(<OrderingTerm>[OrderingTerm.asc(words.id)]);
+    final ids = [for (final row in await idQuery.get()) row.read(words.id)!];
+    final drawn = (ids..shuffle(Random(seed))).take(limit).toList();
+    if (drawn.isEmpty) return <WordWithCard>[];
+
+    final byId = <String, WordWithCard>{
+      for (final entry in await _readPool(
+        _poolQuery(CardSourceKind.all, null)..where(words.id.isIn(drawn)),
+      ))
+        entry.word.id: entry,
+    };
+    return <WordWithCard>[for (final id in drawn) ?byId[id]];
   }
 
   /// The weakest cards first: lowest box, then most lapses.
@@ -145,13 +169,24 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
     return _readPool(query);
   }
 
+  /// Live words with their cards, narrowed to [source].
+  ///
+  /// [idsOnly] selects just `words.id`, for drawing a sample without reading
+  /// every definition in the library.
   JoinedSelectStatement<HasResultSet, dynamic> _poolQuery(
     CardSourceKind source,
-    String? sourceId,
-  ) {
-    final query = select(studyCards).join(<Join<HasResultSet, dynamic>>[
+    String? sourceId, {
+    bool idsOnly = false,
+  }) {
+    final joins = <Join<HasResultSet, dynamic>>[
       innerJoin(words, words.id.equalsExp(studyCards.wordId)),
-    ])..where(words.deletedAt.isNull() & words.isArchived.equals(false));
+    ];
+    final query =
+        (idsOnly
+              ? (selectOnly(studyCards).join(joins)
+                  ..addColumns(<Expression<Object>>[words.id]))
+              : select(studyCards).join(joins))
+          ..where(words.deletedAt.isNull() & words.isArchived.equals(false));
 
     switch (source) {
       case CardSourceKind.all:
@@ -159,15 +194,17 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
       case CardSourceKind.favourites:
         query.where(words.isFavourite.equals(true));
       case CardSourceKind.list:
-        if (sourceId != null) {
-          query.where(
-            existsQuery(
-              select(wordListItems)
-                ..where((i) => i.wordId.equalsExp(words.id))
-                ..where((i) => i.listId.equals(sourceId)),
-            ),
-          );
-        }
+        // A list source with no list is an empty pool. Falling through to
+        // every word would quietly start a session over the whole library.
+        query.where(
+          sourceId == null
+              ? const Constant(false)
+              : existsQuery(
+                  select(wordListItems)
+                    ..where((i) => i.wordId.equalsExp(words.id))
+                    ..where((i) => i.listId.equals(sourceId)),
+                ),
+        );
     }
     return query;
   }
