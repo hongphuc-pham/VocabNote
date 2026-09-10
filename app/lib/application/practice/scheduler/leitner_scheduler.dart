@@ -54,7 +54,7 @@ class LeitnerScheduler implements ReviewScheduler {
       );
     }
 
-    final box = _boxAfter(current.box, result);
+    final box = boxAfter(current.box, result);
     final days = schedule.daysForBox(box);
 
     return current.copyWith(
@@ -70,7 +70,12 @@ class LeitnerScheduler implements ReviewScheduler {
     );
   }
 
-  int _boxAfter(int box, ReviewOutcome result) => switch (result) {
+  /// Which box [box] becomes after [result].
+  ///
+  /// Public so the runner can label a grading button with where the card would
+  /// land, without applying the scheduler and reading a jittered date back out
+  /// of it (`UI-UX.md` §4.7).
+  int boxAfter(int box, ReviewOutcome result) => switch (result) {
     // A lapse goes all the way back, not one step. The point of box 0 is that
     // a word you have just failed is not a word you should see in four days.
     ReviewOutcome.again => 0,

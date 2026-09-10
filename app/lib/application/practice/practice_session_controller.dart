@@ -271,19 +271,27 @@ class PracticeSessionRunner extends _$PracticeSessionRunner {
   ///
   /// Null in a quick test, because the schedule does not move and any interval
   /// shown would be a lie (`UI-UX.md` §4.7).
+  ///
+  /// The **nominal** interval, not the jittered one. Reading it off
+  /// `apply().dueAt` was wrong twice over: the ±10% jitter made the label
+  /// change on every rebuild, and truncating the result meant "2 days minus
+  /// 10%" displayed as `1d` — so *Good* and *Easy* both read `1d`, and a lapse
+  /// read `9m` instead of `10m`. A button that promises two days and delivers
+  /// 1.8 is fine; one that *says* one day when it means two is not.
   String? intervalLabelFor(ReviewOutcome outcome) {
     final current = state;
     final round = current?.current;
     if (current == null || round == null) return null;
     if (!current.config.affectsScheduling) return null;
 
-    final now = DateTime.now();
-    final after = LeitnerScheduler(schedule: _schedule)
-        .apply(round.card.card, outcome, now);
-    final wait = after.dueAt.difference(now);
+    if (outcome == ReviewOutcome.skipped) return null;
 
-    if (wait.inDays >= 1) return '${wait.inDays}d';
-    if (wait.inHours >= 1) return '${wait.inHours}h';
-    return '${max(wait.inMinutes, 1)}m';
+    final box = LeitnerScheduler(schedule: _schedule)
+        .boxAfter(round.card.card.box, outcome);
+    final days = _schedule.daysForBox(box);
+
+    // Box 0 is same-day: the relearn interval, not a number of days.
+    if (days == 0) return '${LeitnerScheduler.relearnInterval.inMinutes}m';
+    return '${days}d';
   }
 }

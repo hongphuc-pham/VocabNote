@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vocabnote/application/practice/game_contracts.dart';
 import 'package:vocabnote/application/practice/practice_session_controller.dart';
 import 'package:vocabnote/application/practice/scheduler/review_schedule.dart';
+import 'package:vocabnote/application/repositories.dart';
 import 'package:vocabnote/application/settings/settings_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
@@ -81,6 +82,28 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
       _starting = false;
       _empty = !started;
     });
+  }
+
+  /// Says the headword.
+  ///
+  /// Deliberately **not** gated on `ttsAutoPlay`: that setting decides whether
+  /// the word is spoken *automatically on reveal*, not whether the play button
+  /// works. Gating here made the button dead whenever autoplay was off.
+  ///
+  /// Fire-and-forget: a silent device is a disappointment, not an error, and
+  /// `SpeechService` already reports an unavailable engine as a failure the
+  /// word detail screen surfaces. Interrupting a practice session with a
+  /// snackbar about text-to-speech would be worse than staying quiet.
+  Future<void> _speak(GameRound round) async {
+    final settings = ref.read(appSettingsOrDefaultsProvider);
+    await ref
+        .read(speechServiceProvider)
+        .speak(
+          round.card.word.headword.value,
+          locale: settings.ttsLocale,
+          rate: settings.ttsRate,
+          pitch: settings.ttsPitch,
+        );
   }
 
   Future<void> _confirmClose() async {
@@ -166,6 +189,10 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
                   .read(practiceSessionRunnerProvider.notifier)
                   .answer(game, answer),
             ),
+            // Without this the card has no play button at all, which
+            // `UI-UX.md` §4.7 requires and F-063 builds autoplay on. It was
+            // missing until the card was looked at on a device.
+            onSpeak: () => unawaited(_speak(round)),
             intervalLabel: ref
                 .read(practiceSessionRunnerProvider.notifier)
                 .intervalLabelFor,

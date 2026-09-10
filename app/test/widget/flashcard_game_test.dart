@@ -49,11 +49,13 @@ void main() {
     PracticeCardData data, {
     PromptSide promptSide = PromptSide.wordFirst,
     bool isFirstRound = false,
+    bool autoPlayOnReveal = true,
   }) => FlashcardRound(
     index: 0,
     card: data,
     promptSide: promptSide,
     isFirstRound: isFirstRound,
+    autoPlayOnReveal: autoPlayOnReveal,
   );
 
   Future<void> pumpRound(
@@ -320,6 +322,73 @@ void main() {
       await tester.pump();
 
       expect(find.text('To expel air from the lungs'), findsOneWidget);
+    });
+  });
+
+  group('speech (F-063)', () {
+    testWidgets('the front offers a play button whenever speech is wired', (
+      tester,
+    ) async {
+      // Missing entirely until the card was looked at on a device: the run
+      // screen never passed `onSpeak`, so `UI-UX.md` §4.7's play button did
+      // not exist.
+      var spoken = 0;
+      await pumpRound(
+        tester,
+        roundFor(card()),
+        onAnswer: (_) {},
+        onSpeak: () => spoken++,
+      );
+
+      await tester.tap(find.byIcon(Icons.volume_up));
+      await tester.pumpAndSettle();
+      expect(spoken, 1);
+    });
+
+    testWidgets('revealing speaks when autoplay is on', (tester) async {
+      var spoken = 0;
+      await pumpRound(
+        tester,
+        roundFor(card()),
+        onAnswer: (_) {},
+        onSpeak: () => spoken++,
+      );
+
+      await tester.tap(find.byType(Card));
+      await tester.pumpAndSettle();
+      expect(spoken, 1);
+    });
+
+    testWidgets('revealing stays silent when autoplay is off', (tester) async {
+      var spoken = 0;
+      await pumpRound(
+        tester,
+        roundFor(card(), autoPlayOnReveal: false),
+        onAnswer: (_) {},
+        onSpeak: () => spoken++,
+      );
+
+      await tester.tap(find.byType(Card));
+      await tester.pumpAndSettle();
+      expect(spoken, 0, reason: 'autoplay off means silent on reveal');
+    });
+
+    testWidgets('the play button still works when autoplay is off', (
+      tester,
+    ) async {
+      // Autoplay decides whether the word is spoken *without being asked*, not
+      // whether asking works. Gating both on one flag made the button dead.
+      var spoken = 0;
+      await pumpRound(
+        tester,
+        roundFor(card(), autoPlayOnReveal: false),
+        onAnswer: (_) {},
+        onSpeak: () => spoken++,
+      );
+
+      await tester.tap(find.byIcon(Icons.volume_up));
+      await tester.pumpAndSettle();
+      expect(spoken, 1);
     });
   });
 }

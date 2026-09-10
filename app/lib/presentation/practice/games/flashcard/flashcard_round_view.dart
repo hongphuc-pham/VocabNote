@@ -49,6 +49,9 @@ class _FlashcardRoundViewState extends State<FlashcardRoundView> {
   void _reveal() {
     if (_revealed) return;
     setState(() => _revealed = true);
+    // Only when the user asked for it. The play button on the front is always
+    // available regardless (F-063: autoplay is "optional").
+    if (!widget.round.autoPlayOnReveal) return;
     if (widget.callbacks.onSpeak case final VoidCallback speak) speak();
   }
 

@@ -360,4 +360,77 @@ void main() {
       );
     });
   });
+
+  group('the interval label (UI-UX §4.7)', () {
+    test('shows the nominal interval, not a jittered one', () async {
+      // Found on a device: reading the label off `apply().dueAt` applied the
+      // ±10% jitter and then truncated, so a 2-day interval displayed as "1d"
+      // and *Good* and *Easy* both read the same. It also changed on every
+      // rebuild.
+      await seedDue(1, box: 0);
+      await runner().start(
+        config: configFor(PracticeMode.daily, selection: CardSelection.due),
+        game: DummyGame(),
+      );
+
+      // box 0 -> good lands in box 1 (1 day), easy in box 2 (2 days).
+      expect(runner().intervalLabelFor(ReviewOutcome.good), '1d');
+      expect(runner().intervalLabelFor(ReviewOutcome.easy), '2d');
+    });
+
+    test('a lapse reads as the full relearn interval', () async {
+      // Was "9m", because ten minutes minus 10% jitter rounds down.
+      // `seedDue` defaults to box 3 - a mature card, which is the case that
+      // matters: a lapse from box 3 must still say ten minutes.
+      await seedDue(1);
+      await runner().start(
+        config: configFor(PracticeMode.daily, selection: CardSelection.due),
+        game: DummyGame(),
+      );
+
+      expect(runner().intervalLabelFor(ReviewOutcome.again), '10m');
+    });
+
+    test('is stable across repeated reads', () async {
+      await seedDue(1, box: 2);
+      await runner().start(
+        config: configFor(PracticeMode.daily, selection: CardSelection.due),
+        game: DummyGame(),
+      );
+
+      final labels = <String?>{
+        for (var i = 0; i < 10; i++)
+          runner().intervalLabelFor(ReviewOutcome.good),
+      };
+      expect(labels, hasLength(1), reason: 'a jittered label flickers');
+    });
+
+    test("follows the user's own schedule", () async {
+      await seedDue(1, box: 2);
+      await runner().start(
+        config: configFor(PracticeMode.daily, selection: CardSelection.due),
+        game: DummyGame(),
+        schedule: const ReviewSchedule(<int>[0, 3, 6, 12, 20, 40, 90]),
+      );
+
+      // box 2 + good -> box 3, which this table says is 12 days.
+      expect(runner().intervalLabelFor(ReviewOutcome.good), '12d');
+    });
+
+    test('is absent in a quick test, where nothing is scheduled', () async {
+      await seedDue(2);
+      await runner().start(
+        config: configFor(PracticeMode.quickTest),
+        game: DummyGame(),
+      );
+
+      for (final outcome in ReviewOutcome.values) {
+        expect(
+          runner().intervalLabelFor(outcome),
+          isNull,
+          reason: outcome.name,
+        );
+      }
+    });
+  });
 }

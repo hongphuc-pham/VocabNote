@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:vocabnote/application/practice/game_contracts.dart';
 import 'package:vocabnote/domain/entities/practice_session.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
@@ -31,7 +31,11 @@ class FlashcardGame implements PracticeGame<FlashcardRound> {
     id: gameId,
     title: (l10n) => l10n.gameFlashcardTitle,
     description: (l10n) => l10n.gameFlashcardDescription,
-    icon: const IconData(0xe3d0, fontFamily: 'MaterialIcons'),
+    // A named constant, not a raw codepoint. The first version guessed
+    // 0xe3d0 - chosen when this file lived in `application/` and only
+    // `flutter/widgets.dart` was in scope - and it rendered an envelope.
+    // A raw codepoint also defeats icon tree-shaking.
+    icon: Icons.style_outlined,
     supportedModes: const <PracticeMode>{
       PracticeMode.daily,
       PracticeMode.quickTest,
@@ -59,6 +63,7 @@ class FlashcardGame implements PracticeGame<FlashcardRound> {
           card: ordered[i],
           promptSide: config.promptSide,
           isFirstRound: i == 0,
+          autoPlayOnReveal: config.ttsAutoPlay,
         ),
     ];
   }
@@ -88,6 +93,7 @@ class FlashcardRound extends GameRound {
     required super.card,
     required this.promptSide,
     this.isFirstRound = false,
+    this.autoPlayOnReveal = true,
   });
 
   /// Which face opens, from the user's config.
@@ -95,6 +101,11 @@ class FlashcardRound extends GameRound {
 
   /// Whether to show the "Tap to reveal" hint — round 1 only (`UI-UX` §4.7).
   final bool isFirstRound;
+
+  /// Whether revealing speaks the word without being asked (F-063).
+  ///
+  /// Separate from whether the play button exists: the button is always there.
+  final bool autoPlayOnReveal;
 
   /// The text on the front, or null when the word has nothing for this side.
   ///
