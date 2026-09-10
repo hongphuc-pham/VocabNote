@@ -143,7 +143,13 @@ Games never touch the database, never navigate, never own a progress bar.
 - `good`  → box + 1 (max 6)
 - `easy`  → box + 2 (max 6)
 - `due_at = now + interval`, jittered ±10% so decks don't clump on one day
-- `repetitions++`, `last_result`, `last_reviewed_at` always written
+- `repetitions++`, `last_result`, `last_reviewed_at` written on every **graded** answer
+- a **skipped** round writes `last_result` and `last_reviewed_at` only. It does not
+  advance the box, move `due_at`, or count as a repetition or a lapse.
+  *Clarified at M5: this line said "always", which read literally would count
+  scrolling past a card as reviewing it — inflating the schedule and pushing real work
+  into the future. `ReviewOutcome.skipped`'s own contract, "recorded, but never
+  schedules", is the one that holds.*
 
 `Sm2Scheduler` (phase 2) uses `ease_factor`, which already exists in the schema — swapping it
 in is a single provider override with **no migration**.

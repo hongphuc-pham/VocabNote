@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:vocabnote/core/failure.dart';
+import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/database_opener.dart';
 
 /// The data-safety promise, tested (`docs/DATABASE.md` §3, §1).
@@ -139,7 +140,12 @@ void main() {
       final failure = result.failureOrNull;
       expect(failure, isA<SchemaTooNewFailure>());
       expect((failure! as SchemaTooNewFailure).onDiskVersion, 99);
-      expect((failure as SchemaTooNewFailure).supportedVersion, 1);
+      // Whatever this build supports - hard-coding it would make the test
+      // fail on every schema bump for no reason.
+      expect(
+        (failure as SchemaTooNewFailure).supportedVersion,
+        AppDatabase.latestSchemaVersion,
+      );
     });
 
     test('leaves the file completely untouched', () async {

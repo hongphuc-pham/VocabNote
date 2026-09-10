@@ -61,6 +61,24 @@ class Settings extends Table {
   BoolColumn get lookupEnabled =>
       boolean().named('lookup_enabled').withDefault(const Constant(true))();
 
+  /// The interval each Leitner box waits, as a JSON array of seven integers.
+  ///
+  /// The default **is** the `docs/GAMES.md` §5 table, so a user who never
+  /// opens Settings gets exactly the documented behaviour. Stored as JSON
+  /// rather than seven columns because it is one setting the user edits as a
+  /// unit, and because a `Sm2Scheduler` in phase 2 would want a different
+  /// shape entirely (ADR-005).
+  TextColumn get reviewSchedule => text()
+      .named('review_schedule')
+      .withDefault(const Constant('[0,1,2,4,7,15,30]'))();
+
+  /// How many extra times a card graded *again* may return in the same session.
+  ///
+  /// Session-local: it changes what one sitting feels like and touches no
+  /// scheduling column. 0 disables it.
+  IntColumn get againRepeats =>
+      integer().named('again_repeats').withDefault(const Constant(1))();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 

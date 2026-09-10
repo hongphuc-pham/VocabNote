@@ -9,6 +9,10 @@ import 'package:vocabnote/data/db/tables/words.dart';
 /// Do not read it into any v1 logic.
 // The due-pool query orders on exactly this pair (docs/GAMES.md section 4).
 @TableIndex(name: 'idx_cards_due', columns: {#dueAt, #suspended})
+// The least-known sort orders on exactly this pair. Without it the query
+// left-joins every study card and sorts unindexed - ~80ms on 5,000 words, the
+// slowest query in the app by 15x (PROGRESS §3 decision 3).
+@TableIndex(name: 'idx_cards_box_lapses', columns: {#box, #lapses})
 @DataClassName('StudyCardRow')
 class StudyCards extends Table {
   /// The word this card is for - also the primary key, so the one-card-per-word

@@ -42,7 +42,7 @@ before the milestone is closed.
 | F-040 | M | My Words list | Sort by recent / A–Z / least known. Shows headword, IPA preview with highlight colours, note count. |
 | F-041 | M | Search | Instant, ≤100ms on 5,000 words, matches headword, definition, example and note bodies (FTS5). |
 | F-042 | M | Lists (decks) | Create, rename, recolour, reorder, delete (deleting a list never deletes words). A word can be in many lists. |
-| F-043 | S | Filter chips | All · Favourites · Due today · Not practised · by list. |
+| F-043 | S | Filter chips | All · Favourites · Due today · **No IPA yet** · by list. *Corrected at M4: this row said "Not practised", which disagreed with `UI-UX.md` §4.1 and with the shipped code. They are different filters over different data — one is about transcription, the other about study history. §4.1 is the source of truth, and "No IPA yet" serves the app's core job of getting a transcription onto every word.* |
 | F-044 | S | Favourite a word | Star toggle from list and detail. |
 | F-045 | C | Archive a word | Hidden from lists, kept in stats. |
 

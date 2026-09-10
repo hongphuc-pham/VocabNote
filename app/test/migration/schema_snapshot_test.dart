@@ -4,10 +4,9 @@ import 'package:vocabnote/data/db/app_database.dart';
 
 import 'generated/schema.dart';
 
-/// The migration harness, standing guard at v1.
+/// The migration harness, standing guard at the current version.
 ///
-/// There is no `vN -> vN+1` test yet because there is only one schema version.
-/// What *can* be verified today, and is:
+/// The `v1 -> v2` migration has its own file. What this one checks:
 ///
 /// * the committed snapshot in `drift_schemas/` still matches the schema the
 ///   generated code produces - so a table changed without re-exporting fails
@@ -16,9 +15,10 @@ import 'generated/schema.dart';
 /// * the harness itself compiles and runs, so the first real migration starts
 ///   from working infrastructure rather than a cold start.
 ///
-/// `README.md` in this folder explains how to add the v1 -> v2 test. The
-/// pipeline these tests depend on was proven end to end at M1 with a throwaway
-/// `words.synonyms` column, which was then reverted.
+/// `README.md` in this folder explains how to add the next one. The pipeline
+/// these tests depend on was proven end to end at M1 with a throwaway
+/// `words.synonyms` column, which was then reverted; v2 is the first real
+/// migration to use it.
 void main() {
   late SchemaVerifier verifier;
 
@@ -30,8 +30,10 @@ void main() {
     // The check `docs/RULES.md` §27 is really about: generated artefacts are
     // committed, so a stale one is a bug. If this fails, someone changed a
     // table and did not run `drift_dev schema dump`.
-    final db = AppDatabase(await verifier.startAt(1));
-    await verifier.migrateAndValidate(db, 1);
+    final db = AppDatabase(
+      await verifier.startAt(AppDatabase.latestSchemaVersion),
+    );
+    await verifier.migrateAndValidate(db, AppDatabase.latestSchemaVersion);
     await db.close();
   });
 
@@ -50,7 +52,7 @@ void main() {
     // Guards against the subtler failure: an export that succeeded but
     // silently dropped the FTS table or its triggers, which would make a
     // future migration test pass while the real app lost search.
-    final schema = await verifier.schemaAt(1);
+    final schema = await verifier.schemaAt(AppDatabase.latestSchemaVersion);
     final names = schema.rawDatabase
         .select(
           'SELECT name FROM sqlite_master '
@@ -65,6 +67,7 @@ void main() {
       names,
       containsAll(<String>[
         'app_meta',
+        'idx_cards_box_lapses',
         'idx_cards_due',
         'idx_words_normalized',
         'idx_words_updated',
@@ -85,13 +88,13 @@ void main() {
     );
   });
 
-  test('schemaVersion is 1, and changing it requires a new snapshot', () {
+  test('schemaVersion is 2, and changing it requires a new snapshot', () {
     // A deliberate tripwire. Bumping schemaVersion without adding
     // drift_schemas/drift_schema_vN.json and a vN-1 -> vN test fails here
     // first, with a message that says what to do.
     expect(
       AppDatabase.latestSchemaVersion,
-      1,
+      2,
       reason:
           'If you bumped the schema version, follow the steps in '
           'test/migration/README.md: export the new snapshot, '

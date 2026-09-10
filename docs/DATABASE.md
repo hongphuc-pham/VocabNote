@@ -78,7 +78,9 @@ hex, so themes can change) · `label` TEXT NULL · `created_at`.
 `last_reviewed_at` INTEGER NULL · `last_result` TEXT NULL (`again`\|`good`\|`easy`) ·
 `suspended` INTEGER NOT NULL DEFAULT 0.
 
-Index: `idx_cards_due (due_at, suspended)`.
+Indexes: `idx_cards_due (due_at, suspended)` · `idx_cards_box_lapses (box, lapses)`
+*(added at schema v2 — the least-known sort orders on exactly this pair and was the slowest
+query in the app by 15× without it; PROGRESS §3 decision 3).*
 
 ### `practice_sessions`
 `id` PK · `game_id` TEXT NOT NULL (`flashcard`, later `ipa_match`, …) ·
@@ -97,7 +99,16 @@ Index: `idx_cards_due (due_at, suspended)`.
 ### `settings` — single row (`id = 1`)
 `theme_mode` · `tts_locale` (`en-GB`\|`en-US`) · `tts_rate` REAL · `tts_pitch` REAL ·
 `autoplay_on_open` INTEGER · `daily_goal` INTEGER DEFAULT 20 · `reminder_enabled` INTEGER ·
-`reminder_time_minutes` INTEGER NULL · `prompt_side` TEXT · `lookup_enabled` INTEGER DEFAULT 1.
+`reminder_time_minutes` INTEGER NULL · `prompt_side` TEXT · `lookup_enabled` INTEGER DEFAULT 1 ·
+`review_schedule` TEXT DEFAULT `'[0,1,2,4,7,15,30]'` · `again_repeats` INTEGER DEFAULT 1
+*(both added at schema v2)*.
+
+`review_schedule` is the interval each Leitner box waits, as a JSON array of seven integers.
+Its default **is** the `GAMES.md` §5 table, so a user who never opens Settings gets exactly
+the documented behaviour. Stored as JSON rather than seven columns because the user edits it
+as a unit, and because a `Sm2Scheduler` in phase 2 would want a different shape entirely
+(ADR-005). `again_repeats` is how many extra times a card graded *again* may return **within
+the same session**; it touches no scheduling column, and 0 disables it.
 
 ### `words_fts` — FTS5 virtual table
 Over `headword`, `definition`, `example`, and note bodies; kept in sync by triggers.
