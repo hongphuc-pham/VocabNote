@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vocabnote/application/practice/game_contracts.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
@@ -9,6 +10,7 @@ import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/lists/list_detail_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
+import 'package:vocabnote/presentation/practice/practice_run_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
 import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
 import 'package:vocabnote/presentation/words/word_detail_screen.dart';
@@ -122,10 +124,18 @@ GoRoute get _practiceBranch => GoRoute(
       path: ':${Routes.gameIdParam}/run',
       name: RouteNames.practiceRun,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).practiceRunTitle,
-        routePath: Routes.practiceRun,
-      ),
+      builder: (context, state) {
+        // The config travels as `extra` rather than in the path: it is a
+        // dozen fields the user just chose, and putting them in a URL would
+        // make a bookmarkable link that starts a session with stale settings.
+        final config = state.extra;
+        return PracticeRunScreen(
+          gameId: state.pathParameters[Routes.gameIdParam]!,
+          // Absent when the route was opened by URL rather than from the hub;
+          // the screen falls back to today's review.
+          config: config is GameConfig ? config : null,
+        );
+      },
     ),
   ],
 );

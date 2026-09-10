@@ -60,7 +60,7 @@ void main() {
     WidgetTester tester,
     FlashcardRound round, {
     required void Function(GameAnswer) onAnswer,
-    String Function(ReviewOutcome)? intervalLabel,
+    String? Function(ReviewOutcome)? intervalLabel,
     VoidCallback? onSpeak,
     bool reduceMotion = false,
   }) async {

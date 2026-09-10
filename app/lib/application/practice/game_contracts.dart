@@ -228,7 +228,7 @@ class GameRoundCallbacks {
   ///
   /// **Null in a quick test**, and that is the point: a quick test does not
   /// move the schedule, so any interval shown on its buttons would be a lie.
-  final String Function(ReviewOutcome outcome)? intervalLabel;
+  final String? Function(ReviewOutcome outcome)? intervalLabel;
 }
 
 /// A practice game (`docs/GAMES.md` §2).

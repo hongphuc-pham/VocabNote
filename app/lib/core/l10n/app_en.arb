@@ -292,6 +292,121 @@
   "@gradeEasy": {
     "description": "Grading button: the user knew the word easily."
   },
+  "practiceEmptyTitle": "Nothing to practise yet",
+  "@practiceEmptyTitle": {
+    "description": "Empty state title on the practice hub when there are no words."
+  },
+  "practiceEmptyBody": "Add a few words and they'll show up here ready to review.",
+  "@practiceEmptyBody": {
+    "description": "Empty state body on the practice hub."
+  },
+  "practiceQuickTest": "Quick test",
+  "@practiceQuickTest": {
+    "description": "Button that opens the quick-test config sheet."
+  },
+  "practiceNothingDue": "Nothing due right now - a quick test still counts.",
+  "@practiceNothingDue": {
+    "description": "Encouraging line when no cards are due. Never a warning (UI-UX 4.6)."
+  },
+  "practiceNothingDueTitle": "All caught up",
+  "@practiceNothingDueTitle": {
+    "description": "Shown when a daily review is started with nothing due."
+  },
+  "practiceNothingDueBody": "Nothing is due today. Try a quick test if you'd like more.",
+  "@practiceNothingDueBody": {
+    "description": "Body when a daily review has no cards."
+  },
+  "practiceNoCardsTitle": "No cards here",
+  "@practiceNoCardsTitle": {
+    "description": "Shown when a quick test finds no matching words."
+  },
+  "practiceNoCardsBody": "Nothing matched that choice. Try a different source.",
+  "@practiceNoCardsBody": {
+    "description": "Body when a quick test pool is empty."
+  },
+  "practiceCloseLabel": "Close practice",
+  "@practiceCloseLabel": {
+    "description": "Screen-reader label for the close button during a session."
+  },
+  "practiceAbandonTitle": "Leave this review?",
+  "@practiceAbandonTitle": {
+    "description": "Title of the confirm dialog when abandoning a daily review."
+  },
+  "practiceAbandonBody": "The cards you've already answered stay answered. The rest keep their current schedule.",
+  "@practiceAbandonBody": {
+    "description": "Body of the abandon dialog. Says plainly that nothing is lost."
+  },
+  "practiceAbandonStay": "Keep going",
+  "@practiceAbandonStay": {
+    "description": "Button that dismisses the abandon dialog."
+  },
+  "practiceAbandonLeave": "Leave",
+  "@practiceAbandonLeave": {
+    "description": "Button that abandons the session."
+  },
+  "quickTestTitle": "Quick test",
+  "@quickTestTitle": {
+    "description": "Title of the quick-test config sheet."
+  },
+  "quickTestSource": "Words from",
+  "@quickTestSource": {
+    "description": "Label for the source chips in the quick-test sheet."
+  },
+  "quickTestSize": "How many",
+  "@quickTestSize": {
+    "description": "Label for the size chips in the quick-test sheet."
+  },
+  "quickTestPromptSide": "Show me first",
+  "@quickTestPromptSide": {
+    "description": "Label for the prompt-side chips in the quick-test sheet."
+  },
+  "quickTestAutoplay": "Say the word when I reveal it",
+  "@quickTestAutoplay": {
+    "description": "Toggle for text-to-speech autoplay during a quick test."
+  },
+  "quickTestStart": "Start",
+  "@quickTestStart": {
+    "description": "Button that starts the quick test."
+  },
+  "promptSideWord": "The word",
+  "@promptSideWord": {
+    "description": "Prompt side: show the headword first."
+  },
+  "promptSideIpa": "The sounds",
+  "@promptSideIpa": {
+    "description": "Prompt side: show the transcription first."
+  },
+  "promptSideMeaning": "The meaning",
+  "@promptSideMeaning": {
+    "description": "Prompt side: show the definition first."
+  },
+  "practiceDailyReview": "Daily review ({count} due)",
+  "@practiceDailyReview": {
+    "description": "Button that starts a daily review, with how many cards are due.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceLockedHint": "{count, plural, =1{Add 1 more word to unlock this} other{Add {count} more words to unlock this}}",
+  "@practiceLockedHint": {
+    "description": "Says how many words are still needed before a game unlocks.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quickTestSizeAll": "All (max {max})",
+  "@quickTestSizeAll": {
+    "description": "The All size chip, naming the hard cap out loud.",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "listsEmptyTitle": "No lists yet",
   "@listsEmptyTitle": {
     "description": "Empty state title on the lists grid."

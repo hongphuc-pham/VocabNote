@@ -262,7 +262,7 @@ class _Grades extends StatelessWidget {
   const new({required this.enabled, required this.onGrade, this.intervalLabel});
 
   final bool enabled;
-  final String Function(ReviewOutcome outcome)? intervalLabel;
+  final String? Function(ReviewOutcome outcome)? intervalLabel;
   final void Function(ReviewOutcome outcome) onGrade;
 
   @override

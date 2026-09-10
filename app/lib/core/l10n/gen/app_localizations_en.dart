@@ -237,6 +237,98 @@ class AppL10nEn extends AppL10n {
   String get gradeEasy => 'Easy';
 
   @override
+  String get practiceEmptyTitle => 'Nothing to practise yet';
+
+  @override
+  String get practiceEmptyBody =>
+      'Add a few words and they\'ll show up here ready to review.';
+
+  @override
+  String get practiceQuickTest => 'Quick test';
+
+  @override
+  String get practiceNothingDue =>
+      'Nothing due right now - a quick test still counts.';
+
+  @override
+  String get practiceNothingDueTitle => 'All caught up';
+
+  @override
+  String get practiceNothingDueBody =>
+      'Nothing is due today. Try a quick test if you\'d like more.';
+
+  @override
+  String get practiceNoCardsTitle => 'No cards here';
+
+  @override
+  String get practiceNoCardsBody =>
+      'Nothing matched that choice. Try a different source.';
+
+  @override
+  String get practiceCloseLabel => 'Close practice';
+
+  @override
+  String get practiceAbandonTitle => 'Leave this review?';
+
+  @override
+  String get practiceAbandonBody =>
+      'The cards you\'ve already answered stay answered. The rest keep their current schedule.';
+
+  @override
+  String get practiceAbandonStay => 'Keep going';
+
+  @override
+  String get practiceAbandonLeave => 'Leave';
+
+  @override
+  String get quickTestTitle => 'Quick test';
+
+  @override
+  String get quickTestSource => 'Words from';
+
+  @override
+  String get quickTestSize => 'How many';
+
+  @override
+  String get quickTestPromptSide => 'Show me first';
+
+  @override
+  String get quickTestAutoplay => 'Say the word when I reveal it';
+
+  @override
+  String get quickTestStart => 'Start';
+
+  @override
+  String get promptSideWord => 'The word';
+
+  @override
+  String get promptSideIpa => 'The sounds';
+
+  @override
+  String get promptSideMeaning => 'The meaning';
+
+  @override
+  String practiceDailyReview(int count) {
+    return 'Daily review ($count due)';
+  }
+
+  @override
+  String practiceLockedHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Add $count more words to unlock this',
+      one: 'Add 1 more word to unlock this',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quickTestSizeAll(int max) {
+    return 'All (max $max)';
+  }
+
+  @override
   String get listsEmptyTitle => 'No lists yet';
 
   @override

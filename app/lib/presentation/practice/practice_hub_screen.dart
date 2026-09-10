@@ -1,22 +1,187 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vocabnote/application/practice/game_contracts.dart';
+import 'package:vocabnote/application/practice/practice_hub_controller.dart';
+import 'package:vocabnote/application/settings/settings_controller.dart';
+import 'package:vocabnote/application/words/word_list_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
-import 'package:vocabnote/presentation/common/placeholder_screen.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/domain/entities/practice_session.dart';
+import 'package:vocabnote/domain/repositories/practice_repository.dart';
+import 'package:vocabnote/presentation/common/empty_state.dart';
 import 'package:vocabnote/presentation/common/settings_action.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
+import 'package:vocabnote/presentation/practice/game_registry_provider.dart';
+import 'package:vocabnote/presentation/practice/quick_test_sheet.dart';
 
-/// The practice hub (`docs/UI-UX.md` §4.6).
+/// The practice hub (`docs/UI-UX.md` §4.6, F-060).
 ///
-/// M5 replaces this with the goal ring and one card per registered game.
-class PracticeHubScreen extends StatelessWidget {
-  /// Creates the practice hub.
+/// One card per registered game, whether or not it can be started — a game the
+/// user cannot play yet still needs to say *why*, which is more useful than an
+/// empty screen.
+class PracticeHubScreen extends ConsumerWidget {
+  /// Creates the hub.
   const new({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return PlaceholderScreen(
-      title: AppL10n.of(context).practiceTitle,
-      routePath: Routes.practice,
-      actions: const <Widget>[SettingsAction()],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppL10n.of(context);
+    final metrics = context.metrics;
+    final registry = ref.watch(gameRegistryProvider);
+    final wordCount = ref.watch(totalWordCountProvider).value ?? 0;
+    final dueCount = ref.watch(dueCardCountProvider).value ?? 0;
+    final descriptors = registry.available(wordCount);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.practiceTitle),
+        actions: const <Widget>[SettingsAction()],
+      ),
+      body: wordCount == 0
+          ? EmptyState(
+              icon: Icons.school_outlined,
+              title: l10n.practiceEmptyTitle,
+              body: l10n.practiceEmptyBody,
+              actionLabel: l10n.addWordAction,
+              onAction: () => context.push(Routes.wordAdd),
+            )
+          : ListView(
+              padding: EdgeInsets.all(metrics.spaceLg),
+              children: <Widget>[
+                for (final descriptor in descriptors)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: metrics.spaceMd),
+                    child: _GameCard(
+                      descriptor: descriptor,
+                      unlocked: registry.isUnlocked(descriptor, wordCount),
+                      wordCount: wordCount,
+                      dueCount: dueCount,
+                    ),
+                  ),
+              ],
+            ),
+    );
+  }
+}
+
+/// One game's card.
+class _GameCard extends ConsumerWidget {
+  const new({
+    required this.descriptor,
+    required this.unlocked,
+    required this.wordCount,
+    required this.dueCount,
+  });
+
+  final GameDescriptor descriptor;
+  final bool unlocked;
+  final int wordCount;
+  final int dueCount;
+
+  Future<void> _startQuickTest(BuildContext context, WidgetRef ref) async {
+    final config = await QuickTestSheet.show(context, gameId: descriptor.id);
+    if (config == null || !context.mounted) return;
+    unawaited(context.push(Routes.practiceRunOf(descriptor.id), extra: config));
+  }
+
+  void _startDaily(BuildContext context, WidgetRef ref) {
+    final goal = ref.read(appSettingsOrDefaultsProvider).dailyGoal;
+    unawaited(
+      context.push(
+        Routes.practiceRunOf(descriptor.id),
+        extra: GameConfig(
+          gameId: descriptor.id,
+          mode: PracticeMode.daily,
+          selection: CardSelection.due,
+          limit: goal,
+          promptSide: ref.read(appSettingsOrDefaultsProvider).promptSide,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = AppL10n.of(context);
+    final metrics = context.metrics;
+
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(metrics.spaceLg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Icon(descriptor.icon, color: theme.colorScheme.primary),
+                const VnGap(VnSpace.sm, axis: Axis.horizontal),
+                Expanded(
+                  child: Text(
+                    descriptor.title(l10n),
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ),
+              ],
+            ),
+            const VnGap(VnSpace.sm),
+            Text(
+              descriptor.description(l10n),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const VnGap(VnSpace.lg),
+            if (!unlocked)
+              // Says what to do, not merely that the game is unavailable.
+              Text(
+                l10n.practiceLockedHint(descriptor.minCards - wordCount),
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              )
+            else
+              Row(
+                spacing: metrics.spaceSm,
+                children: <Widget>[
+                  if (descriptor.supportedModes.contains(PracticeMode.daily))
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: dueCount == 0
+                            ? null
+                            : () => _startDaily(context, ref),
+                        child: Text(l10n.practiceDailyReview(dueCount)),
+                      ),
+                    ),
+                  if (descriptor.supportedModes.contains(
+                    PracticeMode.quickTest,
+                  ))
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () =>
+                            unawaited(_startQuickTest(context, ref)),
+                        child: Text(l10n.practiceQuickTest),
+                      ),
+                    ),
+                ],
+              ),
+            if (unlocked && dueCount == 0) ...<Widget>[
+              const VnGap(VnSpace.sm),
+              // `GAMES.md` §4: nothing due is an offer, never a scolding.
+              Text(
+                l10n.practiceNothingDue,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

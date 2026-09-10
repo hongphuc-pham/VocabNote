@@ -513,6 +513,156 @@ abstract class AppL10n {
   /// **'Easy'**
   String get gradeEasy;
 
+  /// Empty state title on the practice hub when there are no words.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to practise yet'**
+  String get practiceEmptyTitle;
+
+  /// Empty state body on the practice hub.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a few words and they\'ll show up here ready to review.'**
+  String get practiceEmptyBody;
+
+  /// Button that opens the quick-test config sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick test'**
+  String get practiceQuickTest;
+
+  /// Encouraging line when no cards are due. Never a warning (UI-UX 4.6).
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing due right now - a quick test still counts.'**
+  String get practiceNothingDue;
+
+  /// Shown when a daily review is started with nothing due.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up'**
+  String get practiceNothingDueTitle;
+
+  /// Body when a daily review has no cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is due today. Try a quick test if you\'d like more.'**
+  String get practiceNothingDueBody;
+
+  /// Shown when a quick test finds no matching words.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards here'**
+  String get practiceNoCardsTitle;
+
+  /// Body when a quick test pool is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matched that choice. Try a different source.'**
+  String get practiceNoCardsBody;
+
+  /// Screen-reader label for the close button during a session.
+  ///
+  /// In en, this message translates to:
+  /// **'Close practice'**
+  String get practiceCloseLabel;
+
+  /// Title of the confirm dialog when abandoning a daily review.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave this review?'**
+  String get practiceAbandonTitle;
+
+  /// Body of the abandon dialog. Says plainly that nothing is lost.
+  ///
+  /// In en, this message translates to:
+  /// **'The cards you\'ve already answered stay answered. The rest keep their current schedule.'**
+  String get practiceAbandonBody;
+
+  /// Button that dismisses the abandon dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get practiceAbandonStay;
+
+  /// Button that abandons the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get practiceAbandonLeave;
+
+  /// Title of the quick-test config sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick test'**
+  String get quickTestTitle;
+
+  /// Label for the source chips in the quick-test sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Words from'**
+  String get quickTestSource;
+
+  /// Label for the size chips in the quick-test sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'How many'**
+  String get quickTestSize;
+
+  /// Label for the prompt-side chips in the quick-test sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me first'**
+  String get quickTestPromptSide;
+
+  /// Toggle for text-to-speech autoplay during a quick test.
+  ///
+  /// In en, this message translates to:
+  /// **'Say the word when I reveal it'**
+  String get quickTestAutoplay;
+
+  /// Button that starts the quick test.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get quickTestStart;
+
+  /// Prompt side: show the headword first.
+  ///
+  /// In en, this message translates to:
+  /// **'The word'**
+  String get promptSideWord;
+
+  /// Prompt side: show the transcription first.
+  ///
+  /// In en, this message translates to:
+  /// **'The sounds'**
+  String get promptSideIpa;
+
+  /// Prompt side: show the definition first.
+  ///
+  /// In en, this message translates to:
+  /// **'The meaning'**
+  String get promptSideMeaning;
+
+  /// Button that starts a daily review, with how many cards are due.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily review ({count} due)'**
+  String practiceDailyReview(int count);
+
+  /// Says how many words are still needed before a game unlocks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Add 1 more word to unlock this} other{Add {count} more words to unlock this}}'**
+  String practiceLockedHint(int count);
+
+  /// The All size chip, naming the hard cap out loud.
+  ///
+  /// In en, this message translates to:
+  /// **'All (max {max})'**
+  String quickTestSizeAll(int max);
+
   /// Empty state title on the lists grid.
   ///
   /// In en, this message translates to:
