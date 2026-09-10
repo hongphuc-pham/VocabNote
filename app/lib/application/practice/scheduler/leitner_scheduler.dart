@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:vocabnote/application/practice/scheduler/review_schedule.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
 
 /// Decides when a card comes back (`docs/GAMES.md` §1).
@@ -16,9 +17,17 @@ abstract interface class ReviewScheduler {
 }
 
 /// The v1 scheduler: plain Leitner boxes (`docs/GAMES.md` §5).
+///
+/// The interval table is [schedule] rather than a constant, so the user can
+/// choose their own pace (F-061). It defaults to [ReviewSchedule.standard],
+/// which **is** the §5 table — so a user who never opens Settings gets exactly
+/// the documented behaviour.
 class LeitnerScheduler implements ReviewScheduler {
   /// Creates a scheduler.
-  const new({this.random});
+  const new({this.schedule = ReviewSchedule.standard, this.random});
+
+  /// How long each box waits. The user's choice, or the documented default.
+  final ReviewSchedule schedule;
 
   /// The source of the ±10% jitter.
   ///
@@ -31,12 +40,6 @@ class LeitnerScheduler implements ReviewScheduler {
 
   /// A lapse, and a brand-new card, come back almost immediately.
   static const Duration relearnInterval = Duration(minutes: 10);
-
-  /// Interval per box, in days, indexed by box (`GAMES.md` §5).
-  ///
-  /// Box 0 is 0 days — "same day, +10 min" — which is why [relearnInterval]
-  /// exists rather than a fractional day.
-  static const List<int> intervalDays = <int>[0, 1, 2, 4, 7, 15, 30];
 
   @override
   StudyCard apply(StudyCard current, ReviewOutcome result, DateTime now) {
@@ -52,7 +55,7 @@ class LeitnerScheduler implements ReviewScheduler {
     }
 
     final box = _boxAfter(current.box, result);
-    final days = intervalDays[box];
+    final days = schedule.daysForBox(box);
 
     return current.copyWith(
       box: box,

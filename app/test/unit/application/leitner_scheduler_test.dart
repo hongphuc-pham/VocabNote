@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabnote/application/practice/scheduler/leitner_scheduler.dart';
+import 'package:vocabnote/application/practice/scheduler/review_schedule.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
 
 /// `LeitnerScheduler` against the table in `docs/GAMES.md` §5.
@@ -30,10 +31,10 @@ void main() {
     const expected = <int, int>{0: 0, 1: 1, 2: 2, 3: 4, 4: 7, 5: 15, 6: 30};
 
     test('every box has the documented interval', () {
-      expect(LeitnerScheduler.intervalDays.length, expected.length);
+      expect(ReviewSchedule.standard.intervalDays.length, expected.length);
       for (final entry in expected.entries) {
         expect(
-          LeitnerScheduler.intervalDays[entry.key],
+          ReviewSchedule.standard.daysForBox(entry.key),
           entry.value,
           reason: 'box ${entry.key}',
         );
