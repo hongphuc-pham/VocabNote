@@ -48,7 +48,7 @@
   "@helpTitle": {
     "description": "Title of the help and feedback screen. Always present in Settings."
   },
-  "backupTitle": "Backup",
+  "backupTitle": "Backup & restore",
   "@backupTitle": {
     "description": "Title of the backup export/import screen."
   },
@@ -484,6 +484,995 @@
   "reminderChannelDescription": "One gentle reminder a day, at the time you chose.",
   "@reminderChannelDescription": {
     "description": "The notification channel's description in Android's system settings."
+  },
+  "settingsAppearanceSection": "Appearance",
+  "@settingsAppearanceSection": {
+    "description": "Heading of the appearance section in Settings (UI-UX 4.9)."
+  },
+  "settingsPronunciationSection": "Pronunciation",
+  "@settingsPronunciationSection": {
+    "description": "Heading of the pronunciation section in Settings (UI-UX 4.9)."
+  },
+  "settingsDataSection": "Your data",
+  "@settingsDataSection": {
+    "description": "Heading of the data section in Settings: backup, look-up, storage, delete."
+  },
+  "settingsHelpSection": "Help",
+  "@settingsHelpSection": {
+    "description": "Heading of the help section in Settings. Always contains How to use and Help & feedback (RULES 4)."
+  },
+  "settingsAboutSection": "About",
+  "@settingsAboutSection": {
+    "description": "Heading of the about section in Settings."
+  },
+  "settingsTheme": "Theme",
+  "@settingsTheme": {
+    "description": "The setting that chooses light, dark or the phone's own theme."
+  },
+  "themeSystem": "Same as my phone",
+  "@themeSystem": {
+    "description": "Theme choice: follow the device's light or dark setting."
+  },
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Theme choice: always light."
+  },
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Theme choice: always dark."
+  },
+  "settingsTextSize": "Text size",
+  "@settingsTextSize": {
+    "description": "A row explaining where text size is set. Not a control."
+  },
+  "settingsTextSizeHint": "VocabNote uses your phone's text size. You can change it in your phone's display settings.",
+  "@settingsTextSizeHint": {
+    "description": "Explains that the app follows the OS text size rather than having its own."
+  },
+  "settingsVoice": "Voice",
+  "@settingsVoice": {
+    "description": "The setting that chooses British or American English for speech."
+  },
+  "voiceBritish": "British English",
+  "@voiceBritish": {
+    "description": "Voice choice: en-GB."
+  },
+  "voiceAmerican": "American English",
+  "@voiceAmerican": {
+    "description": "Voice choice: en-US."
+  },
+  "settingsSpeed": "Speed",
+  "@settingsSpeed": {
+    "description": "The speech speed slider."
+  },
+  "settingsPitch": "Pitch",
+  "@settingsPitch": {
+    "description": "The speech pitch slider."
+  },
+  "settingsAutoplay": "Say the word when I open it",
+  "@settingsAutoplay": {
+    "description": "Switch: speak a word automatically when its detail screen opens."
+  },
+  "settingsTestVoice": "Test voice",
+  "@settingsTestVoice": {
+    "description": "Button that speaks a sample word with the current voice, speed and pitch."
+  },
+  "settingsTestVoiceSample": "pronunciation",
+  "@settingsTestVoiceSample": {
+    "description": "The English word Test voice speaks. Keep it English in every locale: the voice is always English."
+  },
+  "settingsDailyGoal": "Daily goal",
+  "@settingsDailyGoal": {
+    "description": "The setting for how many words to aim for each day."
+  },
+  "settingsDailyGoalValue": "{count, plural, =1{1 word a day} other{{count} words a day}}",
+  "@settingsDailyGoalValue": {
+    "description": "A daily goal, as shown under the setting and in its list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsPromptSide": "Show me first",
+  "@settingsPromptSide": {
+    "description": "The setting for which side of a practice card is shown first."
+  },
+  "settingsPace": "Review pace",
+  "@settingsPace": {
+    "description": "The setting that picks a preset repetition schedule (GAMES.md 5)."
+  },
+  "paceGentle": "Gentle",
+  "@paceGentle": {
+    "description": "Review pace: longer gaps."
+  },
+  "paceGentleHint": "Longer gaps between reviews",
+  "@paceGentleHint": {
+    "description": "One line explaining the gentle pace."
+  },
+  "paceStandard": "Standard",
+  "@paceStandard": {
+    "description": "Review pace: the default gaps."
+  },
+  "paceStandardHint": "The usual gaps",
+  "@paceStandardHint": {
+    "description": "One line explaining the standard pace."
+  },
+  "paceIntensive": "Intensive",
+  "@paceIntensive": {
+    "description": "Review pace: shorter gaps."
+  },
+  "paceIntensiveHint": "Shorter gaps and more reviews - good before an exam",
+  "@paceIntensiveHint": {
+    "description": "One line explaining the intensive pace."
+  },
+  "paceCustom": "Your own",
+  "@paceCustom": {
+    "description": "Shown as the review pace once the user has changed a box by hand."
+  },
+  "settingsIntervals": "Days between reviews",
+  "@settingsIntervals": {
+    "description": "The row, and the sheet, for editing the interval of each box."
+  },
+  "settingsIntervalsValue": "{days} days",
+  "@settingsIntervalsValue": {
+    "description": "Summary of the intervals for boxes 1 to 6, already joined with listSeparator.",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "listSeparator": " · ",
+  "@listSeparator": {
+    "description": "Separator between items in a short inline list."
+  },
+  "intervalEditorBody": "Each time you know a word, it moves up a box and waits a little longer before it comes back.",
+  "@intervalEditorBody": {
+    "description": "Explains the boxes at the top of the interval editor."
+  },
+  "intervalEditorBoxZero": "Box 0 - later the same day, for words worth another look",
+  "@intervalEditorBoxZero": {
+    "description": "The fixed first box, which the user cannot change."
+  },
+  "intervalEditorBox": "Box {box}",
+  "@intervalEditorBox": {
+    "description": "Label of the field for one box's interval.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "intervalEditorDays": "days",
+  "@intervalEditorDays": {
+    "description": "Unit shown after each interval field."
+  },
+  "intervalEditorReset": "Use standard",
+  "@intervalEditorReset": {
+    "description": "Button that fills the interval fields with the standard table."
+  },
+  "intervalEditorSave": "Save",
+  "@intervalEditorSave": {
+    "description": "Button that saves the interval table."
+  },
+  "scheduleIssueTooShort": "Box {box} needs at least 1 day, or its words never come back.",
+  "@scheduleIssueTooShort": {
+    "description": "Why a table was refused: a box waits less than a day.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleIssueShorter": "Box {box} can't be shorter than box {previous}. Later boxes wait longer.",
+  "@scheduleIssueShorter": {
+    "description": "Why a table was refused: a box waits less than the one before it.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      },
+      "previous": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleIssueNotNumber": "Box {box} needs a whole number of days.",
+  "@scheduleIssueNotNumber": {
+    "description": "Why a table cannot be saved: a field is empty.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleIssueUnusable": "This schedule can't be used. Try Use standard.",
+  "@scheduleIssueUnusable": {
+    "description": "Fallback reason for a table the editor cannot produce by hand."
+  },
+  "settingsRepeats": "Repeat missed cards",
+  "@settingsRepeats": {
+    "description": "The setting for how often a missed card returns within one session."
+  },
+  "settingsRepeatsValue": "{count, plural, =0{Don't repeat} =1{Once in the same session} =2{Twice in the same session} other{{count} times in the same session}}",
+  "@settingsRepeatsValue": {
+    "description": "How many extra times a missed card comes back in one session.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsBackup": "Backup & restore",
+  "@settingsBackup": {
+    "description": "Row that opens export and import."
+  },
+  "settingsBackupHint": "Keep a copy of your words, or move them to a new phone",
+  "@settingsBackupHint": {
+    "description": "Under the Backup & restore row."
+  },
+  "settingsLookup": "Dictionary look-up",
+  "@settingsLookup": {
+    "description": "Switch that offers or hides the Look up button on the word form."
+  },
+  "settingsLookupOn": "Look up sends only the word to freedictionaryapi.com",
+  "@settingsLookupOn": {
+    "description": "Under the look-up switch when it is on. Says exactly what leaves the phone."
+  },
+  "settingsLookupOff": "Off - VocabNote stays fully offline",
+  "@settingsLookupOff": {
+    "description": "Under the look-up switch when it is off."
+  },
+  "backupIntro": "A backup is one file holding all your words, sounds, highlights, notes, lists and practice history. Nothing is uploaded: you choose where it goes.",
+  "@backupIntro": {
+    "description": "Top of the backup screen. Says what is in the file and that nothing leaves the phone by itself."
+  },
+  "backupNever": "You haven't made a backup yet.",
+  "@backupNever": {
+    "description": "Shown when no backup has ever been exported. A fact, never a warning."
+  },
+  "backupLast": "Last backup: {when}",
+  "@backupLast": {
+    "description": "When the last backup was handed over. The date is already formatted for the user's locale.",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "backupExport": "Export backup",
+  "@backupExport": {
+    "description": "Button that writes a backup file and opens the share sheet."
+  },
+  "backupPreparing": "Preparing your backup…",
+  "@backupPreparing": {
+    "description": "The export button's label while the file is being written."
+  },
+  "backupExportHint": "Save it somewhere you can reach from your next phone - your email, your cloud storage or your files.",
+  "@backupExportHint": {
+    "description": "Under the export button: where a backup is worth keeping."
+  },
+  "backupExportDone": "Backup shared. Keep it somewhere safe.",
+  "@backupExportDone": {
+    "description": "Snackbar after the backup was handed to another app."
+  },
+  "backupExportFailed": "Couldn't make the backup just now. Your words are safe - please try again.",
+  "@backupExportFailed": {
+    "description": "Snackbar when the backup could not be written or shared. Reassures first."
+  },
+  "backupImport": "Import backup",
+  "@backupImport": {
+    "description": "Button that chooses a backup file to bring in."
+  },
+  "backupImporting": "Bringing your words in…",
+  "@backupImporting": {
+    "description": "The import button's label while a backup is being written."
+  },
+  "backupImportHint": "Bring words in from a backup file. You'll see what's in it before anything changes.",
+  "@backupImportHint": {
+    "description": "Under the import button."
+  },
+  "importProblemNotABackup": "That file isn't a VocabNote backup. Backups end in .vnb.",
+  "@importProblemNotABackup": {
+    "description": "The chosen file is not a backup at all."
+  },
+  "importProblemTooLarge": "That file is too large to be a VocabNote backup.",
+  "@importProblemTooLarge": {
+    "description": "The chosen file is far larger than any backup could be."
+  },
+  "importProblemDamaged": "That backup is damaged and can't be read. If you still have the phone it came from, try exporting it again.",
+  "@importProblemDamaged": {
+    "description": "The backup is ours but broken - often cut short by an interrupted download."
+  },
+  "importProblemUnreadable": "Couldn't open that file. Please try again.",
+  "@importProblemUnreadable": {
+    "description": "The chosen file could not be read at all."
+  },
+  "importPreviewTitle": "Bring in this backup?",
+  "@importPreviewTitle": {
+    "description": "Title of the sheet showing what a chosen backup holds."
+  },
+  "importPreviewWords": "{count, plural, =1{1 word} other{{count} words}}",
+  "@importPreviewWords": {
+    "description": "How many words a backup holds.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importPreviewLists": "{count, plural, =0{no lists} =1{1 list} other{{count} lists}}",
+  "@importPreviewLists": {
+    "description": "How many lists a backup holds.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importPreviewMade": "Made {when}",
+  "@importPreviewMade": {
+    "description": "When the backup was made. The date is already formatted for the user's locale.",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "importModeMerge": "Add to my words",
+  "@importModeMerge": {
+    "description": "Import choice: merge. The default."
+  },
+  "importModeMergeHint": "New words are added and newer copies win. Nothing on this phone is removed.",
+  "@importModeMergeHint": {
+    "description": "What merging does."
+  },
+  "importModeReplace": "Replace everything",
+  "@importModeReplace": {
+    "description": "Import choice: replace."
+  },
+  "importModeReplaceHint": "Everything on this phone becomes what's in the backup. A copy of what's here now is kept first.",
+  "@importModeReplaceHint": {
+    "description": "What replacing does, and that there is a way back."
+  },
+  "importContinue": "Continue",
+  "@importContinue": {
+    "description": "Button that goes ahead with the chosen import mode."
+  },
+  "replaceConfirmTitle": "Replace everything on this phone?",
+  "@replaceConfirmTitle": {
+    "description": "Title of the typed confirmation before a replace."
+  },
+  "replaceConfirmBody": "Your words, notes, highlights, lists and practice history here will be swapped for the backup's. A copy of what's here now is kept on this phone first.",
+  "@replaceConfirmBody": {
+    "description": "What a replace does, before the user types the confirmation word."
+  },
+  "replaceConfirmWord": "replace",
+  "@replaceConfirmWord": {
+    "description": "The word the user types to confirm a replace (RULES 11). Matched without regard to case."
+  },
+  "replaceConfirmAction": "Replace",
+  "@replaceConfirmAction": {
+    "description": "The button that carries out a confirmed replace."
+  },
+  "typedConfirmPrompt": "Type “{word}” to confirm",
+  "@typedConfirmPrompt": {
+    "description": "Prompt above the field in a typed confirmation.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "importReportTitle": "Your backup is in",
+  "@importReportTitle": {
+    "description": "Title of the report after an import."
+  },
+  "importReportAdded": "{count, plural, =0{No new words} =1{1 word added} other{{count} words added}}",
+  "@importReportAdded": {
+    "description": "Words a merge added.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportUpdated": "{count, plural, =1{1 word updated} other{{count} words updated}}",
+  "@importReportUpdated": {
+    "description": "Words a merge updated with a newer copy.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportSkipped": "{count, plural, =1{1 word was already here} other{{count} words were already here}}",
+  "@importReportSkipped": {
+    "description": "Words a merge left as they were.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportRestored": "{count, plural, =0{No words restored} =1{1 word restored} other{{count} words restored}}",
+  "@importReportRestored": {
+    "description": "Words a replace restored.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportNotes": "{count, plural, =1{1 note} other{{count} notes}}",
+  "@importReportNotes": {
+    "description": "Notes brought in, as one item of a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportHighlights": "{count, plural, =1{1 highlight} other{{count} highlights}}",
+  "@importReportHighlights": {
+    "description": "Highlights brought in, as one item of a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportLists": "{count, plural, =1{1 list} other{{count} lists}}",
+  "@importReportLists": {
+    "description": "Lists brought in, as one item of a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportAlso": "Also brought in: {items}",
+  "@importReportAlso": {
+    "description": "The other things an import brought, already joined with listSeparator.",
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "importReportRejected": "{count, plural, =1{1 item couldn't be read and was left out.} other{{count} items couldn't be read and were left out.}}",
+  "@importReportRejected": {
+    "description": "Rows that could not be used. Worth knowing, never alarming.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportSafetyCopy": "A copy of what was here before is kept on this phone.",
+  "@importReportSafetyCopy": {
+    "description": "After a replace: the way back exists."
+  },
+  "importReportDone": "Done",
+  "@importReportDone": {
+    "description": "Closes the import report."
+  },
+  "importFailed": "Couldn't bring the backup in. Nothing on this phone was changed.",
+  "@importFailed": {
+    "description": "Snackbar when an import failed part-way and was rolled back."
+  },
+  "settingsStorage": "Storage used",
+  "@settingsStorage": {
+    "description": "Row showing how much space the library takes on the phone."
+  },
+  "settingsStorageCounting": "Counting…",
+  "@settingsStorageCounting": {
+    "description": "Under Storage used while it is being measured."
+  },
+  "storageKilobytes": "{size} KB",
+  "@storageKilobytes": {
+    "description": "A size under one megabyte.",
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "storageMegabytes": "{size} MB",
+  "@storageMegabytes": {
+    "description": "A size of a megabyte or more, already formatted with one decimal.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsDeleteAll": "Delete all data",
+  "@settingsDeleteAll": {
+    "description": "Row that removes the whole library. Asks twice, the second time for a typed word."
+  },
+  "settingsDeleteAllHint": "Removes every word, note, list and practice record from this phone",
+  "@settingsDeleteAllHint": {
+    "description": "Under the Delete all data row."
+  },
+  "deleteAllTitle": "Delete everything?",
+  "@deleteAllTitle": {
+    "description": "Title of the first step of Delete all data."
+  },
+  "deleteAllBody": "This removes every word, sound, highlight, note, list and practice record from this phone, and it can't be undone. You may want a backup first.",
+  "@deleteAllBody": {
+    "description": "What Delete all data does, with the offer of a backup."
+  },
+  "deleteAllBackupFirst": "Make a backup first",
+  "@deleteAllBackupFirst": {
+    "description": "Opens Backup & restore instead of deleting."
+  },
+  "deleteAllContinue": "Continue",
+  "@deleteAllContinue": {
+    "description": "Goes on to the typed confirmation."
+  },
+  "deleteAllConfirmTitle": "Delete all data?",
+  "@deleteAllConfirmTitle": {
+    "description": "Title of the typed confirmation for Delete all data."
+  },
+  "deleteAllConfirmBody": "Everything on this phone goes, including the copies kept from earlier restores. Without a backup, it can't be brought back.",
+  "@deleteAllConfirmBody": {
+    "description": "The last warning before Delete all data."
+  },
+  "deleteAllConfirmWord": "delete",
+  "@deleteAllConfirmWord": {
+    "description": "The word the user types to confirm Delete all data (RULES 11). Lower case on purpose; matched without regard to case."
+  },
+  "deleteAllConfirmAction": "Delete everything",
+  "@deleteAllConfirmAction": {
+    "description": "The button that carries out a confirmed Delete all data."
+  },
+  "deleteAllDone": "Everything has been deleted. VocabNote is ready for new words.",
+  "@deleteAllDone": {
+    "description": "Snackbar after Delete all data."
+  },
+  "deleteAllFailed": "Couldn't delete everything just now. Your words are still here.",
+  "@deleteAllFailed": {
+    "description": "Snackbar when Delete all data failed and was rolled back."
+  },
+  "guideIntro": "Six small things that make VocabNote work for you. Tap Try it on any of them to go straight there.",
+  "@guideIntro": {
+    "description": "Top of the How to use guide."
+  },
+  "guideAddTitle": "Add a word",
+  "@guideAddTitle": {
+    "description": "Guide card 1 title."
+  },
+  "guideAddBody": "Tap + on My words and type the word you're learning. Saving takes two taps.",
+  "@guideAddBody": {
+    "description": "Guide card 1 sentence."
+  },
+  "guideLookupTitle": "Fill it from the dictionary",
+  "@guideLookupTitle": {
+    "description": "Guide card 2 title."
+  },
+  "guideLookupBody": "Tap Look up to see how it sounds, what it means and an example. Nothing is filled in until you tap the part you want.",
+  "@guideLookupBody": {
+    "description": "Guide card 2 sentence."
+  },
+  "guideIpaTitle": "Write the IPA yourself",
+  "@guideIpaTitle": {
+    "description": "Guide card 3 title."
+  },
+  "guideIpaBody": "The row above the keyboard has every sound English needs. Typing the IPA yourself is one of the best ways to remember it.",
+  "@guideIpaBody": {
+    "description": "Guide card 3 sentence."
+  },
+  "guideIpaVoice": "Tap play to hear the word. The voice is your phone's text-to-speech: a good guide to stress and vowels, but not a native speaker.",
+  "@guideIpaVoice": {
+    "description": "Guide card 3's honest line about text-to-speech (DATA-SOURCES 4). Required by UI-UX 4.10."
+  },
+  "guideHighlightTitle": "Highlight the sound you struggle with",
+  "@guideHighlightTitle": {
+    "description": "Guide card 4 title."
+  },
+  "guideHighlightBody": "Open a word's IPA and mark the sounds you keep getting wrong, in a colour and with a note to yourself.",
+  "@guideHighlightBody": {
+    "description": "Guide card 4 sentence."
+  },
+  "guideNoteTitle": "Leave a note for yourself",
+  "@guideNoteTitle": {
+    "description": "Guide card 5 title."
+  },
+  "guideNoteBody": "Add as many notes to a word as you like - where you heard it, what your mouth should do, what to listen for.",
+  "@guideNoteBody": {
+    "description": "Guide card 5 sentence."
+  },
+  "guidePractiseTitle": "Practise a little every day",
+  "@guidePractiseTitle": {
+    "description": "Guide card 6 title."
+  },
+  "guidePractiseBody": "A few cards a day beats a long session once a week. The words you find hard come back sooner.",
+  "@guidePractiseBody": {
+    "description": "Guide card 6 sentence."
+  },
+  "guideTryIt": "Try it",
+  "@guideTryIt": {
+    "description": "Button on each guide card that opens the real screen."
+  },
+  "guideTryItFor": "Try it: {title}",
+  "@guideTryItFor": {
+    "description": "What a screen reader hears for a card's Try it button, so six buttons are not all just 'Try it'.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "guideSampleWord": "cough",
+  "@guideSampleWord": {
+    "description": "Sample word drawn in the guide's illustrations. An English word in every locale: the app teaches English."
+  },
+  "guideSampleIpa": "kɒf",
+  "@guideSampleIpa": {
+    "description": "IPA for the sample word. Do not translate; the illustration highlights its second symbol."
+  },
+  "guideSamplePartOfSpeech": "noun",
+  "@guideSamplePartOfSpeech": {
+    "description": "Sample part of speech in the guide's dictionary illustration."
+  },
+  "guideSampleDefinition": "A sudden, noisy push of air out of the lungs",
+  "@guideSampleDefinition": {
+    "description": "Sample definition in the guide's dictionary illustration."
+  },
+  "guideSampleHighlightLabel": "Rounder lips here",
+  "@guideSampleHighlightLabel": {
+    "description": "Sample highlight label in the guide's illustration."
+  },
+  "guideSampleNote": "Heard it on a podcast. Lips rounder on the ɒ.",
+  "@guideSampleNote": {
+    "description": "Sample note in the guide's illustration."
+  },
+  "guideSampleGoal": "12 of 20 today",
+  "@guideSampleGoal": {
+    "description": "Sample daily goal beside the ring in the guide's illustration."
+  },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {
+    "description": "On every onboarding slide: leave onboarding for good."
+  },
+  "onboardingNext": "Next",
+  "@onboardingNext": {
+    "description": "Goes to the next onboarding slide."
+  },
+  "onboardingShowMe": "See how it works",
+  "@onboardingShowMe": {
+    "description": "On the last slide: goes on to the guide."
+  },
+  "onboardingStart": "Start using VocabNote",
+  "@onboardingStart": {
+    "description": "At the end of the guide during onboarding: leaves onboarding for good."
+  },
+  "onboardingPage": "Page {page} of {count}",
+  "@onboardingPage": {
+    "description": "What a screen reader hears for the onboarding page dots.",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingSlide1Title": "Note the words you're learning",
+  "@onboardingSlide1Title": {
+    "description": "Onboarding slide 1 title."
+  },
+  "onboardingSlide1Body": "Save each word with how it sounds, what it means, and notes of your own.",
+  "@onboardingSlide1Body": {
+    "description": "Onboarding slide 1 sentence."
+  },
+  "onboardingSlide2Title": "Mark the sounds you find hard",
+  "@onboardingSlide2Title": {
+    "description": "Onboarding slide 2 title."
+  },
+  "onboardingSlide2Body": "Colour the exact part of the IPA you keep getting wrong, so it catches your eye every time.",
+  "@onboardingSlide2Body": {
+    "description": "Onboarding slide 2 sentence."
+  },
+  "onboardingSlide3Title": "Practise a little, every day",
+  "@onboardingSlide3Title": {
+    "description": "Onboarding slide 3 title."
+  },
+  "onboardingSlide3Body": "Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.",
+  "@onboardingSlide3Body": {
+    "description": "Onboarding slide 3 sentence, with the privacy promise in one line."
+  },
+  "faqSearchHint": "Search the answers",
+  "@faqSearchHint": {
+    "description": "Hint in the FAQ search field on Help & feedback."
+  },
+  "faqCount": "{count, plural, =1{1 answer} other{{count} answers}}",
+  "@faqCount": {
+    "description": "How many FAQ answers are showing. Read out as it changes.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "faqNoAnswers": "No answers mention “{query}”.",
+  "@faqNoAnswers": {
+    "description": "When the FAQ search matches nothing.",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "faqClear": "Clear search",
+  "@faqClear": {
+    "description": "Clears the FAQ search."
+  },
+  "faqQ1": "Where are my words kept?",
+  "@faqQ1": {"description": "FAQ question 1."},
+  "faqA1": "Only on this phone, in VocabNote's own private storage. There is no account and no server. To keep a copy anywhere else, make a backup.",
+  "@faqA1": {"description": "FAQ answer 1."},
+  "faqQ2": "How do I move my words to a new phone?",
+  "@faqQ2": {"description": "FAQ question 2."},
+  "faqA2": "Go to Settings → Backup & restore → Export backup, and save the file somewhere your new phone can reach. Then install VocabNote there and choose Import backup.",
+  "@faqA2": {"description": "FAQ answer 2."},
+  "faqQ3": "Does VocabNote need the internet?",
+  "@faqQ3": {"description": "FAQ question 3."},
+  "faqA3": "No. Everything works offline. Only Look up uses the internet, and all it sends is the word you are looking up.",
+  "@faqA3": {"description": "FAQ answer 3."},
+  "faqQ4": "Why does the voice sound like a computer?",
+  "@faqQ4": {"description": "FAQ question 4."},
+  "faqA4": "It is your phone's own text-to-speech: a good guide to stress and vowels, but not a native speaker. You can change the voice, speed and pitch in Settings → Pronunciation.",
+  "@faqA4": {"description": "FAQ answer 4. The honest line about TTS (DATA-SOURCES 4)."},
+  "faqQ5": "My phone has no British English voice.",
+  "@faqQ5": {"description": "FAQ question 5."},
+  "faqA5": "Add one in your phone's settings, under Text-to-speech on Android or Spoken Content on iPhone. Until then, VocabNote uses the closest voice it can find.",
+  "@faqA5": {"description": "FAQ answer 5."},
+  "faqQ6": "How do I type IPA symbols?",
+  "@faqQ6": {"description": "FAQ question 6."},
+  "faqA6": "Tap into an IPA field and a row of symbols appears above the keyboard. Tap a symbol to add it where the cursor is.",
+  "@faqA6": {"description": "FAQ answer 6."},
+  "faqQ7": "What is IPA?",
+  "@faqQ7": {"description": "FAQ question 7."},
+  "faqA7": "The International Phonetic Alphabet: one symbol for each sound, so a pronunciation is written down exactly - /kɒf/ rather than \"coff\".",
+  "@faqA7": {"description": "FAQ answer 7."},
+  "faqQ8": "How do highlights work?",
+  "@faqQ8": {"description": "FAQ question 8."},
+  "faqA8": "Open a word, tap Edit IPA highlights, choose the symbols you struggle with and pick a colour. A short label, like \"lips rounder\", helps too.",
+  "@faqA8": {"description": "FAQ answer 8."},
+  "faqQ9": "How does practice decide what comes back?",
+  "@faqQ9": {"description": "FAQ question 9."},
+  "faqA9": "Each word sits in a box. Know it and it moves up a box and waits longer; miss it and it comes back later the same day. You can change the gaps in Settings → Practice.",
+  "@faqA9": {"description": "FAQ answer 9."},
+  "faqQ10": "What's the difference between Daily review and Quick test?",
+  "@faqQ10": {"description": "FAQ question 10."},
+  "faqA10": "Daily review shows the words that are due, and your answers decide when each comes back. A quick test is just for practice: it never changes that.",
+  "@faqA10": {"description": "FAQ answer 10."},
+  "faqQ11": "I deleted a word by mistake.",
+  "@faqQ11": {"description": "FAQ question 11."},
+  "faqA11": "Tap Undo on the message that appears straight away. After that, importing a backup made before you deleted it will bring it back.",
+  "@faqA11": {"description": "FAQ answer 11."},
+  "faqQ12": "Where do the definitions come from?",
+  "@faqQ12": {"description": "FAQ question 12."},
+  "faqA12": "From Wiktionary, through FreeDictionaryAPI.com, shared under CC BY-SA 4.0. Offline pronunciations come from the CMU Pronouncing Dictionary. Settings → Data sources & licences has the details.",
+  "@faqA12": {"description": "FAQ answer 12."},
+  "helpStillStuck": "Still stuck?",
+  "@helpStillStuck": {
+    "description": "Heading above the ways to reach a person."
+  },
+  "feedbackSend": "Send feedback",
+  "@feedbackSend": {
+    "description": "Row that opens the feedback preview. Shown only when a feedback address is configured."
+  },
+  "feedbackSendHint": "Opens your email app. You'll see what's included first.",
+  "@feedbackSendHint": {
+    "description": "Under Send feedback."
+  },
+  "helpGitHub": "Report a problem on GitHub",
+  "@helpGitHub": {
+    "description": "Row that opens the project's GitHub Issues in the browser."
+  },
+  "helpGitHubHint": "Opens the project's issue page in your browser",
+  "@helpGitHubHint": {
+    "description": "Under Report a problem on GitHub."
+  },
+  "helpErrorLog": "View error log",
+  "@helpErrorLog": {
+    "description": "Row that shows the on-device error log (F-079)."
+  },
+  "helpErrorLogHint": "Kept on this phone, never sent by itself",
+  "@helpErrorLogHint": {
+    "description": "Under View error log."
+  },
+  "helpLinkFailed": "Couldn't open that link.",
+  "@helpLinkFailed": {
+    "description": "Snackbar when a link could not be opened."
+  },
+  "feedbackPreviewTitle": "Send feedback",
+  "@feedbackPreviewTitle": {
+    "description": "Title of the feedback preview."
+  },
+  "feedbackPreviewIntro": "Your email app will open with this, addressed to {address}:",
+  "@feedbackPreviewIntro": {
+    "description": "Above the preview of the email body.",
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackSubject": "VocabNote feedback",
+  "@feedbackSubject": {
+    "description": "Subject of the feedback email."
+  },
+  "feedbackBodyPrompt": "Write your message here.",
+  "@feedbackBodyPrompt": {
+    "description": "First line of the feedback email body, where the user types."
+  },
+  "feedbackBodyDivider": "—",
+  "@feedbackBodyDivider": {
+    "description": "Separates the user's message from the details below it."
+  },
+  "feedbackAppVersion": "App version: {version}",
+  "@feedbackAppVersion": {
+    "description": "Feedback email line.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackOsVersion": "OS: {os}",
+  "@feedbackOsVersion": {
+    "description": "Feedback email line.",
+    "placeholders": {
+      "os": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackDeviceModel": "Device: {model}",
+  "@feedbackDeviceModel": {
+    "description": "Feedback email line: the phone's model, never its name.",
+    "placeholders": {
+      "model": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackUnknown": "unknown",
+  "@feedbackUnknown": {
+    "description": "In the feedback email when a detail could not be read."
+  },
+  "feedbackLogHeading": "Error log (newest entries):",
+  "@feedbackLogHeading": {
+    "description": "Heading above the attached error log in the feedback email."
+  },
+  "feedbackIncludeLog": "Include the error log",
+  "@feedbackIncludeLog": {
+    "description": "Checkbox in the feedback preview. Unticked by default."
+  },
+  "feedbackNothingElse": "Nothing else is included.",
+  "@feedbackNothingElse": {
+    "description": "The promise under the feedback preview (F-072)."
+  },
+  "feedbackOpenEmail": "Open email",
+  "@feedbackOpenEmail": {
+    "description": "Opens the user's mail app with the previewed email."
+  },
+  "feedbackNoMailApp": "No email app opened. You can write to {address} from any email account.",
+  "@feedbackNoMailApp": {
+    "description": "Snackbar when no mail app could be opened.",
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLogTitle": "Error log",
+  "@errorLogTitle": {
+    "description": "Title of the error log sheet."
+  },
+  "errorLogIntro": "Problems VocabNote ran into, kept only on this phone. Nothing here is ever sent by itself.",
+  "@errorLogIntro": {
+    "description": "Top of the error log sheet."
+  },
+  "errorLogEmpty": "Nothing has gone wrong. If something does, a short note appears here - it stays on this phone unless you attach it to feedback.",
+  "@errorLogEmpty": {
+    "description": "When the error log is empty."
+  },
+  "errorLogReading": "Reading…",
+  "@errorLogReading": {
+    "description": "While the error log is being read."
+  },
+  "errorLogClear": "Clear log",
+  "@errorLogClear": {
+    "description": "Empties the error log."
+  },
+  "settingsPrivacy": "Privacy",
+  "@settingsPrivacy": {
+    "description": "About row that opens the privacy note (F-076)."
+  },
+  "settingsPrivacyHint": "What leaves your phone, and when",
+  "@settingsPrivacyHint": {
+    "description": "Under the Privacy row."
+  },
+  "privacyHeading": "Privacy",
+  "@privacyHeading": {
+    "description": "Heading of the privacy note."
+  },
+  "privacyNote": "VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com.",
+  "@privacyNote": {
+    "description": "F-076, word for word. Must match FEATURES F-076, DATA-SOURCES 7 and the store privacy declarations; change all in the same PR."
+  },
+  "privacyPoint1": "No account, no sign-in, and no server of ours.",
+  "@privacyPoint1": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint2": "No analytics, no ads, no tracking, and no advertising ID.",
+  "@privacyPoint2": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint3": "VocabNote reaches the internet only when you ask it to: to look up a word, or to open a link you tapped, in your browser.",
+  "@privacyPoint3": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint4": "Feedback is written in your own email app. You see what it includes before it opens, and nothing else is attached unless you choose to add the error log.",
+  "@privacyPoint4": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint5": "Your words, IPA, highlights, notes and practice history stay on this phone, and leave it only in a backup you export.",
+  "@privacyPoint5": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "licencesDictionaryHeading": "Dictionary look-up",
+  "@licencesDictionaryHeading": {"description": "Licences section heading."},
+  "licencesDictionaryBody": "Definitions, examples and pronunciations you choose from Look up come from Wiktionary, shared under the CC BY-SA 4.0 licence through FreeDictionaryAPI.com. Each word keeps a link to its source page. Neither Wiktionary nor FreeDictionaryAPI.com endorses VocabNote.",
+  "@licencesDictionaryBody": {"description": "Attribution for dictionary content (CC BY-SA 4.0: attribute, name the licence, no implied endorsement)."},
+  "licencesWiktionary": "Wiktionary",
+  "@licencesWiktionary": {"description": "Link to Wiktionary."},
+  "licencesFreeDictionary": "FreeDictionaryAPI.com",
+  "@licencesFreeDictionary": {"description": "Link to FreeDictionaryAPI.com."},
+  "licencesCcBySa": "CC BY-SA 4.0 licence",
+  "@licencesCcBySa": {"description": "Link to the CC BY-SA 4.0 licence."},
+  "licencesOfflineHeading": "Offline pronunciations",
+  "@licencesOfflineHeading": {"description": "Licences section heading."},
+  "licencesOfflineBody": "When there is no internet, US pronunciations come from the CMU Pronouncing Dictionary, made at Carnegie Mellon University and free for any use.",
+  "@licencesOfflineBody": {"description": "Acknowledgement of CMUdict (DATA-SOURCES 2)."},
+  "licencesCmudict": "CMU Pronouncing Dictionary",
+  "@licencesCmudict": {"description": "Link to CMUdict."},
+  "licencesFontsHeading": "Fonts",
+  "@licencesFontsHeading": {"description": "Licences section heading."},
+  "licencesFontsBody": "Inter for the words on screen, and Charis SIL for IPA - both shared under the SIL Open Font License 1.1.",
+  "@licencesFontsBody": {"description": "The bundled fonts and their licence (DATA-SOURCES 5)."},
+  "licencesInter": "Inter",
+  "@licencesInter": {"description": "Font name. Not translated."},
+  "licencesCharis": "Charis SIL",
+  "@licencesCharis": {"description": "Font name. Not translated."},
+  "licencesOflName": "SIL Open Font License 1.1",
+  "@licencesOflName": {"description": "Licence name. Not translated."},
+  "licencesViewLicence": "View licence",
+  "@licencesViewLicence": {"description": "Opens a bundled font's licence text."},
+  "licencesViewLicenceFor": "View the licence for {font}",
+  "@licencesViewLicenceFor": {
+    "description": "What a screen reader hears for View licence.",
+    "placeholders": {
+      "font": {
+        "type": "String"
+      }
+    }
+  },
+  "licencesLoading": "Loading…",
+  "@licencesLoading": {"description": "While a licence text loads."},
+  "licencesPackagesHeading": "Software",
+  "@licencesPackagesHeading": {"description": "Licences section heading."},
+  "licencesPackagesBody": "VocabNote is built with open-source packages, all under permissive licences.",
+  "@licencesPackagesBody": {"description": "Above the button to the full package licence list."},
+  "licencesPackages": "All package licences",
+  "@licencesPackages": {"description": "Opens Flutter's licence page."},
+  "recoveryExporting": "Exporting…",
+  "@recoveryExporting": {
+    "description": "The recovery screen's export button while the file is being written."
+  },
+  "recoveryExportFailed": "Couldn't make the export just now. Your data is still on this phone, untouched.",
+  "@recoveryExportFailed": {
+    "description": "Snackbar when the recovery export failed. Reassures first: the database was only read."
+  },
+  "settingsVersion": "Version",
+  "@settingsVersion": {
+    "description": "Row showing the app version."
   },
   "summaryTitle": "How that went",
   "@summaryTitle": {

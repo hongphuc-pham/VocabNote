@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vocabnote/application/settings/settings_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/app_router.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
+import 'package:vocabnote/domain/entities/app_settings.dart';
 
 /// The root widget: `MaterialApp.router` plus theme and localisation wiring.
 ///
@@ -16,6 +18,11 @@ class VocabNoteApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    // Only the theme is watched here, so a change to speech rate does not
+    // rebuild the whole app.
+    final theme = ref.watch(
+      appSettingsOrDefaultsProvider.select((s) => s.themeMode),
+    );
 
     return MaterialApp.router(
       routerConfig: router,
@@ -27,6 +34,11 @@ class VocabNoteApp extends ConsumerWidget {
 
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
+      themeMode: switch (theme) {
+        ThemePreference.system => ThemeMode.system,
+        ThemePreference.light => ThemeMode.light,
+        ThemePreference.dark => ThemeMode.dark,
+      },
 
       localizationsDelegates: AppL10n.localizationsDelegates,
       supportedLocales: AppL10n.supportedLocales,

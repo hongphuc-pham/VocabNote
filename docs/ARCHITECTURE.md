@@ -74,7 +74,8 @@ app/
 │  │  │  ├─ dto/                      # freezed DTOs + fromJson
 │  │  │  └─ offline_ipa_source.dart   # CMUdict-derived asset lookup
 │  │  ├─ speech/flutter_tts_service.dart
-│  │  ├─ backup/backup_service.dart   # export/import .vocabnote.zip
+│  │  ├─ backup/                      # backup_codec.dart (the .vnb format),
+│  │  │                               # backup_tables.dart, platform_backup_files.dart
 │  │  └─ repositories/                # *_repository_impl.dart
 │  │
 │  ├─ application/
@@ -211,6 +212,14 @@ in `core/extensions/grapheme.dart` and covered by unit tests.
 - **Signing secrets** live in GitHub Actions secrets only; never in the repo.
 - **Crash reporting**: none by default (privacy + free). Instead, uncaught errors are written
   to a local rolling log the user can attach from *Settings → Help & feedback*.
+  *Built at M6* (`data/diagnostics/file_error_log.dart`): `<app support>/vocabnote/errors.log`,
+  opened first in `bootstrap` so an error while opening the database is kept too. Fed by
+  `FlutterError.onError` **and** `PlatformDispatcher.onError` (the pair Flutter's
+  error-handling docs name), with `runZonedGuarded` kept as a third net. Each entry is the
+  moment, the error's **first line capped at 200 graphemes**, and the top 12 stack frames —
+  later lines are where input gets quoted back, and a stack names code, not data. Written
+  synchronously and swallowing its own failures, so logging can never recurse. Kept under
+  64 KB by dropping the oldest entries whole. Cleared by *Delete all data*.
 - **Environment config** via `--dart-define` (`DICTIONARY_BASE_URL` (default `https://freedictionaryapi.com/api/v1`)), defaulted in code so a
   plain `flutter run` works.
 

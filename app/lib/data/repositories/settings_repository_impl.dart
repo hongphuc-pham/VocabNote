@@ -35,6 +35,18 @@ class SettingsRepositoryImpl implements SettingsRepository {
   );
 
   @override
+  AsyncResult<void> update(AppSettings Function(AppSettings current) change) =>
+      Results.guard(
+        // A transaction, because drift runs them one at a time: the read and
+        // the write of one change can no longer straddle another's.
+        () => _db.transaction(() async {
+          final current = (await _db.settingsDao.getSettings()).toEntity();
+          await _db.settingsDao.updateSettings(change(current).toCompanion());
+        }),
+        onError: (_, _) => _dbFailure('update settings'),
+      );
+
+  @override
   AsyncResult<void> resetToDefaults() => Results.guard(
     () => _db.settingsDao.resetToDefaults(),
     onError: (_, _) => _dbFailure('reset settings'),

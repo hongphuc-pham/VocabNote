@@ -46,7 +46,7 @@ class AppL10nEn extends AppL10n {
   String get helpTitle => 'Help & feedback';
 
   @override
-  String get backupTitle => 'Backup';
+  String get backupTitle => 'Backup & restore';
 
   @override
   String get licencesTitle => 'Data sources & licences';
@@ -387,6 +387,903 @@ class AppL10nEn extends AppL10n {
   @override
   String get reminderChannelDescription =>
       'One gentle reminder a day, at the time you chose.';
+
+  @override
+  String get settingsAppearanceSection => 'Appearance';
+
+  @override
+  String get settingsPronunciationSection => 'Pronunciation';
+
+  @override
+  String get settingsDataSection => 'Your data';
+
+  @override
+  String get settingsHelpSection => 'Help';
+
+  @override
+  String get settingsAboutSection => 'About';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get themeSystem => 'Same as my phone';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get settingsTextSize => 'Text size';
+
+  @override
+  String get settingsTextSizeHint =>
+      'VocabNote uses your phone\'s text size. You can change it in your phone\'s display settings.';
+
+  @override
+  String get settingsVoice => 'Voice';
+
+  @override
+  String get voiceBritish => 'British English';
+
+  @override
+  String get voiceAmerican => 'American English';
+
+  @override
+  String get settingsSpeed => 'Speed';
+
+  @override
+  String get settingsPitch => 'Pitch';
+
+  @override
+  String get settingsAutoplay => 'Say the word when I open it';
+
+  @override
+  String get settingsTestVoice => 'Test voice';
+
+  @override
+  String get settingsTestVoiceSample => 'pronunciation';
+
+  @override
+  String get settingsDailyGoal => 'Daily goal';
+
+  @override
+  String settingsDailyGoalValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words a day',
+      one: '1 word a day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPromptSide => 'Show me first';
+
+  @override
+  String get settingsPace => 'Review pace';
+
+  @override
+  String get paceGentle => 'Gentle';
+
+  @override
+  String get paceGentleHint => 'Longer gaps between reviews';
+
+  @override
+  String get paceStandard => 'Standard';
+
+  @override
+  String get paceStandardHint => 'The usual gaps';
+
+  @override
+  String get paceIntensive => 'Intensive';
+
+  @override
+  String get paceIntensiveHint =>
+      'Shorter gaps and more reviews - good before an exam';
+
+  @override
+  String get paceCustom => 'Your own';
+
+  @override
+  String get settingsIntervals => 'Days between reviews';
+
+  @override
+  String settingsIntervalsValue(String days) {
+    return '$days days';
+  }
+
+  @override
+  String get listSeparator => ' · ';
+
+  @override
+  String get intervalEditorBody =>
+      'Each time you know a word, it moves up a box and waits a little longer before it comes back.';
+
+  @override
+  String get intervalEditorBoxZero =>
+      'Box 0 - later the same day, for words worth another look';
+
+  @override
+  String intervalEditorBox(int box) {
+    return 'Box $box';
+  }
+
+  @override
+  String get intervalEditorDays => 'days';
+
+  @override
+  String get intervalEditorReset => 'Use standard';
+
+  @override
+  String get intervalEditorSave => 'Save';
+
+  @override
+  String scheduleIssueTooShort(int box) {
+    return 'Box $box needs at least 1 day, or its words never come back.';
+  }
+
+  @override
+  String scheduleIssueShorter(int box, int previous) {
+    return 'Box $box can\'t be shorter than box $previous. Later boxes wait longer.';
+  }
+
+  @override
+  String scheduleIssueNotNumber(int box) {
+    return 'Box $box needs a whole number of days.';
+  }
+
+  @override
+  String get scheduleIssueUnusable =>
+      'This schedule can\'t be used. Try Use standard.';
+
+  @override
+  String get settingsRepeats => 'Repeat missed cards';
+
+  @override
+  String settingsRepeatsValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count times in the same session',
+      two: 'Twice in the same session',
+      one: 'Once in the same session',
+      zero: 'Don\'t repeat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsBackup => 'Backup & restore';
+
+  @override
+  String get settingsBackupHint =>
+      'Keep a copy of your words, or move them to a new phone';
+
+  @override
+  String get settingsLookup => 'Dictionary look-up';
+
+  @override
+  String get settingsLookupOn =>
+      'Look up sends only the word to freedictionaryapi.com';
+
+  @override
+  String get settingsLookupOff => 'Off - VocabNote stays fully offline';
+
+  @override
+  String get backupIntro =>
+      'A backup is one file holding all your words, sounds, highlights, notes, lists and practice history. Nothing is uploaded: you choose where it goes.';
+
+  @override
+  String get backupNever => 'You haven\'t made a backup yet.';
+
+  @override
+  String backupLast(String when) {
+    return 'Last backup: $when';
+  }
+
+  @override
+  String get backupExport => 'Export backup';
+
+  @override
+  String get backupPreparing => 'Preparing your backup…';
+
+  @override
+  String get backupExportHint =>
+      'Save it somewhere you can reach from your next phone - your email, your cloud storage or your files.';
+
+  @override
+  String get backupExportDone => 'Backup shared. Keep it somewhere safe.';
+
+  @override
+  String get backupExportFailed =>
+      'Couldn\'t make the backup just now. Your words are safe - please try again.';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImporting => 'Bringing your words in…';
+
+  @override
+  String get backupImportHint =>
+      'Bring words in from a backup file. You\'ll see what\'s in it before anything changes.';
+
+  @override
+  String get importProblemNotABackup =>
+      'That file isn\'t a VocabNote backup. Backups end in .vnb.';
+
+  @override
+  String get importProblemTooLarge =>
+      'That file is too large to be a VocabNote backup.';
+
+  @override
+  String get importProblemDamaged =>
+      'That backup is damaged and can\'t be read. If you still have the phone it came from, try exporting it again.';
+
+  @override
+  String get importProblemUnreadable =>
+      'Couldn\'t open that file. Please try again.';
+
+  @override
+  String get importPreviewTitle => 'Bring in this backup?';
+
+  @override
+  String importPreviewWords(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words',
+      one: '1 word',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importPreviewLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lists',
+      one: '1 list',
+      zero: 'no lists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importPreviewMade(String when) {
+    return 'Made $when';
+  }
+
+  @override
+  String get importModeMerge => 'Add to my words';
+
+  @override
+  String get importModeMergeHint =>
+      'New words are added and newer copies win. Nothing on this phone is removed.';
+
+  @override
+  String get importModeReplace => 'Replace everything';
+
+  @override
+  String get importModeReplaceHint =>
+      'Everything on this phone becomes what\'s in the backup. A copy of what\'s here now is kept first.';
+
+  @override
+  String get importContinue => 'Continue';
+
+  @override
+  String get replaceConfirmTitle => 'Replace everything on this phone?';
+
+  @override
+  String get replaceConfirmBody =>
+      'Your words, notes, highlights, lists and practice history here will be swapped for the backup\'s. A copy of what\'s here now is kept on this phone first.';
+
+  @override
+  String get replaceConfirmWord => 'replace';
+
+  @override
+  String get replaceConfirmAction => 'Replace';
+
+  @override
+  String typedConfirmPrompt(String word) {
+    return 'Type “$word” to confirm';
+  }
+
+  @override
+  String get importReportTitle => 'Your backup is in';
+
+  @override
+  String importReportAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words added',
+      one: '1 word added',
+      zero: 'No new words',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportUpdated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words updated',
+      one: '1 word updated',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words were already here',
+      one: '1 word was already here',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportRestored(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words restored',
+      one: '1 word restored',
+      zero: 'No words restored',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportNotes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes',
+      one: '1 note',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportHighlights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count highlights',
+      one: '1 highlight',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lists',
+      one: '1 list',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportAlso(String items) {
+    return 'Also brought in: $items';
+  }
+
+  @override
+  String importReportRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items couldn\'t be read and were left out.',
+      one: '1 item couldn\'t be read and was left out.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importReportSafetyCopy =>
+      'A copy of what was here before is kept on this phone.';
+
+  @override
+  String get importReportDone => 'Done';
+
+  @override
+  String get importFailed =>
+      'Couldn\'t bring the backup in. Nothing on this phone was changed.';
+
+  @override
+  String get settingsStorage => 'Storage used';
+
+  @override
+  String get settingsStorageCounting => 'Counting…';
+
+  @override
+  String storageKilobytes(int size) {
+    return '$size KB';
+  }
+
+  @override
+  String storageMegabytes(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String get settingsDeleteAll => 'Delete all data';
+
+  @override
+  String get settingsDeleteAllHint =>
+      'Removes every word, note, list and practice record from this phone';
+
+  @override
+  String get deleteAllTitle => 'Delete everything?';
+
+  @override
+  String get deleteAllBody =>
+      'This removes every word, sound, highlight, note, list and practice record from this phone, and it can\'t be undone. You may want a backup first.';
+
+  @override
+  String get deleteAllBackupFirst => 'Make a backup first';
+
+  @override
+  String get deleteAllContinue => 'Continue';
+
+  @override
+  String get deleteAllConfirmTitle => 'Delete all data?';
+
+  @override
+  String get deleteAllConfirmBody =>
+      'Everything on this phone goes, including the copies kept from earlier restores. Without a backup, it can\'t be brought back.';
+
+  @override
+  String get deleteAllConfirmWord => 'delete';
+
+  @override
+  String get deleteAllConfirmAction => 'Delete everything';
+
+  @override
+  String get deleteAllDone =>
+      'Everything has been deleted. VocabNote is ready for new words.';
+
+  @override
+  String get deleteAllFailed =>
+      'Couldn\'t delete everything just now. Your words are still here.';
+
+  @override
+  String get guideIntro =>
+      'Six small things that make VocabNote work for you. Tap Try it on any of them to go straight there.';
+
+  @override
+  String get guideAddTitle => 'Add a word';
+
+  @override
+  String get guideAddBody =>
+      'Tap + on My words and type the word you\'re learning. Saving takes two taps.';
+
+  @override
+  String get guideLookupTitle => 'Fill it from the dictionary';
+
+  @override
+  String get guideLookupBody =>
+      'Tap Look up to see how it sounds, what it means and an example. Nothing is filled in until you tap the part you want.';
+
+  @override
+  String get guideIpaTitle => 'Write the IPA yourself';
+
+  @override
+  String get guideIpaBody =>
+      'The row above the keyboard has every sound English needs. Typing the IPA yourself is one of the best ways to remember it.';
+
+  @override
+  String get guideIpaVoice =>
+      'Tap play to hear the word. The voice is your phone\'s text-to-speech: a good guide to stress and vowels, but not a native speaker.';
+
+  @override
+  String get guideHighlightTitle => 'Highlight the sound you struggle with';
+
+  @override
+  String get guideHighlightBody =>
+      'Open a word\'s IPA and mark the sounds you keep getting wrong, in a colour and with a note to yourself.';
+
+  @override
+  String get guideNoteTitle => 'Leave a note for yourself';
+
+  @override
+  String get guideNoteBody =>
+      'Add as many notes to a word as you like - where you heard it, what your mouth should do, what to listen for.';
+
+  @override
+  String get guidePractiseTitle => 'Practise a little every day';
+
+  @override
+  String get guidePractiseBody =>
+      'A few cards a day beats a long session once a week. The words you find hard come back sooner.';
+
+  @override
+  String get guideTryIt => 'Try it';
+
+  @override
+  String guideTryItFor(String title) {
+    return 'Try it: $title';
+  }
+
+  @override
+  String get guideSampleWord => 'cough';
+
+  @override
+  String get guideSampleIpa => 'kɒf';
+
+  @override
+  String get guideSamplePartOfSpeech => 'noun';
+
+  @override
+  String get guideSampleDefinition =>
+      'A sudden, noisy push of air out of the lungs';
+
+  @override
+  String get guideSampleHighlightLabel => 'Rounder lips here';
+
+  @override
+  String get guideSampleNote => 'Heard it on a podcast. Lips rounder on the ɒ.';
+
+  @override
+  String get guideSampleGoal => '12 of 20 today';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingShowMe => 'See how it works';
+
+  @override
+  String get onboardingStart => 'Start using VocabNote';
+
+  @override
+  String onboardingPage(int page, int count) {
+    return 'Page $page of $count';
+  }
+
+  @override
+  String get onboardingSlide1Title => 'Note the words you\'re learning';
+
+  @override
+  String get onboardingSlide1Body =>
+      'Save each word with how it sounds, what it means, and notes of your own.';
+
+  @override
+  String get onboardingSlide2Title => 'Mark the sounds you find hard';
+
+  @override
+  String get onboardingSlide2Body =>
+      'Colour the exact part of the IPA you keep getting wrong, so it catches your eye every time.';
+
+  @override
+  String get onboardingSlide3Title => 'Practise a little, every day';
+
+  @override
+  String get onboardingSlide3Body =>
+      'Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.';
+
+  @override
+  String get faqSearchHint => 'Search the answers';
+
+  @override
+  String faqCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count answers',
+      one: '1 answer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String faqNoAnswers(String query) {
+    return 'No answers mention “$query”.';
+  }
+
+  @override
+  String get faqClear => 'Clear search';
+
+  @override
+  String get faqQ1 => 'Where are my words kept?';
+
+  @override
+  String get faqA1 =>
+      'Only on this phone, in VocabNote\'s own private storage. There is no account and no server. To keep a copy anywhere else, make a backup.';
+
+  @override
+  String get faqQ2 => 'How do I move my words to a new phone?';
+
+  @override
+  String get faqA2 =>
+      'Go to Settings → Backup & restore → Export backup, and save the file somewhere your new phone can reach. Then install VocabNote there and choose Import backup.';
+
+  @override
+  String get faqQ3 => 'Does VocabNote need the internet?';
+
+  @override
+  String get faqA3 =>
+      'No. Everything works offline. Only Look up uses the internet, and all it sends is the word you are looking up.';
+
+  @override
+  String get faqQ4 => 'Why does the voice sound like a computer?';
+
+  @override
+  String get faqA4 =>
+      'It is your phone\'s own text-to-speech: a good guide to stress and vowels, but not a native speaker. You can change the voice, speed and pitch in Settings → Pronunciation.';
+
+  @override
+  String get faqQ5 => 'My phone has no British English voice.';
+
+  @override
+  String get faqA5 =>
+      'Add one in your phone\'s settings, under Text-to-speech on Android or Spoken Content on iPhone. Until then, VocabNote uses the closest voice it can find.';
+
+  @override
+  String get faqQ6 => 'How do I type IPA symbols?';
+
+  @override
+  String get faqA6 =>
+      'Tap into an IPA field and a row of symbols appears above the keyboard. Tap a symbol to add it where the cursor is.';
+
+  @override
+  String get faqQ7 => 'What is IPA?';
+
+  @override
+  String get faqA7 =>
+      'The International Phonetic Alphabet: one symbol for each sound, so a pronunciation is written down exactly - /kɒf/ rather than \"coff\".';
+
+  @override
+  String get faqQ8 => 'How do highlights work?';
+
+  @override
+  String get faqA8 =>
+      'Open a word, tap Edit IPA highlights, choose the symbols you struggle with and pick a colour. A short label, like \"lips rounder\", helps too.';
+
+  @override
+  String get faqQ9 => 'How does practice decide what comes back?';
+
+  @override
+  String get faqA9 =>
+      'Each word sits in a box. Know it and it moves up a box and waits longer; miss it and it comes back later the same day. You can change the gaps in Settings → Practice.';
+
+  @override
+  String get faqQ10 =>
+      'What\'s the difference between Daily review and Quick test?';
+
+  @override
+  String get faqA10 =>
+      'Daily review shows the words that are due, and your answers decide when each comes back. A quick test is just for practice: it never changes that.';
+
+  @override
+  String get faqQ11 => 'I deleted a word by mistake.';
+
+  @override
+  String get faqA11 =>
+      'Tap Undo on the message that appears straight away. After that, importing a backup made before you deleted it will bring it back.';
+
+  @override
+  String get faqQ12 => 'Where do the definitions come from?';
+
+  @override
+  String get faqA12 =>
+      'From Wiktionary, through FreeDictionaryAPI.com, shared under CC BY-SA 4.0. Offline pronunciations come from the CMU Pronouncing Dictionary. Settings → Data sources & licences has the details.';
+
+  @override
+  String get helpStillStuck => 'Still stuck?';
+
+  @override
+  String get feedbackSend => 'Send feedback';
+
+  @override
+  String get feedbackSendHint =>
+      'Opens your email app. You\'ll see what\'s included first.';
+
+  @override
+  String get helpGitHub => 'Report a problem on GitHub';
+
+  @override
+  String get helpGitHubHint =>
+      'Opens the project\'s issue page in your browser';
+
+  @override
+  String get helpErrorLog => 'View error log';
+
+  @override
+  String get helpErrorLogHint => 'Kept on this phone, never sent by itself';
+
+  @override
+  String get helpLinkFailed => 'Couldn\'t open that link.';
+
+  @override
+  String get feedbackPreviewTitle => 'Send feedback';
+
+  @override
+  String feedbackPreviewIntro(String address) {
+    return 'Your email app will open with this, addressed to $address:';
+  }
+
+  @override
+  String get feedbackSubject => 'VocabNote feedback';
+
+  @override
+  String get feedbackBodyPrompt => 'Write your message here.';
+
+  @override
+  String get feedbackBodyDivider => '—';
+
+  @override
+  String feedbackAppVersion(String version) {
+    return 'App version: $version';
+  }
+
+  @override
+  String feedbackOsVersion(String os) {
+    return 'OS: $os';
+  }
+
+  @override
+  String feedbackDeviceModel(String model) {
+    return 'Device: $model';
+  }
+
+  @override
+  String get feedbackUnknown => 'unknown';
+
+  @override
+  String get feedbackLogHeading => 'Error log (newest entries):';
+
+  @override
+  String get feedbackIncludeLog => 'Include the error log';
+
+  @override
+  String get feedbackNothingElse => 'Nothing else is included.';
+
+  @override
+  String get feedbackOpenEmail => 'Open email';
+
+  @override
+  String feedbackNoMailApp(String address) {
+    return 'No email app opened. You can write to $address from any email account.';
+  }
+
+  @override
+  String get errorLogTitle => 'Error log';
+
+  @override
+  String get errorLogIntro =>
+      'Problems VocabNote ran into, kept only on this phone. Nothing here is ever sent by itself.';
+
+  @override
+  String get errorLogEmpty =>
+      'Nothing has gone wrong. If something does, a short note appears here - it stays on this phone unless you attach it to feedback.';
+
+  @override
+  String get errorLogReading => 'Reading…';
+
+  @override
+  String get errorLogClear => 'Clear log';
+
+  @override
+  String get settingsPrivacy => 'Privacy';
+
+  @override
+  String get settingsPrivacyHint => 'What leaves your phone, and when';
+
+  @override
+  String get privacyHeading => 'Privacy';
+
+  @override
+  String get privacyNote =>
+      'VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com.';
+
+  @override
+  String get privacyPoint1 => 'No account, no sign-in, and no server of ours.';
+
+  @override
+  String get privacyPoint2 =>
+      'No analytics, no ads, no tracking, and no advertising ID.';
+
+  @override
+  String get privacyPoint3 =>
+      'VocabNote reaches the internet only when you ask it to: to look up a word, or to open a link you tapped, in your browser.';
+
+  @override
+  String get privacyPoint4 =>
+      'Feedback is written in your own email app. You see what it includes before it opens, and nothing else is attached unless you choose to add the error log.';
+
+  @override
+  String get privacyPoint5 =>
+      'Your words, IPA, highlights, notes and practice history stay on this phone, and leave it only in a backup you export.';
+
+  @override
+  String get licencesDictionaryHeading => 'Dictionary look-up';
+
+  @override
+  String get licencesDictionaryBody =>
+      'Definitions, examples and pronunciations you choose from Look up come from Wiktionary, shared under the CC BY-SA 4.0 licence through FreeDictionaryAPI.com. Each word keeps a link to its source page. Neither Wiktionary nor FreeDictionaryAPI.com endorses VocabNote.';
+
+  @override
+  String get licencesWiktionary => 'Wiktionary';
+
+  @override
+  String get licencesFreeDictionary => 'FreeDictionaryAPI.com';
+
+  @override
+  String get licencesCcBySa => 'CC BY-SA 4.0 licence';
+
+  @override
+  String get licencesOfflineHeading => 'Offline pronunciations';
+
+  @override
+  String get licencesOfflineBody =>
+      'When there is no internet, US pronunciations come from the CMU Pronouncing Dictionary, made at Carnegie Mellon University and free for any use.';
+
+  @override
+  String get licencesCmudict => 'CMU Pronouncing Dictionary';
+
+  @override
+  String get licencesFontsHeading => 'Fonts';
+
+  @override
+  String get licencesFontsBody =>
+      'Inter for the words on screen, and Charis SIL for IPA - both shared under the SIL Open Font License 1.1.';
+
+  @override
+  String get licencesInter => 'Inter';
+
+  @override
+  String get licencesCharis => 'Charis SIL';
+
+  @override
+  String get licencesOflName => 'SIL Open Font License 1.1';
+
+  @override
+  String get licencesViewLicence => 'View licence';
+
+  @override
+  String licencesViewLicenceFor(String font) {
+    return 'View the licence for $font';
+  }
+
+  @override
+  String get licencesLoading => 'Loading…';
+
+  @override
+  String get licencesPackagesHeading => 'Software';
+
+  @override
+  String get licencesPackagesBody =>
+      'VocabNote is built with open-source packages, all under permissive licences.';
+
+  @override
+  String get licencesPackages => 'All package licences';
+
+  @override
+  String get recoveryExporting => 'Exporting…';
+
+  @override
+  String get recoveryExportFailed =>
+      'Couldn\'t make the export just now. Your data is still on this phone, untouched.';
+
+  @override
+  String get settingsVersion => 'Version';
 
   @override
   String get summaryTitle => 'How that went';

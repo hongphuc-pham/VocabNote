@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/application/practice/game_contracts.dart';
+import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
-import 'package:vocabnote/presentation/common/placeholder_screen.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/lists/list_detail_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
+import 'package:vocabnote/presentation/onboarding/onboarding_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_run_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_summary_screen.dart';
+import 'package:vocabnote/presentation/settings/backup_screen.dart';
+import 'package:vocabnote/presentation/settings/guide_screen.dart';
+import 'package:vocabnote/presentation/settings/help_screen.dart';
+import 'package:vocabnote/presentation/settings/licences_screen.dart';
 import 'package:vocabnote/presentation/settings/settings_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
 import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
@@ -27,13 +32,17 @@ part 'app_router.g.dart';
 /// and settings routes are pushed onto the root navigator so they cover the
 /// bottom bar and get a back arrow, matching the mocks in section 4.3-4.4.
 ///
-/// Screens that a later milestone owns resolve to [PlaceholderScreen] for now,
-/// so navigation is real and testable from M0.
+/// Since M6 every route in section 3 resolves to its real screen; an unknown
+/// location gets a friendly not-found screen rather than an error.
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: Routes.words,
+    // Decided by bootstrap before the first frame, so there is no redirect
+    // racing an async flag - and nothing to flash up before onboarding.
+    initialLocation: ref.read(showOnboardingProvider)
+        ? Routes.onboarding
+        : Routes.words,
     routes: _routes,
     errorBuilder: (context, state) =>
         _RouteNotFoundScreen(location: state.uri.toString()),
@@ -61,10 +70,7 @@ List<RouteBase> get _routes => <RouteBase>[
     path: Routes.onboarding,
     name: RouteNames.onboarding,
     parentNavigatorKey: _rootNavigatorKey,
-    builder: (context, state) => PlaceholderScreen(
-      title: AppL10n.of(context).onboardingTitle,
-      routePath: Routes.onboarding,
-    ),
+    builder: (context, state) => const OnboardingScreen(),
   ),
 ];
 
@@ -168,37 +174,25 @@ GoRoute get _settingsRoute => GoRoute(
       path: 'guide',
       name: RouteNames.guide,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).guideTitle,
-        routePath: Routes.guide,
-      ),
+      builder: (context, state) => const GuideScreen(),
     ),
     GoRoute(
       path: 'help',
       name: RouteNames.help,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).helpTitle,
-        routePath: Routes.help,
-      ),
+      builder: (context, state) => const HelpScreen(),
     ),
     GoRoute(
       path: 'backup',
       name: RouteNames.backup,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).backupTitle,
-        routePath: Routes.backup,
-      ),
+      builder: (context, state) => const BackupScreen(),
     ),
     GoRoute(
       path: 'licences',
       name: RouteNames.licences,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).licencesTitle,
-        routePath: Routes.licences,
-      ),
+      builder: (context, state) => const LicencesScreen(),
     ),
   ],
 );

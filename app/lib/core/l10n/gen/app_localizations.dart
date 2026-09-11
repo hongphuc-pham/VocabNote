@@ -168,7 +168,7 @@ abstract class AppL10n {
   /// Title of the backup export/import screen.
   ///
   /// In en, this message translates to:
-  /// **'Backup'**
+  /// **'Backup & restore'**
   String get backupTitle;
 
   /// Title of the licences and attribution screen.
@@ -752,6 +752,1374 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'One gentle reminder a day, at the time you chose.'**
   String get reminderChannelDescription;
+
+  /// Heading of the appearance section in Settings (UI-UX 4.9).
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearanceSection;
+
+  /// Heading of the pronunciation section in Settings (UI-UX 4.9).
+  ///
+  /// In en, this message translates to:
+  /// **'Pronunciation'**
+  String get settingsPronunciationSection;
+
+  /// Heading of the data section in Settings: backup, look-up, storage, delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get settingsDataSection;
+
+  /// Heading of the help section in Settings. Always contains How to use and Help & feedback (RULES 4).
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get settingsHelpSection;
+
+  /// Heading of the about section in Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAboutSection;
+
+  /// The setting that chooses light, dark or the phone's own theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// Theme choice: follow the device's light or dark setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as my phone'**
+  String get themeSystem;
+
+  /// Theme choice: always light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// Theme choice: always dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// A row explaining where text size is set. Not a control.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size'**
+  String get settingsTextSize;
+
+  /// Explains that the app follows the OS text size rather than having its own.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote uses your phone\'s text size. You can change it in your phone\'s display settings.'**
+  String get settingsTextSizeHint;
+
+  /// The setting that chooses British or American English for speech.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get settingsVoice;
+
+  /// Voice choice: en-GB.
+  ///
+  /// In en, this message translates to:
+  /// **'British English'**
+  String get voiceBritish;
+
+  /// Voice choice: en-US.
+  ///
+  /// In en, this message translates to:
+  /// **'American English'**
+  String get voiceAmerican;
+
+  /// The speech speed slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get settingsSpeed;
+
+  /// The speech pitch slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch'**
+  String get settingsPitch;
+
+  /// Switch: speak a word automatically when its detail screen opens.
+  ///
+  /// In en, this message translates to:
+  /// **'Say the word when I open it'**
+  String get settingsAutoplay;
+
+  /// Button that speaks a sample word with the current voice, speed and pitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Test voice'**
+  String get settingsTestVoice;
+
+  /// The English word Test voice speaks. Keep it English in every locale: the voice is always English.
+  ///
+  /// In en, this message translates to:
+  /// **'pronunciation'**
+  String get settingsTestVoiceSample;
+
+  /// The setting for how many words to aim for each day.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily goal'**
+  String get settingsDailyGoal;
+
+  /// A daily goal, as shown under the setting and in its list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word a day} other{{count} words a day}}'**
+  String settingsDailyGoalValue(int count);
+
+  /// The setting for which side of a practice card is shown first.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me first'**
+  String get settingsPromptSide;
+
+  /// The setting that picks a preset repetition schedule (GAMES.md 5).
+  ///
+  /// In en, this message translates to:
+  /// **'Review pace'**
+  String get settingsPace;
+
+  /// Review pace: longer gaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle'**
+  String get paceGentle;
+
+  /// One line explaining the gentle pace.
+  ///
+  /// In en, this message translates to:
+  /// **'Longer gaps between reviews'**
+  String get paceGentleHint;
+
+  /// Review pace: the default gaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get paceStandard;
+
+  /// One line explaining the standard pace.
+  ///
+  /// In en, this message translates to:
+  /// **'The usual gaps'**
+  String get paceStandardHint;
+
+  /// Review pace: shorter gaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensive'**
+  String get paceIntensive;
+
+  /// One line explaining the intensive pace.
+  ///
+  /// In en, this message translates to:
+  /// **'Shorter gaps and more reviews - good before an exam'**
+  String get paceIntensiveHint;
+
+  /// Shown as the review pace once the user has changed a box by hand.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own'**
+  String get paceCustom;
+
+  /// The row, and the sheet, for editing the interval of each box.
+  ///
+  /// In en, this message translates to:
+  /// **'Days between reviews'**
+  String get settingsIntervals;
+
+  /// Summary of the intervals for boxes 1 to 6, already joined with listSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days'**
+  String settingsIntervalsValue(String days);
+
+  /// Separator between items in a short inline list.
+  ///
+  /// In en, this message translates to:
+  /// **' · '**
+  String get listSeparator;
+
+  /// Explains the boxes at the top of the interval editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Each time you know a word, it moves up a box and waits a little longer before it comes back.'**
+  String get intervalEditorBody;
+
+  /// The fixed first box, which the user cannot change.
+  ///
+  /// In en, this message translates to:
+  /// **'Box 0 - later the same day, for words worth another look'**
+  String get intervalEditorBoxZero;
+
+  /// Label of the field for one box's interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box}'**
+  String intervalEditorBox(int box);
+
+  /// Unit shown after each interval field.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get intervalEditorDays;
+
+  /// Button that fills the interval fields with the standard table.
+  ///
+  /// In en, this message translates to:
+  /// **'Use standard'**
+  String get intervalEditorReset;
+
+  /// Button that saves the interval table.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get intervalEditorSave;
+
+  /// Why a table was refused: a box waits less than a day.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box} needs at least 1 day, or its words never come back.'**
+  String scheduleIssueTooShort(int box);
+
+  /// Why a table was refused: a box waits less than the one before it.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box} can\'t be shorter than box {previous}. Later boxes wait longer.'**
+  String scheduleIssueShorter(int box, int previous);
+
+  /// Why a table cannot be saved: a field is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box} needs a whole number of days.'**
+  String scheduleIssueNotNumber(int box);
+
+  /// Fallback reason for a table the editor cannot produce by hand.
+  ///
+  /// In en, this message translates to:
+  /// **'This schedule can\'t be used. Try Use standard.'**
+  String get scheduleIssueUnusable;
+
+  /// The setting for how often a missed card returns within one session.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat missed cards'**
+  String get settingsRepeats;
+
+  /// How many extra times a missed card comes back in one session.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Don\'t repeat} =1{Once in the same session} =2{Twice in the same session} other{{count} times in the same session}}'**
+  String settingsRepeatsValue(int count);
+
+  /// Row that opens export and import.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & restore'**
+  String get settingsBackup;
+
+  /// Under the Backup & restore row.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep a copy of your words, or move them to a new phone'**
+  String get settingsBackupHint;
+
+  /// Switch that offers or hides the Look up button on the word form.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary look-up'**
+  String get settingsLookup;
+
+  /// Under the look-up switch when it is on. Says exactly what leaves the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Look up sends only the word to freedictionaryapi.com'**
+  String get settingsLookupOn;
+
+  /// Under the look-up switch when it is off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off - VocabNote stays fully offline'**
+  String get settingsLookupOff;
+
+  /// Top of the backup screen. Says what is in the file and that nothing leaves the phone by itself.
+  ///
+  /// In en, this message translates to:
+  /// **'A backup is one file holding all your words, sounds, highlights, notes, lists and practice history. Nothing is uploaded: you choose where it goes.'**
+  String get backupIntro;
+
+  /// Shown when no backup has ever been exported. A fact, never a warning.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t made a backup yet.'**
+  String get backupNever;
+
+  /// When the last backup was handed over. The date is already formatted for the user's locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {when}'**
+  String backupLast(String when);
+
+  /// Button that writes a backup file and opens the share sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Export backup'**
+  String get backupExport;
+
+  /// The export button's label while the file is being written.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing your backup…'**
+  String get backupPreparing;
+
+  /// Under the export button: where a backup is worth keeping.
+  ///
+  /// In en, this message translates to:
+  /// **'Save it somewhere you can reach from your next phone - your email, your cloud storage or your files.'**
+  String get backupExportHint;
+
+  /// Snackbar after the backup was handed to another app.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup shared. Keep it somewhere safe.'**
+  String get backupExportDone;
+
+  /// Snackbar when the backup could not be written or shared. Reassures first.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t make the backup just now. Your words are safe - please try again.'**
+  String get backupExportFailed;
+
+  /// Button that chooses a backup file to bring in.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get backupImport;
+
+  /// The import button's label while a backup is being written.
+  ///
+  /// In en, this message translates to:
+  /// **'Bringing your words in…'**
+  String get backupImporting;
+
+  /// Under the import button.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring words in from a backup file. You\'ll see what\'s in it before anything changes.'**
+  String get backupImportHint;
+
+  /// The chosen file is not a backup at all.
+  ///
+  /// In en, this message translates to:
+  /// **'That file isn\'t a VocabNote backup. Backups end in .vnb.'**
+  String get importProblemNotABackup;
+
+  /// The chosen file is far larger than any backup could be.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is too large to be a VocabNote backup.'**
+  String get importProblemTooLarge;
+
+  /// The backup is ours but broken - often cut short by an interrupted download.
+  ///
+  /// In en, this message translates to:
+  /// **'That backup is damaged and can\'t be read. If you still have the phone it came from, try exporting it again.'**
+  String get importProblemDamaged;
+
+  /// The chosen file could not be read at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open that file. Please try again.'**
+  String get importProblemUnreadable;
+
+  /// Title of the sheet showing what a chosen backup holds.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring in this backup?'**
+  String get importPreviewTitle;
+
+  /// How many words a backup holds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word} other{{count} words}}'**
+  String importPreviewWords(int count);
+
+  /// How many lists a backup holds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no lists} =1{1 list} other{{count} lists}}'**
+  String importPreviewLists(int count);
+
+  /// When the backup was made. The date is already formatted for the user's locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Made {when}'**
+  String importPreviewMade(String when);
+
+  /// Import choice: merge. The default.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to my words'**
+  String get importModeMerge;
+
+  /// What merging does.
+  ///
+  /// In en, this message translates to:
+  /// **'New words are added and newer copies win. Nothing on this phone is removed.'**
+  String get importModeMergeHint;
+
+  /// Import choice: replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace everything'**
+  String get importModeReplace;
+
+  /// What replacing does, and that there is a way back.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything on this phone becomes what\'s in the backup. A copy of what\'s here now is kept first.'**
+  String get importModeReplaceHint;
+
+  /// Button that goes ahead with the chosen import mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get importContinue;
+
+  /// Title of the typed confirmation before a replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace everything on this phone?'**
+  String get replaceConfirmTitle;
+
+  /// What a replace does, before the user types the confirmation word.
+  ///
+  /// In en, this message translates to:
+  /// **'Your words, notes, highlights, lists and practice history here will be swapped for the backup\'s. A copy of what\'s here now is kept on this phone first.'**
+  String get replaceConfirmBody;
+
+  /// The word the user types to confirm a replace (RULES 11). Matched without regard to case.
+  ///
+  /// In en, this message translates to:
+  /// **'replace'**
+  String get replaceConfirmWord;
+
+  /// The button that carries out a confirmed replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get replaceConfirmAction;
+
+  /// Prompt above the field in a typed confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Type “{word}” to confirm'**
+  String typedConfirmPrompt(String word);
+
+  /// Title of the report after an import.
+  ///
+  /// In en, this message translates to:
+  /// **'Your backup is in'**
+  String get importReportTitle;
+
+  /// Words a merge added.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No new words} =1{1 word added} other{{count} words added}}'**
+  String importReportAdded(int count);
+
+  /// Words a merge updated with a newer copy.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word updated} other{{count} words updated}}'**
+  String importReportUpdated(int count);
+
+  /// Words a merge left as they were.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word was already here} other{{count} words were already here}}'**
+  String importReportSkipped(int count);
+
+  /// Words a replace restored.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No words restored} =1{1 word restored} other{{count} words restored}}'**
+  String importReportRestored(int count);
+
+  /// Notes brought in, as one item of a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 note} other{{count} notes}}'**
+  String importReportNotes(int count);
+
+  /// Highlights brought in, as one item of a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 highlight} other{{count} highlights}}'**
+  String importReportHighlights(int count);
+
+  /// Lists brought in, as one item of a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 list} other{{count} lists}}'**
+  String importReportLists(int count);
+
+  /// The other things an import brought, already joined with listSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'Also brought in: {items}'**
+  String importReportAlso(String items);
+
+  /// Rows that could not be used. Worth knowing, never alarming.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item couldn\'t be read and was left out.} other{{count} items couldn\'t be read and were left out.}}'**
+  String importReportRejected(int count);
+
+  /// After a replace: the way back exists.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of what was here before is kept on this phone.'**
+  String get importReportSafetyCopy;
+
+  /// Closes the import report.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get importReportDone;
+
+  /// Snackbar when an import failed part-way and was rolled back.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t bring the backup in. Nothing on this phone was changed.'**
+  String get importFailed;
+
+  /// Row showing how much space the library takes on the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage used'**
+  String get settingsStorage;
+
+  /// Under Storage used while it is being measured.
+  ///
+  /// In en, this message translates to:
+  /// **'Counting…'**
+  String get settingsStorageCounting;
+
+  /// A size under one megabyte.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String storageKilobytes(int size);
+
+  /// A size of a megabyte or more, already formatted with one decimal.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String storageMegabytes(String size);
+
+  /// Row that removes the whole library. Asks twice, the second time for a typed word.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data'**
+  String get settingsDeleteAll;
+
+  /// Under the Delete all data row.
+  ///
+  /// In en, this message translates to:
+  /// **'Removes every word, note, list and practice record from this phone'**
+  String get settingsDeleteAllHint;
+
+  /// Title of the first step of Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything?'**
+  String get deleteAllTitle;
+
+  /// What Delete all data does, with the offer of a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes every word, sound, highlight, note, list and practice record from this phone, and it can\'t be undone. You may want a backup first.'**
+  String get deleteAllBody;
+
+  /// Opens Backup & restore instead of deleting.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a backup first'**
+  String get deleteAllBackupFirst;
+
+  /// Goes on to the typed confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get deleteAllContinue;
+
+  /// Title of the typed confirmation for Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data?'**
+  String get deleteAllConfirmTitle;
+
+  /// The last warning before Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything on this phone goes, including the copies kept from earlier restores. Without a backup, it can\'t be brought back.'**
+  String get deleteAllConfirmBody;
+
+  /// The word the user types to confirm Delete all data (RULES 11). Lower case on purpose; matched without regard to case.
+  ///
+  /// In en, this message translates to:
+  /// **'delete'**
+  String get deleteAllConfirmWord;
+
+  /// The button that carries out a confirmed Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything'**
+  String get deleteAllConfirmAction;
+
+  /// Snackbar after Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything has been deleted. VocabNote is ready for new words.'**
+  String get deleteAllDone;
+
+  /// Snackbar when Delete all data failed and was rolled back.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete everything just now. Your words are still here.'**
+  String get deleteAllFailed;
+
+  /// Top of the How to use guide.
+  ///
+  /// In en, this message translates to:
+  /// **'Six small things that make VocabNote work for you. Tap Try it on any of them to go straight there.'**
+  String get guideIntro;
+
+  /// Guide card 1 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word'**
+  String get guideAddTitle;
+
+  /// Guide card 1 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + on My words and type the word you\'re learning. Saving takes two taps.'**
+  String get guideAddBody;
+
+  /// Guide card 2 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill it from the dictionary'**
+  String get guideLookupTitle;
+
+  /// Guide card 2 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Look up to see how it sounds, what it means and an example. Nothing is filled in until you tap the part you want.'**
+  String get guideLookupBody;
+
+  /// Guide card 3 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the IPA yourself'**
+  String get guideIpaTitle;
+
+  /// Guide card 3 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'The row above the keyboard has every sound English needs. Typing the IPA yourself is one of the best ways to remember it.'**
+  String get guideIpaBody;
+
+  /// Guide card 3's honest line about text-to-speech (DATA-SOURCES 4). Required by UI-UX 4.10.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap play to hear the word. The voice is your phone\'s text-to-speech: a good guide to stress and vowels, but not a native speaker.'**
+  String get guideIpaVoice;
+
+  /// Guide card 4 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight the sound you struggle with'**
+  String get guideHighlightTitle;
+
+  /// Guide card 4 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a word\'s IPA and mark the sounds you keep getting wrong, in a colour and with a note to yourself.'**
+  String get guideHighlightBody;
+
+  /// Guide card 5 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a note for yourself'**
+  String get guideNoteTitle;
+
+  /// Guide card 5 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Add as many notes to a word as you like - where you heard it, what your mouth should do, what to listen for.'**
+  String get guideNoteBody;
+
+  /// Guide card 6 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise a little every day'**
+  String get guidePractiseTitle;
+
+  /// Guide card 6 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'A few cards a day beats a long session once a week. The words you find hard come back sooner.'**
+  String get guidePractiseBody;
+
+  /// Button on each guide card that opens the real screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Try it'**
+  String get guideTryIt;
+
+  /// What a screen reader hears for a card's Try it button, so six buttons are not all just 'Try it'.
+  ///
+  /// In en, this message translates to:
+  /// **'Try it: {title}'**
+  String guideTryItFor(String title);
+
+  /// Sample word drawn in the guide's illustrations. An English word in every locale: the app teaches English.
+  ///
+  /// In en, this message translates to:
+  /// **'cough'**
+  String get guideSampleWord;
+
+  /// IPA for the sample word. Do not translate; the illustration highlights its second symbol.
+  ///
+  /// In en, this message translates to:
+  /// **'kɒf'**
+  String get guideSampleIpa;
+
+  /// Sample part of speech in the guide's dictionary illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'noun'**
+  String get guideSamplePartOfSpeech;
+
+  /// Sample definition in the guide's dictionary illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'A sudden, noisy push of air out of the lungs'**
+  String get guideSampleDefinition;
+
+  /// Sample highlight label in the guide's illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounder lips here'**
+  String get guideSampleHighlightLabel;
+
+  /// Sample note in the guide's illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard it on a podcast. Lips rounder on the ɒ.'**
+  String get guideSampleNote;
+
+  /// Sample daily goal beside the ring in the guide's illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'12 of 20 today'**
+  String get guideSampleGoal;
+
+  /// On every onboarding slide: leave onboarding for good.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// Goes to the next onboarding slide.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// On the last slide: goes on to the guide.
+  ///
+  /// In en, this message translates to:
+  /// **'See how it works'**
+  String get onboardingShowMe;
+
+  /// At the end of the guide during onboarding: leaves onboarding for good.
+  ///
+  /// In en, this message translates to:
+  /// **'Start using VocabNote'**
+  String get onboardingStart;
+
+  /// What a screen reader hears for the onboarding page dots.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {count}'**
+  String onboardingPage(int page, int count);
+
+  /// Onboarding slide 1 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Note the words you\'re learning'**
+  String get onboardingSlide1Title;
+
+  /// Onboarding slide 1 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Save each word with how it sounds, what it means, and notes of your own.'**
+  String get onboardingSlide1Body;
+
+  /// Onboarding slide 2 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the sounds you find hard'**
+  String get onboardingSlide2Title;
+
+  /// Onboarding slide 2 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour the exact part of the IPA you keep getting wrong, so it catches your eye every time.'**
+  String get onboardingSlide2Body;
+
+  /// Onboarding slide 3 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise a little, every day'**
+  String get onboardingSlide3Title;
+
+  /// Onboarding slide 3 sentence, with the privacy promise in one line.
+  ///
+  /// In en, this message translates to:
+  /// **'Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.'**
+  String get onboardingSlide3Body;
+
+  /// Hint in the FAQ search field on Help & feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the answers'**
+  String get faqSearchHint;
+
+  /// How many FAQ answers are showing. Read out as it changes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 answer} other{{count} answers}}'**
+  String faqCount(int count);
+
+  /// When the FAQ search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No answers mention “{query}”.'**
+  String faqNoAnswers(String query);
+
+  /// Clears the FAQ search.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get faqClear;
+
+  /// FAQ question 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are my words kept?'**
+  String get faqQ1;
+
+  /// FAQ answer 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Only on this phone, in VocabNote\'s own private storage. There is no account and no server. To keep a copy anywhere else, make a backup.'**
+  String get faqA1;
+
+  /// FAQ question 2.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I move my words to a new phone?'**
+  String get faqQ2;
+
+  /// FAQ answer 2.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Settings → Backup & restore → Export backup, and save the file somewhere your new phone can reach. Then install VocabNote there and choose Import backup.'**
+  String get faqA2;
+
+  /// FAQ question 3.
+  ///
+  /// In en, this message translates to:
+  /// **'Does VocabNote need the internet?'**
+  String get faqQ3;
+
+  /// FAQ answer 3.
+  ///
+  /// In en, this message translates to:
+  /// **'No. Everything works offline. Only Look up uses the internet, and all it sends is the word you are looking up.'**
+  String get faqA3;
+
+  /// FAQ question 4.
+  ///
+  /// In en, this message translates to:
+  /// **'Why does the voice sound like a computer?'**
+  String get faqQ4;
+
+  /// FAQ answer 4. The honest line about TTS (DATA-SOURCES 4).
+  ///
+  /// In en, this message translates to:
+  /// **'It is your phone\'s own text-to-speech: a good guide to stress and vowels, but not a native speaker. You can change the voice, speed and pitch in Settings → Pronunciation.'**
+  String get faqA4;
+
+  /// FAQ question 5.
+  ///
+  /// In en, this message translates to:
+  /// **'My phone has no British English voice.'**
+  String get faqQ5;
+
+  /// FAQ answer 5.
+  ///
+  /// In en, this message translates to:
+  /// **'Add one in your phone\'s settings, under Text-to-speech on Android or Spoken Content on iPhone. Until then, VocabNote uses the closest voice it can find.'**
+  String get faqA5;
+
+  /// FAQ question 6.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I type IPA symbols?'**
+  String get faqQ6;
+
+  /// FAQ answer 6.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap into an IPA field and a row of symbols appears above the keyboard. Tap a symbol to add it where the cursor is.'**
+  String get faqA6;
+
+  /// FAQ question 7.
+  ///
+  /// In en, this message translates to:
+  /// **'What is IPA?'**
+  String get faqQ7;
+
+  /// FAQ answer 7.
+  ///
+  /// In en, this message translates to:
+  /// **'The International Phonetic Alphabet: one symbol for each sound, so a pronunciation is written down exactly - /kɒf/ rather than \"coff\".'**
+  String get faqA7;
+
+  /// FAQ question 8.
+  ///
+  /// In en, this message translates to:
+  /// **'How do highlights work?'**
+  String get faqQ8;
+
+  /// FAQ answer 8.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a word, tap Edit IPA highlights, choose the symbols you struggle with and pick a colour. A short label, like \"lips rounder\", helps too.'**
+  String get faqA8;
+
+  /// FAQ question 9.
+  ///
+  /// In en, this message translates to:
+  /// **'How does practice decide what comes back?'**
+  String get faqQ9;
+
+  /// FAQ answer 9.
+  ///
+  /// In en, this message translates to:
+  /// **'Each word sits in a box. Know it and it moves up a box and waits longer; miss it and it comes back later the same day. You can change the gaps in Settings → Practice.'**
+  String get faqA9;
+
+  /// FAQ question 10.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the difference between Daily review and Quick test?'**
+  String get faqQ10;
+
+  /// FAQ answer 10.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily review shows the words that are due, and your answers decide when each comes back. A quick test is just for practice: it never changes that.'**
+  String get faqA10;
+
+  /// FAQ question 11.
+  ///
+  /// In en, this message translates to:
+  /// **'I deleted a word by mistake.'**
+  String get faqQ11;
+
+  /// FAQ answer 11.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Undo on the message that appears straight away. After that, importing a backup made before you deleted it will bring it back.'**
+  String get faqA11;
+
+  /// FAQ question 12.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do the definitions come from?'**
+  String get faqQ12;
+
+  /// FAQ answer 12.
+  ///
+  /// In en, this message translates to:
+  /// **'From Wiktionary, through FreeDictionaryAPI.com, shared under CC BY-SA 4.0. Offline pronunciations come from the CMU Pronouncing Dictionary. Settings → Data sources & licences has the details.'**
+  String get faqA12;
+
+  /// Heading above the ways to reach a person.
+  ///
+  /// In en, this message translates to:
+  /// **'Still stuck?'**
+  String get helpStillStuck;
+
+  /// Row that opens the feedback preview. Shown only when a feedback address is configured.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackSend;
+
+  /// Under Send feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens your email app. You\'ll see what\'s included first.'**
+  String get feedbackSendHint;
+
+  /// Row that opens the project's GitHub Issues in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a problem on GitHub'**
+  String get helpGitHub;
+
+  /// Under Report a problem on GitHub.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the project\'s issue page in your browser'**
+  String get helpGitHubHint;
+
+  /// Row that shows the on-device error log (F-079).
+  ///
+  /// In en, this message translates to:
+  /// **'View error log'**
+  String get helpErrorLog;
+
+  /// Under View error log.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept on this phone, never sent by itself'**
+  String get helpErrorLogHint;
+
+  /// Snackbar when a link could not be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open that link.'**
+  String get helpLinkFailed;
+
+  /// Title of the feedback preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackPreviewTitle;
+
+  /// Above the preview of the email body.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email app will open with this, addressed to {address}:'**
+  String feedbackPreviewIntro(String address);
+
+  /// Subject of the feedback email.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote feedback'**
+  String get feedbackSubject;
+
+  /// First line of the feedback email body, where the user types.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your message here.'**
+  String get feedbackBodyPrompt;
+
+  /// Separates the user's message from the details below it.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get feedbackBodyDivider;
+
+  /// Feedback email line.
+  ///
+  /// In en, this message translates to:
+  /// **'App version: {version}'**
+  String feedbackAppVersion(String version);
+
+  /// Feedback email line.
+  ///
+  /// In en, this message translates to:
+  /// **'OS: {os}'**
+  String feedbackOsVersion(String os);
+
+  /// Feedback email line: the phone's model, never its name.
+  ///
+  /// In en, this message translates to:
+  /// **'Device: {model}'**
+  String feedbackDeviceModel(String model);
+
+  /// In the feedback email when a detail could not be read.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown'**
+  String get feedbackUnknown;
+
+  /// Heading above the attached error log in the feedback email.
+  ///
+  /// In en, this message translates to:
+  /// **'Error log (newest entries):'**
+  String get feedbackLogHeading;
+
+  /// Checkbox in the feedback preview. Unticked by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the error log'**
+  String get feedbackIncludeLog;
+
+  /// The promise under the feedback preview (F-072).
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else is included.'**
+  String get feedbackNothingElse;
+
+  /// Opens the user's mail app with the previewed email.
+  ///
+  /// In en, this message translates to:
+  /// **'Open email'**
+  String get feedbackOpenEmail;
+
+  /// Snackbar when no mail app could be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'No email app opened. You can write to {address} from any email account.'**
+  String feedbackNoMailApp(String address);
+
+  /// Title of the error log sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Error log'**
+  String get errorLogTitle;
+
+  /// Top of the error log sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Problems VocabNote ran into, kept only on this phone. Nothing here is ever sent by itself.'**
+  String get errorLogIntro;
+
+  /// When the error log is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing has gone wrong. If something does, a short note appears here - it stays on this phone unless you attach it to feedback.'**
+  String get errorLogEmpty;
+
+  /// While the error log is being read.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading…'**
+  String get errorLogReading;
+
+  /// Empties the error log.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear log'**
+  String get errorLogClear;
+
+  /// About row that opens the privacy note (F-076).
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsPrivacy;
+
+  /// Under the Privacy row.
+  ///
+  /// In en, this message translates to:
+  /// **'What leaves your phone, and when'**
+  String get settingsPrivacyHint;
+
+  /// Heading of the privacy note.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacyHeading;
+
+  /// F-076, word for word. Must match FEATURES F-076, DATA-SOURCES 7 and the store privacy declarations; change all in the same PR.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com.'**
+  String get privacyNote;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'No account, no sign-in, and no server of ours.'**
+  String get privacyPoint1;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'No analytics, no ads, no tracking, and no advertising ID.'**
+  String get privacyPoint2;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote reaches the internet only when you ask it to: to look up a word, or to open a link you tapped, in your browser.'**
+  String get privacyPoint3;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback is written in your own email app. You see what it includes before it opens, and nothing else is attached unless you choose to add the error log.'**
+  String get privacyPoint4;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Your words, IPA, highlights, notes and practice history stay on this phone, and leave it only in a backup you export.'**
+  String get privacyPoint5;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary look-up'**
+  String get licencesDictionaryHeading;
+
+  /// Attribution for dictionary content (CC BY-SA 4.0: attribute, name the licence, no implied endorsement).
+  ///
+  /// In en, this message translates to:
+  /// **'Definitions, examples and pronunciations you choose from Look up come from Wiktionary, shared under the CC BY-SA 4.0 licence through FreeDictionaryAPI.com. Each word keeps a link to its source page. Neither Wiktionary nor FreeDictionaryAPI.com endorses VocabNote.'**
+  String get licencesDictionaryBody;
+
+  /// Link to Wiktionary.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiktionary'**
+  String get licencesWiktionary;
+
+  /// Link to FreeDictionaryAPI.com.
+  ///
+  /// In en, this message translates to:
+  /// **'FreeDictionaryAPI.com'**
+  String get licencesFreeDictionary;
+
+  /// Link to the CC BY-SA 4.0 licence.
+  ///
+  /// In en, this message translates to:
+  /// **'CC BY-SA 4.0 licence'**
+  String get licencesCcBySa;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline pronunciations'**
+  String get licencesOfflineHeading;
+
+  /// Acknowledgement of CMUdict (DATA-SOURCES 2).
+  ///
+  /// In en, this message translates to:
+  /// **'When there is no internet, US pronunciations come from the CMU Pronouncing Dictionary, made at Carnegie Mellon University and free for any use.'**
+  String get licencesOfflineBody;
+
+  /// Link to CMUdict.
+  ///
+  /// In en, this message translates to:
+  /// **'CMU Pronouncing Dictionary'**
+  String get licencesCmudict;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Fonts'**
+  String get licencesFontsHeading;
+
+  /// The bundled fonts and their licence (DATA-SOURCES 5).
+  ///
+  /// In en, this message translates to:
+  /// **'Inter for the words on screen, and Charis SIL for IPA - both shared under the SIL Open Font License 1.1.'**
+  String get licencesFontsBody;
+
+  /// Font name. Not translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Inter'**
+  String get licencesInter;
+
+  /// Font name. Not translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Charis SIL'**
+  String get licencesCharis;
+
+  /// Licence name. Not translated.
+  ///
+  /// In en, this message translates to:
+  /// **'SIL Open Font License 1.1'**
+  String get licencesOflName;
+
+  /// Opens a bundled font's licence text.
+  ///
+  /// In en, this message translates to:
+  /// **'View licence'**
+  String get licencesViewLicence;
+
+  /// What a screen reader hears for View licence.
+  ///
+  /// In en, this message translates to:
+  /// **'View the licence for {font}'**
+  String licencesViewLicenceFor(String font);
+
+  /// While a licence text loads.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading…'**
+  String get licencesLoading;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Software'**
+  String get licencesPackagesHeading;
+
+  /// Above the button to the full package licence list.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote is built with open-source packages, all under permissive licences.'**
+  String get licencesPackagesBody;
+
+  /// Opens Flutter's licence page.
+  ///
+  /// In en, this message translates to:
+  /// **'All package licences'**
+  String get licencesPackages;
+
+  /// The recovery screen's export button while the file is being written.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting…'**
+  String get recoveryExporting;
+
+  /// Snackbar when the recovery export failed. Reassures first: the database was only read.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t make the export just now. Your data is still on this phone, untouched.'**
+  String get recoveryExportFailed;
+
+  /// Row showing the app version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settingsVersion;
 
   /// Title of the session summary screen.
   ///

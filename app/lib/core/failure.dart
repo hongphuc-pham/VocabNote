@@ -204,6 +204,34 @@ enum FileFailureKind {
   io,
 }
 
+/// A file offered as a backup cannot be used (F-074).
+///
+/// Separate from [FileFailure] because each [problem] is its own sentence to
+/// the user - "that isn't a VocabNote backup" is different advice from "that
+/// backup is damaged" - and because it is refused before anything is written.
+final class InvalidBackupFailure extends AppFailure {
+  /// Creates the failure.
+  const new({required this.problem, super.cause, super.stackTrace});
+
+  /// Why the file was refused.
+  final BackupProblem problem;
+
+  @override
+  String get debugLabel => 'invalid backup: ${problem.name}';
+}
+
+/// Why a backup file was refused.
+enum BackupProblem {
+  /// Not a ZIP, or a ZIP with no `manifest.json` - some other file.
+  notABackup,
+
+  /// Larger than any real backup could be, or would inflate past the cap.
+  tooLarge,
+
+  /// One of ours, but its manifest or data cannot be read.
+  damaged,
+}
+
 /// The user, or the OS, declined something we asked for.
 ///
 /// Notification permission is the only one v1 requests, and only at the moment

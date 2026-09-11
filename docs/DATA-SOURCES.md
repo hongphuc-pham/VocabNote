@@ -106,6 +106,9 @@ whenever their markup changes, and risks store removal. So:
   audio; embeds their site in an in-app WebView styled to look like part of VocabNote; or uses
   their name, logo or wordmark as branding. The word "Cambridge" may appear only as the plain
   text of the link, and nothing about the app may suggest affiliation.
+- *Applied at M6:* *Data sources & licences* does not mention Cambridge at all — not even a
+  "not affiliated" line, which would put the name somewhere other than its link. Nothing of
+  theirs is shown in the app, so there is nothing to attribute.
 
 ---
 
@@ -187,12 +190,24 @@ exempt and the plugin must be replaced.
   `freedictionaryapi.com`; (b) URLs you explicitly tap open in your browser.
 - Feedback is composed in the user's own mail app; the pre-filled diagnostics (app version, OS
   version, device model) are visible to the user before they press send, and nothing else is
-  attached.
+  attached — unless the user ticks *Include the error log*, in which case the log's newest
+  entries appear in the same preview before anything opens.
+
+*Recorded at M6, for the M8 store declarations:* Google Play's Data safety form treats a
+transfer the user initiates, and would reasonably expect, as exempt from "data sharing"
+(https://support.google.com/googleplay/android-developer/answer/10787469). The feedback email
+is exactly that — composed and sent by the user from their own mail app after a preview — but
+the help page does not name this case in so many words. This is the reading we rely on, not a
+certainty; re-check it when the declarations are written.
 - Everything else — words, IPA, highlights, notes, practice history — stays in the app's
   private database on the device and leaves only when the user exports a backup.
 
 This is the text that must match both the store privacy declarations (Play Data Safety, Apple
 App Privacy) and `F-076` in the app. If one changes, all three change in the same PR.
+
+*In the app, since M6* (`presentation/settings/privacy_note.dart`, strings `privacyNote` and
+`privacyPoint1`–`5`): F-076's sentence word for word, then each point above in the second
+person, in the same order. A widget test holds the sentence to F-076 exactly.
 
 ---
 

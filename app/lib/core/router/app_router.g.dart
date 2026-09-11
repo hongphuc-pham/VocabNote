@@ -14,8 +14,8 @@ part of 'app_router.dart';
 /// and settings routes are pushed onto the root navigator so they cover the
 /// bottom bar and get a back arrow, matching the mocks in section 4.3-4.4.
 ///
-/// Screens that a later milestone owns resolve to [PlaceholderScreen] for now,
-/// so navigation is real and testable from M0.
+/// Since M6 every route in section 3 resolves to its real screen; an unknown
+/// location gets a friendly not-found screen rather than an error.
 
 @ProviderFor(appRouter)
 final appRouterProvider = AppRouterProvider._();
@@ -26,8 +26,8 @@ final appRouterProvider = AppRouterProvider._();
 /// and settings routes are pushed onto the root navigator so they cover the
 /// bottom bar and get a back arrow, matching the mocks in section 4.3-4.4.
 ///
-/// Screens that a later milestone owns resolve to [PlaceholderScreen] for now,
-/// so navigation is real and testable from M0.
+/// Since M6 every route in section 3 resolves to its real screen; an unknown
+/// location gets a friendly not-found screen rather than an error.
 
 final class AppRouterProvider
     extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
@@ -38,8 +38,8 @@ final class AppRouterProvider
   /// and settings routes are pushed onto the root navigator so they cover the
   /// bottom bar and get a back arrow, matching the mocks in section 4.3-4.4.
   ///
-  /// Screens that a later milestone owns resolve to [PlaceholderScreen] for now,
-  /// so navigation is real and testable from M0.
+  /// Since M6 every route in section 3 resolves to its real screen; an unknown
+  /// location gets a friendly not-found screen rather than an error.
   AppRouterProvider._()
     : super(
         from: null,
@@ -73,4 +73,4 @@ final class AppRouterProvider
   }
 }
 
-String _$appRouterHash() => r'2d029ca03fc939d0ecd068059fd7c203e57be07f';
+String _$appRouterHash() => r'36d644df9ed3dfc6cccfe6d6f6a8793393ba62f1';

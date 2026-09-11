@@ -4,27 +4,28 @@
 binding ones. This says where the work actually is, what is waiting on you, and how to pick
 it up without rediscovering anything.
 
-Last updated: **9 September 2026**, after M3.
+Last updated: **11 September 2026**, at the end of M6.
 
 ---
 
 ## 1. Where we are
 
-| Milestone | Status | Commit |
+| Milestone | Status | Where |
 |---|---|---|
-| M0 — Foundations | ✅ done | `7012ff8` |
-| M1 — Data layer | ✅ done | `657022d` |
-| M2 — Word capture | ✅ done | `b1d2712` |
-| M3 — Pronunciation & highlighting | ✅ done | on `feat/m3-pronunciation` |
-| **M4 — Lists & notes** | **next** | — |
-| M5–M8 | not started | — |
-
-M0–M2 sit on **`feat/m0-m2-foundations`** (renamed 9 Sep from `feat/m0-foundations`, which had
-become a misnomer). M3 is being built on **`feat/m3-pronunciation`**, cut from it.
+| M0 — Foundations | ✅ done | PR #1 (`b81d056`) |
+| M1 — Data layer | ✅ done | PR #1 |
+| M2 — Word capture | ✅ done | PR #1 |
+| M3 — Pronunciation & highlighting | ✅ done | PR #2 (`0b82fc7`) |
+| M4 — Lists & notes | ✅ done | PR #3 (`b25f154`) |
+| M5 — Practice framework + flashcards | ✅ done | PR #3 |
+| **M6 — Settings, guide, help, backup** | ✅ built, **in review** | `feat/m6-settings` |
+| M7 — Polish & accessibility | next | — |
+| M8 — Release | not started | — |
 
 ```
-348 tests passing · flutter analyze clean · dart format clean
-162 l10n strings · no schema change since M1
+803 tests passing (perf-tagged timings apart) · 1 integration test passing on the emulator
+flutter analyze clean · dart format clean · CI green on GitHub
+474 l10n strings · schema version 2 (M6 changed nothing in it)
 ```
 
 ---
@@ -40,6 +41,7 @@ downloaded from the official archive:
 - `C:\src\flutter\bin` was added to the **user** PATH (persists across sessions)
 - Web and all desktop targets are disabled (`flutter config --no-enable-web` etc.)
 - Android SDK and JDK 17 were already present
+- The GitHub CLI (`gh`) is **not** installed; pull requests are opened on github.com.
 
 If `flutter --version` fails in a new shell, prepend the path:
 `$env:PATH = "C:\src\flutter\bin;$env:PATH"`
@@ -58,12 +60,25 @@ Before pushing — CI runs exactly these, in this order:
 
 ```bash
 dart format --output=none --set-exit-if-changed .
+dart run build_runner build && flutter gen-l10n && git diff --exit-code --stat
+                                             # generated code committed and current; any
+                                             # edit to a @Riverpod class moves its hash
 dart run tool/check_licences.dart            # permissive licences only
 dart run tool/check_migration_safety.dart    # no destructive migration patterns
 flutter test test/migration                  # blocking
 flutter analyze --fatal-infos --fatal-warnings
-flutter test
+flutter test --exclude-tags perf             # the suite
+flutter test --tags perf -j 1                # the timings, alone, with nothing beside them
 ```
+
+On the emulator (`Pixel_9_Pro` AVD, Android 17):
+
+```bash
+emulator -avd Pixel_9_Pro -gpu swiftshader_indirect -no-snapshot-load -no-audio
+flutter test integration_test/backup_round_trip_test.dart -d emulator-5554
+```
+
+Run nothing heavy beside the emulator — it has crashed under a test run or a Gradle build.
 
 Regenerating the offline pronunciation asset (rarely needed — it is committed):
 
@@ -75,14 +90,15 @@ dart run tool/build_ipa_fallback.dart
 
 ## 3. Waiting on you
 
-Nothing blocks M3, but four things deserve a decision when you have a moment.
+Nothing blocks M7. These deserve a decision when you have a moment.
 
 | # | Decision | Why it is here |
 |---|---|---|
 | 1 | **Riverpod 3, not 2** | Your stack said Riverpod 2. It is not installable alongside Drift — `riverpod_generator` 2.x needs `source_gen ^2`, `drift_dev` needs `>=3` — and 2.6.1 is 22 months unmaintained. Proceeded with 3.4.3. Recorded in `ARCHITECTURE.md` §3.1. Reversible only by dropping Drift, which breaks ADR-001. |
-| 2 | **`riverpod_lint` is absent** | Impossible to install: `custom_lint` caps at `analyzer ^8`, `drift_dev` needs `>=13`. The layer rule is enforced by `test/architecture/layer_boundaries_test.dart` instead, which fails the build the same way. Re-check each milestone. |
+| 2 | **`riverpod_lint` is absent** | Impossible to install: `custom_lint` caps at `analyzer ^8`, `drift_dev` needs `>=13`. The layer rule is enforced by `test/architecture/layer_boundaries_test.dart` instead, which fails the build the same way. Not re-checked at M6. |
 | 3 | **Index on `study_cards(box, lapses)`** | The least-known sort takes ~80ms on 5,000 words — the slowest query in the app by 15×. An index would fix it, but that is a schema change: version bump, migration, tests. Logged as an M7 item. |
-| 4 | ~~**Branch naming**~~ | ✅ Settled 9 Sep: renamed to `feat/m0-m2-foundations`, M3 on its own branch. |
+| 4 | **The feedback address** | *Send feedback* stays hidden until a build sets `--dart-define=FEEDBACK_EMAIL=…` (decided 11 Sep: fill it at M8). Once shipped the address is public, so it is yours to choose. Until then Help offers GitHub Issues. |
+| 5 | **Play Data safety, one reading to confirm** | A feedback email the user sends from their own mail app carries the app version and device model. Google's docs exempt user-initiated transfers the user expects, but do not name this case; `DATA-SOURCES.md` §7 records it as the reading relied on. Worth a look before the M8 store listing. |
 
 Two smaller ones, mentioned once and not worth blocking on:
 
@@ -112,41 +128,74 @@ All of these are in the binding docs, not just here.
 - **F-002 corrected** to 21 IPA symbols, matching `UI-UX.md` §4.2.
 - **Verified API shape** — a miss is HTTP 200 with `entries: []`, the accent lives in
   `pronunciations[].tags`, and `text` arrives with slashes. `DATA-SOURCES.md` §1.
+- **The backup file (M6)** — a `.vnb` is a ZIP of `manifest.json` and `data.json`, rows keyed
+  by SQL column name. Merge matches on id, then headword; newer wins; it never deletes.
+  Replace keeps a safety copy first. `DATABASE.md` §5.
+- **Onboarding is decided before `runApp` (M6)**, never by a router redirect, and is not
+  shown to someone upgrading who already has words. `FEATURES.md` F-077.
+- **No Cambridge line on the licences screen (M6)** — the plan had one, but it would put
+  the name outside its link, which `DATA-SOURCES.md` §3 forbids.
 
 ---
 
 ## 5. Known gaps and loose ends
 
-**Verified on a device, 10 September.** The app was built, installed and driven on the
-Pixel_9_Pro emulator (Android 17): add a word, type IPA with the symbol row, save, open the
-detail screen, select a symbol, colour it, label it, save, and see the tint-plus-underline and
-the legend. Two bugs were found doing it, both fixed - see §6. Screens render correctly in
-Charis SIL.
+**Verified on a device.** The Pixel_9_Pro emulator (Android 17) has been driven at every
+milestone since M3. At M6, on 11 September: onboarding on a fresh install, export through
+the real share sheet, import through the real file picker (merge and replace), *Delete all
+data*, and the licences pages — and `integration_test/backup_round_trip_test.dart`
+(export → wipe → import, every table deep-equal) passes there. Two privacy defects were
+found doing it, both fixed — see §6.
 
 **Never verified, and cannot be from Windows:**
 
-- **iOS build.** The CI job exists but has never run.
-- **CI green.** No GitHub remote yet, so the workflow has never executed. Every step was run
-  locally.
-- **On-device rendering.** ~~No emulator image or device available~~ — **this was wrong.** A
-  `Pixel_9_Pro` AVD exists and boots to Android 17 (API 37); `make emulator` starts it. The
-  claim went unchecked from M0 to M3, which is why nothing had been seen rendered for three
-  milestones. Charis SIL's glyphs, the IPA chips, the five swatches and the `<queries>`
-  manifest fixes can all be verified here now. Widget tests still use Ahem, so M7's goldens
-  are still needed for the metrics.
+- **iOS on a device.** An unsigned iOS build passes in CI (it did on PR #3), but the app has
+  never been run on an iPhone or a simulator.
+- **A physical phone.** Everything so far is the emulator, on a software GPU.
 
 **Deliberately deferred, by milestone:**
 
 - ~~Word detail screen is still a placeholder~~ — built in M3.
-- **The word editor screen still has no widget test, and currently cannot have one** — see §6.
-  It was also never wired into the router until M3 found it.
-- Look-up has not been driven end-to-end through the UI in a test.
-- `recovery_screen.dart`'s *Export my data* button is wired but disabled until F-073 (M6).
-- `WordSort.leastKnown` has a query and a perf test but no correctness test.
+- ~~The word editor screen has no widget test~~ — made testable in M4 (`b30491d`).
+- ~~*Export my data* on the recovery screen is disabled~~ — built in M6: it reads the file
+  raw and read-only, so it works exactly when Drift refuses it.
+- Look-up has not been driven end-to-end through the UI in a test (as of M3; not re-checked).
+- `WordSort.leastKnown` has a query and a perf test but no correctness test (as of M3).
+- F-078 (empty states) was not re-audited as a whole at M6; the words list's empty state
+  gained *See how it works*.
 
 ---
 
-## 6. What M3 turned out to be
+## 6. What M6 turned out to be
+
+Features **F-070–F-077 and F-079**: the settings screen, the *How to use* guide, Help &
+feedback, backup export and import, data sources & licences, the privacy note, first-run
+onboarding and a small on-device error log. Built in eight slices on one branch, each
+mutation-checked.
+
+**Four things were found rather than built:**
+
+1. **Delete all data left the words readable in the database file.** FTS5 keeps a deleted
+   row's tokens in its index segments until they merge; a copy pulled off the emulator held
+   the headword four times. Now the index is rebuilt and the file `VACUUM`ed afterwards, and
+   a host test checks the file's bytes.
+2. **The OS plugins kept copies of a backup in the app's cache** — the share sheet's copy of
+   the last export, and the picker's copy of a chosen file. Both now go with *Delete all
+   data*, and the picker's as soon as it has been read.
+3. **Two layouts broke at 200% text on 320dp**: a licences row whose button took the whole
+   width, and the typed confirmation with the keyboard up. Found by
+   `test/widget/m6_large_text_test.dart`, which walks every M6 screen, sheet and dialog.
+4. **From research before the slices:** the confirmation words were all capitals, which a
+   screen reader may spell out letter by letter (now lower case); and the error hook lacked
+   `PlatformDispatcher.onError`, which catches what escapes the zone (added).
+
+**Deviations from the plan, all deliberate:**
+
+- Privacy is a sheet and a section of *Data sources & licences*, not a route of its own.
+- A *Dictionary look-up* switch was added under *Your data* (`UI-UX.md` §4.9).
+- Merging takes the backup's settings only when this phone is still on the defaults.
+
+## 7. What M3 turned out to be
 
 Features **F-020–F-025**, all met. Two screens (word detail, IPA highlight editor), six
 controllers, one device-speech adapter behind a domain interface.
@@ -188,15 +237,7 @@ controllers, one device-speech adapter behind a domain interface.
    was fixed) dismissed the row mid-word and sent the next keystroke nowhere. Fixed with
    `canRequestFocus: false` and covered by `test/widget/ipa_keyboard_row_test.dart`.
 
-Both are pure widget wiring on the one screen that has no widget test, which is exactly why
-348 passing tests said nothing about them.
-
-**The one thing M3 could not do:** widget-test the word editor screen. `pumpAndSettle` on it
-times out — something animates indefinitely on open — which is why F-023's confirm dialog has
-no widget test (its logic has twelve unit tests instead, including pruning against a real
-database) and, almost certainly, why that screen has been untested since M2. Undiagnosed.
-
-## 7. Issue tracking
+## 8. Issue tracking
 
 `bd` (beads) is installed on this machine but **not initialised in this repository** — there
 is no database and no issues. It was left that way on purpose: initialising a tracker is a

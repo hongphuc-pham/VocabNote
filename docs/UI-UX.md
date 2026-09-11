@@ -218,11 +218,48 @@ Pronunciation   Voice (UK/US) · Speed · Pitch · Autoplay on open · Test voic
 Practice        Daily goal · Prompt side · Daily reminder (off by default)
                 Review pace (gentle · standard · intensive) · Interval per box
                 Repeat missed cards in the same session (default once)
-Your data       Export backup · Import backup · Storage used · Delete all data
+Your data       Backup & restore ▸ (export · import) · Storage used
+                Dictionary look-up (on by default) · Delete all data
 Help            How to use  ▸        ← always present (F-071)
                 Help & feedback ▸    ← always present (F-072)
 About           Version · Data sources & licences · Privacy
 ```
+
+*Built at M6:*
+- **Every choice is a row that opens a short list**, not a segmented control: three long
+  labels in a segmented button do not survive 200% text on a 320dp phone (§6), and a list
+  can say what each choice means (the paces carry a one-line hint).
+- **Speed and pitch are sliders** shown as multiples of normal (`0.5×`–`1.5×` for speed,
+  `0.5×`–`2.0×` for pitch). They save when the thumb is released, not on every step.
+- **Review pace is derived, not stored.** It names the preset whose table the user has, and
+  reads *Your own* once any box has been changed by hand. The interval editor is a sheet with
+  one field per box; box 0 is fixed at "later the same day", and a table that would stop
+  words coming back is refused with a sentence naming the box, before anything is written.
+- **Dictionary look-up** is an addition to the original drawing. `settings.lookup_enabled`
+  has existed since M1 with no control; switching it off makes the app offline by choice.
+- **Export and import live one level down**, on *Backup & restore* (`/settings/backup`),
+  with the last backup time and the import preview — four rows of data management in the
+  main list would bury *Help* below the fold.
+- **Privacy** opens a sheet; the same note is a section of *Data sources & licences*. No
+  route of its own.
+- **Import** (F-074) is the second button on *Backup & restore*. The picker offers any file —
+  Android cannot filter by an extension it has never heard of — and a file that is not a
+  backup is named as such in a snackbar ("Backups end in .vnb"), as is one too large or
+  damaged. A real backup opens a sheet saying what it holds and when it was made, with
+  **Add to my words** (merge) already chosen and **Replace everything** beside it. Replace
+  then asks for `replace` to be typed (RULES §11) — lower case, with the keyboard's capitals left alone,
+  because a screen reader may spell an all-caps word out letter by letter — and says that a copy of what is here is
+  kept first. Nothing is written until then. The report that follows gives words added,
+  updated and already here, the other things in one line, and a quiet line for anything
+  that could not be read.
+- **Delete all data** is the last row of *Your data*, its title in the error colour. Two
+  steps, because there is no undo and no server to restore from: the first says what goes
+  and offers **Make a backup first** (which opens *Backup & restore*) beside **Continue**;
+  the second asks for `delete` to be typed. It removes every row and every copy of the
+  library on disk (`DATABASE.md` §5), cancels the reminder, and lands on the words tab's
+  empty state. Onboarding is not shown again: the person has used the app, and the empty
+  state already teaches the first step. **Storage used** above it counts everything the
+  library keeps on disk, copies included, so it drops to almost nothing afterwards.
 
 ### 4.10 How to use (guide)
 Six cards, each an illustration + a sentence + a *Try it* button that deep-links to the real
@@ -230,12 +267,43 @@ screen: add a word · fill it from the dictionary · write the IPA yourself · h
 you struggle with · leave a note for yourself · practise daily. Card 3 carries the honest line
 about text-to-speech being a synthesised reference.
 
+*Built at M6:*
+- **A scrolling column, not a pager.** It survives 200% text, and a guide opened a second
+  time is scanned rather than paged through.
+- **Illustrations are composed in code** from the app's own widgets — an IPA transcription
+  with a real highlight, the symbol keys, suggestion chips, a note, the goal ring — so they
+  follow light and dark and the text size, and need no asset. They are wrapped in
+  `ExcludeSemantics`: read out, a mock-up sounds like buttons that are not there; the card's
+  sentence is what a screen reader hears.
+- ***Try it* is what teaches** (help met in context is remembered; a deck of cards read up
+  front is not). It opens the real screen, and where a word exists it uses it: the
+  highlight card opens the newest transcribed word's IPA editor, or the newest word's editor
+  so it can be given IPA, or the add form; the note card opens the newest word. The practice
+  card switches to the Practice tab rather than stacking a second hub on Settings. Each
+  *Try it* is announced with its card's title, so six buttons are not six "Try it"s.
+- Reachable from Settings → Help and from the empty words list's *See how it works*.
+
 ### 4.11 Help & feedback
 Searchable FAQ (12 short answers), then:
 - **Send feedback** → composes an email. The pre-filled body (app version, OS version, device
   model) is **shown in a preview dialog first**, with "nothing else is included".
 - **Report a problem on GitHub** → opens Issues.
 - **Rate the app** → store listing.
+
+*Built at M6:*
+- **The FAQ filters as the user types**, over questions and answers, with the number of
+  matches in a live region ("3 answers") so a screen reader hears the search work. When
+  nothing matches it says so with the term — "No answers mention “zebra”." — and offers
+  **Clear search**. Each answer is an `ExpansionTile`, which announces expanded/collapsed.
+- **Send feedback is shown only when the build has an address** (`--dart-define=
+  FEEDBACK_EMAIL`, set at M8 — an address in the app is public, and it is the owner's to
+  choose). The preview shows the email's exact body: app version, OS version, device
+  **model** (never the device's name, which is the owner's own label) and, only if the user
+  ticks it, the newest entries of the error log — trimmed so the whole `mailto:` link stays
+  under ~1,900 characters, and shown as trimmed. Then "Nothing else is included." Nothing
+  opens until **Open email**; if no mail app opens, a snackbar gives the address to write to.
+- **View error log** (F-079) opens a sheet with the log, readable and clearable.
+- **Rate the app** is not built: there is no store listing until M8.
 
 ## 5. Copy guidelines
 

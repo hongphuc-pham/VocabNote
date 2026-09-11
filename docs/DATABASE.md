@@ -140,8 +140,13 @@ It is a **derived** table: it may be dropped and rebuilt in any migration withou
    CI blocks the merge if `test/migration/` fails.
 6. **Automatic pre-migration backup.** `bootstrap.dart` copies the DB to
    `vocabnote.pre-v<n>.bak` before opening when the on-disk version is lower than
-   `schemaVersion`. On success the backup is kept until the next migration; on failure it is
-   restored and the app shows a recovery screen with *Export my data*.
+   `schemaVersion`. On success the backup is kept until the next migration — or until the
+   user chooses *Delete all data*, which removes every copy of the library (§5); on failure
+   it is restored and the app shows a recovery screen with *Export my data*. *Since M6* that
+   button works: it opens the file with `package:sqlite3` directly, **read-only**, and writes
+   the same `.vnb` as any other backup through the same table reader — the format names SQL
+   columns, so no Drift code is needed to read a file Drift refused. A table the file's schema
+   never had is exported empty (`data/backup/recovery_export.dart`).
    Implemented in `data/db/database_opener.dart` (so it can be tested against a temporary
    directory rather than a device) and surfaced by
    `presentation/common/recovery_screen.dart`. The on-disk version is read with a raw
@@ -208,6 +213,93 @@ Because there is no cloud, export is how a user moves to a new phone.
   `data.json` (all tables, arrays of objects).
 - **The export format is versioned independently of the schema.** Readers must ignore unknown
   fields and default missing ones — an older app must be able to read a newer file's known parts.
+
+*Built at M6 — export format version 1* (`data/backup/backup_codec.dart`):
+
+- **Rows are keyed by SQL column name, with values as SQLite stores them** — epoch
+  milliseconds, `0`/`1`, the documented enum strings. The file format *is* §2, not a second
+  vocabulary, and export is `SELECT *`, so a column added by a later additive migration is
+  carried without the exporter changing.
+- `data.json` is `{"tables": {"<table>": [{row}, …]}}`. `exported_at` is ISO-8601 UTC.
+- **Carried**, parents before children (the order they are restored in): `words` —
+  soft-deleted ones too, with `deleted_at`, so Replace restores them within their window —
+  `word_notes`, `ipa_highlights`, `word_lists`, `word_list_items`, `study_cards`,
+  `practice_sessions`, `practice_answers`, `settings`.
+- **Not carried:** `app_meta` — `install_id` is local-only by promise (`DATA-SOURCES.md` §7)
+  and the other keys describe this install, not the library — and `words_fts`, which is
+  derived.
+- **Refused before anything is written:** a file over 64 MB, or an entry declaring more than
+  256 MB inflated (`package:archive` has no zip-bomb guard of its own); a file that is not a
+  ZIP, or a ZIP with no `manifest.json` (*not a backup*); a ZIP that cannot be read — most
+  often one cut short by an interrupted download — or whose manifest or data is not a JSON
+  object (*damaged*).
+- **Accepted, because it is merely unfamiliar:** a newer format or schema version, unknown
+  keys, unknown tables. A row that is not an object is dropped and counted; a manifest value
+  of the wrong type takes its default.
+- The export is read in one transaction, so it is a single moment of the library; encoded off
+  the UI isolate; written to the OS temporary directory (earlier exports there are removed —
+  each is a full copy of the user's words); and handed to the share sheet.
+  `app_meta.last_backup_at` moves only when the sheet reports the file went somewhere, or
+  cannot say — never for a file still sitting in a cache folder.
+
+*Built at M6 — import* (`data/backup/backup_importer.dart`, `backup_merge.dart`,
+`backup_rows.dart`):
+
+- **Rows are checked against the live Drift schema first** — its own column list, so a
+  column added later is understood without the reader changing. Unknown columns are ignored;
+  a missing column that has a default is left for SQLite to fill; a missing column without
+  one, or a value of the wrong type, refuses that row. Refused rows, and rows pointing at
+  something the backup does not contain, are counted for the report — never a reason to
+  refuse the rest. Things attached to a word the backup itself had deleted are skipped
+  quietly: they are not broken.
+- **Merge only adds and updates.** It never deletes or hides a word:
+
+  | Table | Matched on | When both sides have it |
+  |---|---|---|
+  | `words` | `id`, then a live word's `headword_normalized` | newer `updated_at` wins the content; a word deleted in the backup is skipped; a word deleted here comes back if the backup's live copy is newer |
+  | `word_notes` | `id` (the word remapped to this phone's) | newer `updated_at` wins |
+  | `ipa_highlights` | `id` | added only if absent, only onto the transcription it was drawn on, and only if its range fits that transcription's grapheme length |
+  | `word_lists` | `id`, then trimmed case-insensitive `name` | newer `updated_at` wins name, colour and icon; new lists go after this phone's |
+  | `word_list_items` | both ids, remapped | added if absent |
+  | `study_cards` | the word, remapped | the card reviewed most recently wins |
+  | `practice_sessions`, `practice_answers` | `id` | added if absent; a session practised from a list follows that list |
+  | `settings` | — | this phone keeps its own — *unless it is still on the defaults*, as a new phone is, in which case it takes the backup's. Otherwise moving to a new phone with the default mode would silently drop the user's review schedule and goal. |
+
+- **Replace** writes a safety copy of the current library to
+  `<app support>/vocabnote/backups/vocabnote-before-replace-<time>.vnb` — the newest three
+  are kept — **before anything is touched**, and does nothing if that copy cannot be
+  written. It then empties every table and writes the backup's rows, each reference checked
+  before its row is written, so no single bad row can abort the rest.
+- **Neither restores the daily reminder.** It needs this phone's notification permission, and
+  only its own switch may ask (F-066); the chosen time is kept.
+- Both run in **one transaction**: a failure part-way leaves the library exactly as it was.
+  That is tested with a SQLite trigger forcing a real failure mid-import, not a hook in the
+  code. The file is decoded off the UI isolate, and refused before anything — even the
+  safety copy — is written.
+- The round trip, export → wipe → import → every table deep-equal, runs on the host in
+  `test/unit/data/backup_replace_test.dart`; the device run lives in `integration_test/`.
+
+*Built at M6 — Delete all data* (`UserDataRepository.deleteAll`, `UI-UX.md` §4.9):
+
+- A hard delete on explicit user action, which RULES §10 allows, behind a typed confirmation
+  (RULES §11). Every backed-up table is emptied in one transaction and `settings` returns
+  to its defaults. `app_meta` stays: `install_id` and a finished onboarding describe the
+  install, not the library.
+- **Then every other copy of the library on disk goes too:** Replace's safety copies, any
+  exported `.vnb` still in the temporary folder, the `vocabnote.pre-v<n>.bak` copies taken
+  before an upgrade, the dictionary cache, and the error log (a message line in it may hold
+  something the user typed). So are the copies the OS plugins keep in the app's cache: the
+  share sheet's copy of the last export (`share_plus` clears it only at the next share) and
+  the picker's copy of a chosen backup (also cleared as soon as it has been read). Each is
+  removed independently and best-effort
+  — the rows are already gone, and one file that will not delete must not keep the others.
+  The open database file itself is emptied, never deleted — and then **scrubbed**: deleting
+  a row does not erase it, and FTS5 keeps a deleted word's tokens in its index segments
+  until they merge (found on a device: the headword was still in the file four times). The
+  index is rebuilt from its now-empty content (`INSERT INTO words_fts(words_fts)
+  VALUES('rebuild')`) and `VACUUM` rewrites every page, so no word is left readable in the
+  file. Tested on a file-backed database.
+- The reminder is cancelled with the OS, since its setting is back to off.
 - Import offers **Merge** (default: match on `id`, then on `headword_normalized`; newer
   `updated_at` wins) or **Replace** (explicit confirmation, takes a backup first).
 - Import runs in one transaction and reports a summary: added / updated / skipped.

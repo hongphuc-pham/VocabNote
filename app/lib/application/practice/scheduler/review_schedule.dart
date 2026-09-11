@@ -104,31 +104,55 @@ class ReviewSchedule {
   ///
   /// Returned as a reason rather than a bool so Settings can say *what* is
   /// wrong. A user editing seven numbers by hand will get it wrong, and
-  /// "invalid" is not a helpful thing to be told.
-  String? get problem {
+  /// "invalid" is not a helpful thing to be told. Typed rather than a
+  /// sentence, so Settings can say it in the user's language (RULES §22).
+  ScheduleIssue? get issue {
     if (intervalDays.length != boxCount) {
-      return 'A schedule needs exactly $boxCount intervals, '
-          'one per box (got ${intervalDays.length}).';
+      return WrongBoxCount(intervalDays.length);
     }
-    if (intervalDays.first != 0) {
-      return 'Box 0 is the relearning box and must be 0 days.';
-    }
+    if (intervalDays.first != 0) return const RelearningBoxNotZero();
     for (var box = 1; box < intervalDays.length; box++) {
       // The real hazard the user's own choice can create: a 0 here means a
       // word in that box is due immediately, for ever, and never progresses.
-      if (intervalDays[box] < 1) {
-        return 'Box $box must be at least 1 day, or its words never come back.';
-      }
+      if (intervalDays[box] < 1) return BoxTooShort(box);
       if (intervalDays[box] < intervalDays[box - 1]) {
-        return 'Box $box is shorter than box ${box - 1}. '
-            'Later boxes must wait longer, not less.';
+        return BoxShorterThanPrevious(box);
       }
     }
     return null;
   }
 
+  /// [issue] as an English sentence, for logs and test failures.
+  ///
+  /// Never shown to the user: Settings puts [issue] into words itself.
+  String? get problem => switch (issue) {
+    null => null,
+    WrongBoxCount(:final count) =>
+      'A schedule needs exactly $boxCount intervals, '
+          'one per box (got $count).',
+    RelearningBoxNotZero() => 'Box 0 is the relearning box and must be 0 days.',
+    BoxTooShort(:final box) =>
+      'Box $box must be at least 1 day, or its words never come back.',
+    BoxShorterThanPrevious(:final box) =>
+      'Box $box is shorter than box ${box - 1}. '
+          'Later boxes must wait longer, not less.',
+  };
+
   /// Whether this schedule can be used.
-  bool get isValid => problem == null;
+  bool get isValid => issue == null;
+
+  /// The preset that produces exactly this table, or null for a table of the
+  /// user's own.
+  ///
+  /// Derived rather than stored: a pace *produces* a table (see
+  /// [IntervalPace]), so once one box has been nudged the table belongs to no
+  /// pace, and Settings should not claim otherwise.
+  IntervalPace? get pace {
+    for (final pace in IntervalPace.values) {
+      if (ReviewSchedule.forPace(pace) == this) return pace;
+    }
+    return null;
+  }
 
   /// The interval for [box], clamped into range.
   ///
@@ -150,4 +174,45 @@ class ReviewSchedule {
 
   @override
   String toString() => 'ReviewSchedule($intervalDays)';
+}
+
+/// Why a [ReviewSchedule] cannot be used.
+///
+/// One case per rule, each carrying what the sentence about it needs.
+@immutable
+sealed class ScheduleIssue {
+  const new();
+}
+
+/// The table does not have one interval per box.
+final class WrongBoxCount extends ScheduleIssue {
+  /// Creates the issue for a table of [count] intervals.
+  const new(this.count);
+
+  /// How many intervals there were.
+  final int count;
+}
+
+/// Box 0 - the relearning box - is not 0 days.
+final class RelearningBoxNotZero extends ScheduleIssue {
+  /// Creates the issue.
+  const new();
+}
+
+/// [box] waits less than a day, so its words would never come back.
+final class BoxTooShort extends ScheduleIssue {
+  /// Creates the issue for [box].
+  const new(this.box);
+
+  /// The box at fault.
+  final int box;
+}
+
+/// [box] waits less than the box before it.
+final class BoxShorterThanPrevious extends ScheduleIssue {
+  /// Creates the issue for [box].
+  const new(this.box);
+
+  /// The box at fault; the one before it is `box - 1`.
+  final int box;
 }
