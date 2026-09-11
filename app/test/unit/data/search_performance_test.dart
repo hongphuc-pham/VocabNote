@@ -5,7 +5,7 @@ library;
 //
 // These measure wall-clock time, so under the suite's own parallelism they
 // measure how loaded the machine is rather than how fast the query is: the
-// least-known sort takes ~2ms in isolation and was seen at 186ms with eight
+// least-known sort takes ~60ms alone and was once seen at 186ms with eight
 // other test processes competing. Raising the bounds would have stopped them
 // measuring anything; running them alone keeps them honest.
 
@@ -137,24 +137,22 @@ void main() {
     expect(best, lessThan(100), reason: '${best}ms');
   });
 
-  test('the least-known sort stays within its (looser) budget', () async {
-    // **Measured, not assumed: ~80ms isolated and ~88ms under full-suite load
-    // on the development machine.** That is the slowest query in the app by a
-    // wide margin - the FTS searches above come in under 5ms - because this one
-    // left-joins study_cards across all 5,000 rows and orders on two of its
-    // columns, and `study_cards` is indexed on (due_at, suspended), not on
-    // (box, lapses).
+  test('the least-known sort stays within the list budget', () async {
+    // **Measured, not assumed (M7, run alone): ~62ms**, against ~44ms for the
+    // recent sort over the same 5,000 rows. Returning every row is what costs:
+    // SQLite joins and sorts them in ~11ms. Unlike the searches above, which
+    // return a handful of rows, every sort materialises the whole list.
     //
-    // The bound here is 150ms rather than 100ms, deliberately and with the
-    // reasoning stated: F-041's 100ms budget is for **search**, which this is
-    // not. Setting it to 100 would be pinning an unrelated number to a figure
-    // that already sits 12ms away from it, and the test would fail on any
-    // slower machine for no useful reason.
+    // It was ~100-150ms until M7, sitting on the old 150ms bound, because the
+    // join also selected every study_cards column and then discarded them. The
+    // cure was `useColumns: false`, not an index: no index can serve an order
+    // that mixes directions and spans both tables (`EXPLAIN QUERY PLAN` shows a
+    // temporary B-tree either way), and `idx_cards_box_lapses` has existed
+    // since M5 without helping it.
     //
-    // It is close enough to be worth fixing: an index on
-    // `study_cards(box, lapses)` would serve this sort directly. That is a
-    // schema change, so it needs a version bump, a migration and sign-off -
-    // recorded as an M7 performance item rather than smuggled in here.
+    // 100ms - F-041's budget, and the one the words list lives by - is ~1.6x
+    // the measurement: room for a slower machine, and small enough that the
+    // discarded columns coming back would show.
     await db.wordsDao.getWords(const WordQuery(sort: WordSort.leastKnown));
 
     var best = 1 << 30;
@@ -168,7 +166,7 @@ void main() {
     }
     expect(
       best,
-      lessThan(150),
+      lessThan(100),
       reason:
           'least-known sort took ${best}ms; see the note above before '
           'raising this bound again',
