@@ -62,31 +62,32 @@ class _TypedConfirmDialogState extends State<_TypedConfirmDialog> {
     final scheme = Theme.of(context).colorScheme;
 
     return AlertDialog(
+      // Title and content scroll together, so the field and its prompt
+      // survive 200% text with the keyboard up. Scrolling the content alone
+      // was not enough: at 320dp the title and the buttons by themselves
+      // filled what the keyboard left, and the dialog overflowed.
+      scrollable: true,
       title: Text(widget.title),
-      // Scrolls, so the field and its prompt survive 200% text with the
-      // keyboard up.
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(widget.body),
-            const VnGap(VnSpace.md),
-            Text(l10n.typedConfirmPrompt(widget.word)),
-            const VnGap(VnSpace.sm),
-            TextField(
-              controller: _typed,
-              autofocus: true,
-              autocorrect: false,
-              enableSuggestions: false,
-              // No textCapitalization, on purpose - and the word itself is
-              // lower case: forced capitals fight the keyboard, and a screen
-              // reader may spell an all-caps word out letter by letter.
-              decoration: InputDecoration(hintText: widget.word),
-              onChanged: (_) => setState(() {}),
-            ),
-          ],
-        ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(widget.body),
+          const VnGap(VnSpace.md),
+          Text(l10n.typedConfirmPrompt(widget.word)),
+          const VnGap(VnSpace.sm),
+          TextField(
+            controller: _typed,
+            autofocus: true,
+            autocorrect: false,
+            enableSuggestions: false,
+            // No textCapitalization, on purpose - and the word itself is
+            // lower case: forced capitals fight the keyboard, and a screen
+            // reader may spell an all-caps word out letter by letter.
+            decoration: InputDecoration(hintText: widget.word),
+            onChanged: (_) => setState(() {}),
+          ),
+        ],
       ),
       actions: <Widget>[
         TextButton(

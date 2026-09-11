@@ -150,23 +150,38 @@ class _FontRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
 
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text(name),
-      subtitle: Text(l10n.licencesOflName),
-      trailing: TextButton(
-        onPressed: () => unawaited(
-          showModalBottomSheet<void>(
-            context: context,
-            isScrollControlled: true,
-            useSafeArea: true,
-            builder: (context) => _LicenceText(title: name, path: path),
+    // Reflows to a column when the name and the button cannot share a line
+    // (UI-UX §6). A ListTile's trailing button took the whole width at 200%
+    // text on 320dp, and the tile could not lay out at all.
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: context.metrics.spaceSm),
+      child: OverflowBar(
+        alignment: MainAxisAlignment.spaceBetween,
+        overflowAlignment: OverflowBarAlignment.start,
+        children: <Widget>[
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(name, style: Theme.of(context).textTheme.bodyLarge),
+              VnQuietText(l10n.licencesOflName),
+            ],
           ),
-        ),
-        child: Text(
-          l10n.licencesViewLicence,
-          semanticsLabel: l10n.licencesViewLicenceFor(name),
-        ),
+          TextButton(
+            onPressed: () => unawaited(
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (context) => _LicenceText(title: name, path: path),
+              ),
+            ),
+            child: Text(
+              l10n.licencesViewLicence,
+              semanticsLabel: l10n.licencesViewLicenceFor(name),
+            ),
+          ),
+        ],
       ),
     );
   }

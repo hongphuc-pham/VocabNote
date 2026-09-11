@@ -147,7 +147,7 @@ void main() {
     // Through its own row, not `.first`: the rows are below the fold, and
     // `.first` of a finder that matches nothing yet throws while scrolling.
     final view = find.descendant(
-      of: find.widgetWithText(ListTile, 'Inter'),
+      of: find.widgetWithText(OverflowBar, 'Inter'),
       matching: find.text('View licence'),
     );
     await scrollTo(tester, view);
