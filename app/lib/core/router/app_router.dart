@@ -8,6 +8,9 @@ import 'package:vocabnote/presentation/common/placeholder_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
+import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
+import 'package:vocabnote/presentation/words/word_detail_screen.dart';
+import 'package:vocabnote/presentation/words/word_editor_screen.dart';
 import 'package:vocabnote/presentation/words/words_screen.dart';
 
 part 'app_router.g.dart';
@@ -70,27 +73,26 @@ GoRoute get _wordsBranch => GoRoute(
       path: ':${Routes.wordIdParam}',
       name: RouteNames.wordDetail,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).wordDetailTitle,
-        routePath: Routes.wordDetail,
-      ),
+      builder: (context, state) =>
+          WordDetailScreen(wordId: state.pathParameters[Routes.wordIdParam]!),
       routes: <RouteBase>[
         GoRoute(
           path: 'edit',
           name: RouteNames.wordEdit,
           parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => PlaceholderScreen(
-            title: AppL10n.of(context).wordEditTitle,
-            routePath: Routes.wordEdit,
-          ),
+          // `/words/new/edit` opens an empty form; any other id edits that
+          // word (`Routes.newWordId`). A uuid can never collide with 'new'.
+          builder: (context, state) {
+            final id = state.pathParameters[Routes.wordIdParam];
+            return WordEditorScreen(wordId: id == Routes.newWordId ? null : id);
+          },
         ),
         GoRoute(
           path: 'ipa',
           name: RouteNames.wordIpa,
           parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => PlaceholderScreen(
-            title: AppL10n.of(context).ipaEditorTitle,
-            routePath: Routes.wordIpa,
+          builder: (context, state) => IpaEditorScreen(
+            wordId: state.pathParameters[Routes.wordIdParam]!,
           ),
         ),
       ],

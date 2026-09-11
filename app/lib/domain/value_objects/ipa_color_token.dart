@@ -32,7 +32,6 @@ enum IpaColorToken implements StorageEnum {
 
   /// The value written to `ipa_highlights.color_token`.
   @override
-  @override
   String get storageValue => name;
 
   /// Parses a value read back from the database.

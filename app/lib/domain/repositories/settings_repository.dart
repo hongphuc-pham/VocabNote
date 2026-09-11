@@ -25,6 +25,16 @@ abstract interface class SettingsRepository {
   /// Records that onboarding is done, so it is never shown again.
   AsyncResult<void> completeOnboarding();
 
+  /// Whether the voice-fallback notice has already been shown.
+  ///
+  /// `docs/DATA-SOURCES.md` §4 says to tell the user **once** that their device
+  /// has no en-GB voice. Repeating it every time they open a word would be
+  /// nagging about something they may not be able to change.
+  AsyncResult<bool> isVoiceNoticeShown();
+
+  /// Records that the voice-fallback notice has been shown.
+  AsyncResult<void> markVoiceNoticeShown();
+
   /// The local-only install identifier. Never transmitted.
   AsyncResult<String?> installId();
 

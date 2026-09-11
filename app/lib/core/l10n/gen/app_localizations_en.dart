@@ -370,4 +370,202 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get overwriteKeep => 'Keep mine';
+
+  @override
+  String get detailAccentUk => 'UK';
+
+  @override
+  String get detailAccentUs => 'US';
+
+  @override
+  String detailPlayLabel(String word, String accent) {
+    return 'Play $word in $accent';
+  }
+
+  @override
+  String detailPlaySlowLabel(String word, String accent) {
+    return 'Play $word slowly in $accent';
+  }
+
+  @override
+  String get detailStopLabel => 'Stop';
+
+  @override
+  String detailPlayingLabel(String word) {
+    return 'Speaking $word';
+  }
+
+  @override
+  String get detailSlowHint => 'Hold to hear it slowly';
+
+  @override
+  String get detailSpeechFailed => 'This device has no speech voice available.';
+
+  @override
+  String get detailSpeechSettingsAction => 'Voice settings';
+
+  @override
+  String get detailNoIpaTitle => 'No pronunciation yet';
+
+  @override
+  String get detailNoIpaBody =>
+      'Add a transcription to hear this word and to colour the sounds you find hard.';
+
+  @override
+  String get detailAddIpaAction => 'Add pronunciation';
+
+  @override
+  String get detailEditHighlightsAction => 'Edit IPA highlights';
+
+  @override
+  String get detailNotesHeading => 'My notes';
+
+  @override
+  String get detailAddNoteAction => 'Add';
+
+  @override
+  String get detailNoNotesBody => 'No notes yet.';
+
+  @override
+  String get detailNoteDeleteAction => 'Delete note';
+
+  @override
+  String get detailNoteDeletedSnack => 'Note deleted';
+
+  @override
+  String get detailNoteHeading => 'Add a note';
+
+  @override
+  String get detailNotFoundTitle => 'This word is gone';
+
+  @override
+  String get detailNotFoundBody =>
+      'It was deleted. You can undo a deletion from the words list for a few seconds.';
+
+  @override
+  String get detailLoadFailedTitle => 'Could not open this word';
+
+  @override
+  String get detailLoadFailedBody =>
+      'Something went wrong reading it from your device.';
+
+  @override
+  String get detailEditAction => 'Edit';
+
+  @override
+  String get detailLegendHeading => 'Sounds you marked';
+
+  @override
+  String detailLegendEntry(String color, String label) {
+    return '$color: $label';
+  }
+
+  @override
+  String detailLegendJumpLabel(String label) {
+    return 'Show $label in the transcription';
+  }
+
+  @override
+  String get ipaColorAmber => 'amber';
+
+  @override
+  String get ipaColorCoral => 'coral';
+
+  @override
+  String get ipaColorViolet => 'violet';
+
+  @override
+  String get ipaColorTeal => 'teal';
+
+  @override
+  String get ipaColorBlue => 'blue';
+
+  @override
+  String get detailCambridgeAction => 'Open in Cambridge Dictionary';
+
+  @override
+  String get detailCambridgeFailed => 'Could not open your browser.';
+
+  @override
+  String get ipaEditorIntro =>
+      'Tap a symbol, or drag across several, then choose a colour.';
+
+  @override
+  String ipaEditorSelectedLabel(String symbols) {
+    return 'selected $symbols';
+  }
+
+  @override
+  String get ipaEditorNothingSelected => 'Nothing selected yet';
+
+  @override
+  String get ipaEditorDoneAction => 'Done';
+
+  @override
+  String get ipaEditorUndoAction => 'Undo';
+
+  @override
+  String get ipaEditorColorHeading => 'Colour this sound';
+
+  @override
+  String get ipaEditorLabelHint => 'Why is it hard? (optional)';
+
+  @override
+  String get ipaEditorDeleteAction => 'Delete highlight';
+
+  @override
+  String ipaEditorColorLabel(String color) {
+    return 'Use $color';
+  }
+
+  @override
+  String get ipaEditorSaveFailed => 'Could not save your highlights.';
+
+  @override
+  String get ipaEditorNoIpaTitle => 'Nothing to highlight yet';
+
+  @override
+  String get ipaEditorNoIpaBody =>
+      'Add a transcription first, then come back to colour the sounds you find hard.';
+
+  @override
+  String get ipaEditorDiscardTitle => 'Discard your colours?';
+
+  @override
+  String get ipaEditorDiscardBody =>
+      'You have changes that have not been saved.';
+
+  @override
+  String get ipaEditorDiscardAction => 'Discard';
+
+  @override
+  String get ipaEditorKeepEditingAction => 'Keep editing';
+
+  @override
+  String get ipaRevalidateTitle => 'Some highlights no longer fit';
+
+  @override
+  String ipaRevalidateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count coloured runs no longer match the new transcription and will be removed.',
+      one: 'One coloured run no longer matches the new transcription and will be removed.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ipaRevalidateConfirm => 'Remove them';
+
+  @override
+  String get ipaRevalidateCancel => 'Keep editing';
+
+  @override
+  String get voiceFallbackNotice =>
+      'This device has no British English voice, so words are spoken in the closest voice it does have. You can add voices in your device settings, under Text-to-speech.';
+
+  @override
+  String get voiceFallbackDismiss => 'Got it';
 }

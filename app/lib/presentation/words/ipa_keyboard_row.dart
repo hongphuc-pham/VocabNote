@@ -94,8 +94,6 @@ class IpaKeyboardRow extends StatelessWidget {
               background: theme.colorScheme.surfaceContainer,
               onPressed: () {
                 controller.value = insert(controller.value, symbol);
-                // Keep the field focused: the user is mid-word and the OS
-                // keyboard closing here would be maddening.
                 unawaited(HapticFeedback.selectionClick());
               },
             );
@@ -131,6 +129,12 @@ class _SymbolButton extends StatelessWidget {
         child: InkWell(
           onTap: onPressed,
           borderRadius: AppRadii.chipBorder,
+          // The button must never take focus. The transcription field has it,
+          // and this row is only shown *because* it does - so stealing focus
+          // dismisses the row mid-word and sends the next keystroke nowhere.
+          // The user taps ɒ expecting to carry on typing, not to lose the
+          // field they were in.
+          canRequestFocus: false,
           child: ConstrainedBox(
             // >= 48dp, including for the narrow marks like the stress bar
             // (docs/UI-UX.md §6).

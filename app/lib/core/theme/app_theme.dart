@@ -5,6 +5,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
 import 'package:vocabnote/core/theme/tokens.dart';
 
@@ -177,6 +178,9 @@ abstract final class AppTheme {
       extensions: <ThemeExtension<dynamic>>[
         if (isLight) IpaPalette.light else IpaPalette.dark,
         AppTypography.forColor(scheme.onSurface),
+        // The measurable half of the design system. Swapping this one object
+        // re-scales the whole app; see `app_metrics.dart`.
+        AppMetrics.defaults(),
       ],
     );
   }

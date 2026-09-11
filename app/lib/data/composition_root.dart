@@ -11,6 +11,8 @@ import 'package:vocabnote/data/repositories/list_repository_impl.dart';
 import 'package:vocabnote/data/repositories/practice_repository_impl.dart';
 import 'package:vocabnote/data/repositories/settings_repository_impl.dart';
 import 'package:vocabnote/data/repositories/word_repository_impl.dart';
+import 'package:vocabnote/data/speech/flutter_tts_service.dart';
+import 'package:vocabnote/domain/repositories/speech_service.dart';
 
 /// Wires `data/` implementations into the `application/` DI seam.
 ///
@@ -21,7 +23,15 @@ import 'package:vocabnote/data/repositories/word_repository_impl.dart';
 /// Kept in `data/` rather than in `bootstrap.dart` so tests can build the same
 /// overrides against an in-memory database with one call, instead of
 /// duplicating this list and drifting from it.
-List<Override> repositoryOverrides(AppDatabase database, {String? appVersion}) {
+///
+/// [speechService] is injectable because a widget test has no audio device and
+/// Riverpod 3 refuses a second override of the same provider in one container -
+/// so a test cannot simply layer its fake on top of this list.
+List<Override> repositoryOverrides(
+  AppDatabase database, {
+  String? appVersion,
+  SpeechService? speechService,
+}) {
   final offline = OfflineIpaSource();
   final client = FreeDictionaryClient(
     // Descriptive, as community APIs expect (docs/DATA-SOURCES.md §1).
@@ -38,6 +48,12 @@ List<Override> repositoryOverrides(AppDatabase database, {String? appVersion}) {
     ),
     settingsRepositoryProvider.overrideWithValue(
       SettingsRepositoryImpl(database),
+    ),
+    // Constructed eagerly but inert: nothing reaches a platform channel until
+    // the first call, so widget tests that build these overrides do not need a
+    // speech engine to exist.
+    speechServiceProvider.overrideWithValue(
+      speechService ?? FlutterTtsService(),
     ),
     dictionaryRepositoryProvider.overrideWithValue(
       DictionaryRepositoryImpl(

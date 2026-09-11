@@ -4,7 +4,7 @@
 binding ones. This says where the work actually is, what is waiting on you, and how to pick
 it up without rediscovering anything.
 
-Last updated: **9 September 2026**, after M2.
+Last updated: **9 September 2026**, after M3.
 
 ---
 
@@ -15,15 +15,16 @@ Last updated: **9 September 2026**, after M2.
 | M0 — Foundations | ✅ done | `7012ff8` |
 | M1 — Data layer | ✅ done | `657022d` |
 | M2 — Word capture | ✅ done | `b1d2712` |
-| **M3 — Pronunciation & highlighting** | **next** | — |
-| M4–M8 | not started | — |
+| M3 — Pronunciation & highlighting | ✅ done | on `feat/m3-pronunciation` |
+| **M4 — Lists & notes** | **next** | — |
+| M5–M8 | not started | — |
 
-Everything is on branch **`feat/m0-foundations`**, which is now a misnomer — see §5.
+M0–M2 sit on **`feat/m0-m2-foundations`** (renamed 9 Sep from `feat/m0-foundations`, which had
+become a misnomer). M3 is being built on **`feat/m3-pronunciation`**, cut from it.
 
 ```
-259 tests passing · flutter analyze clean · dart format clean
-88 source files, ~10,000 lines · 16 test files · 106 l10n strings
-Android release AAB builds (57.8 MB)
+348 tests passing · flutter analyze clean · dart format clean
+162 l10n strings · no schema change since M1
 ```
 
 ---
@@ -81,7 +82,7 @@ Nothing blocks M3, but four things deserve a decision when you have a moment.
 | 1 | **Riverpod 3, not 2** | Your stack said Riverpod 2. It is not installable alongside Drift — `riverpod_generator` 2.x needs `source_gen ^2`, `drift_dev` needs `>=3` — and 2.6.1 is 22 months unmaintained. Proceeded with 3.4.3. Recorded in `ARCHITECTURE.md` §3.1. Reversible only by dropping Drift, which breaks ADR-001. |
 | 2 | **`riverpod_lint` is absent** | Impossible to install: `custom_lint` caps at `analyzer ^8`, `drift_dev` needs `>=13`. The layer rule is enforced by `test/architecture/layer_boundaries_test.dart` instead, which fails the build the same way. Re-check each milestone. |
 | 3 | **Index on `study_cards(box, lapses)`** | The least-known sort takes ~80ms on 5,000 words — the slowest query in the app by 15×. An index would fix it, but that is a schema change: version bump, migration, tests. Logged as an M7 item. |
-| 4 | **Branch naming** | See §5. |
+| 4 | ~~**Branch naming**~~ | ✅ Settled 9 Sep: renamed to `feat/m0-m2-foundations`, M3 on its own branch. |
 
 Two smaller ones, mentioned once and not worth blocking on:
 
@@ -116,58 +117,84 @@ All of these are in the binding docs, not just here.
 
 ## 5. Known gaps and loose ends
 
-**Branch.** Everything sits on `feat/m0-foundations`, which now carries three milestones.
-`RULES.md` §36 wants one milestone-sized concern per branch. Options: leave it and open one
-PR for M0–M2, or split retroactively. My suggestion is to leave it, rename the branch to
-something honest like `feat/m0-m2-foundations`, and start M3 on its own branch.
+**Verified on a device, 10 September.** The app was built, installed and driven on the
+Pixel_9_Pro emulator (Android 17): add a word, type IPA with the symbol row, save, open the
+detail screen, select a symbol, colour it, label it, save, and see the tint-plus-underline and
+the legend. Two bugs were found doing it, both fixed - see §6. Screens render correctly in
+Charis SIL.
 
 **Never verified, and cannot be from Windows:**
 
 - **iOS build.** The CI job exists but has never run.
 - **CI green.** No GitHub remote yet, so the workflow has never executed. Every step was run
   locally.
-- **On-device rendering.** No emulator image or device available, so Charis SIL's IPA glyphs
-  have never been seen rendered. Widget tests use Ahem. M7's goldens will cover it.
+- **On-device rendering.** ~~No emulator image or device available~~ — **this was wrong.** A
+  `Pixel_9_Pro` AVD exists and boots to Android 17 (API 37); `make emulator` starts it. The
+  claim went unchecked from M0 to M3, which is why nothing had been seen rendered for three
+  milestones. Charis SIL's glyphs, the IPA chips, the five swatches and the `<queries>`
+  manifest fixes can all be verified here now. Widget tests still use Ahem, so M7's goldens
+  are still needed for the metrics.
 
 **Deliberately deferred, by milestone:**
 
-- Word detail screen is still a placeholder (M3 owns it).
-- No widget test for the editor screen; its logic has 23 unit tests instead.
+- ~~Word detail screen is still a placeholder~~ — built in M3.
+- **The word editor screen still has no widget test, and currently cannot have one** — see §6.
+  It was also never wired into the router until M3 found it.
 - Look-up has not been driven end-to-end through the UI in a test.
 - `recovery_screen.dart`'s *Export my data* button is wired but disabled until F-073 (M6).
 - `WordSort.leastKnown` has a query and a perf test but no correctness test.
 
 ---
 
-## 6. What M3 will be
+## 6. What M3 turned out to be
 
-Features **F-020–F-025**. Restated before coding, per the working agreement.
+Features **F-020–F-025**, all met. Two screens (word detail, IPA highlight editor), six
+controllers, one device-speech adapter behind a domain interface.
 
-1. **`SpeechService`** in `domain/repositories/`, implemented by `FlutterTtsService`:
-   `speak(text, {locale, rate, pitch})`, `stop()`, `availableLocales()`; startup detection
-   falling back `en-GB → en-US → device default`, surfaced once with a link to OS voice
-   settings; rate and pitch from the settings row.
-2. **Word detail screen** exactly as `UI-UX.md` §4.3 — displayWord headword, part of speech,
-   UK and US IPA rows each with a play button (long-press = 0.6× slow replay), highlight
-   legend, definition with attribution and *View source*, example, notes list with Add, and
-   *Open in Cambridge Dictionary ↗* via `url_launcher` in external application mode.
-3. **`IpaText`** — already exists from M2 in `presentation/common/`, doing the tinted
-   background plus 2px underline. M3 adds the large detail-screen variant and the legend.
-4. **IPA highlight editor** (`UI-UX.md` §4.4) — grapheme chips with ≥48dp targets, tap to
-   select and drag to extend, selection grapheme-snapped, bottom sheet with five swatches and
-   a 40-char label, overlaps allowed, session-wide undo, nothing persisted until *Done*,
-   selection announced as "selected ʃ ɜː".
-5. **Highlight re-validation (F-023)** — on IPA change, keep ranges that still fit and list
-   the rest in a confirm dialog before dropping them. Already validated defensively on read.
-6. **Tests** — grapheme ranges over multi-codepoint symbols and combining marks (28 already
-   exist from M0), a widget test for select → colour → save → reopen, and one proving a
-   highlight survives an IPA edit that keeps its range valid.
+**Four things were found rather than built**, and each is worth knowing about:
 
-**Already in place for M3:** `ipa_highlights` table with its CHECK constraints and cascade,
-`GraphemeRange`, `HighlightsDao.replaceForTarget` (atomic, scoped to one target),
-`IpaColorToken` with the five-colour palette in both themes, and `IpaText`.
+1. **`WordEditorScreen` was never wired into the router.** Written in M2, it resolved to
+   `PlaceholderScreen`, so *Add word* opened a placeholder and the app had no way to add a
+   word through its own UI. Fixed. The new screens are tested through the real router so this
+   class of gap fails a test.
+2. **Two Android `<queries>` entries were missing.** Without one for `TTS_SERVICE`, package
+   visibility hides the speech engine on Android 11+ and `speak()` is a **no-op with no
+   error** — M3 would have looked finished and been silent on every real device. `url_launcher`
+   needed the same for the Cambridge link and the mailto feedback address.
+3. **A soft-deleted word rendered as a live one**, editable and speakable, because
+   `watchById` deliberately still returns those rows for Undo.
+4. **Autoplay lost a race with its own setting**, deciding on the first frame from the
+   defaults and — since it runs once — never revisiting it.
 
----
+**Deviations from the spec, both deliberate:**
+
+- No UK/US *toggle*. `UI-UX.md` §4.3 draws two rows each with a play button, which is
+  strictly better: both transcriptions stay visible for comparison. `ttsLocale` now only
+  decides which accent autoplays.
+- Selection in the editor is tap → tap-again → optional drag. `UI-UX.md` §4.4 specifies
+  tap-and-drag, but §1 forbids hiding an action behind a gesture and a screen-reader user
+  cannot pan, so the drag is the fast path over the same state rather than the only route.
+  Slow replay is likewise a `CustomSemanticsAction` as well as a long-press.
+
+**Two bugs found by actually running it**, neither catchable by the existing tests:
+
+1. **The IPA symbol row (F-002) never appeared.** Its `FocusNode`s had no listeners, so
+   `hasFocus` changing never rebuilt anything and the row that `bottomNavigationBar` selects
+   was never shown. Manual IPA entry - a 🔴 hard rule (RULES §3) - was therefore impossible
+   on a real phone, because no phone keyboard has ɒ. Shipped in M2, unnoticed for two
+   milestones.
+2. **Tapping a symbol stole focus from the field.** The code carried a comment saying "keep
+   the field focused" that nothing implemented; the `InkWell` took focus, which (once bug 1
+   was fixed) dismissed the row mid-word and sent the next keystroke nowhere. Fixed with
+   `canRequestFocus: false` and covered by `test/widget/ipa_keyboard_row_test.dart`.
+
+Both are pure widget wiring on the one screen that has no widget test, which is exactly why
+348 passing tests said nothing about them.
+
+**The one thing M3 could not do:** widget-test the word editor screen. `pumpAndSettle` on it
+times out — something animates indefinitely on open — which is why F-023's confirm dialog has
+no widget test (its logic has twelve unit tests instead, including pruning against a real
+database) and, almost certainly, why that screen has been untested since M2. Undiagnosed.
 
 ## 7. Issue tracking
 

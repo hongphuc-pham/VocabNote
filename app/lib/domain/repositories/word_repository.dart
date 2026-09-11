@@ -96,6 +96,14 @@ abstract interface class WordRepository {
   /// Watches every highlight on one word.
   ResultStream<List<IpaHighlight>> watchHighlights(String wordId);
 
+  /// Reads every highlight on one word, once.
+  ///
+  /// For callers that need the current set to make a decision rather than to
+  /// render — F-023's re-validation on an IPA edit, chiefly. Subscribing to a
+  /// stream just to take its first event would wait on Drift's delivery timer
+  /// for no reason.
+  AsyncResult<List<IpaHighlight>> getHighlights(String wordId);
+
   /// Replaces the highlights for one transcription, atomically.
   ///
   /// What *Done* in the highlight editor commits. Scoped to one target, so

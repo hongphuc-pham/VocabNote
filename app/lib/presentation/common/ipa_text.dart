@@ -14,8 +14,9 @@ import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 /// cluster boundaries, so a highlight can never cut a tie bar off its base
 /// letter or orphan a combining diacritic.
 ///
-/// M3 adds the large detail-screen variant and the tappable legend; this is the
-/// shared renderer both use.
+/// The large detail-screen variant is just this widget with
+/// `context.type.ipaLarge`; [emphasisedHighlightId] is what the tappable legend
+/// (F-024) uses to point back at a run.
 class IpaText extends StatelessWidget {
   /// Renders [ipa] with [highlights] applied.
   const new({
@@ -25,6 +26,7 @@ class IpaText extends StatelessWidget {
     this.showSlashes = true,
     this.maxLines,
     this.semanticsLabel,
+    this.emphasisedHighlightId,
     super.key,
   });
 
@@ -46,6 +48,14 @@ class IpaText extends StatelessWidget {
 
   /// Maximum lines before ellipsis.
   final int? maxLines;
+
+  /// The highlight to draw attention to, if any.
+  ///
+  /// Set while the user is tapping its legend line (F-024): the run it covers
+  /// is drawn with a heavier underline so it can be picked out of a
+  /// transcription carrying several colours. Emphasis, not motion — nothing
+  /// animates, so there is nothing for reduce-motion to suppress.
+  final String? emphasisedHighlightId;
 
   /// Overrides the screen-reader text.
   ///
@@ -135,6 +145,8 @@ class IpaText extends StatelessWidget {
       }
 
       final colors = palette.resolve(winner.color);
+      final isEmphasised =
+          emphasisedHighlightId != null && winner.id == emphasisedHighlightId;
       spans.add(
         TextSpan(
           text: text,
@@ -144,7 +156,9 @@ class IpaText extends StatelessWidget {
             backgroundColor: colors.fill,
             decoration: TextDecoration.underline,
             decorationColor: colors.line,
-            decorationThickness: IpaPalette.underlineThickness,
+            decorationThickness: isEmphasised
+                ? IpaPalette.underlineThickness * 2
+                : IpaPalette.underlineThickness,
           ),
         ),
       );

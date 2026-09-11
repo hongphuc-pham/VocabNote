@@ -508,5 +508,278 @@
   "overwriteKeep": "Keep mine",
   "@overwriteKeep": {
     "description": "Cancel button in the overwrite dialog."
+  },
+  "detailAccentUk": "UK",
+  "@detailAccentUk": {
+    "description": "Short label on the British transcription row of the word detail screen."
+  },
+  "detailAccentUs": "US",
+  "@detailAccentUs": {
+    "description": "Short label on the American transcription row of the word detail screen."
+  },
+  "detailPlayLabel": "Play {word} in {accent}",
+  "@detailPlayLabel": {
+    "description": "Accessibility label for the play button on a transcription row.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      },
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "detailPlaySlowLabel": "Play {word} slowly in {accent}",
+  "@detailPlaySlowLabel": {
+    "description": "Accessibility label for the slow replay, reached by long-pressing play.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      },
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "detailStopLabel": "Stop",
+  "@detailStopLabel": {
+    "description": "Accessibility label for the play button while it is speaking."
+  },
+  "detailPlayingLabel": "Speaking {word}",
+  "@detailPlayingLabel": {
+    "description": "Announced while a word is being spoken.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "detailSlowHint": "Hold to hear it slowly",
+  "@detailSlowHint": {
+    "description": "Hint under the play buttons explaining the long-press slow replay."
+  },
+  "detailSpeechFailed": "This device has no speech voice available.",
+  "@detailSpeechFailed": {
+    "description": "Shown when the device speech engine could not speak the word."
+  },
+  "detailSpeechSettingsAction": "Voice settings",
+  "@detailSpeechSettingsAction": {
+    "description": "Button that opens the operating system voice settings."
+  },
+  "detailNoIpaTitle": "No pronunciation yet",
+  "@detailNoIpaTitle": {
+    "description": "Heading shown on word detail when neither transcription is filled in."
+  },
+  "detailNoIpaBody": "Add a transcription to hear this word and to colour the sounds you find hard.",
+  "@detailNoIpaBody": {
+    "description": "Body shown on word detail when neither transcription is filled in."
+  },
+  "detailAddIpaAction": "Add pronunciation",
+  "@detailAddIpaAction": {
+    "description": "Button that opens the word editor to add a transcription."
+  },
+  "detailEditHighlightsAction": "Edit IPA highlights",
+  "@detailEditHighlightsAction": {
+    "description": "Button that opens the IPA highlight editor from word detail."
+  },
+  "detailNotesHeading": "My notes",
+  "@detailNotesHeading": {
+    "description": "Heading of the notes section on word detail."
+  },
+  "detailAddNoteAction": "Add",
+  "@detailAddNoteAction": {
+    "description": "Button that adds a note to the word."
+  },
+  "detailNoNotesBody": "No notes yet.",
+  "@detailNoNotesBody": {
+    "description": "Shown in the notes section when the word has none."
+  },
+  "detailNoteDeleteAction": "Delete note",
+  "@detailNoteDeleteAction": {
+    "description": "Accessibility label for removing one note."
+  },
+  "detailNoteDeletedSnack": "Note deleted",
+  "@detailNoteDeletedSnack": {
+    "description": "Confirmation shown after a note is removed."
+  },
+  "detailNoteHeading": "Add a note",
+  "@detailNoteHeading": {
+    "description": "Title of the sheet that adds a note."
+  },
+  "detailNotFoundTitle": "This word is gone",
+  "@detailNotFoundTitle": {
+    "description": "Heading shown when the word being viewed no longer exists."
+  },
+  "detailNotFoundBody": "It was deleted. You can undo a deletion from the words list for a few seconds.",
+  "@detailNotFoundBody": {
+    "description": "Body shown when the word being viewed no longer exists."
+  },
+  "detailLoadFailedTitle": "Could not open this word",
+  "@detailLoadFailedTitle": {
+    "description": "Heading shown when the word detail screen fails to load."
+  },
+  "detailLoadFailedBody": "Something went wrong reading it from your device.",
+  "@detailLoadFailedBody": {
+    "description": "Body shown when the word detail screen fails to load."
+  },
+  "detailEditAction": "Edit",
+  "@detailEditAction": {
+    "description": "Button that opens the word editor from word detail."
+  },
+  "detailLegendHeading": "Sounds you marked",
+  "@detailLegendHeading": {
+    "description": "Heading above the list of labelled IPA highlights on word detail."
+  },
+  "detailLegendEntry": "{color}: {label}",
+  "@detailLegendEntry": {
+    "description": "One legend line: the colour name and the label the user wrote.",
+    "placeholders": {
+      "color": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "detailLegendJumpLabel": "Show {label} in the transcription",
+  "@detailLegendJumpLabel": {
+    "description": "Accessibility label for a tappable legend line.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "ipaColorAmber": "amber",
+  "@ipaColorAmber": {
+    "description": "Name of the amber IPA highlight colour. Shown as text so colour is never the only cue."
+  },
+  "ipaColorCoral": "coral",
+  "@ipaColorCoral": {
+    "description": "Name of the coral IPA highlight colour."
+  },
+  "ipaColorViolet": "violet",
+  "@ipaColorViolet": {
+    "description": "Name of the violet IPA highlight colour."
+  },
+  "ipaColorTeal": "teal",
+  "@ipaColorTeal": {
+    "description": "Name of the teal IPA highlight colour."
+  },
+  "ipaColorBlue": "blue",
+  "@ipaColorBlue": {
+    "description": "Name of the blue IPA highlight colour."
+  },
+  "detailCambridgeAction": "Open in Cambridge Dictionary",
+  "@detailCambridgeAction": {
+    "description": "Button that opens the word on dictionary.cambridge.org in the browser."
+  },
+  "detailCambridgeFailed": "Could not open your browser.",
+  "@detailCambridgeFailed": {
+    "description": "Shown when no app on the device could open the dictionary link."
+  },
+  "ipaEditorIntro": "Tap a symbol, or drag across several, then choose a colour.",
+  "@ipaEditorIntro": {
+    "description": "Instruction at the top of the IPA highlight editor."
+  },
+  "ipaEditorSelectedLabel": "selected {symbols}",
+  "@ipaEditorSelectedLabel": {
+    "description": "Announced when a run of IPA symbols is selected. UI-UX section 4.4.",
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      }
+    }
+  },
+  "ipaEditorNothingSelected": "Nothing selected yet",
+  "@ipaEditorNothingSelected": {
+    "description": "Shown where the selection would be announced, before anything is chosen."
+  },
+  "ipaEditorDoneAction": "Done",
+  "@ipaEditorDoneAction": {
+    "description": "App bar action that saves the highlight session."
+  },
+  "ipaEditorUndoAction": "Undo",
+  "@ipaEditorUndoAction": {
+    "description": "App bar action that steps back one change in the editor."
+  },
+  "ipaEditorColorHeading": "Colour this sound",
+  "@ipaEditorColorHeading": {
+    "description": "Title of the sheet that colours the selected run."
+  },
+  "ipaEditorLabelHint": "Why is it hard? (optional)",
+  "@ipaEditorLabelHint": {
+    "description": "Hint on the optional label field in the colour sheet."
+  },
+  "ipaEditorDeleteAction": "Delete highlight",
+  "@ipaEditorDeleteAction": {
+    "description": "Button that removes the highlight being edited."
+  },
+  "ipaEditorColorLabel": "Use {color}",
+  "@ipaEditorColorLabel": {
+    "description": "Accessibility label for one colour swatch.",
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "ipaEditorSaveFailed": "Could not save your highlights.",
+  "@ipaEditorSaveFailed": {
+    "description": "Shown when writing the highlight session to the database failed."
+  },
+  "ipaEditorNoIpaTitle": "Nothing to highlight yet",
+  "@ipaEditorNoIpaTitle": {
+    "description": "Heading when the editor is opened for a word with no transcription."
+  },
+  "ipaEditorNoIpaBody": "Add a transcription first, then come back to colour the sounds you find hard.",
+  "@ipaEditorNoIpaBody": {
+    "description": "Body when the editor is opened for a word with no transcription."
+  },
+  "ipaEditorDiscardTitle": "Discard your colours?",
+  "@ipaEditorDiscardTitle": {
+    "description": "Title of the confirmation shown when leaving the editor unsaved."
+  },
+  "ipaEditorDiscardBody": "You have changes that have not been saved.",
+  "@ipaEditorDiscardBody": {
+    "description": "Body of the confirmation shown when leaving the editor unsaved."
+  },
+  "ipaEditorDiscardAction": "Discard",
+  "@ipaEditorDiscardAction": {
+    "description": "Button that leaves the editor without saving."
+  },
+  "ipaEditorKeepEditingAction": "Keep editing",
+  "@ipaEditorKeepEditingAction": {
+    "description": "Button that returns to the editor instead of discarding."
+  },
+  "ipaRevalidateTitle": "Some highlights no longer fit",
+  "@ipaRevalidateTitle": {
+    "description": "Title of the dialog shown when an IPA edit invalidates highlights (F-023)."
+  },
+  "ipaRevalidateBody": "{count, plural, one{One coloured run no longer matches the new transcription and will be removed.} other{{count} coloured runs no longer match the new transcription and will be removed.}}",
+  "@ipaRevalidateBody": {
+    "description": "Body of the F-023 confirmation, listing how many highlights would be dropped.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ipaRevalidateConfirm": "Remove them",
+  "@ipaRevalidateConfirm": {
+    "description": "Button that accepts dropping the highlights that no longer fit."
+  },
+  "ipaRevalidateCancel": "Keep editing",
+  "@ipaRevalidateCancel": {
+    "description": "Button that returns to the word form instead of dropping highlights."
+  },
+  "voiceFallbackNotice": "This device has no British English voice, so words are spoken in the closest voice it does have. You can add voices in your device settings, under Text-to-speech.",
+  "@voiceFallbackNotice": {
+    "description": "One-time notice shown when the preferred speech voice is unavailable."
+  },
+  "voiceFallbackDismiss": "Got it",
+  "@voiceFallbackDismiss": {
+    "description": "Button that dismisses the one-time voice notice for good."
   }
 }
