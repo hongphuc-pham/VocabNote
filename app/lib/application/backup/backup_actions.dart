@@ -77,7 +77,13 @@ final class PickReady extends PickOutcome {
 Future<DateTime?> lastBackupAt(Ref ref) async =>
     (await ref.watch(settingsRepositoryProvider).lastBackupAt()).valueOrNull;
 
-/// The backup screen's write side.
+/// How many bytes the library takes on this phone, or null if it cannot be
+/// measured just now.
+@riverpod
+Future<int?> storageUsed(Ref ref) async =>
+    (await ref.watch(userDataRepositoryProvider).storageUsed()).valueOrNull;
+
+/// The write side of the user's whole library: backup, import, delete.
 @Riverpod(keepAlive: true)
 class BackupActions extends _$BackupActions {
   @override
@@ -157,6 +163,20 @@ class BackupActions extends _$BackupActions {
       // permission - so nothing may still be booked with the OS.
       await ref.read(reminderServiceProvider).cancel();
     }
+    if (report != null) ref.invalidate(storageUsedProvider);
     return report;
+  }
+
+  /// Removes the whole library - every row and every copy on disk - and
+  /// cancels the reminder, whose setting has just gone back to off.
+  ///
+  /// False if the rows could not be removed, in which case nothing was: the
+  /// wipe is one transaction.
+  Future<bool> deleteEverything() async {
+    final deleted = await ref.read(userDataRepositoryProvider).deleteAll();
+    if (deleted.isErr) return false;
+    await ref.read(reminderServiceProvider).cancel();
+    ref.invalidate(storageUsedProvider);
+    return true;
   }
 }

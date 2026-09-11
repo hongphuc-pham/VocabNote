@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:vocabnote/application/backup/backup_actions.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/application/settings/settings_actions.dart';
 import 'package:vocabnote/application/settings/settings_controller.dart';
@@ -11,6 +13,7 @@ import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
+import 'package:vocabnote/presentation/settings/delete_all_flow.dart';
 import 'package:vocabnote/presentation/settings/settings_tiles.dart';
 
 /// Appearance: the theme, and where text size is set.
@@ -150,20 +153,32 @@ class PronunciationSettings extends ConsumerWidget {
   }
 }
 
-/// Your data: backup, dictionary look-up.
-///
-/// Storage used and *Delete all data* join this section with backup (M6
-/// slices 2-4).
+/// Your data: backup, storage used, dictionary look-up, delete all data.
 class DataSettings extends ConsumerWidget {
   /// Creates the section.
   const new({super.key});
 
+  /// A size in the unit a person would say it in.
+  static String _size(BuildContext context, AppL10n l10n, int bytes) {
+    const kilobyte = 1024;
+    const megabyte = kilobyte * 1024;
+    if (bytes < megabyte) {
+      return l10n.storageKilobytes((bytes / kilobyte).ceil());
+    }
+    final locale = Localizations.localeOf(context).toString();
+    return l10n.storageMegabytes(
+      NumberFormat('0.0', locale).format(bytes / megabyte),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppL10n.of(context);
+    final theme = Theme.of(context);
     final lookup = ref.watch(
       appSettingsOrDefaultsProvider.select((s) => s.lookupEnabled),
     );
+    final storage = ref.watch(storageUsedProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -173,6 +188,17 @@ class DataSettings extends ConsumerWidget {
           title: l10n.settingsBackup,
           subtitle: l10n.settingsBackupHint,
           route: Routes.backup,
+        ),
+        ListTile(
+          title: Text(l10n.settingsStorage),
+          subtitle: switch (storage) {
+            AsyncData(value: final int bytes) => Text(
+              _size(context, l10n, bytes),
+            ),
+            AsyncLoading() => Text(l10n.settingsStorageCounting),
+            // Unmeasurable just now: say nothing rather than a wrong number.
+            _ => null,
+          },
         ),
         SwitchListTile(
           title: Text(l10n.settingsLookup),
@@ -185,6 +211,14 @@ class DataSettings extends ConsumerWidget {
                 .read(settingsActionsProvider.notifier)
                 .setLookupEnabled(enabled: on),
           ),
+        ),
+        ListTile(
+          title: Text(
+            l10n.settingsDeleteAll,
+            style: TextStyle(color: theme.colorScheme.error),
+          ),
+          subtitle: Text(l10n.settingsDeleteAllHint),
+          onTap: () => unawaited(deleteAllData(context, ref)),
         ),
       ],
     );

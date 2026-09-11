@@ -247,10 +247,19 @@ About           Version · Data sources & licences · Privacy
   backup is named as such in a snackbar ("Backups end in .vnb"), as is one too large or
   damaged. A real backup opens a sheet saying what it holds and when it was made, with
   **Add to my words** (merge) already chosen and **Replace everything** beside it. Replace
-  then asks for `REPLACE` to be typed (RULES §11) and says that a copy of what is here is
+  then asks for `replace` to be typed (RULES §11) — lower case, with the keyboard's capitals left alone,
+  because a screen reader may spell an all-caps word out letter by letter — and says that a copy of what is here is
   kept first. Nothing is written until then. The report that follows gives words added,
   updated and already here, the other things in one line, and a quiet line for anything
   that could not be read.
+- **Delete all data** is the last row of *Your data*, its title in the error colour. Two
+  steps, because there is no undo and no server to restore from: the first says what goes
+  and offers **Make a backup first** (which opens *Backup & restore*) beside **Continue**;
+  the second asks for `delete` to be typed. It removes every row and every copy of the
+  library on disk (`DATABASE.md` §5), cancels the reminder, and lands on the words tab's
+  empty state. Onboarding is not shown again: the person has used the app, and the empty
+  state already teaches the first step. **Storage used** above it counts everything the
+  library keeps on disk, copies included, so it drops to almost nothing afterwards.
 
 ### 4.10 How to use (guide)
 Six cards, each an illustration + a sentence + a *Try it* button that deep-links to the real

@@ -684,14 +684,14 @@ class AppL10nEn extends AppL10n {
       'Your words, notes, highlights, lists and practice history here will be swapped for the backup\'s. A copy of what\'s here now is kept on this phone first.';
 
   @override
-  String get replaceConfirmWord => 'REPLACE';
+  String get replaceConfirmWord => 'replace';
 
   @override
   String get replaceConfirmAction => 'Replace';
 
   @override
   String typedConfirmPrompt(String word) {
-    return 'Type $word to confirm';
+    return 'Type “$word” to confirm';
   }
 
   @override
@@ -802,6 +802,63 @@ class AppL10nEn extends AppL10n {
   @override
   String get importFailed =>
       'Couldn\'t bring the backup in. Nothing on this phone was changed.';
+
+  @override
+  String get settingsStorage => 'Storage used';
+
+  @override
+  String get settingsStorageCounting => 'Counting…';
+
+  @override
+  String storageKilobytes(int size) {
+    return '$size KB';
+  }
+
+  @override
+  String storageMegabytes(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String get settingsDeleteAll => 'Delete all data';
+
+  @override
+  String get settingsDeleteAllHint =>
+      'Removes every word, note, list and practice record from this phone';
+
+  @override
+  String get deleteAllTitle => 'Delete everything?';
+
+  @override
+  String get deleteAllBody =>
+      'This removes every word, sound, highlight, note, list and practice record from this phone, and it can\'t be undone. You may want a backup first.';
+
+  @override
+  String get deleteAllBackupFirst => 'Make a backup first';
+
+  @override
+  String get deleteAllContinue => 'Continue';
+
+  @override
+  String get deleteAllConfirmTitle => 'Delete all data?';
+
+  @override
+  String get deleteAllConfirmBody =>
+      'Everything on this phone goes, including the copies kept from earlier restores. Without a backup, it can\'t be brought back.';
+
+  @override
+  String get deleteAllConfirmWord => 'delete';
+
+  @override
+  String get deleteAllConfirmAction => 'Delete everything';
+
+  @override
+  String get deleteAllDone =>
+      'Everything has been deleted. VocabNote is ready for new words.';
+
+  @override
+  String get deleteAllFailed =>
+      'Couldn\'t delete everything just now. Your words are still here.';
 
   @override
   String get settingsVersion => 'Version';

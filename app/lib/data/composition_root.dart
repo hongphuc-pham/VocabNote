@@ -50,8 +50,12 @@ List<Override> repositoryOverrides(
   BackupFiles? backupFiles,
   Future<Directory> Function()? exportDirectory,
   Future<Directory> Function()? safetyDirectory,
+  Future<Directory> Function()? libraryDirectory,
 }) {
   final offline = OfflineIpaSource();
+  // One cache, shared: *Delete all data* must clear the very instance the
+  // dictionary look-up writes through.
+  final dictionaryCache = DictionaryCache();
   final client = FreeDictionaryClient(
     // Descriptive, as community APIs expect (docs/DATA-SOURCES.md §1).
     userAgent:
@@ -86,6 +90,8 @@ List<Override> repositoryOverrides(
         appVersion: appVersion ?? '0.0.0',
         exportDirectory: exportDirectory,
         safetyDirectory: safetyDirectory,
+        libraryDirectory: libraryDirectory,
+        dictionaryCache: dictionaryCache,
       ),
     ),
     // Inert like the two above: the share sheet opens only on Export.
@@ -95,7 +101,7 @@ List<Override> repositoryOverrides(
     dictionaryRepositoryProvider.overrideWithValue(
       DictionaryRepositoryImpl(
         client: client,
-        cache: DictionaryCache(),
+        cache: dictionaryCache,
         offline: offline,
       ),
     ),

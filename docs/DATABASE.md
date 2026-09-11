@@ -140,8 +140,9 @@ It is a **derived** table: it may be dropped and rebuilt in any migration withou
    CI blocks the merge if `test/migration/` fails.
 6. **Automatic pre-migration backup.** `bootstrap.dart` copies the DB to
    `vocabnote.pre-v<n>.bak` before opening when the on-disk version is lower than
-   `schemaVersion`. On success the backup is kept until the next migration; on failure it is
-   restored and the app shows a recovery screen with *Export my data*.
+   `schemaVersion`. On success the backup is kept until the next migration — or until the
+   user chooses *Delete all data*, which removes every copy of the library (§5); on failure
+   it is restored and the app shows a recovery screen with *Export my data*.
    Implemented in `data/db/database_opener.dart` (so it can be tested against a temporary
    directory rather than a device) and surfaced by
    `presentation/common/recovery_screen.dart`. The on-disk version is read with a raw
@@ -273,6 +274,19 @@ Because there is no cloud, export is how a user moves to a new phone.
   safety copy — is written.
 - The round trip, export → wipe → import → every table deep-equal, runs on the host in
   `test/unit/data/backup_replace_test.dart`; the device run lives in `integration_test/`.
+
+*Built at M6 — Delete all data* (`UserDataRepository.deleteAll`, `UI-UX.md` §4.9):
+
+- A hard delete on explicit user action, which RULES §10 allows, behind a typed confirmation
+  (RULES §11). Every backed-up table is emptied in one transaction and `settings` returns
+  to its defaults. `app_meta` stays: `install_id` and a finished onboarding describe the
+  install, not the library.
+- **Then every other copy of the library on disk goes too:** Replace's safety copies, any
+  exported `.vnb` still in the temporary folder, the `vocabnote.pre-v<n>.bak` copies taken
+  before an upgrade, and the dictionary cache. Each is removed independently and best-effort
+  — the rows are already gone, and one file that will not delete must not keep the others.
+  The open database file itself is emptied, never deleted.
+- The reminder is cancelled with the OS, since its setting is back to off.
 - Import offers **Merge** (default: match on `id`, then on `headword_normalized`; newer
   `updated_at` wins) or **Replace** (explicit confirmation, takes a backup first).
 - Import runs in one transaction and reports a summary: added / updated / skipped.

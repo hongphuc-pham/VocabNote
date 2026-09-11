@@ -26,4 +26,15 @@ abstract interface class UserDataRepository {
   /// [ImportMode.replace] takes a safety copy of what is here first, and does
   /// nothing if that copy cannot be written.
   AsyncResult<ImportReport> importBackup(Uint8List bytes, ImportMode mode);
+
+  /// Removes the whole library: every row, and every copy of it on disk -
+  /// safety copies, exports, the copies taken before an upgrade, the
+  /// dictionary cache. Settings return to their defaults.
+  ///
+  /// The install keeps its local id and its finished onboarding: those
+  /// describe the install, not the user's words.
+  AsyncResult<void> deleteAll();
+
+  /// How many bytes the library takes on this phone, copies included.
+  AsyncResult<int> storageUsed();
 }

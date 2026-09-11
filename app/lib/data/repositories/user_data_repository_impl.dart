@@ -10,7 +10,9 @@ import 'package:vocabnote/core/result.dart';
 import 'package:vocabnote/data/backup/backup_codec.dart';
 import 'package:vocabnote/data/backup/backup_importer.dart';
 import 'package:vocabnote/data/backup/backup_tables.dart';
+import 'package:vocabnote/data/backup/library_wipe.dart';
 import 'package:vocabnote/data/db/app_database.dart';
+import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/domain/entities/backup.dart';
 import 'package:vocabnote/domain/repositories/user_data_repository.dart';
 
@@ -18,25 +20,38 @@ import 'package:vocabnote/domain/repositories/user_data_repository.dart';
 class UserDataRepositoryImpl implements UserDataRepository {
   /// Creates the repository.
   ///
-  /// [exportDirectory], [safetyDirectory] and [now] are injectable for tests.
-  /// By default exports go to a folder in the OS temporary directory, which
-  /// the OS may clear - right for a file whose only job is to be handed to
-  /// the share sheet - while safety copies go to app support, which it does
-  /// not.
+  /// Every folder, the dictionary cache and the clock are injectable for
+  /// tests. By default:
+  ///
+  /// * the **library** folder is `<app support>/vocabnote` - where
+  ///   `DatabaseOpener` keeps the database and its pre-upgrade copies, and
+  ///   where the dictionary cache and the safety copies live;
+  /// * **safety copies** go to `<library>/backups`, which the OS does not
+  ///   clear;
+  /// * **exports** go to a folder in the OS temporary directory, which it
+  ///   may - right for a file whose only job is to be handed to the share
+  ///   sheet.
   new(
     this._db, {
     required this._appVersion,
     Future<Directory> Function()? exportDirectory,
     Future<Directory> Function()? safetyDirectory,
+    Future<Directory> Function()? libraryDirectory,
+    this._dictionaryCache,
     DateTime Function()? now,
   }) : _exportDirectory = exportDirectory ?? _defaultExportDirectory,
-       _safetyDirectory = safetyDirectory ?? _defaultSafetyDirectory,
+       _customSafetyDirectory = safetyDirectory,
+       _libraryDirectory = libraryDirectory ?? _defaultLibraryDirectory,
        _now = now ?? DateTime.now;
 
   final AppDatabase _db;
   final String _appVersion;
   final Future<Directory> Function() _exportDirectory;
-  final Future<Directory> Function() _safetyDirectory;
+
+  /// Null means `<library>/backups`; see [_safetyFolder].
+  final Future<Directory> Function()? _customSafetyDirectory;
+  final Future<Directory> Function() _libraryDirectory;
+  final DictionaryCache? _dictionaryCache;
   final DateTime Function() _now;
 
   /// How many safety copies are kept. Each is a full copy of the library; a
@@ -47,13 +62,17 @@ class UserDataRepositoryImpl implements UserDataRepository {
     p.join((await getTemporaryDirectory()).path, 'vocabnote', 'export'),
   );
 
-  static Future<Directory> _defaultSafetyDirectory() async => Directory(
-    p.join(
-      (await getApplicationSupportDirectory()).path,
-      'vocabnote',
-      'backups',
-    ),
+  /// Must match `DatabaseOpener`'s folder: the pre-upgrade copies it takes
+  /// are found, and removed by *Delete all data*, here.
+  static Future<Directory> _defaultLibraryDirectory() async => Directory(
+    p.join((await getApplicationSupportDirectory()).path, 'vocabnote'),
   );
+
+  Future<Directory> _safetyFolder() async {
+    final custom = _customSafetyDirectory;
+    if (custom != null) return await custom();
+    return Directory(p.join((await _libraryDirectory()).path, 'backups'));
+  }
 
   @override
   AsyncResult<ExportedBackup> exportBackup() => Results.guard(
@@ -130,6 +149,65 @@ class UserDataRepositoryImpl implements UserDataRepository {
     }
   }
 
+  @override
+  AsyncResult<void> deleteAll() => Results.guard(
+    () async {
+      await wipeLibrary(_db);
+      // Then every other copy of the library. Each independently and
+      // quietly: the rows are already gone, and one file that will not
+      // delete must not keep the others.
+      await _quietly(() async {
+        for (final copy in await _backupFilesIn(await _safetyFolder())) {
+          await copy.delete();
+        }
+      });
+      await _quietly(() async {
+        for (final export in await _backupFilesIn(await _exportDirectory())) {
+          await export.delete();
+        }
+      });
+      await _quietly(() async {
+        for (final copy in await _preUpgradeCopiesIn(
+          await _libraryDirectory(),
+        )) {
+          await copy.delete();
+        }
+      });
+      await _dictionaryCache?.clear();
+    },
+    onError: (error, stackTrace) => DatabaseFailure(
+      operation: 'delete all data',
+      cause: error,
+      stackTrace: stackTrace,
+    ),
+  );
+
+  @override
+  AsyncResult<int> storageUsed() => Results.guard(
+    () async {
+      final folder = await _libraryDirectory();
+      if (!folder.existsSync()) return 0;
+      var total = 0;
+      await for (final entity in folder.list(recursive: true)) {
+        if (entity is File) total += await entity.length();
+      }
+      return total;
+    },
+    onError: (error, stackTrace) => FileFailure(
+      kind: FileFailureKind.io,
+      cause: error,
+      stackTrace: stackTrace,
+    ),
+  );
+
+  static Future<void> _quietly(Future<void> Function() step) async {
+    try {
+      await step();
+    } on Object {
+      // Deliberately swallowed. See deleteAll.
+    }
+  }
+
   /// The library as one moment, encoded.
   Future<({BackupManifest manifest, Uint8List bytes})> _snapshot(
     DateTime now,
@@ -161,7 +239,7 @@ class UserDataRepositoryImpl implements UserDataRepository {
     final now = _now();
     final (:bytes, manifest: _) = await _snapshot(now);
 
-    final folder = await _safetyDirectory();
+    final folder = await _safetyFolder();
     await folder.create(recursive: true);
     final stamp = DateFormat('yyyyMMdd-HHmmss').format(now.toLocal());
     await File(p.join(folder.path, 'vocabnote-before-replace-$stamp.vnb'))
@@ -175,10 +253,26 @@ class UserDataRepositoryImpl implements UserDataRepository {
     }
   }
 
-  static Future<List<File>> _backupFilesIn(Directory folder) async => <File>[
-    await for (final entity in folder.list())
-      if (entity is File && entity.path.endsWith('.vnb')) entity,
-  ];
+  static Future<List<File>> _backupFilesIn(Directory folder) async =>
+      !folder.existsSync()
+      ? <File>[]
+      : <File>[
+          await for (final entity in folder.list())
+            if (entity is File && entity.path.endsWith('.vnb')) entity,
+        ];
+
+  /// `vocabnote.pre-v<n>.bak`, the copies `DatabaseOpener` takes before an
+  /// upgrade (DATABASE.md §3.6).
+  static Future<List<File>> _preUpgradeCopiesIn(Directory folder) async =>
+      !folder.existsSync()
+      ? <File>[]
+      : <File>[
+          await for (final entity in folder.list())
+            if (entity is File &&
+                p.basename(entity.path).startsWith('vocabnote.pre-v') &&
+                entity.path.endsWith('.bak'))
+              entity,
+        ];
 
   /// Encodes on another isolate: 5,000 words is megabytes of JSON to encode
   /// and compress, and the export button must not freeze the screen.

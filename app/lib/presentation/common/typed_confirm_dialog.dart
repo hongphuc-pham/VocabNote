@@ -79,7 +79,9 @@ class _TypedConfirmDialogState extends State<_TypedConfirmDialog> {
               autofocus: true,
               autocorrect: false,
               enableSuggestions: false,
-              textCapitalization: TextCapitalization.characters,
+              // No textCapitalization, on purpose - and the word itself is
+              // lower case: forced capitals fight the keyboard, and a screen
+              // reader may spell an all-caps word out letter by letter.
               decoration: InputDecoration(hintText: widget.word),
               onChanged: (_) => setState(() {}),
             ),

@@ -847,7 +847,7 @@
   "@replaceConfirmBody": {
     "description": "What a replace does, before the user types the confirmation word."
   },
-  "replaceConfirmWord": "REPLACE",
+  "replaceConfirmWord": "replace",
   "@replaceConfirmWord": {
     "description": "The word the user types to confirm a replace (RULES 11). Matched without regard to case."
   },
@@ -855,7 +855,7 @@
   "@replaceConfirmAction": {
     "description": "The button that carries out a confirmed replace."
   },
-  "typedConfirmPrompt": "Type {word} to confirm",
+  "typedConfirmPrompt": "Type “{word}” to confirm",
   "@typedConfirmPrompt": {
     "description": "Prompt above the field in a typed confirmation.",
     "placeholders": {
@@ -960,6 +960,80 @@
   "importFailed": "Couldn't bring the backup in. Nothing on this phone was changed.",
   "@importFailed": {
     "description": "Snackbar when an import failed part-way and was rolled back."
+  },
+  "settingsStorage": "Storage used",
+  "@settingsStorage": {
+    "description": "Row showing how much space the library takes on the phone."
+  },
+  "settingsStorageCounting": "Counting…",
+  "@settingsStorageCounting": {
+    "description": "Under Storage used while it is being measured."
+  },
+  "storageKilobytes": "{size} KB",
+  "@storageKilobytes": {
+    "description": "A size under one megabyte.",
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "storageMegabytes": "{size} MB",
+  "@storageMegabytes": {
+    "description": "A size of a megabyte or more, already formatted with one decimal.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsDeleteAll": "Delete all data",
+  "@settingsDeleteAll": {
+    "description": "Row that removes the whole library. Asks twice, the second time for a typed word."
+  },
+  "settingsDeleteAllHint": "Removes every word, note, list and practice record from this phone",
+  "@settingsDeleteAllHint": {
+    "description": "Under the Delete all data row."
+  },
+  "deleteAllTitle": "Delete everything?",
+  "@deleteAllTitle": {
+    "description": "Title of the first step of Delete all data."
+  },
+  "deleteAllBody": "This removes every word, sound, highlight, note, list and practice record from this phone, and it can't be undone. You may want a backup first.",
+  "@deleteAllBody": {
+    "description": "What Delete all data does, with the offer of a backup."
+  },
+  "deleteAllBackupFirst": "Make a backup first",
+  "@deleteAllBackupFirst": {
+    "description": "Opens Backup & restore instead of deleting."
+  },
+  "deleteAllContinue": "Continue",
+  "@deleteAllContinue": {
+    "description": "Goes on to the typed confirmation."
+  },
+  "deleteAllConfirmTitle": "Delete all data?",
+  "@deleteAllConfirmTitle": {
+    "description": "Title of the typed confirmation for Delete all data."
+  },
+  "deleteAllConfirmBody": "Everything on this phone goes, including the copies kept from earlier restores. Without a backup, it can't be brought back.",
+  "@deleteAllConfirmBody": {
+    "description": "The last warning before Delete all data."
+  },
+  "deleteAllConfirmWord": "delete",
+  "@deleteAllConfirmWord": {
+    "description": "The word the user types to confirm Delete all data (RULES 11). Lower case on purpose; matched without regard to case."
+  },
+  "deleteAllConfirmAction": "Delete everything",
+  "@deleteAllConfirmAction": {
+    "description": "The button that carries out a confirmed Delete all data."
+  },
+  "deleteAllDone": "Everything has been deleted. VocabNote is ready for new words.",
+  "@deleteAllDone": {
+    "description": "Snackbar after Delete all data."
+  },
+  "deleteAllFailed": "Couldn't delete everything just now. Your words are still here.",
+  "@deleteAllFailed": {
+    "description": "Snackbar when Delete all data failed and was rolled back."
   },
   "settingsVersion": "Version",
   "@settingsVersion": {

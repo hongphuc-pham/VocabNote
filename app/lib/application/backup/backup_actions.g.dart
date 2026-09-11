@@ -51,15 +51,56 @@ final class LastBackupAtProvider
 
 String _$lastBackupAtHash() => r'8ff84f52f20d8f2495fb55acaddc52658d7d00fa';
 
-/// The backup screen's write side.
+/// How many bytes the library takes on this phone, or null if it cannot be
+/// measured just now.
+
+@ProviderFor(storageUsed)
+final storageUsedProvider = StorageUsedProvider._();
+
+/// How many bytes the library takes on this phone, or null if it cannot be
+/// measured just now.
+
+final class StorageUsedProvider
+    extends $FunctionalProvider<AsyncValue<int?>, int?, FutureOr<int?>>
+    with $FutureModifier<int?>, $FutureProvider<int?> {
+  /// How many bytes the library takes on this phone, or null if it cannot be
+  /// measured just now.
+  StorageUsedProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'storageUsedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$storageUsedHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<int?> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<int?> create(Ref ref) {
+    return storageUsed(ref);
+  }
+}
+
+String _$storageUsedHash() => r'2d5c6806fae1cc97da65545a8a725dc9163fa5a7';
+
+/// The write side of the user's whole library: backup, import, delete.
 
 @ProviderFor(BackupActions)
 final backupActionsProvider = BackupActionsProvider._();
 
-/// The backup screen's write side.
+/// The write side of the user's whole library: backup, import, delete.
 final class BackupActionsProvider
     extends $NotifierProvider<BackupActions, void> {
-  /// The backup screen's write side.
+  /// The write side of the user's whole library: backup, import, delete.
   BackupActionsProvider._()
     : super(
         from: null,
@@ -87,9 +128,9 @@ final class BackupActionsProvider
   }
 }
 
-String _$backupActionsHash() => r'c90c0bfdcfd5f2d40b75428623f5ecef1fe69eb8';
+String _$backupActionsHash() => r'f7a409c5f32e849c7b0c5665bcdcda4fdf56d42d';
 
-/// The backup screen's write side.
+/// The write side of the user's whole library: backup, import, delete.
 
 abstract class _$BackupActions extends $Notifier<void> {
   void build();

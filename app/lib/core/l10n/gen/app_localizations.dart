@@ -1212,7 +1212,7 @@ abstract class AppL10n {
   /// The word the user types to confirm a replace (RULES 11). Matched without regard to case.
   ///
   /// In en, this message translates to:
-  /// **'REPLACE'**
+  /// **'replace'**
   String get replaceConfirmWord;
 
   /// The button that carries out a confirmed replace.
@@ -1224,7 +1224,7 @@ abstract class AppL10n {
   /// Prompt above the field in a typed confirmation.
   ///
   /// In en, this message translates to:
-  /// **'Type {word} to confirm'**
+  /// **'Type “{word}” to confirm'**
   String typedConfirmPrompt(String word);
 
   /// Title of the report after an import.
@@ -1304,6 +1304,102 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Couldn\'t bring the backup in. Nothing on this phone was changed.'**
   String get importFailed;
+
+  /// Row showing how much space the library takes on the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage used'**
+  String get settingsStorage;
+
+  /// Under Storage used while it is being measured.
+  ///
+  /// In en, this message translates to:
+  /// **'Counting…'**
+  String get settingsStorageCounting;
+
+  /// A size under one megabyte.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String storageKilobytes(int size);
+
+  /// A size of a megabyte or more, already formatted with one decimal.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String storageMegabytes(String size);
+
+  /// Row that removes the whole library. Asks twice, the second time for a typed word.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data'**
+  String get settingsDeleteAll;
+
+  /// Under the Delete all data row.
+  ///
+  /// In en, this message translates to:
+  /// **'Removes every word, note, list and practice record from this phone'**
+  String get settingsDeleteAllHint;
+
+  /// Title of the first step of Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything?'**
+  String get deleteAllTitle;
+
+  /// What Delete all data does, with the offer of a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes every word, sound, highlight, note, list and practice record from this phone, and it can\'t be undone. You may want a backup first.'**
+  String get deleteAllBody;
+
+  /// Opens Backup & restore instead of deleting.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a backup first'**
+  String get deleteAllBackupFirst;
+
+  /// Goes on to the typed confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get deleteAllContinue;
+
+  /// Title of the typed confirmation for Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data?'**
+  String get deleteAllConfirmTitle;
+
+  /// The last warning before Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything on this phone goes, including the copies kept from earlier restores. Without a backup, it can\'t be brought back.'**
+  String get deleteAllConfirmBody;
+
+  /// The word the user types to confirm Delete all data (RULES 11). Lower case on purpose; matched without regard to case.
+  ///
+  /// In en, this message translates to:
+  /// **'delete'**
+  String get deleteAllConfirmWord;
+
+  /// The button that carries out a confirmed Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything'**
+  String get deleteAllConfirmAction;
+
+  /// Snackbar after Delete all data.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything has been deleted. VocabNote is ready for new words.'**
+  String get deleteAllDone;
+
+  /// Snackbar when Delete all data failed and was rolled back.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete everything just now. Your words are still here.'**
+  String get deleteAllFailed;
 
   /// Row showing the app version.
   ///

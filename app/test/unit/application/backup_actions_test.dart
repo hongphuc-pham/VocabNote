@@ -195,6 +195,17 @@ void main() {
       expect(reminders.cancels, 0);
     });
 
+    test('deleting everything empties the library and cancels the '
+        'reminder', () async {
+      await seedWord(db, id: 'w1', headword: 'cough');
+
+      final deleted = await actions().deleteEverything();
+
+      expect(deleted, isTrue);
+      expect(await db.customSelect('SELECT id FROM words').get(), isEmpty);
+      expect(reminders.cancels, 1);
+    });
+
     test('replace also cancels a reminder this phone had scheduled', () async {
       // The restored settings have it off (it needs this phone's
       // permission); a notification still booked with the OS must not fire.
