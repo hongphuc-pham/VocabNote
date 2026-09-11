@@ -188,6 +188,11 @@ Detail = a filtered Words screen with **Practise this list** in the app bar.
 
 ### 4.6 Practice hub
 - A goal ring at the top: *12 of 20 today*, with encouraging copy, never a warning.
+  *Built at M5:* the count is different words practised today in any mode — a quick test
+  is practice, and a word asked twice is one word. Beneath it, the days practised in a row,
+  counted back from yesterday until today has practice (a day is not missed until it is
+  over). A streak of zero is never mentioned; the line reads *Any card you practise today
+  counts*. A screen reader hears the ring as one sentence.
 - One card per registered game. The flashcard card shows two buttons:
   **Daily review (7 due)** and **Quick test**.
 - Games below `minCards` render greyed with "Add 4 words to unlock".

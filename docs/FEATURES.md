@@ -55,8 +55,8 @@ before the milestone is closed.
 | F-062 | M | Flashcards — **Quick test** | User chooses source (All / a list / Favourites) and size (5 / 10 / 20 / All), **hard-capped at 30**. Random selection with a stored seed. Does **not** change the review schedule; it records stats only. |
 | F-063 | M | Card interaction | Front shows the prompt side (word, IPA, or meaning — configurable); tap or swipe up to flip; then *Again* / *Good* / *Easy*. Optional TTS autoplay on reveal. |
 | F-064 | M | Session summary | Score, time, list of missed words with a one-tap "add all to a list". |
-| F-065 | S | Streak & daily goal | Days practised in a row; goal ring on the hub. Non-punitive copy — no guilt language. |
-| F-066 | S | Optional daily reminder | Local notification at a user-chosen time; off by default; asks permission only when enabled. |
+| F-065 | S | Streak & daily goal | Days practised in a row; goal ring on the hub. Non-punitive copy — no guilt language. *Built at M5: the goal counts different words practised today in any mode; the streak runs back from yesterday until today has practice, and zero is never announced — see `UI-UX.md` §4.6.* |
+| F-066 | S | Optional daily reminder | Local notification at a user-chosen time; off by default; asks permission only when enabled. *Built at M5: Settings → Practice → Daily reminder, 19:00 until a time is chosen. Scheduled inexactly (no exact-alarm permission) and repeating on UTC, because the device's zone name needs a package RULES has not approved (`flutter_timezone`); it is scheduled again from local time at every launch, so a daylight saving change shifts it by an hour at most until the app next opens.* |
 | F-067 | M | Game framework | Adding a second game requires exactly: one `PracticeGame` class, one round widget, one registry line. No changes to the hub, config sheet, session storage or stats. Proven by a throwaway `DummyGame` in tests. |
 | F-068 | P2 | Listen-and-choose game | Hear TTS, pick the right word. |
 | F-069 | P2 | IPA match game | Match word ↔ IPA. |

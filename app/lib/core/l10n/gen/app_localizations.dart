@@ -687,6 +687,72 @@ abstract class AppL10n {
   /// **'All (max {max})'**
   String quickTestSizeAll(int max);
 
+  /// Heading of the practice section in Settings (UI-UX 4.9).
+  ///
+  /// In en, this message translates to:
+  /// **'Practice'**
+  String get settingsPracticeSection;
+
+  /// The switch for the optional daily reminder (F-066). Off by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get reminderTitle;
+
+  /// Under the reminder switch when it is off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get reminderOff;
+
+  /// Under the reminder switch when it is on. The time is already formatted for the user's locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day at {time}'**
+  String reminderOnAt(String time);
+
+  /// The row that changes when the daily reminder arrives.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get reminderTimeLabel;
+
+  /// Snackbar when notification permission is refused. Plain, never pleading.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off for VocabNote. You can allow them in your phone\'s settings.'**
+  String get reminderDenied;
+
+  /// Snackbar when the reminder could not be scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t set the reminder just now. Please try again.'**
+  String get reminderFailed;
+
+  /// Title of the daily reminder notification. An invitation, never a warning: no streak loss, no guilt (RULES 6).
+  ///
+  /// In en, this message translates to:
+  /// **'A few words today?'**
+  String get reminderNotificationTitle;
+
+  /// Body of the daily reminder notification.
+  ///
+  /// In en, this message translates to:
+  /// **'A short practice keeps them fresh.'**
+  String get reminderNotificationBody;
+
+  /// The notification channel's name in Android's system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get reminderChannelName;
+
+  /// The notification channel's description in Android's system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'One gentle reminder a day, at the time you chose.'**
+  String get reminderChannelDescription;
+
   /// Title of the session summary screen.
   ///
   /// In en, this message translates to:

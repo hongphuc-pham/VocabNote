@@ -351,6 +351,44 @@ class AppL10nEn extends AppL10n {
   }
 
   @override
+  String get settingsPracticeSection => 'Practice';
+
+  @override
+  String get reminderTitle => 'Daily reminder';
+
+  @override
+  String get reminderOff => 'Off';
+
+  @override
+  String reminderOnAt(String time) {
+    return 'Every day at $time';
+  }
+
+  @override
+  String get reminderTimeLabel => 'Time';
+
+  @override
+  String get reminderDenied =>
+      'Notifications are off for VocabNote. You can allow them in your phone\'s settings.';
+
+  @override
+  String get reminderFailed =>
+      'Couldn\'t set the reminder just now. Please try again.';
+
+  @override
+  String get reminderNotificationTitle => 'A few words today?';
+
+  @override
+  String get reminderNotificationBody => 'A short practice keeps them fresh.';
+
+  @override
+  String get reminderChannelName => 'Daily reminder';
+
+  @override
+  String get reminderChannelDescription =>
+      'One gentle reminder a day, at the time you chose.';
+
+  @override
   String get summaryTitle => 'How that went';
 
   @override

@@ -6,12 +6,14 @@ import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
 import 'package:vocabnote/data/dictionary/offline_ipa_source.dart';
+import 'package:vocabnote/data/notifications/local_notifications_reminder_service.dart';
 import 'package:vocabnote/data/repositories/dictionary_repository_impl.dart';
 import 'package:vocabnote/data/repositories/list_repository_impl.dart';
 import 'package:vocabnote/data/repositories/practice_repository_impl.dart';
 import 'package:vocabnote/data/repositories/settings_repository_impl.dart';
 import 'package:vocabnote/data/repositories/word_repository_impl.dart';
 import 'package:vocabnote/data/speech/flutter_tts_service.dart';
+import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
 
 /// Wires `data/` implementations into the `application/` DI seam.
@@ -27,10 +29,14 @@ import 'package:vocabnote/domain/repositories/speech_service.dart';
 /// [speechService] is injectable because a widget test has no audio device and
 /// Riverpod 3 refuses a second override of the same provider in one container -
 /// so a test cannot simply layer its fake on top of this list.
+///
+/// [reminderService] is injectable for the same reason: a test records what
+/// would have been asked of the OS instead of asking it.
 List<Override> repositoryOverrides(
   AppDatabase database, {
   String? appVersion,
   SpeechService? speechService,
+  ReminderService? reminderService,
 }) {
   final offline = OfflineIpaSource();
   final client = FreeDictionaryClient(
@@ -54,6 +60,11 @@ List<Override> repositoryOverrides(
     // speech engine to exist.
     speechServiceProvider.overrideWithValue(
       speechService ?? FlutterTtsService(),
+    ),
+    // Inert in the same way: nothing is initialised until the user switches
+    // the reminder on.
+    reminderServiceProvider.overrideWithValue(
+      reminderService ?? LocalNotificationsReminderService(),
     ),
     dictionaryRepositoryProvider.overrideWithValue(
       DictionaryRepositoryImpl(

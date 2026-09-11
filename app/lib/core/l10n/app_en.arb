@@ -436,6 +436,55 @@
       }
     }
   },
+  "settingsPracticeSection": "Practice",
+  "@settingsPracticeSection": {
+    "description": "Heading of the practice section in Settings (UI-UX 4.9)."
+  },
+  "reminderTitle": "Daily reminder",
+  "@reminderTitle": {
+    "description": "The switch for the optional daily reminder (F-066). Off by default."
+  },
+  "reminderOff": "Off",
+  "@reminderOff": {
+    "description": "Under the reminder switch when it is off."
+  },
+  "reminderOnAt": "Every day at {time}",
+  "@reminderOnAt": {
+    "description": "Under the reminder switch when it is on. The time is already formatted for the user's locale.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderTimeLabel": "Time",
+  "@reminderTimeLabel": {
+    "description": "The row that changes when the daily reminder arrives."
+  },
+  "reminderDenied": "Notifications are off for VocabNote. You can allow them in your phone's settings.",
+  "@reminderDenied": {
+    "description": "Snackbar when notification permission is refused. Plain, never pleading."
+  },
+  "reminderFailed": "Couldn't set the reminder just now. Please try again.",
+  "@reminderFailed": {
+    "description": "Snackbar when the reminder could not be scheduled."
+  },
+  "reminderNotificationTitle": "A few words today?",
+  "@reminderNotificationTitle": {
+    "description": "Title of the daily reminder notification. An invitation, never a warning: no streak loss, no guilt (RULES 6)."
+  },
+  "reminderNotificationBody": "A short practice keeps them fresh.",
+  "@reminderNotificationBody": {
+    "description": "Body of the daily reminder notification."
+  },
+  "reminderChannelName": "Daily reminder",
+  "@reminderChannelName": {
+    "description": "The notification channel's name in Android's system settings."
+  },
+  "reminderChannelDescription": "One gentle reminder a day, at the time you chose.",
+  "@reminderChannelDescription": {
+    "description": "The notification channel's description in Android's system settings."
+  },
   "summaryTitle": "How that went",
   "@summaryTitle": {
     "description": "Title of the session summary screen."

@@ -19,6 +19,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/domain/repositories/dictionary_repository.dart';
 import 'package:vocabnote/domain/repositories/list_repository.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
+import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/settings_repository.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
 import 'package:vocabnote/domain/repositories/word_repository.dart';
@@ -58,6 +59,15 @@ SettingsRepository settingsRepository(Ref ref) => throw UnimplementedError(
 @Riverpod(keepAlive: true)
 SpeechService speechService(Ref ref) => throw UnimplementedError(
   'speechServiceProvider must be overridden in bootstrap() or in a test.',
+);
+
+/// The daily reminder (F-066).
+///
+/// A device service behind an interface, like [speechService], so nothing
+/// above `data/` names a notification plugin.
+@Riverpod(keepAlive: true)
+ReminderService reminderService(Ref ref) => throw UnimplementedError(
+  'reminderServiceProvider must be overridden in bootstrap() or in a test.',
 );
 
 /// Dictionary look-up: cache, then API, then the bundled offline asset.

@@ -12,6 +12,7 @@ import 'package:vocabnote/presentation/lists/lists_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_run_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_summary_screen.dart';
+import 'package:vocabnote/presentation/settings/settings_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
 import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
 import 'package:vocabnote/presentation/words/word_detail_screen.dart';
@@ -161,10 +162,7 @@ GoRoute get _settingsRoute => GoRoute(
   path: Routes.settings,
   name: RouteNames.settings,
   parentNavigatorKey: _rootNavigatorKey,
-  builder: (context, state) => PlaceholderScreen(
-    title: AppL10n.of(context).settingsTitle,
-    routePath: Routes.settings,
-  ),
+  builder: (context, state) => const SettingsScreen(),
   routes: <RouteBase>[
     GoRoute(
       path: 'guide',
