@@ -1035,6 +1035,103 @@
   "@deleteAllFailed": {
     "description": "Snackbar when Delete all data failed and was rolled back."
   },
+  "guideIntro": "Six small things that make VocabNote work for you. Tap Try it on any of them to go straight there.",
+  "@guideIntro": {
+    "description": "Top of the How to use guide."
+  },
+  "guideAddTitle": "Add a word",
+  "@guideAddTitle": {
+    "description": "Guide card 1 title."
+  },
+  "guideAddBody": "Tap + on My words and type the word you're learning. Saving takes two taps.",
+  "@guideAddBody": {
+    "description": "Guide card 1 sentence."
+  },
+  "guideLookupTitle": "Fill it from the dictionary",
+  "@guideLookupTitle": {
+    "description": "Guide card 2 title."
+  },
+  "guideLookupBody": "Tap Look up to see how it sounds, what it means and an example. Nothing is filled in until you tap the part you want.",
+  "@guideLookupBody": {
+    "description": "Guide card 2 sentence."
+  },
+  "guideIpaTitle": "Write the IPA yourself",
+  "@guideIpaTitle": {
+    "description": "Guide card 3 title."
+  },
+  "guideIpaBody": "The row above the keyboard has every sound English needs. Typing the IPA yourself is one of the best ways to remember it.",
+  "@guideIpaBody": {
+    "description": "Guide card 3 sentence."
+  },
+  "guideIpaVoice": "Tap play to hear the word. The voice is your phone's text-to-speech: a good guide to stress and vowels, but not a native speaker.",
+  "@guideIpaVoice": {
+    "description": "Guide card 3's honest line about text-to-speech (DATA-SOURCES 4). Required by UI-UX 4.10."
+  },
+  "guideHighlightTitle": "Highlight the sound you struggle with",
+  "@guideHighlightTitle": {
+    "description": "Guide card 4 title."
+  },
+  "guideHighlightBody": "Open a word's IPA and mark the sounds you keep getting wrong, in a colour and with a note to yourself.",
+  "@guideHighlightBody": {
+    "description": "Guide card 4 sentence."
+  },
+  "guideNoteTitle": "Leave a note for yourself",
+  "@guideNoteTitle": {
+    "description": "Guide card 5 title."
+  },
+  "guideNoteBody": "Add as many notes to a word as you like - where you heard it, what your mouth should do, what to listen for.",
+  "@guideNoteBody": {
+    "description": "Guide card 5 sentence."
+  },
+  "guidePractiseTitle": "Practise a little every day",
+  "@guidePractiseTitle": {
+    "description": "Guide card 6 title."
+  },
+  "guidePractiseBody": "A few cards a day beats a long session once a week. The words you find hard come back sooner.",
+  "@guidePractiseBody": {
+    "description": "Guide card 6 sentence."
+  },
+  "guideTryIt": "Try it",
+  "@guideTryIt": {
+    "description": "Button on each guide card that opens the real screen."
+  },
+  "guideTryItFor": "Try it: {title}",
+  "@guideTryItFor": {
+    "description": "What a screen reader hears for a card's Try it button, so six buttons are not all just 'Try it'.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "guideSampleWord": "cough",
+  "@guideSampleWord": {
+    "description": "Sample word drawn in the guide's illustrations. An English word in every locale: the app teaches English."
+  },
+  "guideSampleIpa": "kɒf",
+  "@guideSampleIpa": {
+    "description": "IPA for the sample word. Do not translate; the illustration highlights its second symbol."
+  },
+  "guideSamplePartOfSpeech": "noun",
+  "@guideSamplePartOfSpeech": {
+    "description": "Sample part of speech in the guide's dictionary illustration."
+  },
+  "guideSampleDefinition": "A sudden, noisy push of air out of the lungs",
+  "@guideSampleDefinition": {
+    "description": "Sample definition in the guide's dictionary illustration."
+  },
+  "guideSampleHighlightLabel": "Rounder lips here",
+  "@guideSampleHighlightLabel": {
+    "description": "Sample highlight label in the guide's illustration."
+  },
+  "guideSampleNote": "Heard it on a podcast. Lips rounder on the ɒ.",
+  "@guideSampleNote": {
+    "description": "Sample note in the guide's illustration."
+  },
+  "guideSampleGoal": "12 of 20 today",
+  "@guideSampleGoal": {
+    "description": "Sample daily goal beside the ring in the guide's illustration."
+  },
   "settingsVersion": "Version",
   "@settingsVersion": {
     "description": "Row showing the app version."

@@ -13,6 +13,7 @@ import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_run_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_summary_screen.dart';
 import 'package:vocabnote/presentation/settings/backup_screen.dart';
+import 'package:vocabnote/presentation/settings/guide_screen.dart';
 import 'package:vocabnote/presentation/settings/settings_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
 import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
@@ -169,10 +170,7 @@ GoRoute get _settingsRoute => GoRoute(
       path: 'guide',
       name: RouteNames.guide,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).guideTitle,
-        routePath: Routes.guide,
-      ),
+      builder: (context, state) => const GuideScreen(),
     ),
     GoRoute(
       path: 'help',

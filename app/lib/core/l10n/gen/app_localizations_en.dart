@@ -861,6 +861,86 @@ class AppL10nEn extends AppL10n {
       'Couldn\'t delete everything just now. Your words are still here.';
 
   @override
+  String get guideIntro =>
+      'Six small things that make VocabNote work for you. Tap Try it on any of them to go straight there.';
+
+  @override
+  String get guideAddTitle => 'Add a word';
+
+  @override
+  String get guideAddBody =>
+      'Tap + on My words and type the word you\'re learning. Saving takes two taps.';
+
+  @override
+  String get guideLookupTitle => 'Fill it from the dictionary';
+
+  @override
+  String get guideLookupBody =>
+      'Tap Look up to see how it sounds, what it means and an example. Nothing is filled in until you tap the part you want.';
+
+  @override
+  String get guideIpaTitle => 'Write the IPA yourself';
+
+  @override
+  String get guideIpaBody =>
+      'The row above the keyboard has every sound English needs. Typing the IPA yourself is one of the best ways to remember it.';
+
+  @override
+  String get guideIpaVoice =>
+      'Tap play to hear the word. The voice is your phone\'s text-to-speech: a good guide to stress and vowels, but not a native speaker.';
+
+  @override
+  String get guideHighlightTitle => 'Highlight the sound you struggle with';
+
+  @override
+  String get guideHighlightBody =>
+      'Open a word\'s IPA and mark the sounds you keep getting wrong, in a colour and with a note to yourself.';
+
+  @override
+  String get guideNoteTitle => 'Leave a note for yourself';
+
+  @override
+  String get guideNoteBody =>
+      'Add as many notes to a word as you like - where you heard it, what your mouth should do, what to listen for.';
+
+  @override
+  String get guidePractiseTitle => 'Practise a little every day';
+
+  @override
+  String get guidePractiseBody =>
+      'A few cards a day beats a long session once a week. The words you find hard come back sooner.';
+
+  @override
+  String get guideTryIt => 'Try it';
+
+  @override
+  String guideTryItFor(String title) {
+    return 'Try it: $title';
+  }
+
+  @override
+  String get guideSampleWord => 'cough';
+
+  @override
+  String get guideSampleIpa => 'kɒf';
+
+  @override
+  String get guideSamplePartOfSpeech => 'noun';
+
+  @override
+  String get guideSampleDefinition =>
+      'A sudden, noisy push of air out of the lungs';
+
+  @override
+  String get guideSampleHighlightLabel => 'Rounder lips here';
+
+  @override
+  String get guideSampleNote => 'Heard it on a podcast. Lips rounder on the ɒ.';
+
+  @override
+  String get guideSampleGoal => '12 of 20 today';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override

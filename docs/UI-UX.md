@@ -267,6 +267,22 @@ screen: add a word · fill it from the dictionary · write the IPA yourself · h
 you struggle with · leave a note for yourself · practise daily. Card 3 carries the honest line
 about text-to-speech being a synthesised reference.
 
+*Built at M6:*
+- **A scrolling column, not a pager.** It survives 200% text, and a guide opened a second
+  time is scanned rather than paged through.
+- **Illustrations are composed in code** from the app's own widgets — an IPA transcription
+  with a real highlight, the symbol keys, suggestion chips, a note, the goal ring — so they
+  follow light and dark and the text size, and need no asset. They are wrapped in
+  `ExcludeSemantics`: read out, a mock-up sounds like buttons that are not there; the card's
+  sentence is what a screen reader hears.
+- ***Try it* is what teaches** (help met in context is remembered; a deck of cards read up
+  front is not). It opens the real screen, and where a word exists it uses it: the
+  highlight card opens the newest transcribed word's IPA editor, or the newest word's editor
+  so it can be given IPA, or the add form; the note card opens the newest word. The practice
+  card switches to the Practice tab rather than stacking a second hub on Settings. Each
+  *Try it* is announced with its card's title, so six buttons are not six "Try it"s.
+- Reachable from Settings → Help and from the empty words list's *See how it works*.
+
 ### 4.11 Help & feedback
 Searchable FAQ (12 short answers), then:
 - **Send feedback** → composes an email. The pre-filled body (app version, OS version, device

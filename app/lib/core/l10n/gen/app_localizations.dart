@@ -1401,6 +1401,144 @@ abstract class AppL10n {
   /// **'Couldn\'t delete everything just now. Your words are still here.'**
   String get deleteAllFailed;
 
+  /// Top of the How to use guide.
+  ///
+  /// In en, this message translates to:
+  /// **'Six small things that make VocabNote work for you. Tap Try it on any of them to go straight there.'**
+  String get guideIntro;
+
+  /// Guide card 1 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word'**
+  String get guideAddTitle;
+
+  /// Guide card 1 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + on My words and type the word you\'re learning. Saving takes two taps.'**
+  String get guideAddBody;
+
+  /// Guide card 2 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill it from the dictionary'**
+  String get guideLookupTitle;
+
+  /// Guide card 2 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Look up to see how it sounds, what it means and an example. Nothing is filled in until you tap the part you want.'**
+  String get guideLookupBody;
+
+  /// Guide card 3 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the IPA yourself'**
+  String get guideIpaTitle;
+
+  /// Guide card 3 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'The row above the keyboard has every sound English needs. Typing the IPA yourself is one of the best ways to remember it.'**
+  String get guideIpaBody;
+
+  /// Guide card 3's honest line about text-to-speech (DATA-SOURCES 4). Required by UI-UX 4.10.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap play to hear the word. The voice is your phone\'s text-to-speech: a good guide to stress and vowels, but not a native speaker.'**
+  String get guideIpaVoice;
+
+  /// Guide card 4 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight the sound you struggle with'**
+  String get guideHighlightTitle;
+
+  /// Guide card 4 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a word\'s IPA and mark the sounds you keep getting wrong, in a colour and with a note to yourself.'**
+  String get guideHighlightBody;
+
+  /// Guide card 5 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a note for yourself'**
+  String get guideNoteTitle;
+
+  /// Guide card 5 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Add as many notes to a word as you like - where you heard it, what your mouth should do, what to listen for.'**
+  String get guideNoteBody;
+
+  /// Guide card 6 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise a little every day'**
+  String get guidePractiseTitle;
+
+  /// Guide card 6 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'A few cards a day beats a long session once a week. The words you find hard come back sooner.'**
+  String get guidePractiseBody;
+
+  /// Button on each guide card that opens the real screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Try it'**
+  String get guideTryIt;
+
+  /// What a screen reader hears for a card's Try it button, so six buttons are not all just 'Try it'.
+  ///
+  /// In en, this message translates to:
+  /// **'Try it: {title}'**
+  String guideTryItFor(String title);
+
+  /// Sample word drawn in the guide's illustrations. An English word in every locale: the app teaches English.
+  ///
+  /// In en, this message translates to:
+  /// **'cough'**
+  String get guideSampleWord;
+
+  /// IPA for the sample word. Do not translate; the illustration highlights its second symbol.
+  ///
+  /// In en, this message translates to:
+  /// **'kɒf'**
+  String get guideSampleIpa;
+
+  /// Sample part of speech in the guide's dictionary illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'noun'**
+  String get guideSamplePartOfSpeech;
+
+  /// Sample definition in the guide's dictionary illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'A sudden, noisy push of air out of the lungs'**
+  String get guideSampleDefinition;
+
+  /// Sample highlight label in the guide's illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounder lips here'**
+  String get guideSampleHighlightLabel;
+
+  /// Sample note in the guide's illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard it on a podcast. Lips rounder on the ɒ.'**
+  String get guideSampleNote;
+
+  /// Sample daily goal beside the ring in the guide's illustration.
+  ///
+  /// In en, this message translates to:
+  /// **'12 of 20 today'**
+  String get guideSampleGoal;
+
   /// Row showing the app version.
   ///
   /// In en, this message translates to:
