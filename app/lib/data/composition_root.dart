@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:vocabnote/application/repositories.dart';
+import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
@@ -47,6 +48,7 @@ List<Override> repositoryOverrides(
   );
 
   return <Override>[
+    appVersionProvider.overrideWithValue(appVersion ?? '0.0.0'),
     wordRepositoryProvider.overrideWithValue(WordRepositoryImpl(database)),
     listRepositoryProvider.overrideWithValue(ListRepositoryImpl(database)),
     practiceRepositoryProvider.overrideWithValue(

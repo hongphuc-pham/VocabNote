@@ -218,11 +218,30 @@ Pronunciation   Voice (UK/US) · Speed · Pitch · Autoplay on open · Test voic
 Practice        Daily goal · Prompt side · Daily reminder (off by default)
                 Review pace (gentle · standard · intensive) · Interval per box
                 Repeat missed cards in the same session (default once)
-Your data       Export backup · Import backup · Storage used · Delete all data
+Your data       Backup & restore ▸ (export · import) · Storage used
+                Dictionary look-up (on by default) · Delete all data
 Help            How to use  ▸        ← always present (F-071)
                 Help & feedback ▸    ← always present (F-072)
 About           Version · Data sources & licences · Privacy
 ```
+
+*Built at M6:*
+- **Every choice is a row that opens a short list**, not a segmented control: three long
+  labels in a segmented button do not survive 200% text on a 320dp phone (§6), and a list
+  can say what each choice means (the paces carry a one-line hint).
+- **Speed and pitch are sliders** shown as multiples of normal (`0.5×`–`1.5×` for speed,
+  `0.5×`–`2.0×` for pitch). They save when the thumb is released, not on every step.
+- **Review pace is derived, not stored.** It names the preset whose table the user has, and
+  reads *Your own* once any box has been changed by hand. The interval editor is a sheet with
+  one field per box; box 0 is fixed at "later the same day", and a table that would stop
+  words coming back is refused with a sentence naming the box, before anything is written.
+- **Dictionary look-up** is an addition to the original drawing. `settings.lookup_enabled`
+  has existed since M1 with no control; switching it off makes the app offline by choice.
+- **Export and import live one level down**, on *Backup & restore* (`/settings/backup`),
+  with the last backup time and the import preview — four rows of data management in the
+  main list would bury *Help* below the fold.
+- **Privacy** opens a sheet; the same note is a section of *Data sources & licences*. No
+  route of its own.
 
 ### 4.10 How to use (guide)
 Six cards, each an illustration + a sentence + a *Try it* button that deep-links to the real

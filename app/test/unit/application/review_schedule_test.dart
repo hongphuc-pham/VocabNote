@@ -125,6 +125,55 @@ void main() {
     });
   });
 
+  group('the reason, typed for Settings to put into words', () {
+    // Settings shows the reason in the user's language (RULES §22), so it
+    // needs to know *which* rule broke and where - not an English sentence.
+    test('a sound table has no issue', () {
+      expect(ReviewSchedule.standard.issue, isNull);
+    });
+
+    test('a box of zero days names that box', () {
+      const schedule = ReviewSchedule(<int>[0, 1, 2, 0, 7, 15, 30]);
+      expect(schedule.issue, isA<BoxTooShort>().having((i) => i.box, 'box', 3));
+    });
+
+    test('a box shorter than the one before names both', () {
+      const schedule = ReviewSchedule(<int>[0, 1, 2, 4, 3, 15, 30]);
+      expect(
+        schedule.issue,
+        isA<BoxShorterThanPrevious>().having((i) => i.box, 'box', 4),
+      );
+    });
+
+    test('the wrong number of boxes says how many there were', () {
+      const schedule = ReviewSchedule(<int>[0, 1, 2]);
+      expect(
+        schedule.issue,
+        isA<WrongBoxCount>().having((i) => i.count, 'count', 3),
+      );
+    });
+
+    test('a non-zero box 0 is its own issue', () {
+      const schedule = ReviewSchedule(<int>[3, 4, 5, 6, 7, 15, 30]);
+      expect(schedule.issue, isA<RelearningBoxNotZero>());
+    });
+  });
+
+  group('which pace a table is', () {
+    test('each preset is recognised as itself', () {
+      for (final pace in IntervalPace.values) {
+        expect(ReviewSchedule.forPace(pace).pace, pace);
+      }
+    });
+
+    test('a table nudged by one box is no preset', () {
+      // Settings then shows "Your own" rather than claiming a pace the user
+      // has since moved away from.
+      const nudged = ReviewSchedule(<int>[0, 1, 2, 5, 7, 15, 30]);
+      expect(nudged.pace, isNull);
+    });
+  });
+
   group('storage', () {
     test('round-trips a custom table', () {
       const custom = ReviewSchedule(<int>[0, 2, 5, 9, 14, 21, 60]);

@@ -485,6 +485,248 @@
   "@reminderChannelDescription": {
     "description": "The notification channel's description in Android's system settings."
   },
+  "settingsAppearanceSection": "Appearance",
+  "@settingsAppearanceSection": {
+    "description": "Heading of the appearance section in Settings (UI-UX 4.9)."
+  },
+  "settingsPronunciationSection": "Pronunciation",
+  "@settingsPronunciationSection": {
+    "description": "Heading of the pronunciation section in Settings (UI-UX 4.9)."
+  },
+  "settingsDataSection": "Your data",
+  "@settingsDataSection": {
+    "description": "Heading of the data section in Settings: backup, look-up, storage, delete."
+  },
+  "settingsHelpSection": "Help",
+  "@settingsHelpSection": {
+    "description": "Heading of the help section in Settings. Always contains How to use and Help & feedback (RULES 4)."
+  },
+  "settingsAboutSection": "About",
+  "@settingsAboutSection": {
+    "description": "Heading of the about section in Settings."
+  },
+  "settingsTheme": "Theme",
+  "@settingsTheme": {
+    "description": "The setting that chooses light, dark or the phone's own theme."
+  },
+  "themeSystem": "Same as my phone",
+  "@themeSystem": {
+    "description": "Theme choice: follow the device's light or dark setting."
+  },
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Theme choice: always light."
+  },
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Theme choice: always dark."
+  },
+  "settingsTextSize": "Text size",
+  "@settingsTextSize": {
+    "description": "A row explaining where text size is set. Not a control."
+  },
+  "settingsTextSizeHint": "VocabNote uses your phone's text size. You can change it in your phone's display settings.",
+  "@settingsTextSizeHint": {
+    "description": "Explains that the app follows the OS text size rather than having its own."
+  },
+  "settingsVoice": "Voice",
+  "@settingsVoice": {
+    "description": "The setting that chooses British or American English for speech."
+  },
+  "voiceBritish": "British English",
+  "@voiceBritish": {
+    "description": "Voice choice: en-GB."
+  },
+  "voiceAmerican": "American English",
+  "@voiceAmerican": {
+    "description": "Voice choice: en-US."
+  },
+  "settingsSpeed": "Speed",
+  "@settingsSpeed": {
+    "description": "The speech speed slider."
+  },
+  "settingsPitch": "Pitch",
+  "@settingsPitch": {
+    "description": "The speech pitch slider."
+  },
+  "settingsAutoplay": "Say the word when I open it",
+  "@settingsAutoplay": {
+    "description": "Switch: speak a word automatically when its detail screen opens."
+  },
+  "settingsTestVoice": "Test voice",
+  "@settingsTestVoice": {
+    "description": "Button that speaks a sample word with the current voice, speed and pitch."
+  },
+  "settingsTestVoiceSample": "pronunciation",
+  "@settingsTestVoiceSample": {
+    "description": "The English word Test voice speaks. Keep it English in every locale: the voice is always English."
+  },
+  "settingsDailyGoal": "Daily goal",
+  "@settingsDailyGoal": {
+    "description": "The setting for how many words to aim for each day."
+  },
+  "settingsDailyGoalValue": "{count, plural, =1{1 word a day} other{{count} words a day}}",
+  "@settingsDailyGoalValue": {
+    "description": "A daily goal, as shown under the setting and in its list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsPromptSide": "Show me first",
+  "@settingsPromptSide": {
+    "description": "The setting for which side of a practice card is shown first."
+  },
+  "settingsPace": "Review pace",
+  "@settingsPace": {
+    "description": "The setting that picks a preset repetition schedule (GAMES.md 5)."
+  },
+  "paceGentle": "Gentle",
+  "@paceGentle": {
+    "description": "Review pace: longer gaps."
+  },
+  "paceGentleHint": "Longer gaps between reviews",
+  "@paceGentleHint": {
+    "description": "One line explaining the gentle pace."
+  },
+  "paceStandard": "Standard",
+  "@paceStandard": {
+    "description": "Review pace: the default gaps."
+  },
+  "paceStandardHint": "The usual gaps",
+  "@paceStandardHint": {
+    "description": "One line explaining the standard pace."
+  },
+  "paceIntensive": "Intensive",
+  "@paceIntensive": {
+    "description": "Review pace: shorter gaps."
+  },
+  "paceIntensiveHint": "Shorter gaps and more reviews - good before an exam",
+  "@paceIntensiveHint": {
+    "description": "One line explaining the intensive pace."
+  },
+  "paceCustom": "Your own",
+  "@paceCustom": {
+    "description": "Shown as the review pace once the user has changed a box by hand."
+  },
+  "settingsIntervals": "Days between reviews",
+  "@settingsIntervals": {
+    "description": "The row, and the sheet, for editing the interval of each box."
+  },
+  "settingsIntervalsValue": "{days} days",
+  "@settingsIntervalsValue": {
+    "description": "Summary of the intervals for boxes 1 to 6, already joined with listSeparator.",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "listSeparator": " · ",
+  "@listSeparator": {
+    "description": "Separator between items in a short inline list."
+  },
+  "intervalEditorBody": "Each time you know a word, it moves up a box and waits a little longer before it comes back.",
+  "@intervalEditorBody": {
+    "description": "Explains the boxes at the top of the interval editor."
+  },
+  "intervalEditorBoxZero": "Box 0 - later the same day, for words worth another look",
+  "@intervalEditorBoxZero": {
+    "description": "The fixed first box, which the user cannot change."
+  },
+  "intervalEditorBox": "Box {box}",
+  "@intervalEditorBox": {
+    "description": "Label of the field for one box's interval.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "intervalEditorDays": "days",
+  "@intervalEditorDays": {
+    "description": "Unit shown after each interval field."
+  },
+  "intervalEditorReset": "Use standard",
+  "@intervalEditorReset": {
+    "description": "Button that fills the interval fields with the standard table."
+  },
+  "intervalEditorSave": "Save",
+  "@intervalEditorSave": {
+    "description": "Button that saves the interval table."
+  },
+  "scheduleIssueTooShort": "Box {box} needs at least 1 day, or its words never come back.",
+  "@scheduleIssueTooShort": {
+    "description": "Why a table was refused: a box waits less than a day.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleIssueShorter": "Box {box} can't be shorter than box {previous}. Later boxes wait longer.",
+  "@scheduleIssueShorter": {
+    "description": "Why a table was refused: a box waits less than the one before it.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      },
+      "previous": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleIssueNotNumber": "Box {box} needs a whole number of days.",
+  "@scheduleIssueNotNumber": {
+    "description": "Why a table cannot be saved: a field is empty.",
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleIssueUnusable": "This schedule can't be used. Try Use standard.",
+  "@scheduleIssueUnusable": {
+    "description": "Fallback reason for a table the editor cannot produce by hand."
+  },
+  "settingsRepeats": "Repeat missed cards",
+  "@settingsRepeats": {
+    "description": "The setting for how often a missed card returns within one session."
+  },
+  "settingsRepeatsValue": "{count, plural, =0{Don't repeat} =1{Once in the same session} =2{Twice in the same session} other{{count} times in the same session}}",
+  "@settingsRepeatsValue": {
+    "description": "How many extra times a missed card comes back in one session.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsBackup": "Backup & restore",
+  "@settingsBackup": {
+    "description": "Row that opens export and import."
+  },
+  "settingsBackupHint": "Keep a copy of your words, or move them to a new phone",
+  "@settingsBackupHint": {
+    "description": "Under the Backup & restore row."
+  },
+  "settingsLookup": "Dictionary look-up",
+  "@settingsLookup": {
+    "description": "Switch that offers or hides the Look up button on the word form."
+  },
+  "settingsLookupOn": "Look up sends only the word to freedictionaryapi.com",
+  "@settingsLookupOn": {
+    "description": "Under the look-up switch when it is on. Says exactly what leaves the phone."
+  },
+  "settingsLookupOff": "Off - VocabNote stays fully offline",
+  "@settingsLookupOff": {
+    "description": "Under the look-up switch when it is off."
+  },
+  "settingsVersion": "Version",
+  "@settingsVersion": {
+    "description": "Row showing the app version."
+  },
   "summaryTitle": "How that went",
   "@summaryTitle": {
     "description": "Title of the session summary screen."

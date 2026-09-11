@@ -753,6 +753,312 @@ abstract class AppL10n {
   /// **'One gentle reminder a day, at the time you chose.'**
   String get reminderChannelDescription;
 
+  /// Heading of the appearance section in Settings (UI-UX 4.9).
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearanceSection;
+
+  /// Heading of the pronunciation section in Settings (UI-UX 4.9).
+  ///
+  /// In en, this message translates to:
+  /// **'Pronunciation'**
+  String get settingsPronunciationSection;
+
+  /// Heading of the data section in Settings: backup, look-up, storage, delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get settingsDataSection;
+
+  /// Heading of the help section in Settings. Always contains How to use and Help & feedback (RULES 4).
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get settingsHelpSection;
+
+  /// Heading of the about section in Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAboutSection;
+
+  /// The setting that chooses light, dark or the phone's own theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// Theme choice: follow the device's light or dark setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as my phone'**
+  String get themeSystem;
+
+  /// Theme choice: always light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// Theme choice: always dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// A row explaining where text size is set. Not a control.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size'**
+  String get settingsTextSize;
+
+  /// Explains that the app follows the OS text size rather than having its own.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote uses your phone\'s text size. You can change it in your phone\'s display settings.'**
+  String get settingsTextSizeHint;
+
+  /// The setting that chooses British or American English for speech.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get settingsVoice;
+
+  /// Voice choice: en-GB.
+  ///
+  /// In en, this message translates to:
+  /// **'British English'**
+  String get voiceBritish;
+
+  /// Voice choice: en-US.
+  ///
+  /// In en, this message translates to:
+  /// **'American English'**
+  String get voiceAmerican;
+
+  /// The speech speed slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get settingsSpeed;
+
+  /// The speech pitch slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch'**
+  String get settingsPitch;
+
+  /// Switch: speak a word automatically when its detail screen opens.
+  ///
+  /// In en, this message translates to:
+  /// **'Say the word when I open it'**
+  String get settingsAutoplay;
+
+  /// Button that speaks a sample word with the current voice, speed and pitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Test voice'**
+  String get settingsTestVoice;
+
+  /// The English word Test voice speaks. Keep it English in every locale: the voice is always English.
+  ///
+  /// In en, this message translates to:
+  /// **'pronunciation'**
+  String get settingsTestVoiceSample;
+
+  /// The setting for how many words to aim for each day.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily goal'**
+  String get settingsDailyGoal;
+
+  /// A daily goal, as shown under the setting and in its list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word a day} other{{count} words a day}}'**
+  String settingsDailyGoalValue(int count);
+
+  /// The setting for which side of a practice card is shown first.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me first'**
+  String get settingsPromptSide;
+
+  /// The setting that picks a preset repetition schedule (GAMES.md 5).
+  ///
+  /// In en, this message translates to:
+  /// **'Review pace'**
+  String get settingsPace;
+
+  /// Review pace: longer gaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle'**
+  String get paceGentle;
+
+  /// One line explaining the gentle pace.
+  ///
+  /// In en, this message translates to:
+  /// **'Longer gaps between reviews'**
+  String get paceGentleHint;
+
+  /// Review pace: the default gaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get paceStandard;
+
+  /// One line explaining the standard pace.
+  ///
+  /// In en, this message translates to:
+  /// **'The usual gaps'**
+  String get paceStandardHint;
+
+  /// Review pace: shorter gaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensive'**
+  String get paceIntensive;
+
+  /// One line explaining the intensive pace.
+  ///
+  /// In en, this message translates to:
+  /// **'Shorter gaps and more reviews - good before an exam'**
+  String get paceIntensiveHint;
+
+  /// Shown as the review pace once the user has changed a box by hand.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own'**
+  String get paceCustom;
+
+  /// The row, and the sheet, for editing the interval of each box.
+  ///
+  /// In en, this message translates to:
+  /// **'Days between reviews'**
+  String get settingsIntervals;
+
+  /// Summary of the intervals for boxes 1 to 6, already joined with listSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days'**
+  String settingsIntervalsValue(String days);
+
+  /// Separator between items in a short inline list.
+  ///
+  /// In en, this message translates to:
+  /// **' · '**
+  String get listSeparator;
+
+  /// Explains the boxes at the top of the interval editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Each time you know a word, it moves up a box and waits a little longer before it comes back.'**
+  String get intervalEditorBody;
+
+  /// The fixed first box, which the user cannot change.
+  ///
+  /// In en, this message translates to:
+  /// **'Box 0 - later the same day, for words worth another look'**
+  String get intervalEditorBoxZero;
+
+  /// Label of the field for one box's interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box}'**
+  String intervalEditorBox(int box);
+
+  /// Unit shown after each interval field.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get intervalEditorDays;
+
+  /// Button that fills the interval fields with the standard table.
+  ///
+  /// In en, this message translates to:
+  /// **'Use standard'**
+  String get intervalEditorReset;
+
+  /// Button that saves the interval table.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get intervalEditorSave;
+
+  /// Why a table was refused: a box waits less than a day.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box} needs at least 1 day, or its words never come back.'**
+  String scheduleIssueTooShort(int box);
+
+  /// Why a table was refused: a box waits less than the one before it.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box} can\'t be shorter than box {previous}. Later boxes wait longer.'**
+  String scheduleIssueShorter(int box, int previous);
+
+  /// Why a table cannot be saved: a field is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Box {box} needs a whole number of days.'**
+  String scheduleIssueNotNumber(int box);
+
+  /// Fallback reason for a table the editor cannot produce by hand.
+  ///
+  /// In en, this message translates to:
+  /// **'This schedule can\'t be used. Try Use standard.'**
+  String get scheduleIssueUnusable;
+
+  /// The setting for how often a missed card returns within one session.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat missed cards'**
+  String get settingsRepeats;
+
+  /// How many extra times a missed card comes back in one session.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Don\'t repeat} =1{Once in the same session} =2{Twice in the same session} other{{count} times in the same session}}'**
+  String settingsRepeatsValue(int count);
+
+  /// Row that opens export and import.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & restore'**
+  String get settingsBackup;
+
+  /// Under the Backup & restore row.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep a copy of your words, or move them to a new phone'**
+  String get settingsBackupHint;
+
+  /// Switch that offers or hides the Look up button on the word form.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary look-up'**
+  String get settingsLookup;
+
+  /// Under the look-up switch when it is on. Says exactly what leaves the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Look up sends only the word to freedictionaryapi.com'**
+  String get settingsLookupOn;
+
+  /// Under the look-up switch when it is off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off - VocabNote stays fully offline'**
+  String get settingsLookupOff;
+
+  /// Row showing the app version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settingsVersion;
+
   /// Title of the session summary screen.
   ///
   /// In en, this message translates to:

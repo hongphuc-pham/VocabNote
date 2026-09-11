@@ -389,6 +389,194 @@ class AppL10nEn extends AppL10n {
       'One gentle reminder a day, at the time you chose.';
 
   @override
+  String get settingsAppearanceSection => 'Appearance';
+
+  @override
+  String get settingsPronunciationSection => 'Pronunciation';
+
+  @override
+  String get settingsDataSection => 'Your data';
+
+  @override
+  String get settingsHelpSection => 'Help';
+
+  @override
+  String get settingsAboutSection => 'About';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get themeSystem => 'Same as my phone';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get settingsTextSize => 'Text size';
+
+  @override
+  String get settingsTextSizeHint =>
+      'VocabNote uses your phone\'s text size. You can change it in your phone\'s display settings.';
+
+  @override
+  String get settingsVoice => 'Voice';
+
+  @override
+  String get voiceBritish => 'British English';
+
+  @override
+  String get voiceAmerican => 'American English';
+
+  @override
+  String get settingsSpeed => 'Speed';
+
+  @override
+  String get settingsPitch => 'Pitch';
+
+  @override
+  String get settingsAutoplay => 'Say the word when I open it';
+
+  @override
+  String get settingsTestVoice => 'Test voice';
+
+  @override
+  String get settingsTestVoiceSample => 'pronunciation';
+
+  @override
+  String get settingsDailyGoal => 'Daily goal';
+
+  @override
+  String settingsDailyGoalValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words a day',
+      one: '1 word a day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPromptSide => 'Show me first';
+
+  @override
+  String get settingsPace => 'Review pace';
+
+  @override
+  String get paceGentle => 'Gentle';
+
+  @override
+  String get paceGentleHint => 'Longer gaps between reviews';
+
+  @override
+  String get paceStandard => 'Standard';
+
+  @override
+  String get paceStandardHint => 'The usual gaps';
+
+  @override
+  String get paceIntensive => 'Intensive';
+
+  @override
+  String get paceIntensiveHint =>
+      'Shorter gaps and more reviews - good before an exam';
+
+  @override
+  String get paceCustom => 'Your own';
+
+  @override
+  String get settingsIntervals => 'Days between reviews';
+
+  @override
+  String settingsIntervalsValue(String days) {
+    return '$days days';
+  }
+
+  @override
+  String get listSeparator => ' · ';
+
+  @override
+  String get intervalEditorBody =>
+      'Each time you know a word, it moves up a box and waits a little longer before it comes back.';
+
+  @override
+  String get intervalEditorBoxZero =>
+      'Box 0 - later the same day, for words worth another look';
+
+  @override
+  String intervalEditorBox(int box) {
+    return 'Box $box';
+  }
+
+  @override
+  String get intervalEditorDays => 'days';
+
+  @override
+  String get intervalEditorReset => 'Use standard';
+
+  @override
+  String get intervalEditorSave => 'Save';
+
+  @override
+  String scheduleIssueTooShort(int box) {
+    return 'Box $box needs at least 1 day, or its words never come back.';
+  }
+
+  @override
+  String scheduleIssueShorter(int box, int previous) {
+    return 'Box $box can\'t be shorter than box $previous. Later boxes wait longer.';
+  }
+
+  @override
+  String scheduleIssueNotNumber(int box) {
+    return 'Box $box needs a whole number of days.';
+  }
+
+  @override
+  String get scheduleIssueUnusable =>
+      'This schedule can\'t be used. Try Use standard.';
+
+  @override
+  String get settingsRepeats => 'Repeat missed cards';
+
+  @override
+  String settingsRepeatsValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count times in the same session',
+      two: 'Twice in the same session',
+      one: 'Once in the same session',
+      zero: 'Don\'t repeat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsBackup => 'Backup & restore';
+
+  @override
+  String get settingsBackupHint =>
+      'Keep a copy of your words, or move them to a new phone';
+
+  @override
+  String get settingsLookup => 'Dictionary look-up';
+
+  @override
+  String get settingsLookupOn =>
+      'Look up sends only the word to freedictionaryapi.com';
+
+  @override
+  String get settingsLookupOff => 'Off - VocabNote stays fully offline';
+
+  @override
+  String get settingsVersion => 'Version';
+
+  @override
   String get summaryTitle => 'How that went';
 
   @override

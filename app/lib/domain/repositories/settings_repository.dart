@@ -16,6 +16,13 @@ abstract interface class SettingsRepository {
   /// Saves settings.
   AsyncResult<void> save(AppSettings settings);
 
+  /// Reads the row, applies [change], and writes the result, as one step.
+  ///
+  /// What a single control should use. Two changes made at the same moment -
+  /// a slider released while a switch flips - would otherwise each read the
+  /// row, and the later write would put back the earlier one's stale copy.
+  AsyncResult<void> update(AppSettings Function(AppSettings current) change);
+
   /// Restores every setting to its documented default.
   AsyncResult<void> resetToDefaults();
 
