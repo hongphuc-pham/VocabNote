@@ -283,7 +283,8 @@ Because there is no cloud, export is how a user moves to a new phone.
   install, not the library.
 - **Then every other copy of the library on disk goes too:** Replace's safety copies, any
   exported `.vnb` still in the temporary folder, the `vocabnote.pre-v<n>.bak` copies taken
-  before an upgrade, and the dictionary cache. Each is removed independently and best-effort
+  before an upgrade, the dictionary cache, and the error log (a message line in it may hold
+  something the user typed). Each is removed independently and best-effort
   — the rows are already gone, and one file that will not delete must not keep the others.
   The open database file itself is emptied, never deleted.
 - The reminder is cancelled with the OS, since its setting is back to off.

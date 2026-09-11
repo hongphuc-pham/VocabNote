@@ -176,6 +176,9 @@ class BackupActions extends _$BackupActions {
     final deleted = await ref.read(userDataRepositoryProvider).deleteAll();
     if (deleted.isErr) return false;
     await ref.read(reminderServiceProvider).cancel();
+    // A message line in the error log may still hold something the user
+    // typed; "all data" includes it.
+    await ref.read(errorLogProvider).clear();
     ref.invalidate(storageUsedProvider);
     return true;
   }

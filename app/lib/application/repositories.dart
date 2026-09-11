@@ -18,6 +18,7 @@ library;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
 import 'package:vocabnote/domain/repositories/dictionary_repository.dart';
+import 'package:vocabnote/domain/repositories/error_log.dart';
 import 'package:vocabnote/domain/repositories/list_repository.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
@@ -86,6 +87,12 @@ UserDataRepository userDataRepository(Ref ref) => throw UnimplementedError(
 @Riverpod(keepAlive: true)
 BackupFiles backupFiles(Ref ref) => throw UnimplementedError(
   'backupFilesProvider must be overridden in bootstrap() or in a test.',
+);
+
+/// The on-device record of uncaught errors (F-079).
+@Riverpod(keepAlive: true)
+ErrorLog errorLog(Ref ref) => throw UnimplementedError(
+  'errorLogProvider must be overridden in bootstrap() or in a test.',
 );
 
 /// Dictionary look-up: cache, then API, then the bundled offline asset.

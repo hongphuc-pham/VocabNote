@@ -9,6 +9,8 @@ import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/database_opener.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
+import 'package:vocabnote/data/diagnostics/file_error_log.dart';
+import 'package:vocabnote/domain/repositories/error_log.dart';
 import 'package:vocabnote/presentation/common/recovery_screen.dart';
 
 /// Starts the app (`docs/ARCHITECTURE.md` section 6).
@@ -34,9 +36,21 @@ Future<void> bootstrap() async {
     // 1. Bindings must exist before any platform channel call.
     WidgetsFlutterBinding.ensureInitialized();
 
+    // Opened before anything else that can fail, so an error while opening
+    // the database is kept too (F-079).
+    _errorLog = await FileErrorLog.open();
+
+    // Framework errors: build, layout, paint.
     FlutterError.onError = (details) {
       FlutterError.presentError(details);
       logUncaught(details.exception, details.stack ?? StackTrace.empty);
+    };
+    // Errors that escape the zone - platform-channel callbacks among them.
+    // Flutter's error-handling docs name this pair; the zone below stays as
+    // a third net. True: handled, so release builds do not also crash.
+    WidgetsBinding.instance.platformDispatcher.onError = (error, stack) {
+      logUncaught(error, stack);
+      return true;
     };
 
     // 2-5.
@@ -66,7 +80,11 @@ Future<void> bootstrap() async {
             showOnboardingProvider.overrideWithValue(onboarding),
             // The one place data implementations are named. Everything above
             // this line depends on domain interfaces only.
-            ...repositoryOverrides(result.database, appVersion: version),
+            ...repositoryOverrides(
+              result.database,
+              appVersion: version,
+              errorLog: _errorLog,
+            ),
           ],
           child: const VocabNoteApp(),
         ),
@@ -82,13 +100,18 @@ Future<void> bootstrap() async {
   }, logUncaught);
 }
 
-/// Records an uncaught error.
+/// Where uncaught errors are kept. Keeps nothing until `bootstrap` opens the
+/// real log, which it does first.
+ErrorLog _errorLog = const DiscardingErrorLog();
+
+/// Records an uncaught error in the on-device log (F-079).
 ///
-/// M6 replaces the debug print with the rolling on-device log behind `F-079`.
-/// Nothing is ever transmitted: there is no backend to transmit to.
+/// Nothing is ever transmitted: there is no backend to transmit to. The log
+/// leaves the phone only inside a feedback email the user has read first.
 void logUncaught(Object error, StackTrace stackTrace) {
   assert(() {
     debugPrint('Uncaught error: $error\n$stackTrace');
     return true;
   }(), 'debugPrint always returns true');
+  _errorLog.record(error, stackTrace);
 }

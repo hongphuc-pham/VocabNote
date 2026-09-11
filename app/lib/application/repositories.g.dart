@@ -431,6 +431,52 @@ final class BackupFilesProvider
 
 String _$backupFilesHash() => r'c3a81e54bc850c5303aa82e0c8cc6b837c9d9023';
 
+/// The on-device record of uncaught errors (F-079).
+
+@ProviderFor(errorLog)
+final errorLogProvider = ErrorLogProvider._();
+
+/// The on-device record of uncaught errors (F-079).
+
+final class ErrorLogProvider
+    extends $FunctionalProvider<ErrorLog, ErrorLog, ErrorLog>
+    with $Provider<ErrorLog> {
+  /// The on-device record of uncaught errors (F-079).
+  ErrorLogProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'errorLogProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$errorLogHash();
+
+  @$internal
+  @override
+  $ProviderElement<ErrorLog> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ErrorLog create(Ref ref) {
+    return errorLog(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ErrorLog value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ErrorLog>(value),
+    );
+  }
+}
+
+String _$errorLogHash() => r'0e0232b56aa68a4f0d9067dd68ef6eeda5907c0b';
+
 /// Dictionary look-up: cache, then API, then the bundled offline asset.
 
 @ProviderFor(dictionaryRepository)

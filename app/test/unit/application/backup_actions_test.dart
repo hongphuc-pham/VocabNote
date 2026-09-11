@@ -10,6 +10,7 @@ import 'package:vocabnote/core/failure.dart';
 import 'package:vocabnote/data/backup/backup_codec.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/app_database.dart';
+import 'package:vocabnote/data/diagnostics/file_error_log.dart';
 import 'package:vocabnote/domain/entities/backup.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
 
@@ -32,6 +33,7 @@ void main() {
   late Directory safety;
   late FakeBackupFiles files;
   late FakeReminderService reminders;
+  late FileErrorLog errorLog;
   late ProviderContainer container;
 
   setUp(() async {
@@ -40,6 +42,7 @@ void main() {
     safety = await Directory.systemTemp.createTemp('vnb_actions_safety_');
     files = FakeBackupFiles();
     reminders = FakeReminderService();
+    errorLog = FileErrorLog(File('${folder.path}/errors.log'));
     container = ProviderContainer(
       overrides: <Override>[
         ...repositoryOverrides(
@@ -49,6 +52,7 @@ void main() {
           backupFiles: files,
           exportDirectory: () async => folder,
           safetyDirectory: () async => safety,
+          errorLog: errorLog,
         ),
       ],
     );
@@ -204,6 +208,15 @@ void main() {
       expect(deleted, isTrue);
       expect(await db.customSelect('SELECT id FROM words').get(), isEmpty);
       expect(reminders.cancels, 1);
+    });
+
+    test('deleting everything clears the error log too', () async {
+      // A message line in it may still hold something the user typed.
+      errorLog.record(StateError('something went wrong'), StackTrace.empty);
+
+      await actions().deleteEverything();
+
+      expect((await errorLog.read()).valueOrNull, isEmpty);
     });
 
     test('replace also cancels a reminder this phone had scheduled', () async {

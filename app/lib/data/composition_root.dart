@@ -8,6 +8,7 @@ import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/backup/platform_backup_files.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/tables/app_meta.dart';
+import 'package:vocabnote/data/diagnostics/file_error_log.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
 import 'package:vocabnote/data/dictionary/offline_ipa_source.dart';
@@ -20,6 +21,7 @@ import 'package:vocabnote/data/repositories/user_data_repository_impl.dart';
 import 'package:vocabnote/data/repositories/word_repository_impl.dart';
 import 'package:vocabnote/data/speech/flutter_tts_service.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
+import 'package:vocabnote/domain/repositories/error_log.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
 
@@ -52,6 +54,7 @@ List<Override> repositoryOverrides(
   Future<Directory> Function()? exportDirectory,
   Future<Directory> Function()? safetyDirectory,
   Future<Directory> Function()? libraryDirectory,
+  ErrorLog? errorLog,
 }) {
   final offline = OfflineIpaSource();
   // One cache, shared: *Delete all data* must clear the very instance the
@@ -95,6 +98,9 @@ List<Override> repositoryOverrides(
         dictionaryCache: dictionaryCache,
       ),
     ),
+    // bootstrap opens the real log before the database; a test that does not
+    // ask for one keeps nothing.
+    errorLogProvider.overrideWithValue(errorLog ?? const DiscardingErrorLog()),
     // Inert like the two above: the share sheet opens only on Export.
     backupFilesProvider.overrideWithValue(
       backupFiles ?? const PlatformBackupFiles(),
