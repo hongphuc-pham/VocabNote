@@ -145,6 +145,10 @@ class _PlayButton extends StatelessWidget {
     return Semantics(
       button: true,
       label: label,
+      // Play, pressable by a screen reader: `ExcludeSemantics` below hides the
+      // ink response's own tap, and without this the button offered only the
+      // slow replay (found in M7).
+      onTap: onPlay,
       // The long-press is duplicated as a semantic action so a screen-reader
       // user reaches slow replay too, without having to hold a gesture.
       customSemanticsActions: <CustomSemanticsAction, VoidCallback>{

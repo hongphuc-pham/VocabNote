@@ -174,6 +174,10 @@ class _Chip extends StatelessWidget {
       // The raw symbol. M7 replaces this with spoken symbol names; until then
       // announcing the glyph beats announcing nothing.
       label: symbol,
+      // The tap belongs on this node too: `ExcludeSemantics` below hides the
+      // detector's own, and a chip a screen reader can find but not select
+      // would lock it out of the highlight editor (found in M7).
+      onTap: onTap,
       child: ExcludeSemantics(
         child: GestureDetector(
           // Opaque so the whole 48dp lands, not just the glyph inside it.

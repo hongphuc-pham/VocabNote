@@ -332,7 +332,11 @@ Searchable FAQ (12 short answers), then:
 - **Checked on every screen, light and dark** (`accessibility_guidelines_test.dart`): each
   screen is walked top to bottom through the real router and, at every stop, Flutter's
   48dp tap-target, labelled-tap-target and text-contrast guidelines must pass. They only see
-  what is built and on screen, which is why the walk.
+  what is built and on screen, which is why the walk. The sheets and dialogs get the same
+  (`accessibility_sheets_test.dart`).
+- **Every button a screen reader can reach, it can press.** A `Semantics(button: true)` over
+  an `ExcludeSemantics` must carry the `onTap` it hides; Flutter's own guidelines skip a node
+  with no tap action, so `pressableButtonsGuideline` checks it on every screen and sheet.
 - The IPA is exposed to screen readers as spoken symbol names, not raw glyphs.
 - Full keyboard/switch traversal order defined on every screen.
 - Layout tested at 200% text scale and at 320dp width — no clipping, no overflow.

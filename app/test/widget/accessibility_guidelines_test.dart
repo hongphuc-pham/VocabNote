@@ -23,6 +23,7 @@ import '../unit/application/fake_links.dart';
 import '../unit/application/fake_reminder_service.dart';
 import '../unit/application/fake_speech_service.dart';
 import '../unit/data/db_fixtures.dart';
+import 'accessibility_support.dart';
 
 /// Flutter's accessibility guidelines over every screen, light and dark
 /// (`docs/UI-UX.md` §6, F-093, M7 A1).
@@ -153,6 +154,11 @@ void main() {
     await expectLater(
       tester,
       meetsGuideline(textContrastGuideline),
+      reason: where,
+    );
+    await expectLater(
+      tester,
+      meetsGuideline(pressableButtonsGuideline),
       reason: where,
     );
   }
