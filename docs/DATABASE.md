@@ -142,7 +142,11 @@ It is a **derived** table: it may be dropped and rebuilt in any migration withou
    `vocabnote.pre-v<n>.bak` before opening when the on-disk version is lower than
    `schemaVersion`. On success the backup is kept until the next migration — or until the
    user chooses *Delete all data*, which removes every copy of the library (§5); on failure
-   it is restored and the app shows a recovery screen with *Export my data*.
+   it is restored and the app shows a recovery screen with *Export my data*. *Since M6* that
+   button works: it opens the file with `package:sqlite3` directly, **read-only**, and writes
+   the same `.vnb` as any other backup through the same table reader — the format names SQL
+   columns, so no Drift code is needed to read a file Drift refused. A table the file's schema
+   never had is exported empty (`data/backup/recovery_export.dart`).
    Implemented in `data/db/database_opener.dart` (so it can be tested against a temporary
    directory rather than a device) and surfaced by
    `presentation/common/recovery_screen.dart`. The on-disk version is read with a raw
