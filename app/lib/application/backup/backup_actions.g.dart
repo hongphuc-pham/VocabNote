@@ -128,7 +128,7 @@ final class BackupActionsProvider
   }
 }
 
-String _$backupActionsHash() => r'cf2af4d5e88fd805a5766c253210060e8175c6c9';
+String _$backupActionsHash() => r'b1f95d48446f531e556f29ca14ee08c0f0871c88';
 
 /// The write side of the user's whole library: backup, import, delete.
 
