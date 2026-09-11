@@ -34,14 +34,7 @@ class ListDetailScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(list.value?.name ?? l10n.listsTitle),
-        actions: <Widget>[
-          TextButton(
-            // Routes with the list id. What happens on arrival is M5's; the
-            // route and its argument are this milestone's.
-            onPressed: () => context.push(Routes.practiceForList(listId)),
-            child: Text(l10n.practiseListAction),
-          ),
-        ],
+        actions: <Widget>[_PractiseAction(listId: listId)],
       ),
       body: words.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -96,5 +89,44 @@ class _Words extends ConsumerWidget {
         );
       },
     );
+  }
+}
+
+/// *Practise this list*: as text while it leaves the title room, and as an
+/// icon with the same tooltip once it would not.
+///
+/// At 200% text on 320dp the text button took the whole app bar and the list's
+/// name vanished (found on the emulator). So it never takes more than half.
+class _PractiseAction extends StatelessWidget {
+  const new({required this.listId});
+
+  final String listId;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = AppL10n.of(context).practiseListAction;
+    final painter = TextPainter(
+      text: TextSpan(
+        text: label,
+        style: Theme.of(context).textTheme.labelLarge,
+      ),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final fits = painter.width <= MediaQuery.sizeOf(context).width / 2;
+    painter.dispose();
+
+    // Routes with the list id. What happens on arrival is M5's; the route and
+    // its argument are this milestone's.
+    void open() => unawaited(context.push(Routes.practiceForList(listId)));
+
+    return fits
+        ? TextButton(onPressed: open, child: Text(label))
+        : IconButton(
+            icon: const Icon(Icons.school_outlined),
+            tooltip: label,
+            onPressed: open,
+          );
   }
 }

@@ -5,6 +5,7 @@ import 'package:vocabnote/core/theme/ipa_palette.dart';
 import 'package:vocabnote/domain/entities/word_list.dart';
 import 'package:vocabnote/domain/value_objects/ipa_color_token.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
+import 'package:vocabnote/presentation/design/sheet_body.dart';
 
 /// What the sheet returns: a name and a colour.
 @immutable
@@ -35,6 +36,7 @@ class ListEditorSheet extends StatefulWidget {
     return showModalBottomSheet<ListDraft>(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       builder: (context) => ListEditorSheet(existing: existing),
     );
   }
@@ -71,60 +73,49 @@ class _ListEditorSheetState extends State<ListEditorSheet> {
     final l10n = AppL10n.of(context);
     final metrics = context.metrics;
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: metrics.spaceLg,
-        right: metrics.spaceLg,
-        top: metrics.spaceLg,
-        // Above the keyboard, which is otherwise over the Save button.
-        bottom: MediaQuery.viewInsetsOf(context).bottom + metrics.spaceLg,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            widget.existing == null ? l10n.createListTitle : l10n.editListTitle,
-            style: theme.textTheme.titleLarge,
+    return VnSheetBody(
+      children: <Widget>[
+        Text(
+          widget.existing == null ? l10n.createListTitle : l10n.editListTitle,
+          style: theme.textTheme.titleLarge,
+        ),
+        const VnGap(VnSpace.lg),
+        TextField(
+          controller: _name,
+          autofocus: true,
+          textInputAction: TextInputAction.done,
+          decoration: InputDecoration(
+            labelText: l10n.listNameLabel,
+            hintText: l10n.listNameHint,
+            errorText: _showError ? l10n.listNameRequired : null,
           ),
-          const VnGap(VnSpace.lg),
-          TextField(
-            controller: _name,
-            autofocus: true,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-              labelText: l10n.listNameLabel,
-              hintText: l10n.listNameHint,
-              errorText: _showError ? l10n.listNameRequired : null,
-            ),
-            onChanged: (_) {
-              if (_showError) setState(() => _showError = false);
-            },
-            onSubmitted: (_) => _submit(),
+          onChanged: (_) {
+            if (_showError) setState(() => _showError = false);
+          },
+          onSubmitted: (_) => _submit(),
+        ),
+        const VnGap(VnSpace.lg),
+        Wrap(
+          spacing: metrics.spaceSm,
+          runSpacing: metrics.spaceSm,
+          children: <Widget>[
+            for (final token in IpaColorToken.values)
+              _ColorChoice(
+                token: token,
+                selected: token == _color,
+                onTap: () => setState(() => _color = token),
+              ),
+          ],
+        ),
+        const VnGap(VnSpace.lg),
+        Align(
+          alignment: Alignment.centerRight,
+          child: FilledButton(
+            onPressed: _submit,
+            child: Text(l10n.saveNoteAction),
           ),
-          const VnGap(VnSpace.lg),
-          Wrap(
-            spacing: metrics.spaceSm,
-            runSpacing: metrics.spaceSm,
-            children: <Widget>[
-              for (final token in IpaColorToken.values)
-                _ColorChoice(
-                  token: token,
-                  selected: token == _color,
-                  onTap: () => setState(() => _color = token),
-                ),
-            ],
-          ),
-          const VnGap(VnSpace.lg),
-          Align(
-            alignment: Alignment.centerRight,
-            child: FilledButton(
-              onPressed: _submit,
-              child: Text(l10n.saveNoteAction),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

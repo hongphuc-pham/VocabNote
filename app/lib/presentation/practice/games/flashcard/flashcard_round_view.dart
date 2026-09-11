@@ -6,6 +6,7 @@ import 'package:vocabnote/core/theme/app_theme.dart';
 import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
 import 'package:vocabnote/presentation/common/ipa_text.dart';
+import 'package:vocabnote/presentation/design/button_row.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/practice/games/flashcard/flashcard_game.dart';
 
@@ -94,6 +95,11 @@ class _FlashcardRoundViewState extends State<FlashcardRoundView> {
             child: _Card(
               round: widget.round,
               revealed: _revealed,
+              // "Tap to reveal" on the session's first round only (UI-UX
+              // §4.7). A repeat is built as a one-card session, so it believes
+              // it is round 1 too; the runner's position knows better.
+              showHint:
+                  widget.round.isFirstRound && widget.callbacks.position == 0,
               onReveal: _reveal,
               onSwipe: _answer,
               onSpeak: widget.callbacks.onSpeak,
@@ -116,6 +122,7 @@ class _Card extends StatelessWidget {
   const new({
     required this.round,
     required this.revealed,
+    required this.showHint,
     required this.onReveal,
     required this.onSwipe,
     this.onSpeak,
@@ -123,6 +130,7 @@ class _Card extends StatelessWidget {
 
   final FlashcardRound round;
   final bool revealed;
+  final bool showHint;
   final VoidCallback onReveal;
   final void Function(ReviewOutcome outcome) onSwipe;
   final VoidCallback? onSpeak;
@@ -170,6 +178,7 @@ class _Card extends StatelessWidget {
                     : _Front(
                         key: const ValueKey<bool>(false),
                         round: round,
+                        showHint: showHint,
                         onSpeak: onSpeak,
                       ),
               ),
@@ -183,9 +192,15 @@ class _Card extends StatelessWidget {
 
 /// The question side.
 class _Front extends StatelessWidget {
-  const new({required this.round, this.onSpeak, super.key});
+  const new({
+    required this.round,
+    required this.showHint,
+    this.onSpeak,
+    super.key,
+  });
 
   final FlashcardRound round;
+  final bool showHint;
   final VoidCallback? onSpeak;
 
   @override
@@ -221,7 +236,7 @@ class _Front extends StatelessWidget {
             onPressed: onSpeak,
           ),
         ],
-        if (round.isFirstRound) ...<Widget>[
+        if (showHint) ...<Widget>[
           const VnGap(VnSpace.xl),
           Text(
             l10n.flashcardTapToReveal,
@@ -300,37 +315,32 @@ class _Grades extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
-    final metrics = context.metrics;
 
-    return Row(
-      spacing: metrics.spaceSm,
+    // Stacks rather than wraps at large text: three equal buttons on a 320dp
+    // phone at 200% broke "Again" mid-word (UI-UX §6).
+    return VnButtonRow(
+      labels: <String>[l10n.gradeAgain, l10n.gradeGood, l10n.gradeEasy],
       children: <Widget>[
-        Expanded(
-          child: _GradeButton(
-            outcome: ReviewOutcome.again,
-            label: l10n.gradeAgain,
-            interval: intervalLabel?.call(ReviewOutcome.again),
-            style: _GradeStyle.outlined,
-            onPressed: enabled ? () => onGrade(ReviewOutcome.again) : null,
-          ),
+        _GradeButton(
+          outcome: ReviewOutcome.again,
+          label: l10n.gradeAgain,
+          interval: intervalLabel?.call(ReviewOutcome.again),
+          style: _GradeStyle.outlined,
+          onPressed: enabled ? () => onGrade(ReviewOutcome.again) : null,
         ),
-        Expanded(
-          child: _GradeButton(
-            outcome: ReviewOutcome.good,
-            label: l10n.gradeGood,
-            interval: intervalLabel?.call(ReviewOutcome.good),
-            style: _GradeStyle.filled,
-            onPressed: enabled ? () => onGrade(ReviewOutcome.good) : null,
-          ),
+        _GradeButton(
+          outcome: ReviewOutcome.good,
+          label: l10n.gradeGood,
+          interval: intervalLabel?.call(ReviewOutcome.good),
+          style: _GradeStyle.filled,
+          onPressed: enabled ? () => onGrade(ReviewOutcome.good) : null,
         ),
-        Expanded(
-          child: _GradeButton(
-            outcome: ReviewOutcome.easy,
-            label: l10n.gradeEasy,
-            interval: intervalLabel?.call(ReviewOutcome.easy),
-            style: _GradeStyle.tonal,
-            onPressed: enabled ? () => onGrade(ReviewOutcome.easy) : null,
-          ),
+        _GradeButton(
+          outcome: ReviewOutcome.easy,
+          label: l10n.gradeEasy,
+          interval: intervalLabel?.call(ReviewOutcome.easy),
+          style: _GradeStyle.tonal,
+          onPressed: enabled ? () => onGrade(ReviewOutcome.easy) : null,
         ),
       ],
     );

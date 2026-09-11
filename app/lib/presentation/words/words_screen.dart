@@ -134,8 +134,9 @@ class _WordList extends ConsumerWidget {
         metrics.spaceLg,
         metrics.spaceSm,
         metrics.spaceLg,
-        // Room for the FAB not to cover the last card.
-        metrics.spaceXxl * 2,
+        // Room for the FAB not to cover the last card. `spaceXxl * 2` was 8dp
+        // short of the FAB's footprint, so the last card never fully cleared.
+        metrics.fabClearance,
       ),
       itemCount: entries.length,
       itemBuilder: (context, index) {

@@ -227,7 +227,12 @@ class GameAnswer {
 @immutable
 class GameRoundCallbacks {
   /// Creates the callbacks.
-  const new({required this.onAnswer, this.onSpeak, this.intervalLabel});
+  const new({
+    required this.onAnswer,
+    this.onSpeak,
+    this.intervalLabel,
+    this.position = 0,
+  });
 
   /// Called **exactly once** per round, with the user's answer.
   final void Function(GameAnswer answer) onAnswer;
@@ -245,6 +250,13 @@ class GameRoundCallbacks {
   /// **Null in a quick test**, and that is the point: a quick test does not
   /// move the schedule, so any interval shown on its buttons would be a lie.
   final String? Function(ReviewOutcome outcome)? intervalLabel;
+
+  /// Where this round falls in the session, from zero.
+  ///
+  /// Not the same as `round.index`: a repeat is built as a one-card session,
+  /// so its own index is always 0. A view that cares where it is in the
+  /// session - the flashcard's round-1-only hint - reads this.
+  final int position;
 }
 
 /// A practice game (`docs/GAMES.md` §2).

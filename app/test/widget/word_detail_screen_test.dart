@@ -161,6 +161,44 @@ void main() {
     });
   });
 
+  group('favourite (F-044, M4 A8)', () {
+    // The words list's star was tested; this one never was. Found by M4's T7,
+    // which set out to verify A8 rather than assume it.
+    Future<void> settleAsync(WidgetTester tester) async {
+      // `setFavourite` is fired, not awaited - step outside the fake clock so
+      // the write can land before asserting on it.
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    Finder appBarIcon(IconData icon) =>
+        find.descendant(of: find.byType(AppBar), matching: find.byIcon(icon));
+
+    Future<bool> storedFavourite(String id) async => (await (db.select(
+      db.words,
+    )..where((w) => w.id.equals(id))).getSingle()).isFavourite;
+
+    testWidgets('the star in the app bar favourites and unfavourites', (
+      tester,
+    ) async {
+      final id = await seedWord();
+      await pumpDetail(tester, id);
+      expect(appBarIcon(Icons.star_border), findsOneWidget);
+
+      await tester.tap(appBarIcon(Icons.star_border));
+      await settleAsync(tester);
+      expect(await tester.runAsync(() => storedFavourite(id)), isTrue);
+      expect(appBarIcon(Icons.star), findsOneWidget);
+
+      await tester.tap(appBarIcon(Icons.star));
+      await settleAsync(tester);
+      expect(await tester.runAsync(() => storedFavourite(id)), isFalse);
+      expect(appBarIcon(Icons.star_border), findsOneWidget);
+    });
+  });
+
   group('layout', () {
     testWidgets('shows the headword, both accents and the definition', (
       tester,
@@ -374,6 +412,38 @@ void main() {
         reason: 'a notice shown again after dismissal is nagging',
       );
     });
+  });
+
+  testWidgets('the note sheet survives 200% text with the keyboard up', (
+    tester,
+  ) async {
+    // Found on the emulator with the list sheet: at 200% on 320dp, with the
+    // keyboard up, a sheet whose content could not scroll overflowed and
+    // pushed Save out of reach. This sheet had the same shape.
+    final id = await seedWord();
+    await container
+        .read(wordRepositoryProvider)
+        .addNote(wordId: id, body: 'mouth more open');
+    await pumpDetail(tester, id);
+
+    // Opened at the default size, where the note is on screen - the detail
+    // list builds lazily, so at 200% it would not exist yet - and only then
+    // taken to 320dp, 200% text and a 400dp keyboard. The sheet is the
+    // subject; how the user scrolled to the note is not.
+    await tester.tap(find.byTooltip('Edit note'));
+    await tester.pumpAndSettle();
+    tester.view.physicalSize = const Size(960, 2142);
+    tester.view.devicePixelRatio = 3;
+    tester.view.viewInsets = const FakeViewPadding(bottom: 1200);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.view.reset);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull, reason: 'no overflow');
+    final save = find.widgetWithText(FilledButton, 'Save');
+    await tester.ensureVisible(save);
+    expect(save.hitTestable(), findsOneWidget);
   });
 
   group('notes (F-003, A7)', () {

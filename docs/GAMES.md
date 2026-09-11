@@ -78,6 +78,7 @@ class GameRoundCallbacks {
   final void Function(GameAnswer) onAnswer;             // exactly once per round
   final VoidCallback? onSpeak;                           // say the current word
   final String? Function(ReviewOutcome)? intervalLabel; // "2d"; null in a quick test
+  final int position;                                    // place in the session
 }
 
 abstract interface class PracticeGame<R extends GameRound> {
@@ -120,7 +121,9 @@ class GameRegistry {
 - *`GameRoundCallbacks` gained `onSpeak` and `intervalLabel`. The play button (F-063) and the
   next-interval hint on each grade (`UI-UX.md` §4.7) both need things only the runner has.*
 - *A round view is handed a **new round object** for every round and must reset per object,
-  not per `index`: a repeat (§3) is built as a one-card session, so repeats are all index 0.*
+  not per `index`: a repeat (§3) is built as a one-card session, so repeats are all index 0.
+  For the same reason `GameRoundCallbacks.position` carries the round's place in the session
+  — the flashcard's round-1-only hint read `index` and showed on every repeat.*
 
 ## 3. The runner (written once, shared by all games)
 

@@ -44,10 +44,18 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final metrics = context.metrics;
+
+    // Room for the screen's floating action button, when it has one. At large
+    // text the content is tall enough to reach the bottom corner, and the
+    // action sat half under the FAB (found on the emulator at 200%).
+    final hasFab = Scaffold.maybeOf(context)?.hasFloatingActionButton ?? false;
+    final fabRoom = hasFab ? metrics.fabClearance : 0.0;
 
     return Center(
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(context.metrics.spaceXxl),
+        padding: EdgeInsets.all(metrics.spaceXxl)
+            .copyWith(bottom: metrics.spaceXxl + fabRoom),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: Column(

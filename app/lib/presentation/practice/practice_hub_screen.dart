@@ -14,6 +14,7 @@ import 'package:vocabnote/domain/entities/practice_session.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
 import 'package:vocabnote/presentation/common/settings_action.dart';
+import 'package:vocabnote/presentation/design/button_row.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/practice/game_registry_provider.dart';
 import 'package:vocabnote/presentation/practice/quick_test_sheet.dart';
@@ -109,6 +110,10 @@ class _GameCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = AppL10n.of(context);
     final metrics = context.metrics;
+    final hasDaily = descriptor.supportedModes.contains(PracticeMode.daily);
+    final hasQuickTest = descriptor.supportedModes.contains(
+      PracticeMode.quickTest,
+    );
 
     return Card(
       child: Padding(
@@ -145,27 +150,24 @@ class _GameCard extends ConsumerWidget {
                 ),
               )
             else
-              Row(
-                spacing: metrics.spaceSm,
+              // Stacks rather than wraps at large text (UI-UX §6).
+              VnButtonRow(
+                labels: <String>[
+                  if (hasDaily) l10n.practiceDailyReview(dueCount),
+                  if (hasQuickTest) l10n.practiceQuickTest,
+                ],
                 children: <Widget>[
-                  if (descriptor.supportedModes.contains(PracticeMode.daily))
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: dueCount == 0
-                            ? null
-                            : () => _startDaily(context, ref),
-                        child: Text(l10n.practiceDailyReview(dueCount)),
-                      ),
+                  if (hasDaily)
+                    FilledButton(
+                      onPressed: dueCount == 0
+                          ? null
+                          : () => _startDaily(context, ref),
+                      child: Text(l10n.practiceDailyReview(dueCount)),
                     ),
-                  if (descriptor.supportedModes.contains(
-                    PracticeMode.quickTest,
-                  ))
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () =>
-                            unawaited(_startQuickTest(context, ref)),
-                        child: Text(l10n.practiceQuickTest),
-                      ),
+                  if (hasQuickTest)
+                    OutlinedButton(
+                      onPressed: () => unawaited(_startQuickTest(context, ref)),
+                      child: Text(l10n.practiceQuickTest),
                     ),
                 ],
               ),

@@ -151,6 +151,34 @@ void main() {
       expect(find.text('Daily review (6 due)'), findsOneWidget);
     });
 
+    testWidgets('at 200% text on a 320dp phone the buttons stack, not wrap', (
+      tester,
+    ) async {
+      // Found on the emulator: side by side, "Daily review (0 due)" wrapped
+      // onto three lines and spilled out of its pill.
+      tester.view.physicalSize = const Size(960, 2142);
+      tester.view.devicePixelRatio = 3;
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.view.reset);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await openHub(tester);
+
+      final daily = tester.getRect(
+        find.ancestor(
+          of: find.textContaining('Daily review'),
+          matching: find.byType(FilledButton),
+        ),
+      );
+      final quick = tester.getRect(
+        find.ancestor(
+          of: find.text('Quick test'),
+          matching: find.byType(OutlinedButton),
+        ),
+      );
+      expect(quick.top, greaterThan(daily.bottom - 0.5), reason: 'stacked');
+      expect(quick.width, closeTo(daily.width, 0.5));
+    });
+
     testWidgets('the quick-test sheet names the cap out loud', (tester) async {
       // The user picking "All" from a 5000-word library deserves to know they
       // are getting 30, rather than being silently trimmed.

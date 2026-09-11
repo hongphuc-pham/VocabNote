@@ -7,6 +7,7 @@ import 'package:vocabnote/app.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
+import 'package:vocabnote/presentation/common/empty_state.dart';
 
 import '../unit/data/db_fixtures.dart';
 
@@ -73,6 +74,28 @@ void main() {
 
   tearDown(() => db.close());
 
+  testWidgets('at 200% text on 320dp a card holds its name and counts', (
+    tester,
+  ) async {
+    // Found on the emulator: two fixed-shape columns left a card 146dp wide,
+    // so "Travel" broke into "Tra / vel" beside the actions button and the
+    // word count spilled 67px out of the card.
+    await seedList(db, id: 'l1', name: 'Travel phrases');
+    await seedWord(db, id: 'w1', headword: 'passport');
+    await seedMembership(db, listId: 'l1', wordId: 'w1');
+    tester.view.physicalSize = const Size(960, 2142);
+    tester.view.devicePixelRatio = 3;
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.view.reset);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    await pumpLists(tester);
+
+    expect(tester.takeException(), isNull, reason: 'no overflow');
+    expect(find.text('Travel phrases'), findsOneWidget);
+    expect(find.textContaining('1 word'), findsOneWidget);
+  });
+
   group('empty state', () {
     testWidgets('says what a list is for, not just that there are none', (
       tester,
@@ -81,6 +104,36 @@ void main() {
 
       expect(find.text('No lists yet'), findsOneWidget);
       expect(find.text('New list'), findsWidgets);
+    });
+
+    testWidgets('at 200% text on 320dp its action is not under the FAB', (
+      tester,
+    ) async {
+      // Found on the emulator: the empty state's New list sat half under the
+      // floating New list. The FAB stays - the words screen keeps its FAB on
+      // an empty screen deliberately - so the empty state makes room for it.
+      tester.view.physicalSize = const Size(960, 2142);
+      tester.view.devicePixelRatio = 3;
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.view.reset);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpLists(tester);
+
+      // Scrolled to the end, as far as the action can travel.
+      await tester.drag(
+        find.descendant(
+          of: find.byType(EmptyState),
+          matching: find.byType(Scrollable),
+        ),
+        const Offset(0, -2000),
+      );
+      await tester.pumpAndSettle();
+
+      final action = tester.getRect(
+        find.widgetWithText(FilledButton, 'New list'),
+      );
+      final fab = tester.getRect(find.byType(FloatingActionButton));
+      expect(action.overlaps(fab), isFalse);
     });
   });
 
@@ -219,6 +272,30 @@ void main() {
 
       expect(find.text('cough'), findsOneWidget);
       expect(find.text('through'), findsNothing, reason: 'not in this list');
+    });
+
+    testWidgets('at 200% on 320dp the list name keeps the app bar', (
+      tester,
+    ) async {
+      // Found on the emulator: the text action took the whole bar and the
+      // list's name vanished. It becomes an icon, with the same tooltip.
+      tester.view.physicalSize = const Size(960, 2142);
+      tester.view.devicePixelRatio = 3;
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.view.reset);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpLists(tester);
+
+      await tester.tap(find.text('IELTS'));
+      await settleAsync(tester);
+
+      final title = find.descendant(
+        of: find.byType(AppBar),
+        matching: find.text('IELTS'),
+      );
+      // Five test-font glyphs at 28px: squeezed, it would be narrower.
+      expect(tester.getSize(title).width, greaterThanOrEqualTo(140));
+      expect(find.byTooltip('Practise this list'), findsOneWidget);
     });
 
     testWidgets('offers Practise this list', (tester) async {

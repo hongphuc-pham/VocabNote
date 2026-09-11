@@ -169,37 +169,43 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
                 child: LinearProgressIndicator(value: state.progress),
               ),
       ),
-      body: switch ((_starting, _empty, state?.current)) {
-        (true, _, _) => const Center(child: CircularProgressIndicator()),
-        (_, true, _) => EmptyState(
-          icon: Icons.done_all,
-          title: _config.mode == PracticeMode.daily
-              ? l10n.practiceNothingDueTitle
-              : l10n.practiceNoCardsTitle,
-          body: _config.mode == PracticeMode.daily
-              ? l10n.practiceNothingDueBody
-              : l10n.practiceNoCardsBody,
-        ),
-        (_, _, final GameRound round) => game.buildRoundView(
-          context,
-          round,
-          GameRoundCallbacks(
-            onAnswer: (answer) => unawaited(
-              ref
-                  .read(practiceSessionRunnerProvider.notifier)
-                  .answer(game, answer),
-            ),
-            // Without this the card has no play button at all, which
-            // `UI-UX.md` §4.7 requires and F-063 builds autoplay on. It was
-            // missing until the card was looked at on a device.
-            onSpeak: () => unawaited(_speak(round)),
-            intervalLabel: ref
-                .read(practiceSessionRunnerProvider.notifier)
-                .intervalLabelFor,
+      // The grades sit on the bottom edge; without this they grow into the
+      // gesture bar at large text. The app bar already keeps the top clear.
+      body: SafeArea(
+        top: false,
+        child: switch ((_starting, _empty, state?.current)) {
+          (true, _, _) => const Center(child: CircularProgressIndicator()),
+          (_, true, _) => EmptyState(
+            icon: Icons.done_all,
+            title: _config.mode == PracticeMode.daily
+                ? l10n.practiceNothingDueTitle
+                : l10n.practiceNoCardsTitle,
+            body: _config.mode == PracticeMode.daily
+                ? l10n.practiceNothingDueBody
+                : l10n.practiceNoCardsBody,
           ),
-        ),
-        _ => const Center(child: CircularProgressIndicator()),
-      },
+          (_, _, final GameRound round) => game.buildRoundView(
+            context,
+            round,
+            GameRoundCallbacks(
+              onAnswer: (answer) => unawaited(
+                ref
+                    .read(practiceSessionRunnerProvider.notifier)
+                    .answer(game, answer),
+              ),
+              // Without this the card has no play button at all, which
+              // `UI-UX.md` §4.7 requires and F-063 builds autoplay on. It was
+              // missing until the card was looked at on a device.
+              onSpeak: () => unawaited(_speak(round)),
+              intervalLabel: ref
+                  .read(practiceSessionRunnerProvider.notifier)
+                  .intervalLabelFor,
+              position: state?.index ?? 0,
+            ),
+          ),
+          _ => const Center(child: CircularProgressIndicator()),
+        },
+      ),
     );
   }
 }

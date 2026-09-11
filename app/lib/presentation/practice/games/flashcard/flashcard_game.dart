@@ -99,7 +99,11 @@ class FlashcardRound extends GameRound {
   /// Which face opens, from the user's config.
   final PromptSide promptSide;
 
-  /// Whether to show the "Tap to reveal" hint — round 1 only (`UI-UX` §4.7).
+  /// Whether this is the first round the game built — where the "Tap to
+  /// reveal" hint belongs (`UI-UX` §4.7).
+  ///
+  /// Not enough on its own: a repeat is built as a one-card session and so is
+  /// always "first". The view also checks `GameRoundCallbacks.position`.
   final bool isFirstRound;
 
   /// Whether revealing speaks the word without being asked (F-063).

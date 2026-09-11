@@ -36,6 +36,8 @@ class QuickTestSheet extends ConsumerStatefulWidget {
     return showModalBottomSheet<GameConfig>(
       context: context,
       isScrollControlled: true,
+      // A tall sheet otherwise grows under the status bar (UI-UX §6).
+      useSafeArea: true,
       builder: (context) => QuickTestSheet(gameId: gameId, listId: listId),
     );
   }

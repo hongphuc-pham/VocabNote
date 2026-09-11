@@ -196,6 +196,12 @@ class _Grid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final metrics = context.metrics;
+    // How much the user's text size enlarges a card's name, which is what the
+    // card has to fit.
+    final nameSize =
+        Theme.of(context).textTheme.titleMedium?.fontSize ?? metrics.spaceLg;
+    final nameScale =
+        MediaQuery.textScalerOf(context).scale(nameSize) / nameSize;
 
     // ReorderableGridView is not in Flutter, and RULES §18 prefers the
     // platform or a short helper over a package for one small job. The drag is
@@ -208,12 +214,17 @@ class _Grid extends ConsumerWidget {
         metrics.spaceLg,
         metrics.spaceLg,
         // Room for the FAB not to cover the last card.
-        metrics.spaceXxl * 2,
+        metrics.fabClearance,
       ),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         // Extent rather than a fixed column count: two columns on a phone,
         // more on a foldable, with no breakpoint to maintain.
-        maxCrossAxisExtent: 220,
+        //
+        // Scaled with the text. A fixed 220 left 146dp cards at 200% on
+        // 320dp: the name broke mid-word beside the actions button and the
+        // counts spilled out of the card (found on the emulator). Scaled,
+        // large text gets fewer, wider cards - and one column when it must.
+        maxCrossAxisExtent: 220 * nameScale,
         mainAxisSpacing: metrics.spaceMd,
         crossAxisSpacing: metrics.spaceMd,
         childAspectRatio: 1.1,

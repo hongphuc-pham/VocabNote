@@ -65,6 +65,8 @@ void main() {
     String? Function(ReviewOutcome)? intervalLabel,
     VoidCallback? onSpeak,
     bool reduceMotion = false,
+    int position = 0,
+    double textScale = 1,
   }) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -72,7 +74,10 @@ void main() {
         localizationsDelegates: AppL10n.localizationsDelegates,
         supportedLocales: AppL10n.supportedLocales,
         home: MediaQuery(
-          data: MediaQueryData(disableAnimations: reduceMotion),
+          data: MediaQueryData(
+            disableAnimations: reduceMotion,
+            textScaler: TextScaler.linear(textScale),
+          ),
           child: Scaffold(
             body: Builder(
               builder: (context) => const FlashcardGame().buildRoundView(
@@ -82,6 +87,7 @@ void main() {
                   onAnswer: onAnswer,
                   onSpeak: onSpeak,
                   intervalLabel: intervalLabel,
+                  position: position,
                 ),
               ),
             ),
@@ -283,6 +289,48 @@ void main() {
 
       expect(find.text('10m'), findsNothing);
       expect(find.text('2d'), findsNothing);
+    });
+  });
+
+  group('found on the emulator', () {
+    testWidgets('the reveal hint is for the first round, not a repeat', (
+      tester,
+    ) async {
+      // UI-UX §4.7: "Tap to reveal" on round 1 only. A repeat is built as a
+      // one-card session, so it believes it is round 1 as well; the runner's
+      // position is what knows better.
+      await pumpRound(
+        tester,
+        roundFor(card(), isFirstRound: true),
+        onAnswer: (_) {},
+      );
+      expect(find.text('Tap to reveal'), findsOneWidget);
+
+      await pumpRound(
+        tester,
+        roundFor(card(), isFirstRound: true),
+        onAnswer: (_) {},
+        position: 4,
+      );
+      expect(find.text('Tap to reveal'), findsNothing);
+    });
+
+    testWidgets('at 200% text on 320dp the grades stack, not break words', (
+      tester,
+    ) async {
+      // Three equal buttons at that size broke "Again" into "Agai / n".
+      tester.view.physicalSize = const Size(320, 700);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await pumpRound(tester, roundFor(card()), onAnswer: (_) {}, textScale: 2);
+
+      final again = tester.getRect(
+        find.byKey(const ValueKey<String>('grade-again')),
+      );
+      final good = tester.getRect(
+        find.byKey(const ValueKey<String>('grade-good')),
+      );
+      expect(good.top, greaterThan(again.bottom - 0.5), reason: 'stacked');
     });
   });
 
