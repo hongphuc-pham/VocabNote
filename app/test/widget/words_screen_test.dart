@@ -192,6 +192,34 @@ void main() {
       }
     });
 
+    testWidgets('each list gets its own chip, which filters to its words', (
+      tester,
+    ) async {
+      // M4's A6: "the filter chips match the spec, including a chip per list".
+      // The four fixed chips were tested; the one a user makes by creating a
+      // list was not.
+      await seedList(db, id: 'l1', name: 'Travel');
+      await seedMembership(db, listId: 'l1', wordId: 'w2');
+      await pumpApp(tester);
+
+      // The chip row scrolls sideways; a list's chip follows the fixed four.
+      await tester.scrollUntilVisible(
+        find.text('Travel'),
+        100,
+        scrollable: find.byWidgetPredicate(
+          (widget) =>
+              widget is Scrollable &&
+              widget.axisDirection == AxisDirection.right,
+        ),
+      );
+      await tester.tap(find.text('Travel'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('through'), findsOneWidget);
+      expect(find.text('cough'), findsNothing, reason: 'not in the list');
+      expect(find.text('plough'), findsNothing, reason: 'not in the list');
+    });
+
     testWidgets('Favourites narrows to starred words', (tester) async {
       await pumpApp(tester);
 
