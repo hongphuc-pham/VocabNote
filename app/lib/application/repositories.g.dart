@@ -477,6 +477,104 @@ final class ErrorLogProvider
 
 String _$errorLogHash() => r'0e0232b56aa68a4f0d9067dd68ef6eeda5907c0b';
 
+/// The three facts a feedback email carries (F-072).
+
+@ProviderFor(diagnosticsSource)
+final diagnosticsSourceProvider = DiagnosticsSourceProvider._();
+
+/// The three facts a feedback email carries (F-072).
+
+final class DiagnosticsSourceProvider
+    extends
+        $FunctionalProvider<
+          DiagnosticsSource,
+          DiagnosticsSource,
+          DiagnosticsSource
+        >
+    with $Provider<DiagnosticsSource> {
+  /// The three facts a feedback email carries (F-072).
+  DiagnosticsSourceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'diagnosticsSourceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$diagnosticsSourceHash();
+
+  @$internal
+  @override
+  $ProviderElement<DiagnosticsSource> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DiagnosticsSource create(Ref ref) {
+    return diagnosticsSource(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DiagnosticsSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DiagnosticsSource>(value),
+    );
+  }
+}
+
+String _$diagnosticsSourceHash() => r'6a4bb867f068d462630b79d95407b171a12d230a';
+
+/// Opening a link in another app - the browser, the mail app.
+
+@ProviderFor(linkOpener)
+final linkOpenerProvider = LinkOpenerProvider._();
+
+/// Opening a link in another app - the browser, the mail app.
+
+final class LinkOpenerProvider
+    extends $FunctionalProvider<LinkOpener, LinkOpener, LinkOpener>
+    with $Provider<LinkOpener> {
+  /// Opening a link in another app - the browser, the mail app.
+  LinkOpenerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'linkOpenerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$linkOpenerHash();
+
+  @$internal
+  @override
+  $ProviderElement<LinkOpener> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  LinkOpener create(Ref ref) {
+    return linkOpener(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LinkOpener value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LinkOpener>(value),
+    );
+  }
+}
+
+String _$linkOpenerHash() => r'5113201d104bb37825f8b3e63dc13313f75b14bc';
+
 /// Dictionary look-up: cache, then API, then the bundled offline asset.
 
 @ProviderFor(dictionaryRepository)

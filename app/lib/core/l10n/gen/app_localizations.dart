@@ -1605,6 +1605,336 @@ abstract class AppL10n {
   /// **'Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.'**
   String get onboardingSlide3Body;
 
+  /// Hint in the FAQ search field on Help & feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the answers'**
+  String get faqSearchHint;
+
+  /// How many FAQ answers are showing. Read out as it changes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 answer} other{{count} answers}}'**
+  String faqCount(int count);
+
+  /// When the FAQ search matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No answers mention “{query}”.'**
+  String faqNoAnswers(String query);
+
+  /// Clears the FAQ search.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get faqClear;
+
+  /// FAQ question 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are my words kept?'**
+  String get faqQ1;
+
+  /// FAQ answer 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Only on this phone, in VocabNote\'s own private storage. There is no account and no server. To keep a copy anywhere else, make a backup.'**
+  String get faqA1;
+
+  /// FAQ question 2.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I move my words to a new phone?'**
+  String get faqQ2;
+
+  /// FAQ answer 2.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Settings → Backup & restore → Export backup, and save the file somewhere your new phone can reach. Then install VocabNote there and choose Import backup.'**
+  String get faqA2;
+
+  /// FAQ question 3.
+  ///
+  /// In en, this message translates to:
+  /// **'Does VocabNote need the internet?'**
+  String get faqQ3;
+
+  /// FAQ answer 3.
+  ///
+  /// In en, this message translates to:
+  /// **'No. Everything works offline. Only Look up uses the internet, and all it sends is the word you are looking up.'**
+  String get faqA3;
+
+  /// FAQ question 4.
+  ///
+  /// In en, this message translates to:
+  /// **'Why does the voice sound like a computer?'**
+  String get faqQ4;
+
+  /// FAQ answer 4. The honest line about TTS (DATA-SOURCES 4).
+  ///
+  /// In en, this message translates to:
+  /// **'It is your phone\'s own text-to-speech: a good guide to stress and vowels, but not a native speaker. You can change the voice, speed and pitch in Settings → Pronunciation.'**
+  String get faqA4;
+
+  /// FAQ question 5.
+  ///
+  /// In en, this message translates to:
+  /// **'My phone has no British English voice.'**
+  String get faqQ5;
+
+  /// FAQ answer 5.
+  ///
+  /// In en, this message translates to:
+  /// **'Add one in your phone\'s settings, under Text-to-speech on Android or Spoken Content on iPhone. Until then, VocabNote uses the closest voice it can find.'**
+  String get faqA5;
+
+  /// FAQ question 6.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I type IPA symbols?'**
+  String get faqQ6;
+
+  /// FAQ answer 6.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap into an IPA field and a row of symbols appears above the keyboard. Tap a symbol to add it where the cursor is.'**
+  String get faqA6;
+
+  /// FAQ question 7.
+  ///
+  /// In en, this message translates to:
+  /// **'What is IPA?'**
+  String get faqQ7;
+
+  /// FAQ answer 7.
+  ///
+  /// In en, this message translates to:
+  /// **'The International Phonetic Alphabet: one symbol for each sound, so a pronunciation is written down exactly - /kɒf/ rather than \"coff\".'**
+  String get faqA7;
+
+  /// FAQ question 8.
+  ///
+  /// In en, this message translates to:
+  /// **'How do highlights work?'**
+  String get faqQ8;
+
+  /// FAQ answer 8.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a word, tap Edit IPA highlights, choose the symbols you struggle with and pick a colour. A short label, like \"lips rounder\", helps too.'**
+  String get faqA8;
+
+  /// FAQ question 9.
+  ///
+  /// In en, this message translates to:
+  /// **'How does practice decide what comes back?'**
+  String get faqQ9;
+
+  /// FAQ answer 9.
+  ///
+  /// In en, this message translates to:
+  /// **'Each word sits in a box. Know it and it moves up a box and waits longer; miss it and it comes back later the same day. You can change the gaps in Settings → Practice.'**
+  String get faqA9;
+
+  /// FAQ question 10.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the difference between Daily review and Quick test?'**
+  String get faqQ10;
+
+  /// FAQ answer 10.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily review shows the words that are due, and your answers decide when each comes back. A quick test is just for practice: it never changes that.'**
+  String get faqA10;
+
+  /// FAQ question 11.
+  ///
+  /// In en, this message translates to:
+  /// **'I deleted a word by mistake.'**
+  String get faqQ11;
+
+  /// FAQ answer 11.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Undo on the message that appears straight away. After that, importing a backup made before you deleted it will bring it back.'**
+  String get faqA11;
+
+  /// FAQ question 12.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do the definitions come from?'**
+  String get faqQ12;
+
+  /// FAQ answer 12.
+  ///
+  /// In en, this message translates to:
+  /// **'From Wiktionary, through FreeDictionaryAPI.com, shared under CC BY-SA 4.0. Offline pronunciations come from the CMU Pronouncing Dictionary. Settings → Data sources & licences has the details.'**
+  String get faqA12;
+
+  /// Heading above the ways to reach a person.
+  ///
+  /// In en, this message translates to:
+  /// **'Still stuck?'**
+  String get helpStillStuck;
+
+  /// Row that opens the feedback preview. Shown only when a feedback address is configured.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackSend;
+
+  /// Under Send feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens your email app. You\'ll see what\'s included first.'**
+  String get feedbackSendHint;
+
+  /// Row that opens the project's GitHub Issues in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a problem on GitHub'**
+  String get helpGitHub;
+
+  /// Under Report a problem on GitHub.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the project\'s issue page in your browser'**
+  String get helpGitHubHint;
+
+  /// Row that shows the on-device error log (F-079).
+  ///
+  /// In en, this message translates to:
+  /// **'View error log'**
+  String get helpErrorLog;
+
+  /// Under View error log.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept on this phone, never sent by itself'**
+  String get helpErrorLogHint;
+
+  /// Snackbar when a link could not be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open that link.'**
+  String get helpLinkFailed;
+
+  /// Title of the feedback preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackPreviewTitle;
+
+  /// Above the preview of the email body.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email app will open with this, addressed to {address}:'**
+  String feedbackPreviewIntro(String address);
+
+  /// Subject of the feedback email.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote feedback'**
+  String get feedbackSubject;
+
+  /// First line of the feedback email body, where the user types.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your message here.'**
+  String get feedbackBodyPrompt;
+
+  /// Separates the user's message from the details below it.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get feedbackBodyDivider;
+
+  /// Feedback email line.
+  ///
+  /// In en, this message translates to:
+  /// **'App version: {version}'**
+  String feedbackAppVersion(String version);
+
+  /// Feedback email line.
+  ///
+  /// In en, this message translates to:
+  /// **'OS: {os}'**
+  String feedbackOsVersion(String os);
+
+  /// Feedback email line: the phone's model, never its name.
+  ///
+  /// In en, this message translates to:
+  /// **'Device: {model}'**
+  String feedbackDeviceModel(String model);
+
+  /// In the feedback email when a detail could not be read.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown'**
+  String get feedbackUnknown;
+
+  /// Heading above the attached error log in the feedback email.
+  ///
+  /// In en, this message translates to:
+  /// **'Error log (newest entries):'**
+  String get feedbackLogHeading;
+
+  /// Checkbox in the feedback preview. Unticked by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the error log'**
+  String get feedbackIncludeLog;
+
+  /// The promise under the feedback preview (F-072).
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else is included.'**
+  String get feedbackNothingElse;
+
+  /// Opens the user's mail app with the previewed email.
+  ///
+  /// In en, this message translates to:
+  /// **'Open email'**
+  String get feedbackOpenEmail;
+
+  /// Snackbar when no mail app could be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'No email app opened. You can write to {address} from any email account.'**
+  String feedbackNoMailApp(String address);
+
+  /// Title of the error log sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Error log'**
+  String get errorLogTitle;
+
+  /// Top of the error log sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Problems VocabNote ran into, kept only on this phone. Nothing here is ever sent by itself.'**
+  String get errorLogIntro;
+
+  /// When the error log is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing has gone wrong. If something does, a short note appears here - it stays on this phone unless you attach it to feedback.'**
+  String get errorLogEmpty;
+
+  /// While the error log is being read.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading…'**
+  String get errorLogReading;
+
+  /// Empties the error log.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear log'**
+  String get errorLogClear;
+
   /// Row showing the app version.
   ///
   /// In en, this message translates to:

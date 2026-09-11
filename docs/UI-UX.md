@@ -290,6 +290,21 @@ Searchable FAQ (12 short answers), then:
 - **Report a problem on GitHub** → opens Issues.
 - **Rate the app** → store listing.
 
+*Built at M6:*
+- **The FAQ filters as the user types**, over questions and answers, with the number of
+  matches in a live region ("3 answers") so a screen reader hears the search work. When
+  nothing matches it says so with the term — "No answers mention “zebra”." — and offers
+  **Clear search**. Each answer is an `ExpansionTile`, which announces expanded/collapsed.
+- **Send feedback is shown only when the build has an address** (`--dart-define=
+  FEEDBACK_EMAIL`, set at M8 — an address in the app is public, and it is the owner's to
+  choose). The preview shows the email's exact body: app version, OS version, device
+  **model** (never the device's name, which is the owner's own label) and, only if the user
+  ticks it, the newest entries of the error log — trimmed so the whole `mailto:` link stays
+  under ~1,900 characters, and shown as trimmed. Then "Nothing else is included." Nothing
+  opens until **Open email**; if no mail app opens, a snackbar gives the address to write to.
+- **View error log** (F-079) opens a sheet with the log, readable and clearable.
+- **Rate the app** is not built: there is no store listing until M8.
+
 ## 5. Copy guidelines
 
 - Second person, present tense, contractions. "You haven't added any words yet."

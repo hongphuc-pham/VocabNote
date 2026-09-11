@@ -187,7 +187,15 @@ exempt and the plugin must be replaced.
   `freedictionaryapi.com`; (b) URLs you explicitly tap open in your browser.
 - Feedback is composed in the user's own mail app; the pre-filled diagnostics (app version, OS
   version, device model) are visible to the user before they press send, and nothing else is
-  attached.
+  attached — unless the user ticks *Include the error log*, in which case the log's newest
+  entries appear in the same preview before anything opens.
+
+*Recorded at M6, for the M8 store declarations:* Google Play's Data safety form treats a
+transfer the user initiates, and would reasonably expect, as exempt from "data sharing"
+(https://support.google.com/googleplay/android-developer/answer/10787469). The feedback email
+is exactly that — composed and sent by the user from their own mail app after a preview — but
+the help page does not name this case in so many words. This is the reading we rely on, not a
+certainty; re-check it when the declarations are written.
 - Everything else — words, IPA, highlights, notes, practice history — stays in the app's
   private database on the device and leaves only when the user exports a backup.
 

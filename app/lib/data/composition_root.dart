@@ -9,9 +9,11 @@ import 'package:vocabnote/data/backup/platform_backup_files.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/tables/app_meta.dart';
 import 'package:vocabnote/data/diagnostics/file_error_log.dart';
+import 'package:vocabnote/data/diagnostics/platform_diagnostics.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
 import 'package:vocabnote/data/dictionary/offline_ipa_source.dart';
+import 'package:vocabnote/data/links/url_launcher_link_opener.dart';
 import 'package:vocabnote/data/notifications/local_notifications_reminder_service.dart';
 import 'package:vocabnote/data/repositories/dictionary_repository_impl.dart';
 import 'package:vocabnote/data/repositories/list_repository_impl.dart';
@@ -21,7 +23,9 @@ import 'package:vocabnote/data/repositories/user_data_repository_impl.dart';
 import 'package:vocabnote/data/repositories/word_repository_impl.dart';
 import 'package:vocabnote/data/speech/flutter_tts_service.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
+import 'package:vocabnote/domain/repositories/diagnostics_source.dart';
 import 'package:vocabnote/domain/repositories/error_log.dart';
+import 'package:vocabnote/domain/repositories/link_opener.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
 
@@ -55,6 +59,8 @@ List<Override> repositoryOverrides(
   Future<Directory> Function()? safetyDirectory,
   Future<Directory> Function()? libraryDirectory,
   ErrorLog? errorLog,
+  LinkOpener? linkOpener,
+  DiagnosticsSource? diagnostics,
 }) {
   final offline = OfflineIpaSource();
   // One cache, shared: *Delete all data* must clear the very instance the
@@ -101,6 +107,13 @@ List<Override> repositoryOverrides(
     // bootstrap opens the real log before the database; a test that does not
     // ask for one keeps nothing.
     errorLogProvider.overrideWithValue(errorLog ?? const DiscardingErrorLog()),
+    // Inert until a tap in Help: nothing is read or opened before then.
+    linkOpenerProvider.overrideWithValue(
+      linkOpener ?? const UrlLauncherLinkOpener(),
+    ),
+    diagnosticsSourceProvider.overrideWithValue(
+      diagnostics ?? const PlatformDiagnostics(),
+    ),
     // Inert like the two above: the share sheet opens only on Export.
     backupFilesProvider.overrideWithValue(
       backupFiles ?? const PlatformBackupFiles(),

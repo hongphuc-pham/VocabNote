@@ -2,6 +2,7 @@
 library;
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vocabnote/core/utils/external_links.dart';
 
 part 'app_info.g.dart';
 
@@ -24,3 +25,12 @@ String appVersion(Ref ref) => throw UnimplementedError(
 /// is not about onboarding starts where every other launch does.
 @Riverpod(keepAlive: true)
 bool showOnboarding(Ref ref) => false;
+
+/// Where *Send feedback* writes to, or null when this build has no address.
+///
+/// Set with `--dart-define=FEEDBACK_EMAIL=…` at release (M8). Until then Help
+/// offers GitHub Issues only: an address baked into the app is public, and
+/// it is the owner's to choose (`plan.md`, decided 11 Sep).
+@Riverpod(keepAlive: true)
+String? feedbackAddress(Ref ref) =>
+    FeedbackEmail.address.isEmpty ? null : FeedbackEmail.address;

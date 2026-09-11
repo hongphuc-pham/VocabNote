@@ -979,6 +979,208 @@ class AppL10nEn extends AppL10n {
       'Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.';
 
   @override
+  String get faqSearchHint => 'Search the answers';
+
+  @override
+  String faqCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count answers',
+      one: '1 answer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String faqNoAnswers(String query) {
+    return 'No answers mention “$query”.';
+  }
+
+  @override
+  String get faqClear => 'Clear search';
+
+  @override
+  String get faqQ1 => 'Where are my words kept?';
+
+  @override
+  String get faqA1 =>
+      'Only on this phone, in VocabNote\'s own private storage. There is no account and no server. To keep a copy anywhere else, make a backup.';
+
+  @override
+  String get faqQ2 => 'How do I move my words to a new phone?';
+
+  @override
+  String get faqA2 =>
+      'Go to Settings → Backup & restore → Export backup, and save the file somewhere your new phone can reach. Then install VocabNote there and choose Import backup.';
+
+  @override
+  String get faqQ3 => 'Does VocabNote need the internet?';
+
+  @override
+  String get faqA3 =>
+      'No. Everything works offline. Only Look up uses the internet, and all it sends is the word you are looking up.';
+
+  @override
+  String get faqQ4 => 'Why does the voice sound like a computer?';
+
+  @override
+  String get faqA4 =>
+      'It is your phone\'s own text-to-speech: a good guide to stress and vowels, but not a native speaker. You can change the voice, speed and pitch in Settings → Pronunciation.';
+
+  @override
+  String get faqQ5 => 'My phone has no British English voice.';
+
+  @override
+  String get faqA5 =>
+      'Add one in your phone\'s settings, under Text-to-speech on Android or Spoken Content on iPhone. Until then, VocabNote uses the closest voice it can find.';
+
+  @override
+  String get faqQ6 => 'How do I type IPA symbols?';
+
+  @override
+  String get faqA6 =>
+      'Tap into an IPA field and a row of symbols appears above the keyboard. Tap a symbol to add it where the cursor is.';
+
+  @override
+  String get faqQ7 => 'What is IPA?';
+
+  @override
+  String get faqA7 =>
+      'The International Phonetic Alphabet: one symbol for each sound, so a pronunciation is written down exactly - /kɒf/ rather than \"coff\".';
+
+  @override
+  String get faqQ8 => 'How do highlights work?';
+
+  @override
+  String get faqA8 =>
+      'Open a word, tap Edit IPA highlights, choose the symbols you struggle with and pick a colour. A short label, like \"lips rounder\", helps too.';
+
+  @override
+  String get faqQ9 => 'How does practice decide what comes back?';
+
+  @override
+  String get faqA9 =>
+      'Each word sits in a box. Know it and it moves up a box and waits longer; miss it and it comes back later the same day. You can change the gaps in Settings → Practice.';
+
+  @override
+  String get faqQ10 =>
+      'What\'s the difference between Daily review and Quick test?';
+
+  @override
+  String get faqA10 =>
+      'Daily review shows the words that are due, and your answers decide when each comes back. A quick test is just for practice: it never changes that.';
+
+  @override
+  String get faqQ11 => 'I deleted a word by mistake.';
+
+  @override
+  String get faqA11 =>
+      'Tap Undo on the message that appears straight away. After that, importing a backup made before you deleted it will bring it back.';
+
+  @override
+  String get faqQ12 => 'Where do the definitions come from?';
+
+  @override
+  String get faqA12 =>
+      'From Wiktionary, through FreeDictionaryAPI.com, shared under CC BY-SA 4.0. Offline pronunciations come from the CMU Pronouncing Dictionary. Settings → Data sources & licences has the details.';
+
+  @override
+  String get helpStillStuck => 'Still stuck?';
+
+  @override
+  String get feedbackSend => 'Send feedback';
+
+  @override
+  String get feedbackSendHint =>
+      'Opens your email app. You\'ll see what\'s included first.';
+
+  @override
+  String get helpGitHub => 'Report a problem on GitHub';
+
+  @override
+  String get helpGitHubHint =>
+      'Opens the project\'s issue page in your browser';
+
+  @override
+  String get helpErrorLog => 'View error log';
+
+  @override
+  String get helpErrorLogHint => 'Kept on this phone, never sent by itself';
+
+  @override
+  String get helpLinkFailed => 'Couldn\'t open that link.';
+
+  @override
+  String get feedbackPreviewTitle => 'Send feedback';
+
+  @override
+  String feedbackPreviewIntro(String address) {
+    return 'Your email app will open with this, addressed to $address:';
+  }
+
+  @override
+  String get feedbackSubject => 'VocabNote feedback';
+
+  @override
+  String get feedbackBodyPrompt => 'Write your message here.';
+
+  @override
+  String get feedbackBodyDivider => '—';
+
+  @override
+  String feedbackAppVersion(String version) {
+    return 'App version: $version';
+  }
+
+  @override
+  String feedbackOsVersion(String os) {
+    return 'OS: $os';
+  }
+
+  @override
+  String feedbackDeviceModel(String model) {
+    return 'Device: $model';
+  }
+
+  @override
+  String get feedbackUnknown => 'unknown';
+
+  @override
+  String get feedbackLogHeading => 'Error log (newest entries):';
+
+  @override
+  String get feedbackIncludeLog => 'Include the error log';
+
+  @override
+  String get feedbackNothingElse => 'Nothing else is included.';
+
+  @override
+  String get feedbackOpenEmail => 'Open email';
+
+  @override
+  String feedbackNoMailApp(String address) {
+    return 'No email app opened. You can write to $address from any email account.';
+  }
+
+  @override
+  String get errorLogTitle => 'Error log';
+
+  @override
+  String get errorLogIntro =>
+      'Problems VocabNote ran into, kept only on this phone. Nothing here is ever sent by itself.';
+
+  @override
+  String get errorLogEmpty =>
+      'Nothing has gone wrong. If something does, a short note appears here - it stays on this phone unless you attach it to feedback.';
+
+  @override
+  String get errorLogReading => 'Reading…';
+
+  @override
+  String get errorLogClear => 'Clear log';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override

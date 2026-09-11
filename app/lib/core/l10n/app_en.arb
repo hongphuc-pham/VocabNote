@@ -1184,6 +1184,213 @@
   "@onboardingSlide3Body": {
     "description": "Onboarding slide 3 sentence, with the privacy promise in one line."
   },
+  "faqSearchHint": "Search the answers",
+  "@faqSearchHint": {
+    "description": "Hint in the FAQ search field on Help & feedback."
+  },
+  "faqCount": "{count, plural, =1{1 answer} other{{count} answers}}",
+  "@faqCount": {
+    "description": "How many FAQ answers are showing. Read out as it changes.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "faqNoAnswers": "No answers mention “{query}”.",
+  "@faqNoAnswers": {
+    "description": "When the FAQ search matches nothing.",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "faqClear": "Clear search",
+  "@faqClear": {
+    "description": "Clears the FAQ search."
+  },
+  "faqQ1": "Where are my words kept?",
+  "@faqQ1": {"description": "FAQ question 1."},
+  "faqA1": "Only on this phone, in VocabNote's own private storage. There is no account and no server. To keep a copy anywhere else, make a backup.",
+  "@faqA1": {"description": "FAQ answer 1."},
+  "faqQ2": "How do I move my words to a new phone?",
+  "@faqQ2": {"description": "FAQ question 2."},
+  "faqA2": "Go to Settings → Backup & restore → Export backup, and save the file somewhere your new phone can reach. Then install VocabNote there and choose Import backup.",
+  "@faqA2": {"description": "FAQ answer 2."},
+  "faqQ3": "Does VocabNote need the internet?",
+  "@faqQ3": {"description": "FAQ question 3."},
+  "faqA3": "No. Everything works offline. Only Look up uses the internet, and all it sends is the word you are looking up.",
+  "@faqA3": {"description": "FAQ answer 3."},
+  "faqQ4": "Why does the voice sound like a computer?",
+  "@faqQ4": {"description": "FAQ question 4."},
+  "faqA4": "It is your phone's own text-to-speech: a good guide to stress and vowels, but not a native speaker. You can change the voice, speed and pitch in Settings → Pronunciation.",
+  "@faqA4": {"description": "FAQ answer 4. The honest line about TTS (DATA-SOURCES 4)."},
+  "faqQ5": "My phone has no British English voice.",
+  "@faqQ5": {"description": "FAQ question 5."},
+  "faqA5": "Add one in your phone's settings, under Text-to-speech on Android or Spoken Content on iPhone. Until then, VocabNote uses the closest voice it can find.",
+  "@faqA5": {"description": "FAQ answer 5."},
+  "faqQ6": "How do I type IPA symbols?",
+  "@faqQ6": {"description": "FAQ question 6."},
+  "faqA6": "Tap into an IPA field and a row of symbols appears above the keyboard. Tap a symbol to add it where the cursor is.",
+  "@faqA6": {"description": "FAQ answer 6."},
+  "faqQ7": "What is IPA?",
+  "@faqQ7": {"description": "FAQ question 7."},
+  "faqA7": "The International Phonetic Alphabet: one symbol for each sound, so a pronunciation is written down exactly - /kɒf/ rather than \"coff\".",
+  "@faqA7": {"description": "FAQ answer 7."},
+  "faqQ8": "How do highlights work?",
+  "@faqQ8": {"description": "FAQ question 8."},
+  "faqA8": "Open a word, tap Edit IPA highlights, choose the symbols you struggle with and pick a colour. A short label, like \"lips rounder\", helps too.",
+  "@faqA8": {"description": "FAQ answer 8."},
+  "faqQ9": "How does practice decide what comes back?",
+  "@faqQ9": {"description": "FAQ question 9."},
+  "faqA9": "Each word sits in a box. Know it and it moves up a box and waits longer; miss it and it comes back later the same day. You can change the gaps in Settings → Practice.",
+  "@faqA9": {"description": "FAQ answer 9."},
+  "faqQ10": "What's the difference between Daily review and Quick test?",
+  "@faqQ10": {"description": "FAQ question 10."},
+  "faqA10": "Daily review shows the words that are due, and your answers decide when each comes back. A quick test is just for practice: it never changes that.",
+  "@faqA10": {"description": "FAQ answer 10."},
+  "faqQ11": "I deleted a word by mistake.",
+  "@faqQ11": {"description": "FAQ question 11."},
+  "faqA11": "Tap Undo on the message that appears straight away. After that, importing a backup made before you deleted it will bring it back.",
+  "@faqA11": {"description": "FAQ answer 11."},
+  "faqQ12": "Where do the definitions come from?",
+  "@faqQ12": {"description": "FAQ question 12."},
+  "faqA12": "From Wiktionary, through FreeDictionaryAPI.com, shared under CC BY-SA 4.0. Offline pronunciations come from the CMU Pronouncing Dictionary. Settings → Data sources & licences has the details.",
+  "@faqA12": {"description": "FAQ answer 12."},
+  "helpStillStuck": "Still stuck?",
+  "@helpStillStuck": {
+    "description": "Heading above the ways to reach a person."
+  },
+  "feedbackSend": "Send feedback",
+  "@feedbackSend": {
+    "description": "Row that opens the feedback preview. Shown only when a feedback address is configured."
+  },
+  "feedbackSendHint": "Opens your email app. You'll see what's included first.",
+  "@feedbackSendHint": {
+    "description": "Under Send feedback."
+  },
+  "helpGitHub": "Report a problem on GitHub",
+  "@helpGitHub": {
+    "description": "Row that opens the project's GitHub Issues in the browser."
+  },
+  "helpGitHubHint": "Opens the project's issue page in your browser",
+  "@helpGitHubHint": {
+    "description": "Under Report a problem on GitHub."
+  },
+  "helpErrorLog": "View error log",
+  "@helpErrorLog": {
+    "description": "Row that shows the on-device error log (F-079)."
+  },
+  "helpErrorLogHint": "Kept on this phone, never sent by itself",
+  "@helpErrorLogHint": {
+    "description": "Under View error log."
+  },
+  "helpLinkFailed": "Couldn't open that link.",
+  "@helpLinkFailed": {
+    "description": "Snackbar when a link could not be opened."
+  },
+  "feedbackPreviewTitle": "Send feedback",
+  "@feedbackPreviewTitle": {
+    "description": "Title of the feedback preview."
+  },
+  "feedbackPreviewIntro": "Your email app will open with this, addressed to {address}:",
+  "@feedbackPreviewIntro": {
+    "description": "Above the preview of the email body.",
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackSubject": "VocabNote feedback",
+  "@feedbackSubject": {
+    "description": "Subject of the feedback email."
+  },
+  "feedbackBodyPrompt": "Write your message here.",
+  "@feedbackBodyPrompt": {
+    "description": "First line of the feedback email body, where the user types."
+  },
+  "feedbackBodyDivider": "—",
+  "@feedbackBodyDivider": {
+    "description": "Separates the user's message from the details below it."
+  },
+  "feedbackAppVersion": "App version: {version}",
+  "@feedbackAppVersion": {
+    "description": "Feedback email line.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackOsVersion": "OS: {os}",
+  "@feedbackOsVersion": {
+    "description": "Feedback email line.",
+    "placeholders": {
+      "os": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackDeviceModel": "Device: {model}",
+  "@feedbackDeviceModel": {
+    "description": "Feedback email line: the phone's model, never its name.",
+    "placeholders": {
+      "model": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackUnknown": "unknown",
+  "@feedbackUnknown": {
+    "description": "In the feedback email when a detail could not be read."
+  },
+  "feedbackLogHeading": "Error log (newest entries):",
+  "@feedbackLogHeading": {
+    "description": "Heading above the attached error log in the feedback email."
+  },
+  "feedbackIncludeLog": "Include the error log",
+  "@feedbackIncludeLog": {
+    "description": "Checkbox in the feedback preview. Unticked by default."
+  },
+  "feedbackNothingElse": "Nothing else is included.",
+  "@feedbackNothingElse": {
+    "description": "The promise under the feedback preview (F-072)."
+  },
+  "feedbackOpenEmail": "Open email",
+  "@feedbackOpenEmail": {
+    "description": "Opens the user's mail app with the previewed email."
+  },
+  "feedbackNoMailApp": "No email app opened. You can write to {address} from any email account.",
+  "@feedbackNoMailApp": {
+    "description": "Snackbar when no mail app could be opened.",
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLogTitle": "Error log",
+  "@errorLogTitle": {
+    "description": "Title of the error log sheet."
+  },
+  "errorLogIntro": "Problems VocabNote ran into, kept only on this phone. Nothing here is ever sent by itself.",
+  "@errorLogIntro": {
+    "description": "Top of the error log sheet."
+  },
+  "errorLogEmpty": "Nothing has gone wrong. If something does, a short note appears here - it stays on this phone unless you attach it to feedback.",
+  "@errorLogEmpty": {
+    "description": "When the error log is empty."
+  },
+  "errorLogReading": "Reading…",
+  "@errorLogReading": {
+    "description": "While the error log is being read."
+  },
+  "errorLogClear": "Clear log",
+  "@errorLogClear": {
+    "description": "Empties the error log."
+  },
   "settingsVersion": "Version",
   "@settingsVersion": {
     "description": "Row showing the app version."

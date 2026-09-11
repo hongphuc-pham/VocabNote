@@ -128,3 +128,61 @@ final class ShowOnboardingProvider extends $FunctionalProvider<bool, bool, bool>
 }
 
 String _$showOnboardingHash() => r'74055113aa99f92afdf6ad091a0348e69a7b4edb';
+
+/// Where *Send feedback* writes to, or null when this build has no address.
+///
+/// Set with `--dart-define=FEEDBACK_EMAIL=…` at release (M8). Until then Help
+/// offers GitHub Issues only: an address baked into the app is public, and
+/// it is the owner's to choose (`plan.md`, decided 11 Sep).
+
+@ProviderFor(feedbackAddress)
+final feedbackAddressProvider = FeedbackAddressProvider._();
+
+/// Where *Send feedback* writes to, or null when this build has no address.
+///
+/// Set with `--dart-define=FEEDBACK_EMAIL=…` at release (M8). Until then Help
+/// offers GitHub Issues only: an address baked into the app is public, and
+/// it is the owner's to choose (`plan.md`, decided 11 Sep).
+
+final class FeedbackAddressProvider
+    extends $FunctionalProvider<String?, String?, String?>
+    with $Provider<String?> {
+  /// Where *Send feedback* writes to, or null when this build has no address.
+  ///
+  /// Set with `--dart-define=FEEDBACK_EMAIL=…` at release (M8). Until then Help
+  /// offers GitHub Issues only: an address baked into the app is public, and
+  /// it is the owner's to choose (`plan.md`, decided 11 Sep).
+  FeedbackAddressProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'feedbackAddressProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$feedbackAddressHash();
+
+  @$internal
+  @override
+  $ProviderElement<String?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  String? create(Ref ref) {
+    return feedbackAddress(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$feedbackAddressHash() => r'41dd36b0a2f884195f8fa357cf1938e6607f6558';

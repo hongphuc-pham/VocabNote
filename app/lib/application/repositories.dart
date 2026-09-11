@@ -17,8 +17,10 @@ library;
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
+import 'package:vocabnote/domain/repositories/diagnostics_source.dart';
 import 'package:vocabnote/domain/repositories/dictionary_repository.dart';
 import 'package:vocabnote/domain/repositories/error_log.dart';
+import 'package:vocabnote/domain/repositories/link_opener.dart';
 import 'package:vocabnote/domain/repositories/list_repository.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
@@ -93,6 +95,19 @@ BackupFiles backupFiles(Ref ref) => throw UnimplementedError(
 @Riverpod(keepAlive: true)
 ErrorLog errorLog(Ref ref) => throw UnimplementedError(
   'errorLogProvider must be overridden in bootstrap() or in a test.',
+);
+
+/// The three facts a feedback email carries (F-072).
+@Riverpod(keepAlive: true)
+DiagnosticsSource diagnosticsSource(Ref ref) => throw UnimplementedError(
+  'diagnosticsSourceProvider must be overridden in bootstrap() or in a '
+  'test.',
+);
+
+/// Opening a link in another app - the browser, the mail app.
+@Riverpod(keepAlive: true)
+LinkOpener linkOpener(Ref ref) => throw UnimplementedError(
+  'linkOpenerProvider must be overridden in bootstrap() or in a test.',
 );
 
 /// Dictionary look-up: cache, then API, then the bundled offline asset.
