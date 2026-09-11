@@ -29,6 +29,9 @@ class FakeBackupFiles implements BackupFiles {
   /// How many times the picker was opened.
   int picks = 0;
 
+  /// How many times the share sheet's and picker's copies were cleared.
+  int forgets = 0;
+
   @override
   AsyncResult<ShareOutcome> share(
     ExportedBackup backup, {
@@ -50,4 +53,7 @@ class FakeBackupFiles implements BackupFiles {
     if (failure != null) return Err<Uint8List?, AppFailure>(failure);
     return Ok<Uint8List?, AppFailure>(picked);
   }
+
+  @override
+  Future<void> forgetCopies() async => forgets++;
 }

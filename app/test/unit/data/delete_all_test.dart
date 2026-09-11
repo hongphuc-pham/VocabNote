@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:drift/drift.dart' show driftRuntimeOptions;
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:vocabnote/data/db/app_database.dart';
@@ -70,6 +73,38 @@ void main() {
         isTrue,
         reason: 'the open database is emptied, never deleted',
       );
+    });
+
+    test('leaves no deleted word readable in the database file', () async {
+      // Found on a device: deleted rows stay in the file - the FTS index
+      // keeps a word's tokens until its segments merge, and a page keeps a
+      // deleted row's bytes. A file on disk, because that is where it shows.
+      // Opened beside setUp's database, on purpose.
+      driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+      addTearDown(
+        () => driftRuntimeOptions.dontWarnAboutMultipleDatabases = false,
+      );
+      final file = File(p.join(library.path, 'vocabnote.sqlite'));
+      final onDisk = AppDatabase(NativeDatabase(file));
+      try {
+        await seedWord(onDisk, id: 'w1', headword: 'zyzzyva');
+        await seedNote(onDisk, id: 'n1', wordId: 'w1', body: 'quokkas');
+
+        final result = await UserDataRepositoryImpl(
+          onDisk,
+          appVersion: '1.0.0',
+          exportDirectory: () async => exports,
+          libraryDirectory: () async => library,
+        ).deleteAll();
+
+        expect(result.isOk, isTrue, reason: '$result');
+      } finally {
+        await onDisk.close();
+      }
+      // Latin-1 maps each byte to one character, so nothing is lost.
+      final bytes = latin1.decode(file.readAsBytesSync());
+      expect(bytes.contains('zyzzyva'), isFalse, reason: 'the headword');
+      expect(bytes.contains('quokkas'), isFalse, reason: 'the note');
     });
 
     test('works on a phone that never made a copy of anything', () async {

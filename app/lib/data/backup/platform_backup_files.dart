@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' show Rect;
 
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vocabnote/core/failure.dart';
 import 'package:vocabnote/core/result.dart';
@@ -68,12 +71,18 @@ class PlatformBackupFiles implements BackupFiles {
       // read.
       final file = await FilePicker.pickFile();
       if (file == null) return const Ok<Uint8List?, AppFailure>(null);
-      if (await file.length() > BackupCodec.defaultMaxArchiveBytes) {
-        return const Err<Uint8List?, AppFailure>(
-          InvalidBackupFailure(problem: BackupProblem.tooLarge),
-        );
+      try {
+        if (await file.length() > BackupCodec.defaultMaxArchiveBytes) {
+          return const Err<Uint8List?, AppFailure>(
+            InvalidBackupFailure(problem: BackupProblem.tooLarge),
+          );
+        }
+        return Ok<Uint8List?, AppFailure>(await file.readAsBytes());
+      } finally {
+        // Read or refused, the copy has served its purpose - and it is a
+        // copy of the user's words.
+        await _quietly(FilePicker.clearTemporaryFiles);
       }
-      return Ok<Uint8List?, AppFailure>(await file.readAsBytes());
     } on Object catch (error, stackTrace) {
       return Err<Uint8List?, AppFailure>(
         FileFailure(
@@ -82,6 +91,27 @@ class PlatformBackupFiles implements BackupFiles {
           stackTrace: stackTrace,
         ),
       );
+    }
+  }
+
+  @override
+  Future<void> forgetCopies() async {
+    // Each on its own: one that fails must not keep the other.
+    await _quietly(FilePicker.clearTemporaryFiles);
+    await _quietly(() async {
+      // share_plus empties this folder only at the next share.
+      final shared = Directory(
+        p.join((await getTemporaryDirectory()).path, 'share_plus'),
+      );
+      if (shared.existsSync()) await shared.delete(recursive: true);
+    });
+  }
+
+  static Future<void> _quietly(Future<void> Function() step) async {
+    try {
+      await step();
+    } on Object {
+      // Nothing to clear, or a platform that keeps no such copy.
     }
   }
 }

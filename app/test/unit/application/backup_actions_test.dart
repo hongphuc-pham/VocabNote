@@ -219,6 +219,17 @@ void main() {
       expect((await errorLog.read()).valueOrNull, isEmpty);
     });
 
+    test(
+      'deleting everything clears the share sheet and picker copies',
+      () async {
+        // Found on a device: both plugins keep a copy of the backup they
+        // handled in the app's cache, and it holds the user's words.
+        await actions().deleteEverything();
+
+        expect(files.forgets, 1);
+      },
+    );
+
     test('replace also cancels a reminder this phone had scheduled', () async {
       // The restored settings have it off (it needs this phone's
       // permission); a notification still booked with the OS must not fire.

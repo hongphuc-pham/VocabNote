@@ -31,3 +31,20 @@ Future<void> wipeLibrary(AppDatabase db) async {
   await db.transaction(() => clearLibraryRows(db));
   db.markTablesUpdated(db.allTables);
 }
+
+/// Leaves nothing of the deleted rows readable in the database file.
+///
+/// Deleting a row does not erase it. FTS5 keeps a deleted word's tokens in
+/// its index segments until they are next merged, and SQLite leaves a
+/// deleted row's bytes in the page it sat on. Found on a device: after
+/// *Delete all data* the file still held the word, four times over. So the
+/// index is rebuilt from its content - now empty - which drops the old
+/// segments, and VACUUM rewrites every page from what is live.
+///
+/// Outside any transaction: SQLite refuses VACUUM inside one.
+Future<void> scrubFreedSpace(AppDatabase db) async {
+  await db.customStatement(
+    "INSERT INTO words_fts(words_fts) VALUES('rebuild')",
+  );
+  await db.customStatement('VACUUM');
+}

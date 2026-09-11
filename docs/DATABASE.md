@@ -288,9 +288,17 @@ Because there is no cloud, export is how a user moves to a new phone.
 - **Then every other copy of the library on disk goes too:** Replace's safety copies, any
   exported `.vnb` still in the temporary folder, the `vocabnote.pre-v<n>.bak` copies taken
   before an upgrade, the dictionary cache, and the error log (a message line in it may hold
-  something the user typed). Each is removed independently and best-effort
+  something the user typed). So are the copies the OS plugins keep in the app's cache: the
+  share sheet's copy of the last export (`share_plus` clears it only at the next share) and
+  the picker's copy of a chosen backup (also cleared as soon as it has been read). Each is
+  removed independently and best-effort
   — the rows are already gone, and one file that will not delete must not keep the others.
-  The open database file itself is emptied, never deleted.
+  The open database file itself is emptied, never deleted — and then **scrubbed**: deleting
+  a row does not erase it, and FTS5 keeps a deleted word's tokens in its index segments
+  until they merge (found on a device: the headword was still in the file four times). The
+  index is rebuilt from its now-empty content (`INSERT INTO words_fts(words_fts)
+  VALUES('rebuild')`) and `VACUUM` rewrites every page, so no word is left readable in the
+  file. Tested on a file-backed database.
 - The reminder is cancelled with the OS, since its setting is back to off.
 - Import offers **Merge** (default: match on `id`, then on `headword_normalized`; newer
   `updated_at` wins) or **Replace** (explicit confirmation, takes a backup first).

@@ -144,6 +144,7 @@ class UserDataRepositoryImpl implements UserDataRepository {
       // Then every other copy of the library. Each independently and
       // quietly: the rows are already gone, and one file that will not
       // delete must not keep the others.
+      await _quietly(() => scrubFreedSpace(_db));
       await _quietly(() async {
         for (final copy in await _backupFilesIn(await _safetyFolder())) {
           await copy.delete();

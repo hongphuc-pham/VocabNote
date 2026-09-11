@@ -167,7 +167,8 @@ class BackupActions extends _$BackupActions {
     return report;
   }
 
-  /// Removes the whole library - every row and every copy on disk - and
+  /// Removes the whole library - every row and every copy on disk, the
+  /// error log and the copies the OS share sheet and picker keep - and
   /// cancels the reminder, whose setting has just gone back to off.
   ///
   /// False if the rows could not be removed, in which case nothing was: the
@@ -179,6 +180,8 @@ class BackupActions extends _$BackupActions {
     // A message line in the error log may still hold something the user
     // typed; "all data" includes it.
     await ref.read(errorLogProvider).clear();
+    // So do the copies the share sheet and the picker keep of a backup.
+    await ref.read(backupFilesProvider).forgetCopies();
     ref.invalidate(storageUsedProvider);
     return true;
   }

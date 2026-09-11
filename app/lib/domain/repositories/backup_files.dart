@@ -59,4 +59,13 @@ abstract interface class BackupFiles {
   /// a backup fails as `InvalidBackupFailure(tooLarge)`, refused on its size
   /// before any of it is read.
   AsyncResult<Uint8List?> pick();
+
+  /// Removes every copy of a backup the share sheet or the picker left in
+  /// the app's own storage.
+  ///
+  /// Both keep one: Android's share sheet is handed a copy it can serve to
+  /// the app that receives it, and the picker copies the chosen document in
+  /// before it can be read. They hold the user's words, so *Delete all data*
+  /// asks for them to go. Never fails: nothing to remove is not an error.
+  Future<void> forgetCopies();
 }
