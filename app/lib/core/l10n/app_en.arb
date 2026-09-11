@@ -1462,6 +1462,14 @@
   "@licencesPackagesBody": {"description": "Above the button to the full package licence list."},
   "licencesPackages": "All package licences",
   "@licencesPackages": {"description": "Opens Flutter's licence page."},
+  "recoveryExporting": "Exporting…",
+  "@recoveryExporting": {
+    "description": "The recovery screen's export button while the file is being written."
+  },
+  "recoveryExportFailed": "Couldn't make the export just now. Your data is still on this phone, untouched.",
+  "@recoveryExportFailed": {
+    "description": "Snackbar when the recovery export failed. Reassures first: the database was only read."
+  },
   "settingsVersion": "Version",
   "@settingsVersion": {
     "description": "Row showing the app version."

@@ -10,6 +10,7 @@ import 'package:vocabnote/core/result.dart';
 import 'package:vocabnote/data/backup/backup_codec.dart';
 import 'package:vocabnote/data/backup/backup_importer.dart';
 import 'package:vocabnote/data/backup/backup_tables.dart';
+import 'package:vocabnote/data/backup/export_writer.dart';
 import 'package:vocabnote/data/backup/library_wipe.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
@@ -79,24 +80,11 @@ class UserDataRepositoryImpl implements UserDataRepository {
     () async {
       final now = _now();
       final (:manifest, :bytes) = await _snapshot(now);
-
-      final folder = await _exportDirectory();
-      await folder.create(recursive: true);
-      // Each export is a full copy of the user's words; a pile of them in a
-      // cache folder helps nobody.
-      for (final old in await _backupFilesIn(folder)) {
-        await old.delete();
-      }
-
-      final stamp = DateFormat('yyyyMMdd-HHmm').format(now.toLocal());
-      final fileName = 'vocabnote-backup-$stamp.vnb';
-      final file = File(p.join(folder.path, fileName));
-      await file.writeAsBytes(bytes, flush: true);
-
-      return ExportedBackup(
-        path: file.path,
-        fileName: fileName,
+      return await writeExport(
+        folder: await _exportDirectory(),
+        bytes: bytes,
         manifest: manifest,
+        now: now,
       );
     },
     onError: (error, stackTrace) => FileFailure(

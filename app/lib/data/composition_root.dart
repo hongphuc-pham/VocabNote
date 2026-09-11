@@ -3,10 +3,14 @@ import 'dart:io';
 // Riverpod 3 moved `Override` out of the main barrel file.
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:vocabnote/application/repositories.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/backup/platform_backup_files.dart';
+import 'package:vocabnote/data/backup/recovery_export.dart';
 import 'package:vocabnote/data/db/app_database.dart';
+import 'package:vocabnote/data/db/database_opener.dart';
 import 'package:vocabnote/data/db/tables/app_meta.dart';
 import 'package:vocabnote/data/diagnostics/file_error_log.dart';
 import 'package:vocabnote/data/diagnostics/platform_diagnostics.dart';
@@ -168,6 +172,29 @@ Future<bool> resolveOnboarding(AppDatabase database) async {
       return false;
     }
     return true;
+  } on Object {
+    return false;
+  }
+}
+
+/// *Export my data* on the recovery screen (DATABASE §3.6, §3.10).
+///
+/// The database Drift refused, read raw and read-only into the same `.vnb`
+/// as any other backup, then offered to the share sheet. True when the sheet
+/// opened; false for anything else, which the screen reports - without ever
+/// having written to the database.
+Future<bool> exportForRecovery({required String appVersion}) async {
+  try {
+    final location = await DatabaseOpener().resolveLocation();
+    final temporary = await getTemporaryDirectory();
+    final exported = await exportUnopenableDatabase(
+      database: location.file,
+      appVersion: appVersion,
+      exportDirectory: Directory(p.join(temporary.path, 'vocabnote', 'export')),
+    );
+    final backup = exported.valueOrNull;
+    if (backup == null) return false;
+    return (await const PlatformBackupFiles().share(backup)).isOk;
   } on Object {
     return false;
   }

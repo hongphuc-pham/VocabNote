@@ -2103,6 +2103,18 @@ abstract class AppL10n {
   /// **'All package licences'**
   String get licencesPackages;
 
+  /// The recovery screen's export button while the file is being written.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting…'**
+  String get recoveryExporting;
+
+  /// Snackbar when the recovery export failed. Reassures first: the database was only read.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t make the export just now. Your data is still on this phone, untouched.'**
+  String get recoveryExportFailed;
+
   /// Row showing the app version.
   ///
   /// In en, this message translates to:

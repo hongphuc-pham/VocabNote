@@ -1276,6 +1276,13 @@ class AppL10nEn extends AppL10n {
   String get licencesPackages => 'All package licences';
 
   @override
+  String get recoveryExporting => 'Exporting…';
+
+  @override
+  String get recoveryExportFailed =>
+      'Couldn\'t make the export just now. Your data is still on this phone, untouched.';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override

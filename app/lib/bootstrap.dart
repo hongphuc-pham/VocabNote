@@ -99,7 +99,14 @@ Future<void> bootstrap() async {
         // Deliberately not the normal app. Without a database there is nothing
         // to show, and offering a "reset" here is precisely the behaviour
         // docs/DATABASE.md section 3.8 forbids.
-        runApp(RecoveryApp(failure: failure));
+        // *Export my data* reads the file raw and read-only: Drift is exactly
+        // what refused it, and the file itself is never written to.
+        runApp(
+          RecoveryApp(
+            failure: failure,
+            onExport: () => exportForRecovery(appVersion: version),
+          ),
+        );
       },
     );
   }, logUncaught);
