@@ -42,7 +42,7 @@ before the milestone is closed.
 | F-040 | M | My Words list | Sort by recent / A–Z / least known. Shows headword, IPA preview with highlight colours, note count. |
 | F-041 | M | Search | Instant, ≤100ms on 5,000 words, matches headword, definition, example and note bodies (FTS5). |
 | F-042 | M | Lists (decks) | Create, rename, recolour, reorder, delete (deleting a list never deletes words). A word can be in many lists. |
-| F-043 | S | Filter chips | All · Favourites · Due today · Not practised · by list. |
+| F-043 | S | Filter chips | All · Favourites · Due today · **No IPA yet** · by list. *Corrected at M4: this row said "Not practised", which disagreed with `UI-UX.md` §4.1 and with the shipped code. They are different filters over different data — one is about transcription, the other about study history. §4.1 is the source of truth, and "No IPA yet" serves the app's core job of getting a transcription onto every word.* |
 | F-044 | S | Favourite a word | Star toggle from list and detail. |
 | F-045 | C | Archive a word | Hidden from lists, kept in stats. |
 
@@ -55,8 +55,8 @@ before the milestone is closed.
 | F-062 | M | Flashcards — **Quick test** | User chooses source (All / a list / Favourites) and size (5 / 10 / 20 / All), **hard-capped at 30**. Random selection with a stored seed. Does **not** change the review schedule; it records stats only. |
 | F-063 | M | Card interaction | Front shows the prompt side (word, IPA, or meaning — configurable); tap or swipe up to flip; then *Again* / *Good* / *Easy*. Optional TTS autoplay on reveal. |
 | F-064 | M | Session summary | Score, time, list of missed words with a one-tap "add all to a list". |
-| F-065 | S | Streak & daily goal | Days practised in a row; goal ring on the hub. Non-punitive copy — no guilt language. |
-| F-066 | S | Optional daily reminder | Local notification at a user-chosen time; off by default; asks permission only when enabled. |
+| F-065 | S | Streak & daily goal | Days practised in a row; goal ring on the hub. Non-punitive copy — no guilt language. *Built at M5: the goal counts different words practised today in any mode; the streak runs back from yesterday until today has practice, and zero is never announced — see `UI-UX.md` §4.6.* |
+| F-066 | S | Optional daily reminder | Local notification at a user-chosen time; off by default; asks permission only when enabled. *Built at M5: Settings → Practice → Daily reminder, 19:00 until a time is chosen. Scheduled inexactly (no exact-alarm permission) and repeating on UTC, because the device's zone name needs a package RULES has not approved (`flutter_timezone`); it is scheduled again from local time at every launch, so a daylight saving change shifts it by an hour at most until the app next opens.* |
 | F-067 | M | Game framework | Adding a second game requires exactly: one `PracticeGame` class, one round widget, one registry line. No changes to the hub, config sheet, session storage or stats. Proven by a throwaway `DummyGame` in tests. |
 | F-068 | P2 | Listen-and-choose game | Hear TTS, pick the right word. |
 | F-069 | P2 | IPA match game | Match word ↔ IPA. |
@@ -66,7 +66,7 @@ before the milestone is closed.
 
 | ID | Pri | Feature | Acceptance criteria |
 |---|---|---|---|
-| F-070 | M | Settings screen | Appearance (system/light/dark), pronunciation (voice, speed, pitch, autoplay), practice (daily goal, prompt side, reminder), data (backup, restore, storage used), about. |
+| F-070 | M | Settings screen | Appearance (system/light/dark), pronunciation (voice, speed, pitch, autoplay), practice (daily goal, prompt side, reminder, review pace and interval per box, repeats of missed cards), data (backup, restore, storage used), about. *Extended at M5: the repetition schedule became the user's choice — see `GAMES.md` §5.* |
 | F-071 | M | **How to use — guide** | Always present in Settings. 6 short illustrated cards: add a word · fill from the dictionary · type your own IPA · highlight the sound you struggle with · leave a note · practise daily. Re-openable any time; also shown once at onboarding. |
 | F-072 | M | **Help & feedback** | Always present in Settings: searchable FAQ, "Send feedback" (opens mail with app version, OS version and device model pre-filled — nothing else, and it is shown to the user before sending), and a GitHub Issues link. No data is transmitted without an explicit tap. |
 | F-073 | M | Export backup | Produces `.vnb` ZIP, shared via the OS share sheet. |

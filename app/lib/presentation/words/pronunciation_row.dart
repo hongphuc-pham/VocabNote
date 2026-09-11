@@ -3,11 +3,12 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vocabnote/application/words/pronunciation_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/presentation/common/ipa_text.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// One accent's transcription with its play button (`docs/UI-UX.md` §4.3).
 ///
@@ -79,7 +80,7 @@ class PronunciationRow extends ConsumerWidget {
     final accent = _accentLabel(l10n);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      padding: EdgeInsets.symmetric(vertical: context.metrics.spaceXs),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -91,7 +92,7 @@ class PronunciationRow extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          const VnGap(VnSpace.sm, axis: Axis.horizontal),
           Expanded(
             child: IpaText(
               ipa: ipa,
@@ -100,7 +101,7 @@ class PronunciationRow extends ConsumerWidget {
               emphasisedHighlightId: emphasisedHighlightId,
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          const VnGap(VnSpace.sm, axis: Axis.horizontal),
           _PlayButton(
             isSpeaking: isSpeaking,
             label: isSpeaking
@@ -161,7 +162,7 @@ class _PlayButton extends StatelessWidget {
               height: _target,
               child: Icon(
                 isSpeaking ? Icons.stop_circle_outlined : Icons.play_circle,
-                size: AppSpacing.xl + AppSpacing.xs,
+                size: context.metrics.spaceXl + context.metrics.spaceXs,
                 color: theme.colorScheme.primary,
               ),
             ),

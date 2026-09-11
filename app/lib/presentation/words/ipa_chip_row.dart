@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/value_objects/grapheme_range.dart';
 
@@ -109,8 +109,8 @@ class _IpaChipRowState extends State<IpaChipRow> {
         if (index != null) widget.onExtendTo(index);
       },
       child: Wrap(
-        spacing: AppSpacing.xs,
-        runSpacing: AppSpacing.xs,
+        spacing: context.metrics.spaceXs,
+        runSpacing: context.metrics.spaceXs,
         children: <Widget>[
           for (var i = 0; i < widget.chips.length; i++)
             _Chip(
@@ -185,7 +185,7 @@ class _Chip extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: colors?.fill,
-              borderRadius: BorderRadius.circular(AppRadii.chip),
+              borderRadius: BorderRadius.circular(context.metrics.radiusChip),
               border: Border.all(
                 color: isSelected
                     ? theme.colorScheme.primary

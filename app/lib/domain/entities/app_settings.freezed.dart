@@ -29,7 +29,16 @@ mixin _$AppSettings {
 ///
 /// Turning it off makes the app entirely offline by choice, not just by
 /// circumstance.
- bool get lookupEnabled;
+ bool get lookupEnabled;/// The interval each Leitner box waits, as a JSON array of seven integers.
+///
+/// Kept as the stored string here rather than a parsed object: `domain`
+/// may not import `application`, and `ReviewSchedule` lives there with the
+/// scheduler it serves. `ReviewSchedule.fromJson` does the parsing, and
+/// falls back to the documented default if this is ever unusable.
+ String get reviewScheduleJson;/// How many extra times a card graded *again* returns in the same session.
+///
+/// Session-local: it touches no scheduling column. 0 disables it.
+ int get againRepeats;
 /// Create a copy of AppSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -41,20 +50,20 @@ $AppSettingsCopyWith<AppSettings> get copyWith => _$AppSettingsCopyWithImpl<AppS
 @override
 bool operator ==(Object other) {
   final _this = this as AppSettings;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettings&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.ttsLocale, _this.ttsLocale) || other.ttsLocale == _this.ttsLocale)&&(identical(other.ttsRate, _this.ttsRate) || other.ttsRate == _this.ttsRate)&&(identical(other.ttsPitch, _this.ttsPitch) || other.ttsPitch == _this.ttsPitch)&&(identical(other.autoplayOnOpen, _this.autoplayOnOpen) || other.autoplayOnOpen == _this.autoplayOnOpen)&&(identical(other.dailyGoal, _this.dailyGoal) || other.dailyGoal == _this.dailyGoal)&&(identical(other.reminderEnabled, _this.reminderEnabled) || other.reminderEnabled == _this.reminderEnabled)&&(identical(other.reminderTimeMinutes, _this.reminderTimeMinutes) || other.reminderTimeMinutes == _this.reminderTimeMinutes)&&(identical(other.promptSide, _this.promptSide) || other.promptSide == _this.promptSide)&&(identical(other.lookupEnabled, _this.lookupEnabled) || other.lookupEnabled == _this.lookupEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppSettings&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.ttsLocale, _this.ttsLocale) || other.ttsLocale == _this.ttsLocale)&&(identical(other.ttsRate, _this.ttsRate) || other.ttsRate == _this.ttsRate)&&(identical(other.ttsPitch, _this.ttsPitch) || other.ttsPitch == _this.ttsPitch)&&(identical(other.autoplayOnOpen, _this.autoplayOnOpen) || other.autoplayOnOpen == _this.autoplayOnOpen)&&(identical(other.dailyGoal, _this.dailyGoal) || other.dailyGoal == _this.dailyGoal)&&(identical(other.reminderEnabled, _this.reminderEnabled) || other.reminderEnabled == _this.reminderEnabled)&&(identical(other.reminderTimeMinutes, _this.reminderTimeMinutes) || other.reminderTimeMinutes == _this.reminderTimeMinutes)&&(identical(other.promptSide, _this.promptSide) || other.promptSide == _this.promptSide)&&(identical(other.lookupEnabled, _this.lookupEnabled) || other.lookupEnabled == _this.lookupEnabled)&&(identical(other.reviewScheduleJson, _this.reviewScheduleJson) || other.reviewScheduleJson == _this.reviewScheduleJson)&&(identical(other.againRepeats, _this.againRepeats) || other.againRepeats == _this.againRepeats));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AppSettings;
-  return Object.hash(runtimeType,_this.themeMode,_this.ttsLocale,_this.ttsRate,_this.ttsPitch,_this.autoplayOnOpen,_this.dailyGoal,_this.reminderEnabled,_this.reminderTimeMinutes,_this.promptSide,_this.lookupEnabled);
+  return Object.hash(runtimeType,_this.themeMode,_this.ttsLocale,_this.ttsRate,_this.ttsPitch,_this.autoplayOnOpen,_this.dailyGoal,_this.reminderEnabled,_this.reminderTimeMinutes,_this.promptSide,_this.lookupEnabled,_this.reviewScheduleJson,_this.againRepeats);
 }
 
 @override
 String toString() {
   final _this = this as AppSettings;
-  return 'AppSettings(themeMode: ${_this.themeMode}, ttsLocale: ${_this.ttsLocale}, ttsRate: ${_this.ttsRate}, ttsPitch: ${_this.ttsPitch}, autoplayOnOpen: ${_this.autoplayOnOpen}, dailyGoal: ${_this.dailyGoal}, reminderEnabled: ${_this.reminderEnabled}, reminderTimeMinutes: ${_this.reminderTimeMinutes}, promptSide: ${_this.promptSide}, lookupEnabled: ${_this.lookupEnabled})';
+  return 'AppSettings(themeMode: ${_this.themeMode}, ttsLocale: ${_this.ttsLocale}, ttsRate: ${_this.ttsRate}, ttsPitch: ${_this.ttsPitch}, autoplayOnOpen: ${_this.autoplayOnOpen}, dailyGoal: ${_this.dailyGoal}, reminderEnabled: ${_this.reminderEnabled}, reminderTimeMinutes: ${_this.reminderTimeMinutes}, promptSide: ${_this.promptSide}, lookupEnabled: ${_this.lookupEnabled}, reviewScheduleJson: ${_this.reviewScheduleJson}, againRepeats: ${_this.againRepeats})';
 }
 
 
@@ -65,7 +74,7 @@ abstract mixin class $AppSettingsCopyWith<$Res>  {
   factory $AppSettingsCopyWith(AppSettings value, $Res Function(AppSettings) _then) = _$AppSettingsCopyWithImpl;
 @useResult
 $Res call({
- ThemePreference themeMode, TtsLocale ttsLocale, double ttsRate, double ttsPitch, bool autoplayOnOpen, int dailyGoal, bool reminderEnabled, int? reminderTimeMinutes, PromptSide promptSide, bool lookupEnabled
+ ThemePreference themeMode, TtsLocale ttsLocale, double ttsRate, double ttsPitch, bool autoplayOnOpen, int dailyGoal, bool reminderEnabled, int? reminderTimeMinutes, PromptSide promptSide, bool lookupEnabled, String reviewScheduleJson, int againRepeats
 });
 
 
@@ -82,7 +91,7 @@ class _$AppSettingsCopyWithImpl<$Res>
 
 /// Create a copy of AppSettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? ttsLocale = null,Object? ttsRate = null,Object? ttsPitch = null,Object? autoplayOnOpen = null,Object? dailyGoal = null,Object? reminderEnabled = null,Object? reminderTimeMinutes = freezed,Object? promptSide = null,Object? lookupEnabled = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? ttsLocale = null,Object? ttsRate = null,Object? ttsPitch = null,Object? autoplayOnOpen = null,Object? dailyGoal = null,Object? reminderEnabled = null,Object? reminderTimeMinutes = freezed,Object? promptSide = null,Object? lookupEnabled = null,Object? reviewScheduleJson = null,Object? againRepeats = null,}) {
   return _then(AppSettings(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemePreference,ttsLocale: null == ttsLocale ? _self.ttsLocale : ttsLocale // ignore: cast_nullable_to_non_nullable
@@ -94,7 +103,9 @@ as int,reminderEnabled: null == reminderEnabled ? _self.reminderEnabled : remind
 as bool,reminderTimeMinutes: freezed == reminderTimeMinutes ? _self.reminderTimeMinutes : reminderTimeMinutes // ignore: cast_nullable_to_non_nullable
 as int?,promptSide: null == promptSide ? _self.promptSide : promptSide // ignore: cast_nullable_to_non_nullable
 as PromptSide,lookupEnabled: null == lookupEnabled ? _self.lookupEnabled : lookupEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,reviewScheduleJson: null == reviewScheduleJson ? _self.reviewScheduleJson : reviewScheduleJson // ignore: cast_nullable_to_non_nullable
+as String,againRepeats: null == againRepeats ? _self.againRepeats : againRepeats // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -179,10 +190,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ThemePreference themeMode,  TtsLocale ttsLocale,  double ttsRate,  double ttsPitch,  bool autoplayOnOpen,  int dailyGoal,  bool reminderEnabled,  int? reminderTimeMinutes,  PromptSide promptSide,  bool lookupEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ThemePreference themeMode,  TtsLocale ttsLocale,  double ttsRate,  double ttsPitch,  bool autoplayOnOpen,  int dailyGoal,  bool reminderEnabled,  int? reminderTimeMinutes,  PromptSide promptSide,  bool lookupEnabled,  String reviewScheduleJson,  int againRepeats)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppSettings() when $default != null:
-return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_that.autoplayOnOpen,_that.dailyGoal,_that.reminderEnabled,_that.reminderTimeMinutes,_that.promptSide,_that.lookupEnabled);case _:
+return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_that.autoplayOnOpen,_that.dailyGoal,_that.reminderEnabled,_that.reminderTimeMinutes,_that.promptSide,_that.lookupEnabled,_that.reviewScheduleJson,_that.againRepeats);case _:
   return orElse();
 
 }
@@ -200,10 +211,10 @@ return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ThemePreference themeMode,  TtsLocale ttsLocale,  double ttsRate,  double ttsPitch,  bool autoplayOnOpen,  int dailyGoal,  bool reminderEnabled,  int? reminderTimeMinutes,  PromptSide promptSide,  bool lookupEnabled)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ThemePreference themeMode,  TtsLocale ttsLocale,  double ttsRate,  double ttsPitch,  bool autoplayOnOpen,  int dailyGoal,  bool reminderEnabled,  int? reminderTimeMinutes,  PromptSide promptSide,  bool lookupEnabled,  String reviewScheduleJson,  int againRepeats)  $default,) {final _that = this;
 switch (_that) {
 case _AppSettings():
-return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_that.autoplayOnOpen,_that.dailyGoal,_that.reminderEnabled,_that.reminderTimeMinutes,_that.promptSide,_that.lookupEnabled);case _:
+return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_that.autoplayOnOpen,_that.dailyGoal,_that.reminderEnabled,_that.reminderTimeMinutes,_that.promptSide,_that.lookupEnabled,_that.reviewScheduleJson,_that.againRepeats);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -220,10 +231,10 @@ return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ThemePreference themeMode,  TtsLocale ttsLocale,  double ttsRate,  double ttsPitch,  bool autoplayOnOpen,  int dailyGoal,  bool reminderEnabled,  int? reminderTimeMinutes,  PromptSide promptSide,  bool lookupEnabled)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ThemePreference themeMode,  TtsLocale ttsLocale,  double ttsRate,  double ttsPitch,  bool autoplayOnOpen,  int dailyGoal,  bool reminderEnabled,  int? reminderTimeMinutes,  PromptSide promptSide,  bool lookupEnabled,  String reviewScheduleJson,  int againRepeats)?  $default,) {final _that = this;
 switch (_that) {
 case _AppSettings() when $default != null:
-return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_that.autoplayOnOpen,_that.dailyGoal,_that.reminderEnabled,_that.reminderTimeMinutes,_that.promptSide,_that.lookupEnabled);case _:
+return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_that.autoplayOnOpen,_that.dailyGoal,_that.reminderEnabled,_that.reminderTimeMinutes,_that.promptSide,_that.lookupEnabled,_that.reviewScheduleJson,_that.againRepeats);case _:
   return null;
 
 }
@@ -235,7 +246,7 @@ return $default(_that.themeMode,_that.ttsLocale,_that.ttsRate,_that.ttsPitch,_th
 
 
 class _AppSettings extends AppSettings {
-  const _AppSettings({this.themeMode = ThemePreference.system, this.ttsLocale = TtsLocale.enGb, this.ttsRate = 0.5, this.ttsPitch = 1, this.autoplayOnOpen = false, this.dailyGoal = 20, this.reminderEnabled = false, this.reminderTimeMinutes, this.promptSide = PromptSide.wordFirst, this.lookupEnabled = true}): super._();
+  const _AppSettings({this.themeMode = ThemePreference.system, this.ttsLocale = TtsLocale.enGb, this.ttsRate = 0.5, this.ttsPitch = 1, this.autoplayOnOpen = false, this.dailyGoal = 20, this.reminderEnabled = false, this.reminderTimeMinutes, this.promptSide = PromptSide.wordFirst, this.lookupEnabled = true, this.reviewScheduleJson = '[0,1,2,4,7,15,30]', this.againRepeats = 1}): super._();
   
 
 /// Light, dark or follow the system.
@@ -262,6 +273,17 @@ class _AppSettings extends AppSettings {
 /// Turning it off makes the app entirely offline by choice, not just by
 /// circumstance.
 @override@JsonKey() final  bool lookupEnabled;
+/// The interval each Leitner box waits, as a JSON array of seven integers.
+///
+/// Kept as the stored string here rather than a parsed object: `domain`
+/// may not import `application`, and `ReviewSchedule` lives there with the
+/// scheduler it serves. `ReviewSchedule.fromJson` does the parsing, and
+/// falls back to the documented default if this is ever unusable.
+@override@JsonKey() final  String reviewScheduleJson;
+/// How many extra times a card graded *again* returns in the same session.
+///
+/// Session-local: it touches no scheduling column. 0 disables it.
+@override@JsonKey() final  int againRepeats;
 
 /// Create a copy of AppSettings
 /// with the given fields replaced by the non-null parameter values.
@@ -273,18 +295,18 @@ _$AppSettingsCopyWith<_AppSettings> get copyWith => __$AppSettingsCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettings&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.ttsLocale, ttsLocale) || other.ttsLocale == ttsLocale)&&(identical(other.ttsRate, ttsRate) || other.ttsRate == ttsRate)&&(identical(other.ttsPitch, ttsPitch) || other.ttsPitch == ttsPitch)&&(identical(other.autoplayOnOpen, autoplayOnOpen) || other.autoplayOnOpen == autoplayOnOpen)&&(identical(other.dailyGoal, dailyGoal) || other.dailyGoal == dailyGoal)&&(identical(other.reminderEnabled, reminderEnabled) || other.reminderEnabled == reminderEnabled)&&(identical(other.reminderTimeMinutes, reminderTimeMinutes) || other.reminderTimeMinutes == reminderTimeMinutes)&&(identical(other.promptSide, promptSide) || other.promptSide == promptSide)&&(identical(other.lookupEnabled, lookupEnabled) || other.lookupEnabled == lookupEnabled));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppSettings&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.ttsLocale, ttsLocale) || other.ttsLocale == ttsLocale)&&(identical(other.ttsRate, ttsRate) || other.ttsRate == ttsRate)&&(identical(other.ttsPitch, ttsPitch) || other.ttsPitch == ttsPitch)&&(identical(other.autoplayOnOpen, autoplayOnOpen) || other.autoplayOnOpen == autoplayOnOpen)&&(identical(other.dailyGoal, dailyGoal) || other.dailyGoal == dailyGoal)&&(identical(other.reminderEnabled, reminderEnabled) || other.reminderEnabled == reminderEnabled)&&(identical(other.reminderTimeMinutes, reminderTimeMinutes) || other.reminderTimeMinutes == reminderTimeMinutes)&&(identical(other.promptSide, promptSide) || other.promptSide == promptSide)&&(identical(other.lookupEnabled, lookupEnabled) || other.lookupEnabled == lookupEnabled)&&(identical(other.reviewScheduleJson, reviewScheduleJson) || other.reviewScheduleJson == reviewScheduleJson)&&(identical(other.againRepeats, againRepeats) || other.againRepeats == againRepeats));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,themeMode,ttsLocale,ttsRate,ttsPitch,autoplayOnOpen,dailyGoal,reminderEnabled,reminderTimeMinutes,promptSide,lookupEnabled);
+    return Object.hash(runtimeType,themeMode,ttsLocale,ttsRate,ttsPitch,autoplayOnOpen,dailyGoal,reminderEnabled,reminderTimeMinutes,promptSide,lookupEnabled,reviewScheduleJson,againRepeats);
 }
 
 @override
 String toString() {
-    return 'AppSettings(themeMode: $themeMode, ttsLocale: $ttsLocale, ttsRate: $ttsRate, ttsPitch: $ttsPitch, autoplayOnOpen: $autoplayOnOpen, dailyGoal: $dailyGoal, reminderEnabled: $reminderEnabled, reminderTimeMinutes: $reminderTimeMinutes, promptSide: $promptSide, lookupEnabled: $lookupEnabled)';
+    return 'AppSettings(themeMode: $themeMode, ttsLocale: $ttsLocale, ttsRate: $ttsRate, ttsPitch: $ttsPitch, autoplayOnOpen: $autoplayOnOpen, dailyGoal: $dailyGoal, reminderEnabled: $reminderEnabled, reminderTimeMinutes: $reminderTimeMinutes, promptSide: $promptSide, lookupEnabled: $lookupEnabled, reviewScheduleJson: $reviewScheduleJson, againRepeats: $againRepeats)';
 }
 
 
@@ -295,7 +317,7 @@ abstract mixin class _$AppSettingsCopyWith<$Res> implements $AppSettingsCopyWith
   factory _$AppSettingsCopyWith(_AppSettings value, $Res Function(_AppSettings) _then) = __$AppSettingsCopyWithImpl;
 @override @useResult
 $Res call({
- ThemePreference themeMode, TtsLocale ttsLocale, double ttsRate, double ttsPitch, bool autoplayOnOpen, int dailyGoal, bool reminderEnabled, int? reminderTimeMinutes, PromptSide promptSide, bool lookupEnabled
+ ThemePreference themeMode, TtsLocale ttsLocale, double ttsRate, double ttsPitch, bool autoplayOnOpen, int dailyGoal, bool reminderEnabled, int? reminderTimeMinutes, PromptSide promptSide, bool lookupEnabled, String reviewScheduleJson, int againRepeats
 });
 
 
@@ -312,7 +334,7 @@ class __$AppSettingsCopyWithImpl<$Res>
 
 /// Create a copy of AppSettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? ttsLocale = null,Object? ttsRate = null,Object? ttsPitch = null,Object? autoplayOnOpen = null,Object? dailyGoal = null,Object? reminderEnabled = null,Object? reminderTimeMinutes = freezed,Object? promptSide = null,Object? lookupEnabled = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? ttsLocale = null,Object? ttsRate = null,Object? ttsPitch = null,Object? autoplayOnOpen = null,Object? dailyGoal = null,Object? reminderEnabled = null,Object? reminderTimeMinutes = freezed,Object? promptSide = null,Object? lookupEnabled = null,Object? reviewScheduleJson = null,Object? againRepeats = null,}) {
   return _then(_AppSettings(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemePreference,ttsLocale: null == ttsLocale ? _self.ttsLocale : ttsLocale // ignore: cast_nullable_to_non_nullable
@@ -324,7 +346,9 @@ as int,reminderEnabled: null == reminderEnabled ? _self.reminderEnabled : remind
 as bool,reminderTimeMinutes: freezed == reminderTimeMinutes ? _self.reminderTimeMinutes : reminderTimeMinutes // ignore: cast_nullable_to_non_nullable
 as int?,promptSide: null == promptSide ? _self.promptSide : promptSide // ignore: cast_nullable_to_non_nullable
 as PromptSide,lookupEnabled: null == lookupEnabled ? _self.lookupEnabled : lookupEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,reviewScheduleJson: null == reviewScheduleJson ? _self.reviewScheduleJson : reviewScheduleJson // ignore: cast_nullable_to_non_nullable
+as String,againRepeats: null == againRepeats ? _self.againRepeats : againRepeats // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

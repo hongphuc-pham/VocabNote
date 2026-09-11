@@ -267,6 +267,62 @@ final class SpeechServiceProvider
 
 String _$speechServiceHash() => r'29b12740eff03a583766bc282efa2bfad9165b99';
 
+/// The daily reminder (F-066).
+///
+/// A device service behind an interface, like [speechService], so nothing
+/// above `data/` names a notification plugin.
+
+@ProviderFor(reminderService)
+final reminderServiceProvider = ReminderServiceProvider._();
+
+/// The daily reminder (F-066).
+///
+/// A device service behind an interface, like [speechService], so nothing
+/// above `data/` names a notification plugin.
+
+final class ReminderServiceProvider
+    extends
+        $FunctionalProvider<ReminderService, ReminderService, ReminderService>
+    with $Provider<ReminderService> {
+  /// The daily reminder (F-066).
+  ///
+  /// A device service behind an interface, like [speechService], so nothing
+  /// above `data/` names a notification plugin.
+  ReminderServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'reminderServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$reminderServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<ReminderService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ReminderService create(Ref ref) {
+    return reminderService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ReminderService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ReminderService>(value),
+    );
+  }
+}
+
+String _$reminderServiceHash() => r'a9dcdc5e79dfc893f3abb8dd6d40adcc6bc56c76';
+
 /// Dictionary look-up: cache, then API, then the bundled offline asset.
 
 @ProviderFor(dictionaryRepository)

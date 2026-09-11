@@ -240,6 +240,422 @@
   "@emptyFilterClear": {
     "description": "Button that resets the filter and search."
   },
+  "listsLoadFailedTitle": "Couldn't load your lists",
+  "@listsLoadFailedTitle": {
+    "description": "Error state title on the lists grid."
+  },
+  "listsLoadFailedBody": "Something went wrong reading them. Your lists are still saved.",
+  "@listsLoadFailedBody": {
+    "description": "Error state body on the lists grid. Reassures that nothing was lost."
+  },
+  "listSaveFailed": "Couldn't save that list. Please try again.",
+  "@listSaveFailed": {
+    "description": "Snackbar shown when creating or editing a list fails."
+  },
+  "listEmptyTitle": "Nothing in this list yet",
+  "@listEmptyTitle": {
+    "description": "Empty state title on a list's detail screen."
+  },
+  "listEmptyBody": "Add a word to this list from the word's own screen.",
+  "@listEmptyBody": {
+    "description": "Empty state body on a list's detail screen."
+  },
+  "gameFlashcardTitle": "Flashcards",
+  "@gameFlashcardTitle": {
+    "description": "Name of the flashcard game on the practice hub."
+  },
+  "gameFlashcardDescription": "See a word, recall it, then say how it went.",
+  "@gameFlashcardDescription": {
+    "description": "One-line description of the flashcard game."
+  },
+  "flashcardTapToReveal": "Tap to reveal",
+  "@flashcardTapToReveal": {
+    "description": "Hint on the first card of a session only."
+  },
+  "flashcardFrontLabel": "Card front. Tap to reveal the answer.",
+  "@flashcardFrontLabel": {
+    "description": "Screen-reader label for the unflipped card."
+  },
+  "flashcardBackLabel": "Card back. Choose how well you knew it.",
+  "@flashcardBackLabel": {
+    "description": "Screen-reader label for the flipped card."
+  },
+  "gradeAgain": "Again",
+  "@gradeAgain": {
+    "description": "Grading button: the user did not know the word."
+  },
+  "gradeGood": "Good",
+  "@gradeGood": {
+    "description": "Grading button: the user knew the word."
+  },
+  "gradeEasy": "Easy",
+  "@gradeEasy": {
+    "description": "Grading button: the user knew the word easily."
+  },
+  "practiceEmptyTitle": "Nothing to practise yet",
+  "@practiceEmptyTitle": {
+    "description": "Empty state title on the practice hub when there are no words."
+  },
+  "practiceEmptyBody": "Add a few words and they'll show up here ready to review.",
+  "@practiceEmptyBody": {
+    "description": "Empty state body on the practice hub."
+  },
+  "practiceQuickTest": "Quick test",
+  "@practiceQuickTest": {
+    "description": "Button that opens the quick-test config sheet."
+  },
+  "practiceNothingDue": "Nothing due right now - a quick test still counts.",
+  "@practiceNothingDue": {
+    "description": "Encouraging line when no cards are due. Never a warning (UI-UX 4.6)."
+  },
+  "practiceGoalProgress": "{count} of {goal} today",
+  "@practiceGoalProgress": {
+    "description": "The daily goal on the practice hub: different words practised today, out of the goal (F-065). Never a warning.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceGoalReached": "Today's goal reached - nice work",
+  "@practiceGoalReached": {
+    "description": "Shown once today's words reach the daily goal (F-065)."
+  },
+  "practiceStreak": "{days, plural, =1{1 day in a row} other{{days} days in a row}}",
+  "@practiceStreak": {
+    "description": "Days practised in a row (F-065). A streak of zero is never shown.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceGoalStart": "Any card you practise today counts",
+  "@practiceGoalStart": {
+    "description": "Under the goal when there is no streak yet. Encouraging, never 'you lost your streak' (RULES 6)."
+  },
+  "practiceNothingDueTitle": "All caught up",
+  "@practiceNothingDueTitle": {
+    "description": "Shown when a daily review is started with nothing due."
+  },
+  "practiceNothingDueBody": "Nothing is due today. Try a quick test if you'd like more.",
+  "@practiceNothingDueBody": {
+    "description": "Body when a daily review has no cards."
+  },
+  "practiceNoCardsTitle": "No cards here",
+  "@practiceNoCardsTitle": {
+    "description": "Shown when a quick test finds no matching words."
+  },
+  "practiceNoCardsBody": "Nothing matched that choice. Try a different source.",
+  "@practiceNoCardsBody": {
+    "description": "Body when a quick test pool is empty."
+  },
+  "practiceCloseLabel": "Close practice",
+  "@practiceCloseLabel": {
+    "description": "Screen-reader label for the close button during a session."
+  },
+  "practiceAbandonTitle": "Leave this review?",
+  "@practiceAbandonTitle": {
+    "description": "Title of the confirm dialog when abandoning a daily review."
+  },
+  "practiceAbandonBody": "The cards you've already answered stay answered. The rest keep their current schedule.",
+  "@practiceAbandonBody": {
+    "description": "Body of the abandon dialog. Says plainly that nothing is lost."
+  },
+  "practiceAbandonStay": "Keep going",
+  "@practiceAbandonStay": {
+    "description": "Button that dismisses the abandon dialog."
+  },
+  "practiceAbandonLeave": "Leave",
+  "@practiceAbandonLeave": {
+    "description": "Button that abandons the session."
+  },
+  "quickTestTitle": "Quick test",
+  "@quickTestTitle": {
+    "description": "Title of the quick-test config sheet."
+  },
+  "quickTestSource": "Words from",
+  "@quickTestSource": {
+    "description": "Label for the source chips in the quick-test sheet."
+  },
+  "quickTestSize": "How many",
+  "@quickTestSize": {
+    "description": "Label for the size chips in the quick-test sheet."
+  },
+  "quickTestPromptSide": "Show me first",
+  "@quickTestPromptSide": {
+    "description": "Label for the prompt-side chips in the quick-test sheet."
+  },
+  "quickTestAutoplay": "Say the word when I reveal it",
+  "@quickTestAutoplay": {
+    "description": "Toggle for text-to-speech autoplay during a quick test."
+  },
+  "quickTestStart": "Start",
+  "@quickTestStart": {
+    "description": "Button that starts the quick test."
+  },
+  "promptSideWord": "The word",
+  "@promptSideWord": {
+    "description": "Prompt side: show the headword first."
+  },
+  "promptSideIpa": "The sounds",
+  "@promptSideIpa": {
+    "description": "Prompt side: show the transcription first."
+  },
+  "promptSideMeaning": "The meaning",
+  "@promptSideMeaning": {
+    "description": "Prompt side: show the definition first."
+  },
+  "practiceDailyReview": "Daily review ({count} due)",
+  "@practiceDailyReview": {
+    "description": "Button that starts a daily review, with how many cards are due.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceLockedHint": "{count, plural, =1{Add 1 more word to unlock this} other{Add {count} more words to unlock this}}",
+  "@practiceLockedHint": {
+    "description": "Says how many words are still needed before a game unlocks.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quickTestSizeAll": "All (max {max})",
+  "@quickTestSizeAll": {
+    "description": "The All size chip, naming the hard cap out loud.",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsPracticeSection": "Practice",
+  "@settingsPracticeSection": {
+    "description": "Heading of the practice section in Settings (UI-UX 4.9)."
+  },
+  "reminderTitle": "Daily reminder",
+  "@reminderTitle": {
+    "description": "The switch for the optional daily reminder (F-066). Off by default."
+  },
+  "reminderOff": "Off",
+  "@reminderOff": {
+    "description": "Under the reminder switch when it is off."
+  },
+  "reminderOnAt": "Every day at {time}",
+  "@reminderOnAt": {
+    "description": "Under the reminder switch when it is on. The time is already formatted for the user's locale.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderTimeLabel": "Time",
+  "@reminderTimeLabel": {
+    "description": "The row that changes when the daily reminder arrives."
+  },
+  "reminderDenied": "Notifications are off for VocabNote. You can allow them in your phone's settings.",
+  "@reminderDenied": {
+    "description": "Snackbar when notification permission is refused. Plain, never pleading."
+  },
+  "reminderFailed": "Couldn't set the reminder just now. Please try again.",
+  "@reminderFailed": {
+    "description": "Snackbar when the reminder could not be scheduled."
+  },
+  "reminderNotificationTitle": "A few words today?",
+  "@reminderNotificationTitle": {
+    "description": "Title of the daily reminder notification. An invitation, never a warning: no streak loss, no guilt (RULES 6)."
+  },
+  "reminderNotificationBody": "A short practice keeps them fresh.",
+  "@reminderNotificationBody": {
+    "description": "Body of the daily reminder notification."
+  },
+  "reminderChannelName": "Daily reminder",
+  "@reminderChannelName": {
+    "description": "The notification channel's name in Android's system settings."
+  },
+  "reminderChannelDescription": "One gentle reminder a day, at the time you chose.",
+  "@reminderChannelDescription": {
+    "description": "The notification channel's description in Android's system settings."
+  },
+  "summaryTitle": "How that went",
+  "@summaryTitle": {
+    "description": "Title of the session summary screen."
+  },
+  "summaryMissedHeading": "Worth another look",
+  "@summaryMissedHeading": {
+    "description": "Heading above the words the user got wrong. Never 'wrong' (UI-UX 4.8)."
+  },
+  "summaryAddMissed": "Add these to a list",
+  "@summaryAddMissed": {
+    "description": "Button that adds every missed word to a chosen list."
+  },
+  "summaryDone": "Done",
+  "@summaryDone": {
+    "description": "Button that leaves the summary."
+  },
+  "summaryPractiseAgain": "Practise again",
+  "@summaryPractiseAgain": {
+    "description": "Button on the summary that starts another session with the same choices (UI-UX 4.8)."
+  },
+  "summaryMissingTitle": "That session has finished",
+  "@summaryMissingTitle": {
+    "description": "Shown when the summary is opened with no session in memory."
+  },
+  "summaryMissingBody": "Your answers were saved as you went. Start another whenever you like.",
+  "@summaryMissingBody": {
+    "description": "Body when there is no session to summarise. Reassures that nothing was lost."
+  },
+  "summaryScore": "Nice work - {correct} of {total}",
+  "@summaryScore": {
+    "description": "The score line. Warm, never a grade.",
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "summaryTime": "{minutes}m {seconds}s",
+  "@summaryTime": {
+    "description": "How long the session took.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "summaryAddedToList": "{count, plural, =1{1 word added to {name}} other{{count} words added to {name}}}",
+  "@summaryAddedToList": {
+    "description": "Snackbar after adding missed words to a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "listsEmptyTitle": "No lists yet",
+  "@listsEmptyTitle": {
+    "description": "Empty state title on the lists grid."
+  },
+  "listsEmptyBody": "Lists group words however you like - a course, a topic, the sounds you keep getting wrong.",
+  "@listsEmptyBody": {
+    "description": "Empty state body on the lists grid."
+  },
+  "newListAction": "New list",
+  "@newListAction": {
+    "description": "Button that creates a list."
+  },
+  "createListTitle": "New list",
+  "@createListTitle": {
+    "description": "Title of the sheet that creates a list."
+  },
+  "editListTitle": "Edit list",
+  "@editListTitle": {
+    "description": "Title of the sheet that renames or recolours a list."
+  },
+  "listNameLabel": "Name",
+  "@listNameLabel": {
+    "description": "Text field label for a list name."
+  },
+  "listNameHint": "IELTS speaking",
+  "@listNameHint": {
+    "description": "Example list name shown in the empty field."
+  },
+  "listNameRequired": "Give the list a name.",
+  "@listNameRequired": {
+    "description": "Validation message when a list name is blank."
+  },
+  "moveListUpAction": "Move up",
+  "@moveListUpAction": {
+    "description": "Menu item that moves a list one place earlier in the grid."
+  },
+  "moveListDownAction": "Move down",
+  "@moveListDownAction": {
+    "description": "Menu item that moves a list one place later in the grid."
+  },
+  "renameListAction": "Rename or recolour",
+  "@renameListAction": {
+    "description": "Menu item that edits a list."
+  },
+  "deleteListAction": "Delete list",
+  "@deleteListAction": {
+    "description": "Menu item that deletes a list."
+  },
+  "deleteListTitle": "Delete this list?",
+  "@deleteListTitle": {
+    "description": "Title of the delete-list confirmation."
+  },
+  "deleteListBody": "The list goes, but every word in it stays in your words.",
+  "@deleteListBody": {
+    "description": "Body of the delete-list confirmation. States plainly that words survive (F-042)."
+  },
+  "listActionsLabel": "Actions for {name}",
+  "@listActionsLabel": {
+    "description": "Screen-reader label for the button that opens a list's actions.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "practiseListAction": "Practise this list",
+  "@practiseListAction": {
+    "description": "App bar action on a list's detail screen."
+  },
+  "editNoteAction": "Edit note",
+  "@editNoteAction": {
+    "description": "Menu item that edits an existing note."
+  },
+  "saveNoteAction": "Save",
+  "@saveNoteAction": {
+    "description": "Button that saves an edited note."
+  },
+  "listWordCount": "{count, plural, =0{No words} =1{1 word} other{{count} words}}",
+  "@listWordCount": {
+    "description": "Word count on a list card.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "listDueCount": "{count, plural, =1{1 due} other{{count} due}}",
+  "@listDueCount": {
+    "description": "Due-today badge on a list card.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filterCountLabel": "{label}, {count, plural, =1{1 word} other{{count} words}}",
+  "@filterCountLabel": {
+    "description": "Screen-reader label for a filter chip that shows a word count.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "wordNoteCountLabel": "{count, plural, =1{1 note} other{{count} notes}}",
   "@wordNoteCountLabel": {
     "description": "Screen-reader label for the note count on a word row.",

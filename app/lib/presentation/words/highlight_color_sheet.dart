@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/value_objects/ipa_color_token.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
+import 'package:vocabnote/presentation/design/sheet_body.dart';
 import 'package:vocabnote/presentation/words/highlight_legend.dart';
 
 /// What the colour sheet came back with.
@@ -52,6 +54,7 @@ class HighlightColorSheet extends StatefulWidget {
   }) => showModalBottomSheet<HighlightChoice>(
     context: context,
     isScrollControlled: true,
+    useSafeArea: true,
     builder: (context) => HighlightColorSheet(existing: existing),
   );
 
@@ -80,65 +83,66 @@ class _HighlightColorSheetState extends State<HighlightColorSheet> {
     final theme = Theme.of(context);
     final l10n = AppL10n.of(context);
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: AppSpacing.lg,
-        right: AppSpacing.lg,
-        top: AppSpacing.lg,
-        // Above the keyboard, not behind it.
-        bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpacing.lg,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(l10n.ipaEditorColorHeading, style: theme.textTheme.titleMedium),
-          const SizedBox(height: AppSpacing.md),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              for (final token in IpaColorToken.values)
-                _Swatch(
-                  token: token,
-                  isSelected: token == _selected,
-                  onTap: () => setState(() => _selected = token),
-                ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          TextField(
-            controller: _label,
-            // The cap the entity documents, enforced where it is typed so the
-            // user sees the limit rather than discovering it after saving.
-            maxLength: IpaHighlight.maxLabelLength,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(
-              hintText: l10n.ipaEditorLabelHint,
-              border: const OutlineInputBorder(),
-            ),
-            onSubmitted: (_) => _confirm(),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              if (widget.existing != null)
-                TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pop(HighlightChoice.deletion),
-                  child: Text(l10n.ipaEditorDeleteAction),
-                ),
-              const Spacer(),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text(l10n.cancelAction),
+    return VnSheetBody(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(l10n.ipaEditorColorHeading, style: theme.textTheme.titleMedium),
+        const VnGap(VnSpace.md),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            for (final token in IpaColorToken.values)
+              _Swatch(
+                token: token,
+                isSelected: token == _selected,
+                onTap: () => setState(() => _selected = token),
               ),
-              const SizedBox(width: AppSpacing.sm),
-              FilledButton(onPressed: _confirm, child: Text(l10n.saveAction)),
-            ],
+          ],
+        ),
+        const VnGap(VnSpace.lg),
+        TextField(
+          controller: _label,
+          // The cap the entity documents, enforced where it is typed so the
+          // user sees the limit rather than discovering it after saving.
+          maxLength: IpaHighlight.maxLabelLength,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: InputDecoration(
+            hintText: l10n.ipaEditorLabelHint,
+            border: const OutlineInputBorder(),
           ),
-        ],
-      ),
+          onSubmitted: (_) => _confirm(),
+        ),
+        const VnGap(VnSpace.sm),
+        // Reflows to a column when the buttons cannot share a line: at 200%
+        // on 320dp a Row of three overflowed (UI-UX §6). Delete stays apart
+        // from Cancel and Save, as it was beside a Spacer.
+        OverflowBar(
+          alignment: widget.existing != null
+              ? MainAxisAlignment.spaceBetween
+              : MainAxisAlignment.end,
+          overflowAlignment: OverflowBarAlignment.end,
+          overflowSpacing: context.metrics.spaceSm,
+          children: <Widget>[
+            if (widget.existing != null)
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(HighlightChoice.deletion),
+                child: Text(l10n.ipaEditorDeleteAction),
+              ),
+            OverflowBar(
+              spacing: context.metrics.spaceSm,
+              overflowAlignment: OverflowBarAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(l10n.cancelAction),
+                ),
+                FilledButton(onPressed: _confirm, child: Text(l10n.saveAction)),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 // `isNull`/`isNotNull` exist in both drift and matcher; matcher's win here.
 import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Riverpod 3 moved `Override` out of the main barrel file.
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -108,15 +109,33 @@ void main() {
       expect(find.text('1'), findsOneWidget);
     });
 
-    testWidgets('the rows are the documented height', (tester) async {
+    testWidgets('each word is a tonal card, not a flat row', (tester) async {
+      // Replaces an assertion that the row was exactly 72dp tall. The
+      // Phonetic Naturalist restyle made these cards, and `docs/UI-UX.md` §4.1
+      // was rewritten to match - so the old number was the spec, not a bug.
       await pumpApp(tester);
 
-      final size = tester.getSize(
+      final card = tester.widget<Material>(
         find
-            .ancestor(of: find.text('cough'), matching: find.byType(SizedBox))
+            .ancestor(of: find.text('cough'), matching: find.byType(Material))
             .first,
       );
-      expect(size.height, 72);
+      final scheme = Theme.of(tester.element(find.text('cough'))).colorScheme;
+      expect(
+        card.color,
+        scheme.surfaceContainer,
+        reason: 'a card must separate from the page by tone',
+      );
+      expect(card.color, isNot(scheme.surface));
+    });
+
+    testWidgets('a card names which accent its transcription is', (
+      tester,
+    ) async {
+      // `preferredIpa` silently falls back to US, so an unlabelled
+      // transcription in the list could be either one.
+      await pumpApp(tester);
+      expect(find.text('UK'), findsOneWidget);
     });
   });
 
@@ -125,6 +144,39 @@ void main() {
       await seedWord(db, id: 'w1', headword: 'cough', isFavourite: true);
       await seedWord(db, id: 'w2', headword: 'through');
       await seedWord(db, id: 'w3', headword: 'plough', ipaUs: 'plaʊ');
+    });
+
+    testWidgets('the All chip carries the live word count', (tester) async {
+      await pumpApp(tester);
+
+      final all = find.ancestor(
+        of: find.text('All'),
+        matching: find.byType(FilterChip),
+      );
+      expect(all, findsOneWidget);
+      expect(
+        find.descendant(of: all, matching: find.text('3')),
+        findsOneWidget,
+        reason: 'three words were seeded',
+      );
+    });
+
+    testWidgets('a counted chip is still a button to a screen reader', (
+      tester,
+    ) async {
+      // The count must not be bought by wrapping the chip in ExcludeSemantics:
+      // that strips the tap action (UI-UX §6).
+      final handle = tester.ensureSemantics();
+      await pumpApp(tester);
+
+      final node = tester.getSemantics(
+        find
+            .ancestor(of: find.text('All'), matching: find.byType(FilterChip))
+            .first,
+      );
+      expect(node.label, contains('3 words'));
+      expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      handle.dispose();
     });
 
     testWidgets('offers the four fixed chips', (tester) async {
@@ -138,6 +190,34 @@ void main() {
       ]) {
         expect(find.text(label), findsOneWidget, reason: label);
       }
+    });
+
+    testWidgets('each list gets its own chip, which filters to its words', (
+      tester,
+    ) async {
+      // M4's A6: "the filter chips match the spec, including a chip per list".
+      // The four fixed chips were tested; the one a user makes by creating a
+      // list was not.
+      await seedList(db, id: 'l1', name: 'Travel');
+      await seedMembership(db, listId: 'l1', wordId: 'w2');
+      await pumpApp(tester);
+
+      // The chip row scrolls sideways; a list's chip follows the fixed four.
+      await tester.scrollUntilVisible(
+        find.text('Travel'),
+        100,
+        scrollable: find.byWidgetPredicate(
+          (widget) =>
+              widget is Scrollable &&
+              widget.axisDirection == AxisDirection.right,
+        ),
+      );
+      await tester.tap(find.text('Travel'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('through'), findsOneWidget);
+      expect(find.text('cough'), findsNothing, reason: 'not in the list');
+      expect(find.text('plough'), findsNothing, reason: 'not in the list');
     });
 
     testWidgets('Favourites narrows to starred words', (tester) async {

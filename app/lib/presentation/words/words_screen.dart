@@ -7,7 +7,7 @@ import 'package:vocabnote/application/words/word_actions_controller.dart';
 import 'package:vocabnote/application/words/word_list_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/repositories/word_query.dart';
 import 'package:vocabnote/domain/repositories/word_repository.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
@@ -90,6 +90,10 @@ class _WordsScreenState extends ConsumerState<WordsScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        // The shell is an indexed stack, so every branch's FAB is in the tree
+        // at once and the default hero tag collides. The route path is already
+        // unique per branch.
+        heroTag: Routes.words,
         onPressed: () => context.push(Routes.wordAdd),
         icon: const Icon(Icons.add),
         label: Text(l10n.addWordAction),
@@ -119,11 +123,22 @@ class _WordList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.separated(
-      // Room for the FAB not to cover the last row.
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl * 2),
+    final metrics = context.metrics;
+
+    // No separator: cards are told apart by tone and by the gap each one
+    // carries, so a divider between them would be drawing the same boundary
+    // twice. (The `Divider(indent: 16)` this replaces also hard-coded its
+    // indent, which is exactly what RULES §22 forbids.)
+    return ListView.builder(
+      padding: EdgeInsets.fromLTRB(
+        metrics.spaceLg,
+        metrics.spaceSm,
+        metrics.spaceLg,
+        // Room for the FAB not to cover the last card. `spaceXxl * 2` was 8dp
+        // short of the FAB's footprint, so the last card never fully cleared.
+        metrics.fabClearance,
+      ),
       itemCount: entries.length,
-      separatorBuilder: (_, _) => const Divider(height: 1, indent: 16),
       itemBuilder: (context, index) {
         final entry = entries[index];
         return WordTile(

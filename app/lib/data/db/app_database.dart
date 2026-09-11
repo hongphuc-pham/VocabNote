@@ -86,7 +86,7 @@ class AppDatabase extends _$AppDatabase {
   /// it against the on-disk version without constructing a database just to
   /// ask - which would both waste an open handle and trip drift's
   /// "instantiated twice" warning.
-  static const int latestSchemaVersion = 1;
+  static const int latestSchemaVersion = 2;
 
   @override
   int get schemaVersion => latestSchemaVersion;
@@ -101,7 +101,20 @@ class AppDatabase extends _$AppDatabase {
     // Generated step-by-step migrations (`schema_versions.dart`). Each step is
     // written once, tested against an exported schema snapshot, and never
     // edited again.
-    onUpgrade: stepByStep(),
+    onUpgrade: stepByStep(
+      // v2 (M5): the user's own repetition schedule, the in-session repeat
+      // cap, and the index the least-known sort has always needed.
+      //
+      // Purely additive. Both columns carry non-null defaults, so an existing
+      // row adopts them without a backfill - and the schedule's default *is*
+      // the `docs/GAMES.md` §5 table, so an upgrading user's behaviour does
+      // not change. Nothing is dropped, renamed or rebuilt (RULES §41).
+      from1To2: (m, schema) async {
+        await m.addColumn(schema.settings, schema.settings.reviewSchedule);
+        await m.addColumn(schema.settings, schema.settings.againRepeats);
+        await m.create(schema.idxCardsBoxLapses);
+      },
+    ),
 
     beforeOpen: (details) async {
       // Must be set on every connection, and outside a transaction. Without

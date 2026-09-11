@@ -1,0 +1,18 @@
+# Test configuration.
+#
+# `perf` is a tag rather than a plain test file because those tests measure
+# **wall-clock time**. Under the suite's own parallelism that measures how
+# loaded the machine is, not how fast the query is: the least-known sort takes
+# ~2ms in isolation and has been seen at 186ms with eight other test processes
+# competing for CPU.
+#
+# So they run in their own step, alone:
+#
+#     flutter test --exclude-tags perf     # the suite
+#     flutter test --tags perf -j 1        # the measurements
+#
+# Both are in the Makefile and both run in CI. This is not hiding the signal -
+# they still fail the build if a query regresses. It is measuring the thing the
+# test claims to measure.
+tags:
+  perf:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// The shared empty / error state (`docs/UI-UX.md` §4.1, §5, F-078).
 ///
@@ -43,10 +44,18 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final metrics = context.metrics;
+
+    // Room for the screen's floating action button, when it has one. At large
+    // text the content is tall enough to reach the bottom corner, and the
+    // action sat half under the FAB (found on the emulator at 200%).
+    final hasFab = Scaffold.maybeOf(context)?.hasFloatingActionButton ?? false;
+    final fabRoom = hasFab ? metrics.fabClearance : 0.0;
 
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.xxl),
+        padding: EdgeInsets.all(metrics.spaceXxl)
+            .copyWith(bottom: metrics.spaceXxl + fabRoom),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: Column(
@@ -57,17 +66,17 @@ class EmptyState extends StatelessWidget {
               ExcludeSemantics(
                 child: Icon(
                   icon,
-                  size: AppSpacing.xxl + AppSpacing.lg,
+                  size: context.metrics.spaceXxl + context.metrics.spaceLg,
                   color: theme.colorScheme.outlineVariant,
                 ),
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const VnGap(VnSpace.lg),
               Text(
                 title,
                 style: theme.textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.sm),
+              const VnGap(VnSpace.sm),
               Text(
                 body,
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -76,11 +85,11 @@ class EmptyState extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               if (actionLabel != null) ...<Widget>[
-                const SizedBox(height: AppSpacing.xl),
+                const VnGap(VnSpace.xl),
                 FilledButton(onPressed: onAction, child: Text(actionLabel!)),
               ],
               if (secondaryLabel != null) ...<Widget>[
-                const SizedBox(height: AppSpacing.sm),
+                const VnGap(VnSpace.sm),
                 TextButton(
                   onPressed: onSecondary,
                   child: Text(secondaryLabel!),

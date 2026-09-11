@@ -435,6 +435,510 @@ abstract class AppL10n {
   /// **'Clear filters'**
   String get emptyFilterClear;
 
+  /// Error state title on the lists grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your lists'**
+  String get listsLoadFailedTitle;
+
+  /// Error state body on the lists grid. Reassures that nothing was lost.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong reading them. Your lists are still saved.'**
+  String get listsLoadFailedBody;
+
+  /// Snackbar shown when creating or editing a list fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save that list. Please try again.'**
+  String get listSaveFailed;
+
+  /// Empty state title on a list's detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this list yet'**
+  String get listEmptyTitle;
+
+  /// Empty state body on a list's detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word to this list from the word\'s own screen.'**
+  String get listEmptyBody;
+
+  /// Name of the flashcard game on the practice hub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashcards'**
+  String get gameFlashcardTitle;
+
+  /// One-line description of the flashcard game.
+  ///
+  /// In en, this message translates to:
+  /// **'See a word, recall it, then say how it went.'**
+  String get gameFlashcardDescription;
+
+  /// Hint on the first card of a session only.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to reveal'**
+  String get flashcardTapToReveal;
+
+  /// Screen-reader label for the unflipped card.
+  ///
+  /// In en, this message translates to:
+  /// **'Card front. Tap to reveal the answer.'**
+  String get flashcardFrontLabel;
+
+  /// Screen-reader label for the flipped card.
+  ///
+  /// In en, this message translates to:
+  /// **'Card back. Choose how well you knew it.'**
+  String get flashcardBackLabel;
+
+  /// Grading button: the user did not know the word.
+  ///
+  /// In en, this message translates to:
+  /// **'Again'**
+  String get gradeAgain;
+
+  /// Grading button: the user knew the word.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get gradeGood;
+
+  /// Grading button: the user knew the word easily.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get gradeEasy;
+
+  /// Empty state title on the practice hub when there are no words.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to practise yet'**
+  String get practiceEmptyTitle;
+
+  /// Empty state body on the practice hub.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a few words and they\'ll show up here ready to review.'**
+  String get practiceEmptyBody;
+
+  /// Button that opens the quick-test config sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick test'**
+  String get practiceQuickTest;
+
+  /// Encouraging line when no cards are due. Never a warning (UI-UX 4.6).
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing due right now - a quick test still counts.'**
+  String get practiceNothingDue;
+
+  /// The daily goal on the practice hub: different words practised today, out of the goal (F-065). Never a warning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {goal} today'**
+  String practiceGoalProgress(int count, int goal);
+
+  /// Shown once today's words reach the daily goal (F-065).
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s goal reached - nice work'**
+  String get practiceGoalReached;
+
+  /// Days practised in a row (F-065). A streak of zero is never shown.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day in a row} other{{days} days in a row}}'**
+  String practiceStreak(int days);
+
+  /// Under the goal when there is no streak yet. Encouraging, never 'you lost your streak' (RULES 6).
+  ///
+  /// In en, this message translates to:
+  /// **'Any card you practise today counts'**
+  String get practiceGoalStart;
+
+  /// Shown when a daily review is started with nothing due.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up'**
+  String get practiceNothingDueTitle;
+
+  /// Body when a daily review has no cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is due today. Try a quick test if you\'d like more.'**
+  String get practiceNothingDueBody;
+
+  /// Shown when a quick test finds no matching words.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards here'**
+  String get practiceNoCardsTitle;
+
+  /// Body when a quick test pool is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matched that choice. Try a different source.'**
+  String get practiceNoCardsBody;
+
+  /// Screen-reader label for the close button during a session.
+  ///
+  /// In en, this message translates to:
+  /// **'Close practice'**
+  String get practiceCloseLabel;
+
+  /// Title of the confirm dialog when abandoning a daily review.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave this review?'**
+  String get practiceAbandonTitle;
+
+  /// Body of the abandon dialog. Says plainly that nothing is lost.
+  ///
+  /// In en, this message translates to:
+  /// **'The cards you\'ve already answered stay answered. The rest keep their current schedule.'**
+  String get practiceAbandonBody;
+
+  /// Button that dismisses the abandon dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get practiceAbandonStay;
+
+  /// Button that abandons the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get practiceAbandonLeave;
+
+  /// Title of the quick-test config sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick test'**
+  String get quickTestTitle;
+
+  /// Label for the source chips in the quick-test sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Words from'**
+  String get quickTestSource;
+
+  /// Label for the size chips in the quick-test sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'How many'**
+  String get quickTestSize;
+
+  /// Label for the prompt-side chips in the quick-test sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me first'**
+  String get quickTestPromptSide;
+
+  /// Toggle for text-to-speech autoplay during a quick test.
+  ///
+  /// In en, this message translates to:
+  /// **'Say the word when I reveal it'**
+  String get quickTestAutoplay;
+
+  /// Button that starts the quick test.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get quickTestStart;
+
+  /// Prompt side: show the headword first.
+  ///
+  /// In en, this message translates to:
+  /// **'The word'**
+  String get promptSideWord;
+
+  /// Prompt side: show the transcription first.
+  ///
+  /// In en, this message translates to:
+  /// **'The sounds'**
+  String get promptSideIpa;
+
+  /// Prompt side: show the definition first.
+  ///
+  /// In en, this message translates to:
+  /// **'The meaning'**
+  String get promptSideMeaning;
+
+  /// Button that starts a daily review, with how many cards are due.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily review ({count} due)'**
+  String practiceDailyReview(int count);
+
+  /// Says how many words are still needed before a game unlocks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Add 1 more word to unlock this} other{Add {count} more words to unlock this}}'**
+  String practiceLockedHint(int count);
+
+  /// The All size chip, naming the hard cap out loud.
+  ///
+  /// In en, this message translates to:
+  /// **'All (max {max})'**
+  String quickTestSizeAll(int max);
+
+  /// Heading of the practice section in Settings (UI-UX 4.9).
+  ///
+  /// In en, this message translates to:
+  /// **'Practice'**
+  String get settingsPracticeSection;
+
+  /// The switch for the optional daily reminder (F-066). Off by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get reminderTitle;
+
+  /// Under the reminder switch when it is off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get reminderOff;
+
+  /// Under the reminder switch when it is on. The time is already formatted for the user's locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day at {time}'**
+  String reminderOnAt(String time);
+
+  /// The row that changes when the daily reminder arrives.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get reminderTimeLabel;
+
+  /// Snackbar when notification permission is refused. Plain, never pleading.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off for VocabNote. You can allow them in your phone\'s settings.'**
+  String get reminderDenied;
+
+  /// Snackbar when the reminder could not be scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t set the reminder just now. Please try again.'**
+  String get reminderFailed;
+
+  /// Title of the daily reminder notification. An invitation, never a warning: no streak loss, no guilt (RULES 6).
+  ///
+  /// In en, this message translates to:
+  /// **'A few words today?'**
+  String get reminderNotificationTitle;
+
+  /// Body of the daily reminder notification.
+  ///
+  /// In en, this message translates to:
+  /// **'A short practice keeps them fresh.'**
+  String get reminderNotificationBody;
+
+  /// The notification channel's name in Android's system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get reminderChannelName;
+
+  /// The notification channel's description in Android's system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'One gentle reminder a day, at the time you chose.'**
+  String get reminderChannelDescription;
+
+  /// Title of the session summary screen.
+  ///
+  /// In en, this message translates to:
+  /// **'How that went'**
+  String get summaryTitle;
+
+  /// Heading above the words the user got wrong. Never 'wrong' (UI-UX 4.8).
+  ///
+  /// In en, this message translates to:
+  /// **'Worth another look'**
+  String get summaryMissedHeading;
+
+  /// Button that adds every missed word to a chosen list.
+  ///
+  /// In en, this message translates to:
+  /// **'Add these to a list'**
+  String get summaryAddMissed;
+
+  /// Button that leaves the summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get summaryDone;
+
+  /// Button on the summary that starts another session with the same choices (UI-UX 4.8).
+  ///
+  /// In en, this message translates to:
+  /// **'Practise again'**
+  String get summaryPractiseAgain;
+
+  /// Shown when the summary is opened with no session in memory.
+  ///
+  /// In en, this message translates to:
+  /// **'That session has finished'**
+  String get summaryMissingTitle;
+
+  /// Body when there is no session to summarise. Reassures that nothing was lost.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers were saved as you went. Start another whenever you like.'**
+  String get summaryMissingBody;
+
+  /// The score line. Warm, never a grade.
+  ///
+  /// In en, this message translates to:
+  /// **'Nice work - {correct} of {total}'**
+  String summaryScore(int correct, int total);
+
+  /// How long the session took.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m {seconds}s'**
+  String summaryTime(int minutes, int seconds);
+
+  /// Snackbar after adding missed words to a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word added to {name}} other{{count} words added to {name}}}'**
+  String summaryAddedToList(int count, String name);
+
+  /// Empty state title on the lists grid.
+  ///
+  /// In en, this message translates to:
+  /// **'No lists yet'**
+  String get listsEmptyTitle;
+
+  /// Empty state body on the lists grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists group words however you like - a course, a topic, the sounds you keep getting wrong.'**
+  String get listsEmptyBody;
+
+  /// Button that creates a list.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get newListAction;
+
+  /// Title of the sheet that creates a list.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get createListTitle;
+
+  /// Title of the sheet that renames or recolours a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit list'**
+  String get editListTitle;
+
+  /// Text field label for a list name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get listNameLabel;
+
+  /// Example list name shown in the empty field.
+  ///
+  /// In en, this message translates to:
+  /// **'IELTS speaking'**
+  String get listNameHint;
+
+  /// Validation message when a list name is blank.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the list a name.'**
+  String get listNameRequired;
+
+  /// Menu item that moves a list one place earlier in the grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get moveListUpAction;
+
+  /// Menu item that moves a list one place later in the grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get moveListDownAction;
+
+  /// Menu item that edits a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename or recolour'**
+  String get renameListAction;
+
+  /// Menu item that deletes a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete list'**
+  String get deleteListAction;
+
+  /// Title of the delete-list confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this list?'**
+  String get deleteListTitle;
+
+  /// Body of the delete-list confirmation. States plainly that words survive (F-042).
+  ///
+  /// In en, this message translates to:
+  /// **'The list goes, but every word in it stays in your words.'**
+  String get deleteListBody;
+
+  /// Screen-reader label for the button that opens a list's actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions for {name}'**
+  String listActionsLabel(String name);
+
+  /// App bar action on a list's detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise this list'**
+  String get practiseListAction;
+
+  /// Menu item that edits an existing note.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit note'**
+  String get editNoteAction;
+
+  /// Button that saves an edited note.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveNoteAction;
+
+  /// Word count on a list card.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No words} =1{1 word} other{{count} words}}'**
+  String listWordCount(int count);
+
+  /// Due-today badge on a list card.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 due} other{{count} due}}'**
+  String listDueCount(int count);
+
+  /// Screen-reader label for a filter chip that shows a word count.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, {count, plural, =1{1 word} other{{count} words}}'**
+  String filterCountLabel(String label, int count);
+
   /// Screen-reader label for the note count on a word row.
   ///
   /// In en, this message translates to:

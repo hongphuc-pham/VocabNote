@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Riverpod 3 moved `Override` out of the main barrel file.
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:vocabnote/app.dart';
-import 'package:vocabnote/core/utils/dynamic_color.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/database_opener.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
@@ -42,9 +41,8 @@ Future<void> bootstrap() async {
     // 2-5.
     final opened = await DatabaseOpener().open();
 
-    // 6a. Material You accent, if the device has one. Read before the first
-    // frame so the app never repaints from brand colours to device colours.
-    final dynamicSeed = await DynamicColor.accent();
+    // The app version is read here rather than in a widget: it is a platform
+    // channel call, and the About screen must not wait on one.
     final version = await resolveAppVersion();
 
     // Housekeeping, started but not awaited: the 30-day purge must not delay
@@ -52,7 +50,7 @@ Future<void> bootstrap() async {
     final database = opened.valueOrNull?.database;
     if (database != null) unawaited(purgeExpiredWords(database));
 
-    // 6b.
+    // 6.
     opened.fold(
       (result) => runApp(
         ProviderScope(
@@ -62,7 +60,7 @@ Future<void> bootstrap() async {
             // this line depends on domain interfaces only.
             ...repositoryOverrides(result.database, appVersion: version),
           ],
-          child: VocabNoteApp(dynamicSeed: dynamicSeed),
+          child: const VocabNoteApp(),
         ),
       ),
       (failure) {

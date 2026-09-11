@@ -29,6 +29,41 @@ void main() {
       expect(theme.colorScheme.outlineVariant, AppSurfaces.outlineVariantDark);
     });
 
+    test('carries the Phonetic Naturalist brand seeds', () {
+      expect(AppColorSeeds.primary, const Color(0xFF4E6E34), reason: 'olive');
+      expect(
+        AppColorSeeds.secondary,
+        const Color(0xFFD9653B),
+        reason: 'terracotta',
+      );
+      expect(AppColorSeeds.tertiary, const Color(0xFF16A38C), reason: 'teal');
+    });
+
+    test('the restyle left the surfaces alone', () {
+      // The design system's own prose keeps these near-neutral values, and its
+      // frontmatter disagrees with it. Asserting the literals means a later
+      // "tidy-up" toward the frontmatter has to be a deliberate edit here.
+      expect(AppSurfaces.surfaceLight, const Color(0xFFFBFAFF));
+      expect(AppSurfaces.surfaceDark, const Color(0xFF121318));
+      expect(AppSurfaces.surfaceContainerLight, const Color(0xFFF1F0F7));
+      expect(AppSurfaces.surfaceContainerDark, const Color(0xFF1D1E24));
+    });
+
+    test('tones each brand hue rather than using it as a role directly', () {
+      // A raw brand hex in `secondary` gets an `onSecondary` computed from a
+      // different palette, which is how white-on-#FF8A5B shipped at 2.32:1.
+      // Each hue now brings its own tonal palette; see theme_contrast_test.
+      for (final theme in <ThemeData>[AppTheme.light(), AppTheme.dark()]) {
+        expect(theme.colorScheme.secondary, isNot(AppColorSeeds.secondary));
+        expect(theme.colorScheme.tertiary, isNot(AppColorSeeds.tertiary));
+      }
+      // ...and the tone comes from the right hue, not from the primary palette.
+      expect(
+        AppTheme.light().colorScheme.secondary,
+        ColorScheme.fromSeed(seedColor: AppColorSeeds.secondary).primary,
+      );
+    });
+
     test('uses Inter for UI text', () {
       expect(AppTheme.light().textTheme.bodyLarge?.fontFamily, AppFonts.ui);
       expect(AppTheme.light().textTheme.titleLarge?.fontFamily, AppFonts.ui);
@@ -46,33 +81,46 @@ void main() {
       expect(text.labelLarge?.fontWeight, FontWeight.w500);
     });
 
-    test('honours a dynamic seed when the device supplies one', () {
-      const deviceAccent = Color(0xFF00A65A);
-      final branded = AppTheme.light();
-      final dynamic0 = AppTheme.light(dynamicSeed: deviceAccent);
-      expect(
-        dynamic0.colorScheme.primary,
-        isNot(branded.colorScheme.primary),
-        reason: 'Material You must actually change the scheme',
-      );
-    });
-
-    test('falls back to the brand seed when there is no dynamic colour', () {
-      // Passing an explicit null is the case under test: it is what
-      // DynamicColor.accent() returns off Android 12+.
-      const Color? noDynamicColour = null;
-      expect(
-        // The redundancy is the point: null is what the platform channel
-        // returns, and the theme must treat it as "use the brand seed".
-        // ignore: avoid_redundant_argument_values
-        AppTheme.light(dynamicSeed: noDynamicColour).colorScheme.primary,
-        AppTheme.light().colorScheme.primary,
-      );
-      // ...and that fallback really is the brand seed, not just "some colour".
+    test('always ships the brand, with no device accent to displace it', () {
+      // Material You used to replace the primary seed outright, which meant
+      // most Android 12+ users never saw the app's own identity. The theme now
+      // takes no device input at all, so the brand is what renders.
       expect(
         AppTheme.light().colorScheme.primary,
         ColorScheme.fromSeed(seedColor: AppColorSeeds.primary).primary,
       );
+      expect(
+        AppTheme.dark().colorScheme.primary,
+        ColorScheme.fromSeed(
+          seedColor: AppColorSeeds.primary,
+          brightness: Brightness.dark,
+        ).primary,
+      );
+    });
+
+    test('gives the app one answer to "this one is selected"', () {
+      // Material defaults a selected FilterChip and the navigation indicator to
+      // secondaryContainer, which put a terracotta selection next to an olive
+      // FAB. Found by looking at it on a device, not by a test.
+      for (final theme in <ThemeData>[AppTheme.light(), AppTheme.dark()]) {
+        final container = theme.colorScheme.primaryContainer;
+        expect(theme.chipTheme.selectedColor, container);
+        expect(theme.navigationBarTheme.indicatorColor, container);
+      }
+    });
+
+    test('the selected navigation icon is legible on the indicator', () {
+      for (final theme in <ThemeData>[AppTheme.light(), AppTheme.dark()]) {
+        final icons = theme.navigationBarTheme.iconTheme!;
+        expect(
+          icons.resolve(<WidgetState>{WidgetState.selected})?.color,
+          theme.colorScheme.onPrimaryContainer,
+        );
+        expect(
+          icons.resolve(<WidgetState>{})?.color,
+          theme.colorScheme.onSurfaceVariant,
+        );
+      }
     });
 
     test('registers both theme extensions in each brightness', () {

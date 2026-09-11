@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 // Riverpod 3 ships its own AsyncResult; ours is the Result-based one.
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide AsyncResult;
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -88,6 +90,16 @@ class _FakeSpeech implements SpeechService {
 /// is, and navigated through the real router so the route wiring is covered
 /// too. Only the speech engine is faked: a widget test has no audio device.
 void main() {
+  setUpAll(() {
+    // The note sheet autofocuses; a blinking caret never lets pumpAndSettle
+    // finish. See word_editor_screen_test.dart for the full story.
+    EditableText.debugDeterministicCursor = true;
+  });
+
+  tearDownAll(() {
+    EditableText.debugDeterministicCursor = false;
+  });
+
   late AppDatabase db;
   late _FakeSpeech speech;
   late ProviderContainer container;
@@ -146,6 +158,44 @@ void main() {
     addTearDown(() async {
       container.dispose();
       await db.close();
+    });
+  });
+
+  group('favourite (F-044, M4 A8)', () {
+    // The words list's star was tested; this one never was. Found by M4's T7,
+    // which set out to verify A8 rather than assume it.
+    Future<void> settleAsync(WidgetTester tester) async {
+      // `setFavourite` is fired, not awaited - step outside the fake clock so
+      // the write can land before asserting on it.
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    Finder appBarIcon(IconData icon) =>
+        find.descendant(of: find.byType(AppBar), matching: find.byIcon(icon));
+
+    Future<bool> storedFavourite(String id) async => (await (db.select(
+      db.words,
+    )..where((w) => w.id.equals(id))).getSingle()).isFavourite;
+
+    testWidgets('the star in the app bar favourites and unfavourites', (
+      tester,
+    ) async {
+      final id = await seedWord();
+      await pumpDetail(tester, id);
+      expect(appBarIcon(Icons.star_border), findsOneWidget);
+
+      await tester.tap(appBarIcon(Icons.star_border));
+      await settleAsync(tester);
+      expect(await tester.runAsync(() => storedFavourite(id)), isTrue);
+      expect(appBarIcon(Icons.star), findsOneWidget);
+
+      await tester.tap(appBarIcon(Icons.star));
+      await settleAsync(tester);
+      expect(await tester.runAsync(() => storedFavourite(id)), isFalse);
+      expect(appBarIcon(Icons.star_border), findsOneWidget);
     });
   });
 
@@ -361,6 +411,87 @@ void main() {
         isTrue,
         reason: 'a notice shown again after dismissal is nagging',
       );
+    });
+  });
+
+  testWidgets('the note sheet survives 200% text with the keyboard up', (
+    tester,
+  ) async {
+    // Found on the emulator with the list sheet: at 200% on 320dp, with the
+    // keyboard up, a sheet whose content could not scroll overflowed and
+    // pushed Save out of reach. This sheet had the same shape.
+    final id = await seedWord();
+    await container
+        .read(wordRepositoryProvider)
+        .addNote(wordId: id, body: 'mouth more open');
+    await pumpDetail(tester, id);
+
+    // Opened at the default size, where the note is on screen - the detail
+    // list builds lazily, so at 200% it would not exist yet - and only then
+    // taken to 320dp, 200% text and a 400dp keyboard. The sheet is the
+    // subject; how the user scrolled to the note is not.
+    await tester.tap(find.byTooltip('Edit note'));
+    await tester.pumpAndSettle();
+    tester.view.physicalSize = const Size(960, 2142);
+    tester.view.devicePixelRatio = 3;
+    tester.view.viewInsets = const FakeViewPadding(bottom: 1200);
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.view.reset);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull, reason: 'no overflow');
+    final save = find.widgetWithText(FilledButton, 'Save');
+    await tester.ensureVisible(save);
+    expect(save.hitTestable(), findsOneWidget);
+  });
+
+  group('notes (F-003, A7)', () {
+    Future<void> settleAsync(WidgetTester tester) async {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('an existing note can be edited, not only added or deleted', (
+      tester,
+    ) async {
+      final id = await seedWord();
+      await container
+          .read(wordRepositoryProvider)
+          .addNote(wordId: id, body: 'mouth more open');
+      await pumpDetail(tester, id);
+
+      await tester.tap(find.byTooltip('Edit note'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).last, 'jaw lower');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save'));
+      await settleAsync(tester);
+
+      final rows = await db.select(db.wordNotes).get();
+      expect(rows.single.body, 'jaw lower');
+    });
+
+    testWidgets('clearing the field cancels rather than destroying the note', (
+      tester,
+    ) async {
+      // Deleting has its own button and its own undo. An emptied edit field is
+      // far more likely to be a change of mind than a request to destroy.
+      final id = await seedWord();
+      await container
+          .read(wordRepositoryProvider)
+          .addNote(wordId: id, body: 'mouth more open');
+      await pumpDetail(tester, id);
+
+      await tester.tap(find.byTooltip('Edit note'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).last, '   ');
+      await tester.tap(find.widgetWithText(FilledButton, 'Save'));
+      await settleAsync(tester);
+
+      final rows = await db.select(db.wordNotes).get();
+      expect(rows.single.body, 'mouth more open');
     });
   });
 }

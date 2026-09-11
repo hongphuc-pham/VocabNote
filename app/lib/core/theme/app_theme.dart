@@ -93,37 +93,14 @@ extension AppTypographyContext on BuildContext {
 /// Factory for the app's two themes.
 abstract final class AppTheme {
   /// The light theme.
-  ///
-  /// [dynamicSeed] is the device's Material You accent on Android 12+; when it
-  /// is null the [AppColorSeeds.primary] brand seed is used instead.
-  static ThemeData light({Color? dynamicSeed}) =>
-      _build(Brightness.light, dynamicSeed);
+  static ThemeData light() => _build(Brightness.light);
 
-  /// The dark theme. See [light] for [dynamicSeed].
-  static ThemeData dark({Color? dynamicSeed}) =>
-      _build(Brightness.dark, dynamicSeed);
+  /// The dark theme.
+  static ThemeData dark() => _build(Brightness.dark);
 
-  static ThemeData _build(Brightness brightness, Color? dynamicSeed) {
+  static ThemeData _build(Brightness brightness) {
     final isLight = brightness == Brightness.light;
-
-    // The brand seed is the fallback, not the override: if the device offers a
-    // dynamic accent we honour it, which is the whole point of Material You.
-    final scheme = ColorScheme.fromSeed(
-      seedColor: dynamicSeed ?? AppColorSeeds.primary,
-      brightness: brightness,
-      secondary: AppColorSeeds.secondary,
-      tertiary: AppColorSeeds.tertiary,
-      // docs/UI-UX.md §2 pins these three, so they are not left to the
-      // generated tonal palette.
-      surface: isLight ? AppSurfaces.surfaceLight : AppSurfaces.surfaceDark,
-      surfaceContainer: isLight
-          ? AppSurfaces.surfaceContainerLight
-          : AppSurfaces.surfaceContainerDark,
-      outlineVariant: isLight
-          ? AppSurfaces.outlineVariantLight
-          : AppSurfaces.outlineVariantDark,
-    );
-
+    final scheme = _scheme(brightness);
     final textTheme = _textTheme(scheme.onSurface);
 
     return ThemeData(
@@ -147,10 +124,18 @@ abstract final class AppTheme {
         margin: EdgeInsets.zero,
         shape: const RoundedRectangleBorder(borderRadius: AppRadii.cardBorder),
       ),
+      // Selected means primary, everywhere. Material's default for a selected
+      // FilterChip and for the navigation indicator is `secondaryContainer`,
+      // which under this palette put a terracotta selection beside an olive
+      // FAB — two different answers to "this one is chosen" on one screen.
+      // `docs/UI-UX.md` §2 gives the app one.
       chipTheme: ChipThemeData(
         labelStyle: textTheme.labelLarge,
         shape: const RoundedRectangleBorder(borderRadius: AppRadii.chipBorder),
         side: BorderSide(color: scheme.outlineVariant),
+        selectedColor: scheme.primaryContainer,
+        checkmarkColor: scheme.onPrimaryContainer,
+        secondarySelectedColor: scheme.primaryContainer,
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: scheme.surfaceContainer,
@@ -169,6 +154,15 @@ abstract final class AppTheme {
         backgroundColor: scheme.surfaceContainer,
         elevation: 0,
         labelTextStyle: WidgetStatePropertyAll(textTheme.labelLarge),
+        indicatorColor: scheme.primaryContainer,
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: selected
+                ? scheme.onPrimaryContainer
+                : scheme.onSurfaceVariant,
+          );
+        }),
       ),
       dividerTheme: DividerThemeData(
         color: scheme.outlineVariant,
@@ -182,6 +176,51 @@ abstract final class AppTheme {
         // re-scales the whole app; see `app_metrics.dart`.
         AppMetrics.defaults(),
       ],
+    );
+  }
+
+  /// Builds the scheme from three brand hues rather than from one.
+  ///
+  /// Each hue gets its own Material tonal palette, and a role is always taken
+  /// together with its `on-` partner from the *same* palette. The obvious
+  /// alternative — writing a brand hex straight into `secondary` and letting
+  /// Material generate `onSecondary` — computes the pair from two different
+  /// inputs, and the result is not readable: it measured white on `#FF8A5B` at
+  /// 2.32:1, and an `onTertiary` derived from the blue palette landed purple.
+  /// `theme_contrast_test.dart` holds the line.
+  ///
+  /// Surfaces stay pinned. `docs/UI-UX.md` §2 fixes them, they are near-neutral
+  /// so they carry no hue to disagree with, and their `on-` partners are
+  /// asserted by the same test.
+  ///
+  /// There is deliberately no device-accent input. Material You replaced the
+  /// brand seed outright on Android 12+, which would have meant most users
+  /// never saw the app's own identity; `docs/UI-UX.md` §2 records the decision.
+  static ColorScheme _scheme(Brightness brightness) {
+    ColorScheme paletteFor(Color seed) =>
+        ColorScheme.fromSeed(seedColor: seed, brightness: brightness);
+
+    final isLight = brightness == Brightness.light;
+    final base = paletteFor(AppColorSeeds.primary);
+    final secondary = paletteFor(AppColorSeeds.secondary);
+    final tertiary = paletteFor(AppColorSeeds.tertiary);
+
+    return base.copyWith(
+      secondary: secondary.primary,
+      onSecondary: secondary.onPrimary,
+      secondaryContainer: secondary.primaryContainer,
+      onSecondaryContainer: secondary.onPrimaryContainer,
+      tertiary: tertiary.primary,
+      onTertiary: tertiary.onPrimary,
+      tertiaryContainer: tertiary.primaryContainer,
+      onTertiaryContainer: tertiary.onPrimaryContainer,
+      surface: isLight ? AppSurfaces.surfaceLight : AppSurfaces.surfaceDark,
+      surfaceContainer: isLight
+          ? AppSurfaces.surfaceContainerLight
+          : AppSurfaces.surfaceContainerDark,
+      outlineVariant: isLight
+          ? AppSurfaces.outlineVariantLight
+          : AppSurfaces.outlineVariantDark,
     );
   }
 

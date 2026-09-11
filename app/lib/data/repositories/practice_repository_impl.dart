@@ -7,6 +7,7 @@ import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/daos/practice_dao.dart';
 import 'package:vocabnote/data/repositories/mappers.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
+import 'package:vocabnote/domain/entities/practice_progress.dart';
 import 'package:vocabnote/domain/entities/practice_session.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
@@ -49,6 +50,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
         limit: effectiveLimit,
         source: source,
         sourceId: sourceId,
+        seed: seed,
       ),
       CardSelection.weakest => await _db.practiceDao.weakestCards(
         limit: effectiveLimit,
@@ -62,41 +64,38 @@ class PracticeRepositoryImpl implements PracticeRepository {
       ),
     };
 
-    return await _attachHighlights(pool, seed: seed);
+    return await _attachHighlights(pool);
   }, onError: (_, _) => _dbFailure('load practice pool'));
 
-  /// Loads the highlights for a whole pool in one query and attaches them.
+  /// Loads the highlights and first notes for a whole pool and attaches them.
   ///
   /// A running game must never touch the database, so everything a round can
   /// need is resolved before the session starts (`docs/GAMES.md` §2).
   ///
-  /// When [seed] is given the pool is shuffled deterministically, so a session
-  /// can be replayed exactly - which is why the seed is stored on the session
-  /// row.
+  /// The pool's order is kept. A daily review is already due-first, and a
+  /// quick test was drawn by its seed in the query; shuffling here would throw
+  /// the first away and add nothing to the second.
   Future<List<PracticeCardData>> _attachHighlights(
-    List<WordWithCard> pool, {
-    int? seed,
-  }) async {
+    List<WordWithCard> pool,
+  ) async {
     if (pool.isEmpty) return <PracticeCardData>[];
 
     final ids = pool.map((entry) => entry.word.id).toSet();
-    final grouped = await _db.highlightsDao.watchGroupedByWord().first;
+    final grouped = await _db.highlightsDao.groupedByWords(ids);
+    final firstNotes = await _db.notesDao.firstBodyByWord(ids);
 
-    final cards = <PracticeCardData>[
+    return <PracticeCardData>[
       for (final entry in pool)
-        if (ids.contains(entry.word.id))
-          PracticeCardData(
-            word: entry.word.toEntity(),
-            card: entry.card.toEntity(),
-            highlights: (grouped[entry.word.id] ?? const <IpaHighlightRow>[])
-                .map((row) => row.toEntityOrNull())
-                .whereType<IpaHighlight>()
-                .toList(),
-          ),
+        PracticeCardData(
+          word: entry.word.toEntity(),
+          card: entry.card.toEntity(),
+          highlights: (grouped[entry.word.id] ?? const <IpaHighlightRow>[])
+              .map((row) => row.toEntityOrNull())
+              .whereType<IpaHighlight>()
+              .toList(),
+          firstNote: firstNotes[entry.word.id],
+        ),
     ];
-
-    if (seed != null) cards.shuffle(Random(seed));
-    return cards;
   }
 
   @override
@@ -178,6 +177,38 @@ class PracticeRepositoryImpl implements PracticeRepository {
                 .toList(),
         onError: (_, _) => _dbFailure('read session answers'),
       );
+
+  @override
+  ResultStream<PracticeProgress> watchProgress() {
+    final now = _now();
+    final today = DateTime(now.year, now.month, now.day);
+    final since = DateTime(
+      now.year,
+      now.month,
+      now.day - PracticeProgress.lookBackDays,
+    );
+
+    return _db.practiceDao
+        .watchAnswerQuarterHours(since)
+        .asyncMap(
+          (quarters) async => PracticeProgress(
+            today: today,
+            // A one-shot read beside the watch, so both halves describe the
+            // same moment - and no `.first` on a second watch stream.
+            wordsToday: await _db.practiceDao.countWordsAnsweredSince(today),
+            daysPractised: <DateTime>{
+              for (final quarter in quarters) _localDate(quarter),
+            },
+          ),
+        )
+        .guarded(onError: (_, _) => _dbFailure('watch practice progress'));
+  }
+
+  /// The date [instant] falls on, on this device, at local midnight.
+  static DateTime _localDate(DateTime instant) {
+    final local = instant.toLocal();
+    return DateTime(local.year, local.month, local.day);
+  }
 
   @override
   ResultStream<List<PracticeSession>> watchRecentSessions({int limit = 30}) =>

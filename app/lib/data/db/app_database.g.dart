@@ -5194,6 +5194,30 @@ class $SettingsTable extends Settings
     ),
     defaultValue: const Constant(true),
   );
+  static const VerificationMeta _reviewScheduleMeta = const VerificationMeta(
+    'reviewSchedule',
+  );
+  @override
+  late final GeneratedColumn<String> reviewSchedule = GeneratedColumn<String>(
+    'review_schedule',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('[0,1,2,4,7,15,30]'),
+  );
+  static const VerificationMeta _againRepeatsMeta = const VerificationMeta(
+    'againRepeats',
+  );
+  @override
+  late final GeneratedColumn<int> againRepeats = GeneratedColumn<int>(
+    'again_repeats',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5207,6 +5231,8 @@ class $SettingsTable extends Settings
     reminderTimeMinutes,
     promptSide,
     lookupEnabled,
+    reviewSchedule,
+    againRepeats,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5277,6 +5303,24 @@ class $SettingsTable extends Settings
         ),
       );
     }
+    if (data.containsKey('review_schedule')) {
+      context.handle(
+        _reviewScheduleMeta,
+        reviewSchedule.isAcceptableOrUnknown(
+          data['review_schedule']!,
+          _reviewScheduleMeta,
+        ),
+      );
+    }
+    if (data.containsKey('again_repeats')) {
+      context.handle(
+        _againRepeatsMeta,
+        againRepeats.isAcceptableOrUnknown(
+          data['again_repeats']!,
+          _againRepeatsMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5336,6 +5380,14 @@ class $SettingsTable extends Settings
         DriftSqlType.bool,
         data['${effectivePrefix}lookup_enabled'],
       )!,
+      reviewSchedule: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}review_schedule'],
+      )!,
+      againRepeats: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}again_repeats'],
+      )!,
     );
   }
 
@@ -5389,6 +5441,21 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
   /// Turning it off makes the app entirely offline by choice, not merely by
   /// circumstance.
   final bool lookupEnabled;
+
+  /// The interval each Leitner box waits, as a JSON array of seven integers.
+  ///
+  /// The default **is** the `docs/GAMES.md` §5 table, so a user who never
+  /// opens Settings gets exactly the documented behaviour. Stored as JSON
+  /// rather than seven columns because it is one setting the user edits as a
+  /// unit, and because a `Sm2Scheduler` in phase 2 would want a different
+  /// shape entirely (ADR-005).
+  final String reviewSchedule;
+
+  /// How many extra times a card graded *again* may return in the same session.
+  ///
+  /// Session-local: it changes what one sitting feels like and touches no
+  /// scheduling column. 0 disables it.
+  final int againRepeats;
   const SettingsRow({
     required this.id,
     required this.themeMode,
@@ -5401,6 +5468,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     this.reminderTimeMinutes,
     required this.promptSide,
     required this.lookupEnabled,
+    required this.reviewSchedule,
+    required this.againRepeats,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5430,6 +5499,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       );
     }
     map['lookup_enabled'] = Variable<bool>(lookupEnabled);
+    map['review_schedule'] = Variable<String>(reviewSchedule);
+    map['again_repeats'] = Variable<int>(againRepeats);
     return map;
   }
 
@@ -5448,6 +5519,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           : Value(reminderTimeMinutes),
       promptSide: Value(promptSide),
       lookupEnabled: Value(lookupEnabled),
+      reviewSchedule: Value(reviewSchedule),
+      againRepeats: Value(againRepeats),
     );
   }
 
@@ -5470,6 +5543,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       ),
       promptSide: serializer.fromJson<PromptSide>(json['promptSide']),
       lookupEnabled: serializer.fromJson<bool>(json['lookupEnabled']),
+      reviewSchedule: serializer.fromJson<String>(json['reviewSchedule']),
+      againRepeats: serializer.fromJson<int>(json['againRepeats']),
     );
   }
   @override
@@ -5487,6 +5562,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       'reminderTimeMinutes': serializer.toJson<int?>(reminderTimeMinutes),
       'promptSide': serializer.toJson<PromptSide>(promptSide),
       'lookupEnabled': serializer.toJson<bool>(lookupEnabled),
+      'reviewSchedule': serializer.toJson<String>(reviewSchedule),
+      'againRepeats': serializer.toJson<int>(againRepeats),
     };
   }
 
@@ -5502,6 +5579,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     Value<int?> reminderTimeMinutes = const Value.absent(),
     PromptSide? promptSide,
     bool? lookupEnabled,
+    String? reviewSchedule,
+    int? againRepeats,
   }) => SettingsRow(
     id: id ?? this.id,
     themeMode: themeMode ?? this.themeMode,
@@ -5516,6 +5595,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
         : this.reminderTimeMinutes,
     promptSide: promptSide ?? this.promptSide,
     lookupEnabled: lookupEnabled ?? this.lookupEnabled,
+    reviewSchedule: reviewSchedule ?? this.reviewSchedule,
+    againRepeats: againRepeats ?? this.againRepeats,
   );
   SettingsRow copyWithCompanion(SettingsCompanion data) {
     return SettingsRow(
@@ -5540,6 +5621,12 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
       lookupEnabled: data.lookupEnabled.present
           ? data.lookupEnabled.value
           : this.lookupEnabled,
+      reviewSchedule: data.reviewSchedule.present
+          ? data.reviewSchedule.value
+          : this.reviewSchedule,
+      againRepeats: data.againRepeats.present
+          ? data.againRepeats.value
+          : this.againRepeats,
     );
   }
 
@@ -5556,7 +5643,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           ..write('reminderEnabled: $reminderEnabled, ')
           ..write('reminderTimeMinutes: $reminderTimeMinutes, ')
           ..write('promptSide: $promptSide, ')
-          ..write('lookupEnabled: $lookupEnabled')
+          ..write('lookupEnabled: $lookupEnabled, ')
+          ..write('reviewSchedule: $reviewSchedule, ')
+          ..write('againRepeats: $againRepeats')
           ..write(')'))
         .toString();
   }
@@ -5574,6 +5663,8 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
     reminderTimeMinutes,
     promptSide,
     lookupEnabled,
+    reviewSchedule,
+    againRepeats,
   );
   @override
   bool operator ==(Object other) =>
@@ -5589,7 +5680,9 @@ class SettingsRow extends DataClass implements Insertable<SettingsRow> {
           other.reminderEnabled == this.reminderEnabled &&
           other.reminderTimeMinutes == this.reminderTimeMinutes &&
           other.promptSide == this.promptSide &&
-          other.lookupEnabled == this.lookupEnabled);
+          other.lookupEnabled == this.lookupEnabled &&
+          other.reviewSchedule == this.reviewSchedule &&
+          other.againRepeats == this.againRepeats);
 }
 
 class SettingsCompanion extends UpdateCompanion<SettingsRow> {
@@ -5604,6 +5697,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
   final Value<int?> reminderTimeMinutes;
   final Value<PromptSide> promptSide;
   final Value<bool> lookupEnabled;
+  final Value<String> reviewSchedule;
+  final Value<int> againRepeats;
   const SettingsCompanion({
     this.id = const Value.absent(),
     this.themeMode = const Value.absent(),
@@ -5616,6 +5711,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.reminderTimeMinutes = const Value.absent(),
     this.promptSide = const Value.absent(),
     this.lookupEnabled = const Value.absent(),
+    this.reviewSchedule = const Value.absent(),
+    this.againRepeats = const Value.absent(),
   });
   SettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -5629,6 +5726,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     this.reminderTimeMinutes = const Value.absent(),
     this.promptSide = const Value.absent(),
     this.lookupEnabled = const Value.absent(),
+    this.reviewSchedule = const Value.absent(),
+    this.againRepeats = const Value.absent(),
   });
   static Insertable<SettingsRow> custom({
     Expression<int>? id,
@@ -5642,6 +5741,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Expression<int>? reminderTimeMinutes,
     Expression<String>? promptSide,
     Expression<bool>? lookupEnabled,
+    Expression<String>? reviewSchedule,
+    Expression<int>? againRepeats,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5656,6 +5757,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
         'reminder_time_minutes': reminderTimeMinutes,
       if (promptSide != null) 'prompt_side': promptSide,
       if (lookupEnabled != null) 'lookup_enabled': lookupEnabled,
+      if (reviewSchedule != null) 'review_schedule': reviewSchedule,
+      if (againRepeats != null) 'again_repeats': againRepeats,
     });
   }
 
@@ -5671,6 +5774,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     Value<int?>? reminderTimeMinutes,
     Value<PromptSide>? promptSide,
     Value<bool>? lookupEnabled,
+    Value<String>? reviewSchedule,
+    Value<int>? againRepeats,
   }) {
     return SettingsCompanion(
       id: id ?? this.id,
@@ -5684,6 +5789,8 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
       reminderTimeMinutes: reminderTimeMinutes ?? this.reminderTimeMinutes,
       promptSide: promptSide ?? this.promptSide,
       lookupEnabled: lookupEnabled ?? this.lookupEnabled,
+      reviewSchedule: reviewSchedule ?? this.reviewSchedule,
+      againRepeats: againRepeats ?? this.againRepeats,
     );
   }
 
@@ -5729,6 +5836,12 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
     if (lookupEnabled.present) {
       map['lookup_enabled'] = Variable<bool>(lookupEnabled.value);
     }
+    if (reviewSchedule.present) {
+      map['review_schedule'] = Variable<String>(reviewSchedule.value);
+    }
+    if (againRepeats.present) {
+      map['again_repeats'] = Variable<int>(againRepeats.value);
+    }
     return map;
   }
 
@@ -5745,7 +5858,9 @@ class SettingsCompanion extends UpdateCompanion<SettingsRow> {
           ..write('reminderEnabled: $reminderEnabled, ')
           ..write('reminderTimeMinutes: $reminderTimeMinutes, ')
           ..write('promptSide: $promptSide, ')
-          ..write('lookupEnabled: $lookupEnabled')
+          ..write('lookupEnabled: $lookupEnabled, ')
+          ..write('reviewSchedule: $reviewSchedule, ')
+          ..write('againRepeats: $againRepeats')
           ..write(')'))
         .toString();
   }
@@ -5813,6 +5928,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'idx_cards_due',
     'CREATE INDEX idx_cards_due ON study_cards (due_at, suspended)',
   );
+  late final Index idxCardsBoxLapses = Index(
+    'idx_cards_box_lapses',
+    'CREATE INDEX idx_cards_box_lapses ON study_cards (box, lapses)',
+  );
   late final WordsDao wordsDao = WordsDao(this as AppDatabase);
   late final NotesDao notesDao = NotesDao(this as AppDatabase);
   late final HighlightsDao highlightsDao = HighlightsDao(this as AppDatabase);
@@ -5847,6 +5966,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     settings,
     idxHighlightsWord,
     idxCardsDue,
+    idxCardsBoxLapses,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -9943,6 +10063,8 @@ typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   Value<int?> reminderTimeMinutes,
   Value<PromptSide> promptSide,
   Value<bool> lookupEnabled,
+  Value<String> reviewSchedule,
+  Value<int> againRepeats,
 });
 typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int> id,
@@ -9956,6 +10078,8 @@ typedef $$SettingsTableUpdateCompanionBuilder = SettingsCompanion Function({
   Value<int?> reminderTimeMinutes,
   Value<PromptSide> promptSide,
   Value<bool> lookupEnabled,
+  Value<String> reviewSchedule,
+  Value<int> againRepeats,
 });
 
 class $$SettingsTableFilterComposer
@@ -10024,6 +10148,16 @@ class $$SettingsTableFilterComposer
     column: $table.lookupEnabled,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<String> get reviewSchedule => $composableBuilder(
+    column: $table.reviewSchedule,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get againRepeats => $composableBuilder(
+    column: $table.againRepeats,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SettingsTableOrderingComposer
@@ -10089,6 +10223,16 @@ class $$SettingsTableOrderingComposer
     column: $table.lookupEnabled,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get reviewSchedule => $composableBuilder(
+    column: $table.reviewSchedule,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get againRepeats => $composableBuilder(
+    column: $table.againRepeats,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SettingsTableAnnotationComposer
@@ -10143,6 +10287,16 @@ class $$SettingsTableAnnotationComposer
     column: $table.lookupEnabled,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get reviewSchedule => $composableBuilder(
+    column: $table.reviewSchedule,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get againRepeats => $composableBuilder(
+    column: $table.againRepeats,
+    builder: (column) => column,
+  );
 }
 
 class $$SettingsTableTableManager
@@ -10187,6 +10341,8 @@ class $$SettingsTableTableManager
                 Value<int?> reminderTimeMinutes = const Value.absent(),
                 Value<PromptSide> promptSide = const Value.absent(),
                 Value<bool> lookupEnabled = const Value.absent(),
+                Value<String> reviewSchedule = const Value.absent(),
+                Value<int> againRepeats = const Value.absent(),
               }) => SettingsCompanion(
                 id: id,
                 themeMode: themeMode,
@@ -10199,6 +10355,8 @@ class $$SettingsTableTableManager
                 reminderTimeMinutes: reminderTimeMinutes,
                 promptSide: promptSide,
                 lookupEnabled: lookupEnabled,
+                reviewSchedule: reviewSchedule,
+                againRepeats: againRepeats,
               ),
           createCompanionCallback:
               ({
@@ -10213,6 +10371,8 @@ class $$SettingsTableTableManager
                 Value<int?> reminderTimeMinutes = const Value.absent(),
                 Value<PromptSide> promptSide = const Value.absent(),
                 Value<bool> lookupEnabled = const Value.absent(),
+                Value<String> reviewSchedule = const Value.absent(),
+                Value<int> againRepeats = const Value.absent(),
               }) => SettingsCompanion.insert(
                 id: id,
                 themeMode: themeMode,
@@ -10225,6 +10385,8 @@ class $$SettingsTableTableManager
                 reminderTimeMinutes: reminderTimeMinutes,
                 promptSide: promptSide,
                 lookupEnabled: lookupEnabled,
+                reviewSchedule: reviewSchedule,
+                againRepeats: againRepeats,
               ),
           withReferenceMapper: (p0) => p0
               .map(

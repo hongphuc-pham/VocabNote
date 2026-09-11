@@ -195,6 +195,335 @@ class AppL10nEn extends AppL10n {
   String get emptyFilterClear => 'Clear filters';
 
   @override
+  String get listsLoadFailedTitle => 'Couldn\'t load your lists';
+
+  @override
+  String get listsLoadFailedBody =>
+      'Something went wrong reading them. Your lists are still saved.';
+
+  @override
+  String get listSaveFailed => 'Couldn\'t save that list. Please try again.';
+
+  @override
+  String get listEmptyTitle => 'Nothing in this list yet';
+
+  @override
+  String get listEmptyBody =>
+      'Add a word to this list from the word\'s own screen.';
+
+  @override
+  String get gameFlashcardTitle => 'Flashcards';
+
+  @override
+  String get gameFlashcardDescription =>
+      'See a word, recall it, then say how it went.';
+
+  @override
+  String get flashcardTapToReveal => 'Tap to reveal';
+
+  @override
+  String get flashcardFrontLabel => 'Card front. Tap to reveal the answer.';
+
+  @override
+  String get flashcardBackLabel => 'Card back. Choose how well you knew it.';
+
+  @override
+  String get gradeAgain => 'Again';
+
+  @override
+  String get gradeGood => 'Good';
+
+  @override
+  String get gradeEasy => 'Easy';
+
+  @override
+  String get practiceEmptyTitle => 'Nothing to practise yet';
+
+  @override
+  String get practiceEmptyBody =>
+      'Add a few words and they\'ll show up here ready to review.';
+
+  @override
+  String get practiceQuickTest => 'Quick test';
+
+  @override
+  String get practiceNothingDue =>
+      'Nothing due right now - a quick test still counts.';
+
+  @override
+  String practiceGoalProgress(int count, int goal) {
+    return '$count of $goal today';
+  }
+
+  @override
+  String get practiceGoalReached => 'Today\'s goal reached - nice work';
+
+  @override
+  String practiceStreak(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days in a row',
+      one: '1 day in a row',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get practiceGoalStart => 'Any card you practise today counts';
+
+  @override
+  String get practiceNothingDueTitle => 'All caught up';
+
+  @override
+  String get practiceNothingDueBody =>
+      'Nothing is due today. Try a quick test if you\'d like more.';
+
+  @override
+  String get practiceNoCardsTitle => 'No cards here';
+
+  @override
+  String get practiceNoCardsBody =>
+      'Nothing matched that choice. Try a different source.';
+
+  @override
+  String get practiceCloseLabel => 'Close practice';
+
+  @override
+  String get practiceAbandonTitle => 'Leave this review?';
+
+  @override
+  String get practiceAbandonBody =>
+      'The cards you\'ve already answered stay answered. The rest keep their current schedule.';
+
+  @override
+  String get practiceAbandonStay => 'Keep going';
+
+  @override
+  String get practiceAbandonLeave => 'Leave';
+
+  @override
+  String get quickTestTitle => 'Quick test';
+
+  @override
+  String get quickTestSource => 'Words from';
+
+  @override
+  String get quickTestSize => 'How many';
+
+  @override
+  String get quickTestPromptSide => 'Show me first';
+
+  @override
+  String get quickTestAutoplay => 'Say the word when I reveal it';
+
+  @override
+  String get quickTestStart => 'Start';
+
+  @override
+  String get promptSideWord => 'The word';
+
+  @override
+  String get promptSideIpa => 'The sounds';
+
+  @override
+  String get promptSideMeaning => 'The meaning';
+
+  @override
+  String practiceDailyReview(int count) {
+    return 'Daily review ($count due)';
+  }
+
+  @override
+  String practiceLockedHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Add $count more words to unlock this',
+      one: 'Add 1 more word to unlock this',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quickTestSizeAll(int max) {
+    return 'All (max $max)';
+  }
+
+  @override
+  String get settingsPracticeSection => 'Practice';
+
+  @override
+  String get reminderTitle => 'Daily reminder';
+
+  @override
+  String get reminderOff => 'Off';
+
+  @override
+  String reminderOnAt(String time) {
+    return 'Every day at $time';
+  }
+
+  @override
+  String get reminderTimeLabel => 'Time';
+
+  @override
+  String get reminderDenied =>
+      'Notifications are off for VocabNote. You can allow them in your phone\'s settings.';
+
+  @override
+  String get reminderFailed =>
+      'Couldn\'t set the reminder just now. Please try again.';
+
+  @override
+  String get reminderNotificationTitle => 'A few words today?';
+
+  @override
+  String get reminderNotificationBody => 'A short practice keeps them fresh.';
+
+  @override
+  String get reminderChannelName => 'Daily reminder';
+
+  @override
+  String get reminderChannelDescription =>
+      'One gentle reminder a day, at the time you chose.';
+
+  @override
+  String get summaryTitle => 'How that went';
+
+  @override
+  String get summaryMissedHeading => 'Worth another look';
+
+  @override
+  String get summaryAddMissed => 'Add these to a list';
+
+  @override
+  String get summaryDone => 'Done';
+
+  @override
+  String get summaryPractiseAgain => 'Practise again';
+
+  @override
+  String get summaryMissingTitle => 'That session has finished';
+
+  @override
+  String get summaryMissingBody =>
+      'Your answers were saved as you went. Start another whenever you like.';
+
+  @override
+  String summaryScore(int correct, int total) {
+    return 'Nice work - $correct of $total';
+  }
+
+  @override
+  String summaryTime(int minutes, int seconds) {
+    return '${minutes}m ${seconds}s';
+  }
+
+  @override
+  String summaryAddedToList(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words added to $name',
+      one: '1 word added to $name',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listsEmptyTitle => 'No lists yet';
+
+  @override
+  String get listsEmptyBody =>
+      'Lists group words however you like - a course, a topic, the sounds you keep getting wrong.';
+
+  @override
+  String get newListAction => 'New list';
+
+  @override
+  String get createListTitle => 'New list';
+
+  @override
+  String get editListTitle => 'Edit list';
+
+  @override
+  String get listNameLabel => 'Name';
+
+  @override
+  String get listNameHint => 'IELTS speaking';
+
+  @override
+  String get listNameRequired => 'Give the list a name.';
+
+  @override
+  String get moveListUpAction => 'Move up';
+
+  @override
+  String get moveListDownAction => 'Move down';
+
+  @override
+  String get renameListAction => 'Rename or recolour';
+
+  @override
+  String get deleteListAction => 'Delete list';
+
+  @override
+  String get deleteListTitle => 'Delete this list?';
+
+  @override
+  String get deleteListBody =>
+      'The list goes, but every word in it stays in your words.';
+
+  @override
+  String listActionsLabel(String name) {
+    return 'Actions for $name';
+  }
+
+  @override
+  String get practiseListAction => 'Practise this list';
+
+  @override
+  String get editNoteAction => 'Edit note';
+
+  @override
+  String get saveNoteAction => 'Save';
+
+  @override
+  String listWordCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words',
+      one: '1 word',
+      zero: 'No words',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String listDueCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count due',
+      one: '1 due',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String filterCountLabel(String label, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words',
+      one: '1 word',
+    );
+    return '$label, $_temp0';
+  }
+
+  @override
   String wordNoteCountLabel(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

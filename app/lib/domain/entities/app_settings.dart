@@ -99,6 +99,19 @@ abstract class AppSettings with _$AppSettings {
     /// Turning it off makes the app entirely offline by choice, not just by
     /// circumstance.
     @Default(true) bool lookupEnabled,
+
+    /// The interval each Leitner box waits, as a JSON array of seven integers.
+    ///
+    /// Kept as the stored string here rather than a parsed object: `domain`
+    /// may not import `application`, and `ReviewSchedule` lives there with the
+    /// scheduler it serves. `ReviewSchedule.fromJson` does the parsing, and
+    /// falls back to the documented default if this is ever unusable.
+    @Default('[0,1,2,4,7,15,30]') String reviewScheduleJson,
+
+    /// How many extra times a card graded *again* returns in the same session.
+    ///
+    /// Session-local: it touches no scheduling column. 0 disables it.
+    @Default(1) int againRepeats,
   }) = _AppSettings;
 
   const new _();

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/failure.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// Shown instead of the app when the database could not be opened.
 ///
@@ -48,7 +49,7 @@ class RecoveryScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.xxl),
+            padding: EdgeInsets.all(context.metrics.spaceXxl),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 480),
               child: Column(
@@ -57,29 +58,29 @@ class RecoveryScreen extends StatelessWidget {
                 children: <Widget>[
                   Icon(
                     Icons.shield_outlined,
-                    size: AppSpacing.xxl,
+                    size: context.metrics.spaceXxl,
                     color: theme.colorScheme.primary,
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  const VnGap(VnSpace.lg),
                   Text(
                     title,
                     style: theme.textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  const VnGap(VnSpace.md),
                   Text(
                     body,
                     style: theme.textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  const VnGap(VnSpace.lg),
                   // The promise, stated plainly, because this is the moment a
                   // user is most afraid they have lost their words.
                   Container(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    padding: EdgeInsets.all(context.metrics.spaceLg),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainer,
-                      borderRadius: AppRadii.cardBorder,
+                      borderRadius: context.metrics.cardBorder,
                     ),
                     child: Text(
                       l10n.recoveryNothingDeleted,
@@ -87,13 +88,13 @@ class RecoveryScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.xl),
+                  const VnGap(VnSpace.xl),
                   FilledButton.icon(
                     onPressed: onExport,
                     icon: const Icon(Icons.ios_share),
                     label: Text(l10n.recoveryExportAction),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
+                  const VnGap(VnSpace.sm),
                   Text(
                     failure.debugLabel,
                     style: theme.textTheme.labelLarge?.copyWith(

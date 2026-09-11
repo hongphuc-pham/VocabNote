@@ -116,6 +116,13 @@ class AppMetrics extends ThemeExtension<AppMetrics> {
   /// [radiusPill] as a [BorderRadius].
   BorderRadius get pillBorder => BorderRadius.circular(radiusPill);
 
+  /// The room a scrolling body leaves at its end for a floating action
+  /// button, so its last item can scroll clear of it.
+  ///
+  /// A 56dp FAB on its 16dp margin fits inside a touch target plus a margin
+  /// either side.
+  double get fabClearance => minTouchTarget + kFloatingActionButtonMargin * 2;
+
   @override
   AppMetrics copyWith({
     double? spaceXs,

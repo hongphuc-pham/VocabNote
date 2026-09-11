@@ -81,11 +81,10 @@ app/
 │  │  ├─ words/                       # controllers, search, lookup-merge logic
 │  │  ├─ highlights/
 │  │  ├─ practice/
-│  │  │  ├─ game_registry.dart
-│  │  │  ├─ game_contracts.dart       # see docs/GAMES.md
-│  │  │  ├─ card_pool_providers.dart
-│  │  │  ├─ scheduler/                # review_scheduler.dart, leitner_scheduler.dart
-│  │  │  └─ games/flashcard/
+│  │  │  ├─ game_contracts.dart       # contracts + GameRegistry, see docs/GAMES.md
+│  │  │  ├─ practice_session_controller.dart  # the runner
+│  │  │  ├─ practice_hub_controller.dart
+│  │  │  └─ scheduler/                # leitner_scheduler.dart, review_schedule.dart
 │  │  ├─ settings/
 │  │  └─ backup/
 │  │
@@ -94,7 +93,8 @@ app/
 │     ├─ onboarding/
 │     ├─ words/                       # list, detail, editor, ipa_highlight_editor
 │     ├─ lists/
-│     ├─ practice/                    # hub, config sheet, flashcard screen, summary
+│     ├─ practice/                    # hub, config sheet, run screen, summary, registry
+│     │  └─ games/flashcard/          # a game: presentation implementing the contracts
 │     ├─ settings/                    # settings, help, guide, licences, backup
 │     └─ common/                      # buttons, empty states, IpaText, WordTile …
 │
@@ -137,7 +137,7 @@ and a licence check (permissive only — MIT/BSD/Apache-2.0/OFL).
 | Riverpod **2** → **3** | **Riverpod 3** | Riverpod 2 with codegen is not installable alongside Drift: `riverpod_generator` 2.x needs `source_gen ^2`, `drift_dev` needs `source_gen >=3`. Riverpod 2.6.1 is also 22 months old and unmaintained, failing `RULES.md` §17. |
 | `sqlite3_flutter_libs` | **not a direct dependency** | Since `0.6.0+eol` the package is an empty stub — `package:sqlite3` 3.x bundles the native libraries itself. It still arrives transitively via `drift_flutter`; listing it directly would advertise a dependency that does nothing. |
 | `meta` | **added** | `@immutable` in `domain/`, which may not import Flutter (§1). BSD-3, Dart team. |
-| `dynamic_color` | **not added** | Material You needs one integer from one platform channel; `RULES.md` §18 prefers the helper. See `core/utils/dynamic_color.dart` and `MainActivity.kt`. |
+| `dynamic_color` | **not added, and no hand-written equivalent either** | Originally skipped because Material You needs one integer from one platform channel and `RULES.md` §18 prefers a helper. The helper existed until the M3 restyle and was then deleted with it: the device accent *replaced* the brand seed, so on Android 12+ most users would never have seen the app's own colours. See `UI-UX.md` §2. |
 
 ### 3.3 The DI seam between application and data *(decided at M2)*
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
-import 'package:vocabnote/core/theme/tokens.dart';
+import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/domain/entities/word_suggestion.dart';
+import 'package:vocabnote/presentation/design/gap.dart';
 
 /// The look-up results card (`docs/UI-UX.md` §4.2, F-004).
 ///
@@ -47,7 +48,7 @@ class LookupCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: EdgeInsets.all(context.metrics.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -73,9 +74,9 @@ class LookupCard extends StatelessWidget {
                 onAccept: onAccept,
               ),
             if (suggestions.requiresAttribution) ...<Widget>[
-              const SizedBox(height: AppSpacing.md),
+              const VnGap(VnSpace.md),
               const Divider(height: 1),
-              const SizedBox(height: AppSpacing.sm),
+              const VnGap(VnSpace.sm),
               _AttributionLine(suggestions: suggestions),
             ],
           ],
@@ -113,7 +114,7 @@ class _FieldRow extends StatelessWidget {
     };
 
     return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.md),
+      padding: EdgeInsets.only(top: context.metrics.spaceMd),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -123,10 +124,10 @@ class _FieldRow extends StatelessWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
+          const VnGap(VnSpace.xs),
           Wrap(
-            spacing: AppSpacing.sm,
-            runSpacing: AppSpacing.sm,
+            spacing: context.metrics.spaceSm,
+            runSpacing: context.metrics.spaceSm,
             children: <Widget>[
               for (final suggestion in suggestions)
                 ActionChip(
@@ -167,7 +168,7 @@ class _AttributionLine extends StatelessWidget {
 
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: AppSpacing.sm,
+      spacing: context.metrics.spaceSm,
       children: <Widget>[
         Text(
           suggestions.attribution!,
@@ -205,14 +206,14 @@ class _Notice extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.only(
-        left: AppSpacing.lg,
-        top: AppSpacing.sm,
-        bottom: AppSpacing.sm,
+      padding: EdgeInsets.only(
+        left: context.metrics.spaceLg,
+        top: context.metrics.spaceSm,
+        bottom: context.metrics.spaceSm,
       ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainer,
-        borderRadius: AppRadii.cardBorder,
+        borderRadius: context.metrics.cardBorder,
       ),
       child: Row(
         children: <Widget>[
