@@ -74,7 +74,8 @@ app/
 │  │  │  ├─ dto/                      # freezed DTOs + fromJson
 │  │  │  └─ offline_ipa_source.dart   # CMUdict-derived asset lookup
 │  │  ├─ speech/flutter_tts_service.dart
-│  │  ├─ backup/backup_service.dart   # export/import .vocabnote.zip
+│  │  ├─ backup/                      # backup_codec.dart (the .vnb format),
+│  │  │                               # backup_tables.dart, share_plus_backup_files.dart
 │  │  └─ repositories/                # *_repository_impl.dart
 │  │
 │  ├─ application/

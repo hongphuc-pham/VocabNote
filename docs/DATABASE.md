@@ -208,6 +208,34 @@ Because there is no cloud, export is how a user moves to a new phone.
   `data.json` (all tables, arrays of objects).
 - **The export format is versioned independently of the schema.** Readers must ignore unknown
   fields and default missing ones — an older app must be able to read a newer file's known parts.
+
+*Built at M6 — export format version 1* (`data/backup/backup_codec.dart`):
+
+- **Rows are keyed by SQL column name, with values as SQLite stores them** — epoch
+  milliseconds, `0`/`1`, the documented enum strings. The file format *is* §2, not a second
+  vocabulary, and export is `SELECT *`, so a column added by a later additive migration is
+  carried without the exporter changing.
+- `data.json` is `{"tables": {"<table>": [{row}, …]}}`. `exported_at` is ISO-8601 UTC.
+- **Carried**, parents before children (the order they are restored in): `words` —
+  soft-deleted ones too, with `deleted_at`, so Replace restores them within their window —
+  `word_notes`, `ipa_highlights`, `word_lists`, `word_list_items`, `study_cards`,
+  `practice_sessions`, `practice_answers`, `settings`.
+- **Not carried:** `app_meta` — `install_id` is local-only by promise (`DATA-SOURCES.md` §7)
+  and the other keys describe this install, not the library — and `words_fts`, which is
+  derived.
+- **Refused before anything is written:** a file over 64 MB, or an entry declaring more than
+  256 MB inflated (`package:archive` has no zip-bomb guard of its own); a file that is not a
+  ZIP, or a ZIP with no `manifest.json` (*not a backup*); a ZIP that cannot be read — most
+  often one cut short by an interrupted download — or whose manifest or data is not a JSON
+  object (*damaged*).
+- **Accepted, because it is merely unfamiliar:** a newer format or schema version, unknown
+  keys, unknown tables. A row that is not an object is dropped and counted; a manifest value
+  of the wrong type takes its default.
+- The export is read in one transaction, so it is a single moment of the library; encoded off
+  the UI isolate; written to the OS temporary directory (earlier exports there are removed —
+  each is a full copy of the user's words); and handed to the share sheet.
+  `app_meta.last_backup_at` moves only when the sheet reports the file went somewhere, or
+  cannot say — never for a file still sitting in a cache folder.
 - Import offers **Merge** (default: match on `id`, then on `headword_normalized`; newer
   `updated_at` wins) or **Replace** (explicit confirmation, takes a backup first).
 - Import runs in one transaction and reports a summary: added / updated / skipped.

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 // Riverpod 3 moved `Override` out of the main barrel file.
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:vocabnote/application/repositories.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
+import 'package:vocabnote/data/backup/share_plus_backup_files.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
@@ -12,8 +15,10 @@ import 'package:vocabnote/data/repositories/dictionary_repository_impl.dart';
 import 'package:vocabnote/data/repositories/list_repository_impl.dart';
 import 'package:vocabnote/data/repositories/practice_repository_impl.dart';
 import 'package:vocabnote/data/repositories/settings_repository_impl.dart';
+import 'package:vocabnote/data/repositories/user_data_repository_impl.dart';
 import 'package:vocabnote/data/repositories/word_repository_impl.dart';
 import 'package:vocabnote/data/speech/flutter_tts_service.dart';
+import 'package:vocabnote/domain/repositories/backup_files.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
 
@@ -33,11 +38,17 @@ import 'package:vocabnote/domain/repositories/speech_service.dart';
 ///
 /// [reminderService] is injectable for the same reason: a test records what
 /// would have been asked of the OS instead of asking it.
+///
+/// [backupFiles] and [exportDirectory] likewise: a test has no share sheet
+/// and no `path_provider`, so it records the share and names a temporary
+/// folder.
 List<Override> repositoryOverrides(
   AppDatabase database, {
   String? appVersion,
   SpeechService? speechService,
   ReminderService? reminderService,
+  BackupFiles? backupFiles,
+  Future<Directory> Function()? exportDirectory,
 }) {
   final offline = OfflineIpaSource();
   final client = FreeDictionaryClient(
@@ -67,6 +78,17 @@ List<Override> repositoryOverrides(
     // the reminder on.
     reminderServiceProvider.overrideWithValue(
       reminderService ?? LocalNotificationsReminderService(),
+    ),
+    userDataRepositoryProvider.overrideWithValue(
+      UserDataRepositoryImpl(
+        database,
+        appVersion: appVersion ?? '0.0.0',
+        exportDirectory: exportDirectory,
+      ),
+    ),
+    // Inert like the two above: the share sheet opens only on Export.
+    backupFilesProvider.overrideWithValue(
+      backupFiles ?? const SharePlusBackupFiles(),
     ),
     dictionaryRepositoryProvider.overrideWithValue(
       DictionaryRepositoryImpl(

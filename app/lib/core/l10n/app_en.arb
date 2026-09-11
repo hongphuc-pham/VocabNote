@@ -48,7 +48,7 @@
   "@helpTitle": {
     "description": "Title of the help and feedback screen. Always present in Settings."
   },
-  "backupTitle": "Backup",
+  "backupTitle": "Backup & restore",
   "@backupTitle": {
     "description": "Title of the backup export/import screen."
   },
@@ -722,6 +722,43 @@
   "settingsLookupOff": "Off - VocabNote stays fully offline",
   "@settingsLookupOff": {
     "description": "Under the look-up switch when it is off."
+  },
+  "backupIntro": "A backup is one file holding all your words, sounds, highlights, notes, lists and practice history. Nothing is uploaded: you choose where it goes.",
+  "@backupIntro": {
+    "description": "Top of the backup screen. Says what is in the file and that nothing leaves the phone by itself."
+  },
+  "backupNever": "You haven't made a backup yet.",
+  "@backupNever": {
+    "description": "Shown when no backup has ever been exported. A fact, never a warning."
+  },
+  "backupLast": "Last backup: {when}",
+  "@backupLast": {
+    "description": "When the last backup was handed over. The date is already formatted for the user's locale.",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "backupExport": "Export backup",
+  "@backupExport": {
+    "description": "Button that writes a backup file and opens the share sheet."
+  },
+  "backupPreparing": "Preparing your backup…",
+  "@backupPreparing": {
+    "description": "The export button's label while the file is being written."
+  },
+  "backupExportHint": "Save it somewhere you can reach from your next phone - your email, your cloud storage or your files.",
+  "@backupExportHint": {
+    "description": "Under the export button: where a backup is worth keeping."
+  },
+  "backupExportDone": "Backup shared. Keep it somewhere safe.",
+  "@backupExportDone": {
+    "description": "Snackbar after the backup was handed to another app."
+  },
+  "backupExportFailed": "Couldn't make the backup just now. Your words are safe - please try again.",
+  "@backupExportFailed": {
+    "description": "Snackbar when the backup could not be written or shared. Reassures first."
   },
   "settingsVersion": "Version",
   "@settingsVersion": {

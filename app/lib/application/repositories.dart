@@ -16,12 +16,14 @@
 library;
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vocabnote/domain/repositories/backup_files.dart';
 import 'package:vocabnote/domain/repositories/dictionary_repository.dart';
 import 'package:vocabnote/domain/repositories/list_repository.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/settings_repository.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
+import 'package:vocabnote/domain/repositories/user_data_repository.dart';
 import 'package:vocabnote/domain/repositories/word_repository.dart';
 
 part 'repositories.g.dart';
@@ -68,6 +70,22 @@ SpeechService speechService(Ref ref) => throw UnimplementedError(
 @Riverpod(keepAlive: true)
 ReminderService reminderService(Ref ref) => throw UnimplementedError(
   'reminderServiceProvider must be overridden in bootstrap() or in a test.',
+);
+
+/// Backing up, bringing a backup in, and removing everything (F-073, F-074).
+@Riverpod(keepAlive: true)
+UserDataRepository userDataRepository(Ref ref) => throw UnimplementedError(
+  'userDataRepositoryProvider must be overridden in bootstrap() or in a '
+  'test.',
+);
+
+/// The OS share sheet and file picker (F-073, F-074).
+///
+/// A device service behind an interface, like [speechService], so nothing
+/// above `data/` names a plugin.
+@Riverpod(keepAlive: true)
+BackupFiles backupFiles(Ref ref) => throw UnimplementedError(
+  'backupFilesProvider must be overridden in bootstrap() or in a test.',
 );
 
 /// Dictionary look-up: cache, then API, then the bundled offline asset.

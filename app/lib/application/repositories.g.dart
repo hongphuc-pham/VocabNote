@@ -323,6 +323,114 @@ final class ReminderServiceProvider
 
 String _$reminderServiceHash() => r'a9dcdc5e79dfc893f3abb8dd6d40adcc6bc56c76';
 
+/// Backing up, bringing a backup in, and removing everything (F-073, F-074).
+
+@ProviderFor(userDataRepository)
+final userDataRepositoryProvider = UserDataRepositoryProvider._();
+
+/// Backing up, bringing a backup in, and removing everything (F-073, F-074).
+
+final class UserDataRepositoryProvider
+    extends
+        $FunctionalProvider<
+          UserDataRepository,
+          UserDataRepository,
+          UserDataRepository
+        >
+    with $Provider<UserDataRepository> {
+  /// Backing up, bringing a backup in, and removing everything (F-073, F-074).
+  UserDataRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userDataRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$userDataRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<UserDataRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  UserDataRepository create(Ref ref) {
+    return userDataRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UserDataRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UserDataRepository>(value),
+    );
+  }
+}
+
+String _$userDataRepositoryHash() =>
+    r'cccd1609f7f9311645c6dd415a7f7470fe3ac535';
+
+/// The OS share sheet and file picker (F-073, F-074).
+///
+/// A device service behind an interface, like [speechService], so nothing
+/// above `data/` names a plugin.
+
+@ProviderFor(backupFiles)
+final backupFilesProvider = BackupFilesProvider._();
+
+/// The OS share sheet and file picker (F-073, F-074).
+///
+/// A device service behind an interface, like [speechService], so nothing
+/// above `data/` names a plugin.
+
+final class BackupFilesProvider
+    extends $FunctionalProvider<BackupFiles, BackupFiles, BackupFiles>
+    with $Provider<BackupFiles> {
+  /// The OS share sheet and file picker (F-073, F-074).
+  ///
+  /// A device service behind an interface, like [speechService], so nothing
+  /// above `data/` names a plugin.
+  BackupFilesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'backupFilesProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$backupFilesHash();
+
+  @$internal
+  @override
+  $ProviderElement<BackupFiles> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  BackupFiles create(Ref ref) {
+    return backupFiles(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(BackupFiles value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<BackupFiles>(value),
+    );
+  }
+}
+
+String _$backupFilesHash() => r'c3a81e54bc850c5303aa82e0c8cc6b837c9d9023';
+
 /// Dictionary look-up: cache, then API, then the bundled offline asset.
 
 @ProviderFor(dictionaryRepository)

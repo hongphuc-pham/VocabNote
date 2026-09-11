@@ -168,7 +168,7 @@ abstract class AppL10n {
   /// Title of the backup export/import screen.
   ///
   /// In en, this message translates to:
-  /// **'Backup'**
+  /// **'Backup & restore'**
   String get backupTitle;
 
   /// Title of the licences and attribution screen.
@@ -1052,6 +1052,54 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Off - VocabNote stays fully offline'**
   String get settingsLookupOff;
+
+  /// Top of the backup screen. Says what is in the file and that nothing leaves the phone by itself.
+  ///
+  /// In en, this message translates to:
+  /// **'A backup is one file holding all your words, sounds, highlights, notes, lists and practice history. Nothing is uploaded: you choose where it goes.'**
+  String get backupIntro;
+
+  /// Shown when no backup has ever been exported. A fact, never a warning.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t made a backup yet.'**
+  String get backupNever;
+
+  /// When the last backup was handed over. The date is already formatted for the user's locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {when}'**
+  String backupLast(String when);
+
+  /// Button that writes a backup file and opens the share sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Export backup'**
+  String get backupExport;
+
+  /// The export button's label while the file is being written.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing your backup…'**
+  String get backupPreparing;
+
+  /// Under the export button: where a backup is worth keeping.
+  ///
+  /// In en, this message translates to:
+  /// **'Save it somewhere you can reach from your next phone - your email, your cloud storage or your files.'**
+  String get backupExportHint;
+
+  /// Snackbar after the backup was handed to another app.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup shared. Keep it somewhere safe.'**
+  String get backupExportDone;
+
+  /// Snackbar when the backup could not be written or shared. Reassures first.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t make the backup just now. Your words are safe - please try again.'**
+  String get backupExportFailed;
 
   /// Row showing the app version.
   ///

@@ -46,7 +46,7 @@ class AppL10nEn extends AppL10n {
   String get helpTitle => 'Help & feedback';
 
   @override
-  String get backupTitle => 'Backup';
+  String get backupTitle => 'Backup & restore';
 
   @override
   String get licencesTitle => 'Data sources & licences';
@@ -572,6 +572,35 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get settingsLookupOff => 'Off - VocabNote stays fully offline';
+
+  @override
+  String get backupIntro =>
+      'A backup is one file holding all your words, sounds, highlights, notes, lists and practice history. Nothing is uploaded: you choose where it goes.';
+
+  @override
+  String get backupNever => 'You haven\'t made a backup yet.';
+
+  @override
+  String backupLast(String when) {
+    return 'Last backup: $when';
+  }
+
+  @override
+  String get backupExport => 'Export backup';
+
+  @override
+  String get backupPreparing => 'Preparing your backup…';
+
+  @override
+  String get backupExportHint =>
+      'Save it somewhere you can reach from your next phone - your email, your cloud storage or your files.';
+
+  @override
+  String get backupExportDone => 'Backup shared. Keep it somewhere safe.';
+
+  @override
+  String get backupExportFailed =>
+      'Couldn\'t make the backup just now. Your words are safe - please try again.';
 
   @override
   String get settingsVersion => 'Version';
