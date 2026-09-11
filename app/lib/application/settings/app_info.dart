@@ -15,3 +15,12 @@ part 'app_info.g.dart';
 String appVersion(Ref ref) => throw UnimplementedError(
   'appVersionProvider must be overridden in bootstrap() or in a test.',
 );
+
+/// Whether this launch opens on onboarding (F-077).
+///
+/// Decided once in `bootstrap`, before the first frame, so the router knows
+/// its first location synchronously and the words tab never flashes up
+/// before a redirect. False unless bootstrap says otherwise - so a test that
+/// is not about onboarding starts where every other launch does.
+@Riverpod(keepAlive: true)
+bool showOnboarding(Ref ref) => false;

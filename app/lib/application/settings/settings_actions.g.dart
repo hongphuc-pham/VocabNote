@@ -59,7 +59,7 @@ final class SettingsActionsProvider
   }
 }
 
-String _$settingsActionsHash() => r'038f3365fe1b67db99a50b06f9a63c70b74e3d58';
+String _$settingsActionsHash() => r'106abde361cd6551011c15a8e838a643696389c1';
 
 /// Changes one setting at a time.
 ///

@@ -7,6 +7,7 @@ import 'package:vocabnote/application/repositories.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/backup/platform_backup_files.dart';
 import 'package:vocabnote/data/db/app_database.dart';
+import 'package:vocabnote/data/db/tables/app_meta.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
 import 'package:vocabnote/data/dictionary/offline_ipa_source.dart';
@@ -123,6 +124,33 @@ Future<void> purgeExpiredWords(AppDatabase database) async {
     await WordRepositoryImpl(database).purgeExpired();
   } on Object {
     // Deliberately ignored. See the doc comment.
+  }
+}
+
+/// Whether this launch should open on onboarding (F-077).
+///
+/// Only when it has never been finished **and** there are no words. The
+/// second half is for the user upgrading from a build without onboarding:
+/// every install before M6 was seeded with `onboarding_completed = false`, and
+/// greeting someone with five hundred words as new would be absurd. They are
+/// marked done silently, so it stays that way.
+///
+/// Any failure answers false: an app that opens on its words is always
+/// usable, while one stuck opening on onboarding might not be.
+Future<bool> resolveOnboarding(AppDatabase database) async {
+  try {
+    final meta = database.metaDao;
+    if (await meta.getBool(AppMetaKeys.onboardingCompleted)) return false;
+    final anyWord = await database
+        .customSelect('SELECT EXISTS (SELECT 1 FROM words) AS any_word')
+        .getSingle();
+    if (anyWord.read<int>('any_word') == 1) {
+      await meta.setBool(AppMetaKeys.onboardingCompleted, value: true);
+      return false;
+    }
+    return true;
+  } on Object {
+    return false;
   }
 }
 

@@ -64,6 +64,12 @@ class SettingsActions extends _$SettingsActions {
   Future<void> setLookupEnabled({required bool enabled}) =>
       _update((s) => s.copyWith(lookupEnabled: enabled));
 
+  /// Records that onboarding was finished or skipped, so it is never shown
+  /// again (F-077).
+  Future<void> completeOnboarding() async {
+    await ref.read(settingsRepositoryProvider).completeOnboarding();
+  }
+
   /// Replaces the whole table with the one [pace] produces.
   Future<void> setPace(IntervalPace pace) =>
       _writeSchedule(ReviewSchedule.forPace(pace));

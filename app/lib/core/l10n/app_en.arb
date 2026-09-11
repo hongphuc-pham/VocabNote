@@ -1132,6 +1132,58 @@
   "@guideSampleGoal": {
     "description": "Sample daily goal beside the ring in the guide's illustration."
   },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {
+    "description": "On every onboarding slide: leave onboarding for good."
+  },
+  "onboardingNext": "Next",
+  "@onboardingNext": {
+    "description": "Goes to the next onboarding slide."
+  },
+  "onboardingShowMe": "See how it works",
+  "@onboardingShowMe": {
+    "description": "On the last slide: goes on to the guide."
+  },
+  "onboardingStart": "Start using VocabNote",
+  "@onboardingStart": {
+    "description": "At the end of the guide during onboarding: leaves onboarding for good."
+  },
+  "onboardingPage": "Page {page} of {count}",
+  "@onboardingPage": {
+    "description": "What a screen reader hears for the onboarding page dots.",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingSlide1Title": "Note the words you're learning",
+  "@onboardingSlide1Title": {
+    "description": "Onboarding slide 1 title."
+  },
+  "onboardingSlide1Body": "Save each word with how it sounds, what it means, and notes of your own.",
+  "@onboardingSlide1Body": {
+    "description": "Onboarding slide 1 sentence."
+  },
+  "onboardingSlide2Title": "Mark the sounds you find hard",
+  "@onboardingSlide2Title": {
+    "description": "Onboarding slide 2 title."
+  },
+  "onboardingSlide2Body": "Colour the exact part of the IPA you keep getting wrong, so it catches your eye every time.",
+  "@onboardingSlide2Body": {
+    "description": "Onboarding slide 2 sentence."
+  },
+  "onboardingSlide3Title": "Practise a little, every day",
+  "@onboardingSlide3Title": {
+    "description": "Onboarding slide 3 title."
+  },
+  "onboardingSlide3Body": "Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.",
+  "@onboardingSlide3Body": {
+    "description": "Onboarding slide 3 sentence, with the privacy promise in one line."
+  },
   "settingsVersion": "Version",
   "@settingsVersion": {
     "description": "Row showing the app version."

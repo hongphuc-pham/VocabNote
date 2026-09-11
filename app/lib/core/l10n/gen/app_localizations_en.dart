@@ -941,6 +941,44 @@ class AppL10nEn extends AppL10n {
   String get guideSampleGoal => '12 of 20 today';
 
   @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingShowMe => 'See how it works';
+
+  @override
+  String get onboardingStart => 'Start using VocabNote';
+
+  @override
+  String onboardingPage(int page, int count) {
+    return 'Page $page of $count';
+  }
+
+  @override
+  String get onboardingSlide1Title => 'Note the words you\'re learning';
+
+  @override
+  String get onboardingSlide1Body =>
+      'Save each word with how it sounds, what it means, and notes of your own.';
+
+  @override
+  String get onboardingSlide2Title => 'Mark the sounds you find hard';
+
+  @override
+  String get onboardingSlide2Body =>
+      'Colour the exact part of the IPA you keep getting wrong, so it catches your eye every time.';
+
+  @override
+  String get onboardingSlide3Title => 'Practise a little, every day';
+
+  @override
+  String get onboardingSlide3Body =>
+      'Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override

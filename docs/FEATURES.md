@@ -73,7 +73,7 @@ before the milestone is closed.
 | F-074 | M | Import backup | Merge (default) or Replace (confirm + auto-backup first). Reports added/updated/skipped. *Built at M6: a merge never deletes or hides a word; a phone still on its default settings takes the backup's; neither mode switches the reminder on. The full rules are in `DATABASE.md` §5.* |
 | F-075 | M | Data sources & licences | Lists FreeDictionaryAPI.com / Wiktionary (CC BY-SA 4.0) with a link back to each source page, CMUdict, the OFL fonts, and package licences via `showLicensePage()`. |
 | F-076 | M | Privacy note | Plain-English: "VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com." |
-| F-077 | S | Onboarding | 3 slides + the guide; skippable; never shown again after completion. |
+| F-077 | S | Onboarding | 3 slides + the guide; skippable; never shown again after completion. *Built at M6: shown only to an install that has never finished it **and** has no words — an upgrading user, whose pre-M6 install was seeded "not finished", is marked done silently. Decided in `bootstrap` before the first frame, so the words tab never flashes up first. Skip on every slide; Next and Skip are buttons, so nothing needs a swipe; the position is read as "Page 2 of 3"; with reduce-motion on, pages jump. Leaving by Skip, Done or a guide card's Try it all count as finished.* |
 | F-078 | S | Empty states | Every list has a friendly empty state with the primary action. |
 | F-079 | C | Local error log | Rolling log of uncaught errors, viewable and attachable from feedback. |
 

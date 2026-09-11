@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/application/practice/game_contracts.dart';
+import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
@@ -9,6 +10,7 @@ import 'package:vocabnote/presentation/common/placeholder_screen.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/lists/list_detail_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
+import 'package:vocabnote/presentation/onboarding/onboarding_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_hub_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_run_screen.dart';
 import 'package:vocabnote/presentation/practice/practice_summary_screen.dart';
@@ -35,7 +37,11 @@ part 'app_router.g.dart';
 GoRouter appRouter(Ref ref) {
   final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: Routes.words,
+    // Decided by bootstrap before the first frame, so there is no redirect
+    // racing an async flag - and nothing to flash up before onboarding.
+    initialLocation: ref.read(showOnboardingProvider)
+        ? Routes.onboarding
+        : Routes.words,
     routes: _routes,
     errorBuilder: (context, state) =>
         _RouteNotFoundScreen(location: state.uri.toString()),
@@ -63,10 +69,7 @@ List<RouteBase> get _routes => <RouteBase>[
     path: Routes.onboarding,
     name: RouteNames.onboarding,
     parentNavigatorKey: _rootNavigatorKey,
-    builder: (context, state) => PlaceholderScreen(
-      title: AppL10n.of(context).onboardingTitle,
-      routePath: Routes.onboarding,
-    ),
+    builder: (context, state) => const OnboardingScreen(),
   ),
 ];
 

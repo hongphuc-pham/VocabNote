@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Riverpod 3 moved `Override` out of the main barrel file.
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:vocabnote/app.dart';
+import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/database_opener.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
@@ -45,9 +46,15 @@ Future<void> bootstrap() async {
     // channel call, and the About screen must not wait on one.
     final version = await resolveAppVersion();
 
+    final database = opened.valueOrNull?.database;
+
+    // Two single-row reads, awaited: the router's first location depends on
+    // them, and deciding now is what keeps the words tab from flashing up
+    // before onboarding (F-077).
+    final onboarding = database != null && await resolveOnboarding(database);
+
     // Housekeeping, started but not awaited: the 30-day purge must not delay
     // the first frame (F-092).
-    final database = opened.valueOrNull?.database;
     if (database != null) unawaited(purgeExpiredWords(database));
 
     // 6.
@@ -56,6 +63,7 @@ Future<void> bootstrap() async {
         ProviderScope(
           overrides: <Override>[
             appDatabaseProvider.overrideWithValue(result.database),
+            showOnboardingProvider.overrideWithValue(onboarding),
             // The one place data implementations are named. Everything above
             // this line depends on domain interfaces only.
             ...repositoryOverrides(result.database, appVersion: version),

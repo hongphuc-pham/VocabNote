@@ -1539,6 +1539,72 @@ abstract class AppL10n {
   /// **'12 of 20 today'**
   String get guideSampleGoal;
 
+  /// On every onboarding slide: leave onboarding for good.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// Goes to the next onboarding slide.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// On the last slide: goes on to the guide.
+  ///
+  /// In en, this message translates to:
+  /// **'See how it works'**
+  String get onboardingShowMe;
+
+  /// At the end of the guide during onboarding: leaves onboarding for good.
+  ///
+  /// In en, this message translates to:
+  /// **'Start using VocabNote'**
+  String get onboardingStart;
+
+  /// What a screen reader hears for the onboarding page dots.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {count}'**
+  String onboardingPage(int page, int count);
+
+  /// Onboarding slide 1 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Note the words you\'re learning'**
+  String get onboardingSlide1Title;
+
+  /// Onboarding slide 1 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Save each word with how it sounds, what it means, and notes of your own.'**
+  String get onboardingSlide1Body;
+
+  /// Onboarding slide 2 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the sounds you find hard'**
+  String get onboardingSlide2Title;
+
+  /// Onboarding slide 2 sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour the exact part of the IPA you keep getting wrong, so it catches your eye every time.'**
+  String get onboardingSlide2Body;
+
+  /// Onboarding slide 3 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Practise a little, every day'**
+  String get onboardingSlide3Title;
+
+  /// Onboarding slide 3 sentence, with the privacy promise in one line.
+  ///
+  /// In en, this message translates to:
+  /// **'Short sessions bring back the words you find hard. Everything stays on this phone: no account, no ads.'**
+  String get onboardingSlide3Body;
+
   /// Row showing the app version.
   ///
   /// In en, this message translates to:

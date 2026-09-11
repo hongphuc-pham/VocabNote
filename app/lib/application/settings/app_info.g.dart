@@ -68,3 +68,63 @@ final class AppVersionProvider
 }
 
 String _$appVersionHash() => r'4e466275f1f252167aaf775bea1c58ddf6eee056';
+
+/// Whether this launch opens on onboarding (F-077).
+///
+/// Decided once in `bootstrap`, before the first frame, so the router knows
+/// its first location synchronously and the words tab never flashes up
+/// before a redirect. False unless bootstrap says otherwise - so a test that
+/// is not about onboarding starts where every other launch does.
+
+@ProviderFor(showOnboarding)
+final showOnboardingProvider = ShowOnboardingProvider._();
+
+/// Whether this launch opens on onboarding (F-077).
+///
+/// Decided once in `bootstrap`, before the first frame, so the router knows
+/// its first location synchronously and the words tab never flashes up
+/// before a redirect. False unless bootstrap says otherwise - so a test that
+/// is not about onboarding starts where every other launch does.
+
+final class ShowOnboardingProvider extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether this launch opens on onboarding (F-077).
+  ///
+  /// Decided once in `bootstrap`, before the first frame, so the router knows
+  /// its first location synchronously and the words tab never flashes up
+  /// before a redirect. False unless bootstrap says otherwise - so a test that
+  /// is not about onboarding starts where every other launch does.
+  ShowOnboardingProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'showOnboardingProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$showOnboardingHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return showOnboarding(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$showOnboardingHash() => r'74055113aa99f92afdf6ad091a0348e69a7b4edb';
