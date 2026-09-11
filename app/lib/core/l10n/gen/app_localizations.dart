@@ -1935,6 +1935,174 @@ abstract class AppL10n {
   /// **'Clear log'**
   String get errorLogClear;
 
+  /// About row that opens the privacy note (F-076).
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsPrivacy;
+
+  /// Under the Privacy row.
+  ///
+  /// In en, this message translates to:
+  /// **'What leaves your phone, and when'**
+  String get settingsPrivacyHint;
+
+  /// Heading of the privacy note.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacyHeading;
+
+  /// F-076, word for word. Must match FEATURES F-076, DATA-SOURCES 7 and the store privacy declarations; change all in the same PR.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com.'**
+  String get privacyNote;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'No account, no sign-in, and no server of ours.'**
+  String get privacyPoint1;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'No analytics, no ads, no tracking, and no advertising ID.'**
+  String get privacyPoint2;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote reaches the internet only when you ask it to: to look up a word, or to open a link you tapped, in your browser.'**
+  String get privacyPoint3;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback is written in your own email app. You see what it includes before it opens, and nothing else is attached unless you choose to add the error log.'**
+  String get privacyPoint4;
+
+  /// Privacy point (DATA-SOURCES 7).
+  ///
+  /// In en, this message translates to:
+  /// **'Your words, IPA, highlights, notes and practice history stay on this phone, and leave it only in a backup you export.'**
+  String get privacyPoint5;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary look-up'**
+  String get licencesDictionaryHeading;
+
+  /// Attribution for dictionary content (CC BY-SA 4.0: attribute, name the licence, no implied endorsement).
+  ///
+  /// In en, this message translates to:
+  /// **'Definitions, examples and pronunciations you choose from Look up come from Wiktionary, shared under the CC BY-SA 4.0 licence through FreeDictionaryAPI.com. Each word keeps a link to its source page. Neither Wiktionary nor FreeDictionaryAPI.com endorses VocabNote.'**
+  String get licencesDictionaryBody;
+
+  /// Link to Wiktionary.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiktionary'**
+  String get licencesWiktionary;
+
+  /// Link to FreeDictionaryAPI.com.
+  ///
+  /// In en, this message translates to:
+  /// **'FreeDictionaryAPI.com'**
+  String get licencesFreeDictionary;
+
+  /// Link to the CC BY-SA 4.0 licence.
+  ///
+  /// In en, this message translates to:
+  /// **'CC BY-SA 4.0 licence'**
+  String get licencesCcBySa;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline pronunciations'**
+  String get licencesOfflineHeading;
+
+  /// Acknowledgement of CMUdict (DATA-SOURCES 2).
+  ///
+  /// In en, this message translates to:
+  /// **'When there is no internet, US pronunciations come from the CMU Pronouncing Dictionary, made at Carnegie Mellon University and free for any use.'**
+  String get licencesOfflineBody;
+
+  /// Link to CMUdict.
+  ///
+  /// In en, this message translates to:
+  /// **'CMU Pronouncing Dictionary'**
+  String get licencesCmudict;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Fonts'**
+  String get licencesFontsHeading;
+
+  /// The bundled fonts and their licence (DATA-SOURCES 5).
+  ///
+  /// In en, this message translates to:
+  /// **'Inter for the words on screen, and Charis SIL for IPA - both shared under the SIL Open Font License 1.1.'**
+  String get licencesFontsBody;
+
+  /// Font name. Not translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Inter'**
+  String get licencesInter;
+
+  /// Font name. Not translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Charis SIL'**
+  String get licencesCharis;
+
+  /// Licence name. Not translated.
+  ///
+  /// In en, this message translates to:
+  /// **'SIL Open Font License 1.1'**
+  String get licencesOflName;
+
+  /// Opens a bundled font's licence text.
+  ///
+  /// In en, this message translates to:
+  /// **'View licence'**
+  String get licencesViewLicence;
+
+  /// What a screen reader hears for View licence.
+  ///
+  /// In en, this message translates to:
+  /// **'View the licence for {font}'**
+  String licencesViewLicenceFor(String font);
+
+  /// While a licence text loads.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading…'**
+  String get licencesLoading;
+
+  /// Licences section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Software'**
+  String get licencesPackagesHeading;
+
+  /// Above the button to the full package licence list.
+  ///
+  /// In en, this message translates to:
+  /// **'VocabNote is built with open-source packages, all under permissive licences.'**
+  String get licencesPackagesBody;
+
+  /// Opens Flutter's licence page.
+  ///
+  /// In en, this message translates to:
+  /// **'All package licences'**
+  String get licencesPackages;
+
   /// Row showing the app version.
   ///
   /// In en, this message translates to:

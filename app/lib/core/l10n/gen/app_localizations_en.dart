@@ -1181,6 +1181,101 @@ class AppL10nEn extends AppL10n {
   String get errorLogClear => 'Clear log';
 
   @override
+  String get settingsPrivacy => 'Privacy';
+
+  @override
+  String get settingsPrivacyHint => 'What leaves your phone, and when';
+
+  @override
+  String get privacyHeading => 'Privacy';
+
+  @override
+  String get privacyNote =>
+      'VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com.';
+
+  @override
+  String get privacyPoint1 => 'No account, no sign-in, and no server of ours.';
+
+  @override
+  String get privacyPoint2 =>
+      'No analytics, no ads, no tracking, and no advertising ID.';
+
+  @override
+  String get privacyPoint3 =>
+      'VocabNote reaches the internet only when you ask it to: to look up a word, or to open a link you tapped, in your browser.';
+
+  @override
+  String get privacyPoint4 =>
+      'Feedback is written in your own email app. You see what it includes before it opens, and nothing else is attached unless you choose to add the error log.';
+
+  @override
+  String get privacyPoint5 =>
+      'Your words, IPA, highlights, notes and practice history stay on this phone, and leave it only in a backup you export.';
+
+  @override
+  String get licencesDictionaryHeading => 'Dictionary look-up';
+
+  @override
+  String get licencesDictionaryBody =>
+      'Definitions, examples and pronunciations you choose from Look up come from Wiktionary, shared under the CC BY-SA 4.0 licence through FreeDictionaryAPI.com. Each word keeps a link to its source page. Neither Wiktionary nor FreeDictionaryAPI.com endorses VocabNote.';
+
+  @override
+  String get licencesWiktionary => 'Wiktionary';
+
+  @override
+  String get licencesFreeDictionary => 'FreeDictionaryAPI.com';
+
+  @override
+  String get licencesCcBySa => 'CC BY-SA 4.0 licence';
+
+  @override
+  String get licencesOfflineHeading => 'Offline pronunciations';
+
+  @override
+  String get licencesOfflineBody =>
+      'When there is no internet, US pronunciations come from the CMU Pronouncing Dictionary, made at Carnegie Mellon University and free for any use.';
+
+  @override
+  String get licencesCmudict => 'CMU Pronouncing Dictionary';
+
+  @override
+  String get licencesFontsHeading => 'Fonts';
+
+  @override
+  String get licencesFontsBody =>
+      'Inter for the words on screen, and Charis SIL for IPA - both shared under the SIL Open Font License 1.1.';
+
+  @override
+  String get licencesInter => 'Inter';
+
+  @override
+  String get licencesCharis => 'Charis SIL';
+
+  @override
+  String get licencesOflName => 'SIL Open Font License 1.1';
+
+  @override
+  String get licencesViewLicence => 'View licence';
+
+  @override
+  String licencesViewLicenceFor(String font) {
+    return 'View the licence for $font';
+  }
+
+  @override
+  String get licencesLoading => 'Loading…';
+
+  @override
+  String get licencesPackagesHeading => 'Software';
+
+  @override
+  String get licencesPackagesBody =>
+      'VocabNote is built with open-source packages, all under permissive licences.';
+
+  @override
+  String get licencesPackages => 'All package licences';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override

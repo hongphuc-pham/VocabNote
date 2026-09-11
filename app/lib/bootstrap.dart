@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:vocabnote/app.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
+import 'package:vocabnote/core/utils/bundled_licences.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/database_opener.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
@@ -39,6 +40,10 @@ Future<void> bootstrap() async {
     // Opened before anything else that can fail, so an error while opening
     // the database is kept too (F-079).
     _errorLog = await FileErrorLog.open();
+
+    // The fonts' licence texts, for Flutter's licence page (F-075). Lazy:
+    // nothing is read until that page asks.
+    BundledLicences.register();
 
     // Framework errors: build, layout, paint.
     FlutterError.onError = (details) {

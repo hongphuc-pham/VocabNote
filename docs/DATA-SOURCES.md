@@ -106,6 +106,9 @@ whenever their markup changes, and risks store removal. So:
   audio; embeds their site in an in-app WebView styled to look like part of VocabNote; or uses
   their name, logo or wordmark as branding. The word "Cambridge" may appear only as the plain
   text of the link, and nothing about the app may suggest affiliation.
+- *Applied at M6:* *Data sources & licences* does not mention Cambridge at all — not even a
+  "not affiliated" line, which would put the name somewhere other than its link. Nothing of
+  theirs is shown in the app, so there is nothing to attribute.
 
 ---
 
@@ -201,6 +204,10 @@ certainty; re-check it when the declarations are written.
 
 This is the text that must match both the store privacy declarations (Play Data Safety, Apple
 App Privacy) and `F-076` in the app. If one changes, all three change in the same PR.
+
+*In the app, since M6* (`presentation/settings/privacy_note.dart`, strings `privacyNote` and
+`privacyPoint1`–`5`): F-076's sentence word for word, then each point above in the second
+person, in the same order. A widget test holds the sentence to F-076 exactly.
 
 ---
 

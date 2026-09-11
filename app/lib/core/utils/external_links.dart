@@ -8,6 +8,26 @@
 /// webview of their content, no parsing what comes back.
 library;
 
+/// Where the app's third-party content comes from (F-075, RULES §14).
+///
+/// CC BY-SA 4.0 asks for a link back and the licence named; these are the
+/// links *Data sources & licences* offers.
+abstract final class SourceLinks {
+  /// Wiktionary, where the dictionary text is written.
+  static final Uri wiktionary = Uri.parse('https://en.wiktionary.org/');
+
+  /// FreeDictionaryAPI.com, the API look-up calls.
+  static final Uri freeDictionary = Uri.parse('https://freedictionaryapi.com/');
+
+  /// The CC BY-SA 4.0 licence the dictionary text is shared under.
+  static final Uri ccBySa = Uri.parse(
+    'https://creativecommons.org/licenses/by-sa/4.0/',
+  );
+
+  /// The CMU Pronouncing Dictionary, behind the offline pronunciations.
+  static final Uri cmudict = Uri.parse('https://github.com/cmusphinx/cmudict');
+}
+
 /// The project's own pages.
 abstract final class ProjectLinks {
   /// Where problems are reported (F-072). Opened in the browser; nothing is

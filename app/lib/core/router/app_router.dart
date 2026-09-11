@@ -6,7 +6,6 @@ import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
-import 'package:vocabnote/presentation/common/placeholder_screen.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/lists/list_detail_screen.dart';
 import 'package:vocabnote/presentation/lists/lists_screen.dart';
@@ -17,6 +16,7 @@ import 'package:vocabnote/presentation/practice/practice_summary_screen.dart';
 import 'package:vocabnote/presentation/settings/backup_screen.dart';
 import 'package:vocabnote/presentation/settings/guide_screen.dart';
 import 'package:vocabnote/presentation/settings/help_screen.dart';
+import 'package:vocabnote/presentation/settings/licences_screen.dart';
 import 'package:vocabnote/presentation/settings/settings_screen.dart';
 import 'package:vocabnote/presentation/shell/app_shell.dart';
 import 'package:vocabnote/presentation/words/ipa_editor_screen.dart';
@@ -32,8 +32,8 @@ part 'app_router.g.dart';
 /// and settings routes are pushed onto the root navigator so they cover the
 /// bottom bar and get a back arrow, matching the mocks in section 4.3-4.4.
 ///
-/// Screens that a later milestone owns resolve to [PlaceholderScreen] for now,
-/// so navigation is real and testable from M0.
+/// Since M6 every route in section 3 resolves to its real screen; an unknown
+/// location gets a friendly not-found screen rather than an error.
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   final router = GoRouter(
@@ -192,10 +192,7 @@ GoRoute get _settingsRoute => GoRoute(
       path: 'licences',
       name: RouteNames.licences,
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => PlaceholderScreen(
-        title: AppL10n.of(context).licencesTitle,
-        routePath: Routes.licences,
-      ),
+      builder: (context, state) => const LicencesScreen(),
     ),
   ],
 );

@@ -1391,6 +1391,77 @@
   "@errorLogClear": {
     "description": "Empties the error log."
   },
+  "settingsPrivacy": "Privacy",
+  "@settingsPrivacy": {
+    "description": "About row that opens the privacy note (F-076)."
+  },
+  "settingsPrivacyHint": "What leaves your phone, and when",
+  "@settingsPrivacyHint": {
+    "description": "Under the Privacy row."
+  },
+  "privacyHeading": "Privacy",
+  "@privacyHeading": {
+    "description": "Heading of the privacy note."
+  },
+  "privacyNote": "VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com.",
+  "@privacyNote": {
+    "description": "F-076, word for word. Must match FEATURES F-076, DATA-SOURCES 7 and the store privacy declarations; change all in the same PR."
+  },
+  "privacyPoint1": "No account, no sign-in, and no server of ours.",
+  "@privacyPoint1": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint2": "No analytics, no ads, no tracking, and no advertising ID.",
+  "@privacyPoint2": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint3": "VocabNote reaches the internet only when you ask it to: to look up a word, or to open a link you tapped, in your browser.",
+  "@privacyPoint3": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint4": "Feedback is written in your own email app. You see what it includes before it opens, and nothing else is attached unless you choose to add the error log.",
+  "@privacyPoint4": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "privacyPoint5": "Your words, IPA, highlights, notes and practice history stay on this phone, and leave it only in a backup you export.",
+  "@privacyPoint5": {"description": "Privacy point (DATA-SOURCES 7)."},
+  "licencesDictionaryHeading": "Dictionary look-up",
+  "@licencesDictionaryHeading": {"description": "Licences section heading."},
+  "licencesDictionaryBody": "Definitions, examples and pronunciations you choose from Look up come from Wiktionary, shared under the CC BY-SA 4.0 licence through FreeDictionaryAPI.com. Each word keeps a link to its source page. Neither Wiktionary nor FreeDictionaryAPI.com endorses VocabNote.",
+  "@licencesDictionaryBody": {"description": "Attribution for dictionary content (CC BY-SA 4.0: attribute, name the licence, no implied endorsement)."},
+  "licencesWiktionary": "Wiktionary",
+  "@licencesWiktionary": {"description": "Link to Wiktionary."},
+  "licencesFreeDictionary": "FreeDictionaryAPI.com",
+  "@licencesFreeDictionary": {"description": "Link to FreeDictionaryAPI.com."},
+  "licencesCcBySa": "CC BY-SA 4.0 licence",
+  "@licencesCcBySa": {"description": "Link to the CC BY-SA 4.0 licence."},
+  "licencesOfflineHeading": "Offline pronunciations",
+  "@licencesOfflineHeading": {"description": "Licences section heading."},
+  "licencesOfflineBody": "When there is no internet, US pronunciations come from the CMU Pronouncing Dictionary, made at Carnegie Mellon University and free for any use.",
+  "@licencesOfflineBody": {"description": "Acknowledgement of CMUdict (DATA-SOURCES 2)."},
+  "licencesCmudict": "CMU Pronouncing Dictionary",
+  "@licencesCmudict": {"description": "Link to CMUdict."},
+  "licencesFontsHeading": "Fonts",
+  "@licencesFontsHeading": {"description": "Licences section heading."},
+  "licencesFontsBody": "Inter for the words on screen, and Charis SIL for IPA - both shared under the SIL Open Font License 1.1.",
+  "@licencesFontsBody": {"description": "The bundled fonts and their licence (DATA-SOURCES 5)."},
+  "licencesInter": "Inter",
+  "@licencesInter": {"description": "Font name. Not translated."},
+  "licencesCharis": "Charis SIL",
+  "@licencesCharis": {"description": "Font name. Not translated."},
+  "licencesOflName": "SIL Open Font License 1.1",
+  "@licencesOflName": {"description": "Licence name. Not translated."},
+  "licencesViewLicence": "View licence",
+  "@licencesViewLicence": {"description": "Opens a bundled font's licence text."},
+  "licencesViewLicenceFor": "View the licence for {font}",
+  "@licencesViewLicenceFor": {
+    "description": "What a screen reader hears for View licence.",
+    "placeholders": {
+      "font": {
+        "type": "String"
+      }
+    }
+  },
+  "licencesLoading": "Loading…",
+  "@licencesLoading": {"description": "While a licence text loads."},
+  "licencesPackagesHeading": "Software",
+  "@licencesPackagesHeading": {"description": "Licences section heading."},
+  "licencesPackagesBody": "VocabNote is built with open-source packages, all under permissive licences.",
+  "@licencesPackagesBody": {"description": "Above the button to the full package licence list."},
+  "licencesPackages": "All package licences",
+  "@licencesPackages": {"description": "Opens Flutter's licence page."},
   "settingsVersion": "Version",
   "@settingsVersion": {
     "description": "Row showing the app version."

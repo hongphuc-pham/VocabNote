@@ -14,6 +14,7 @@ import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
 import 'package:vocabnote/presentation/settings/delete_all_flow.dart';
+import 'package:vocabnote/presentation/settings/privacy_note.dart';
 import 'package:vocabnote/presentation/settings/settings_tiles.dart';
 
 /// Appearance: the theme, and where text size is set.
@@ -263,6 +264,13 @@ class AboutSettings extends ConsumerWidget {
           subtitle: Text(ref.watch(appVersionProvider)),
         ),
         _LinkTile(title: l10n.licencesTitle, route: Routes.licences),
+        // A sheet rather than a route: one paragraph does not earn a place
+        // in the navigation (RULES §42). The same note heads the licences.
+        ListTile(
+          title: Text(l10n.settingsPrivacy),
+          subtitle: Text(l10n.settingsPrivacyHint),
+          onTap: () => unawaited(PrivacyNote.show(context)),
+        ),
       ],
     );
   }
