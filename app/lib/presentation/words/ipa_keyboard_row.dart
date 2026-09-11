@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
+import 'package:vocabnote/presentation/common/ipa_speech.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 
 /// The IPA symbol row docked above the keyboard (`docs/UI-UX.md` §4.2, F-002).
@@ -91,7 +92,8 @@ class IpaKeyboardRow extends StatelessWidget {
             final symbol = symbols[index];
             return _SymbolButton(
               symbol: symbol,
-              label: l10n.ipaSymbolLabel(symbol),
+              // "Insert ch", not "Insert t, esh": the sound, by its name.
+              label: l10n.ipaSymbolLabel(spokenSymbol(l10n, symbol)),
               style: context.type.ipaInline,
               background: theme.colorScheme.surfaceContainer,
               onPressed: () {
@@ -125,6 +127,9 @@ class _SymbolButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       message: label,
+      // The label is on the text below; announced as a tooltip as well, it
+      // would be read twice.
+      excludeFromSemantics: true,
       child: Material(
         color: background,
         borderRadius: context.metrics.chipBorder,
@@ -145,7 +150,14 @@ class _SymbolButton extends StatelessWidget {
               minHeight: context.metrics.minTouchTarget,
             ),
             child: Center(
-              child: Text(symbol, style: style.copyWith(fontSize: 20)),
+              // Until M7 the key's label was the glyph itself - a screen
+              // reader said the symbol's shape ("turned script a") and only
+              // then the tooltip. The sound's name is the label now.
+              child: Text(
+                symbol,
+                semanticsLabel: label,
+                style: style.copyWith(fontSize: 20),
+              ),
             ),
           ),
         ),

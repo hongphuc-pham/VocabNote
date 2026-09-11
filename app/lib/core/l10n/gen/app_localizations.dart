@@ -2505,6 +2505,312 @@ abstract class AppL10n {
   /// **'Insert {symbol}'**
   String ipaSymbolLabel(String symbol);
 
+  /// What a screen reader says for a transcription: the sounds it spells, by their learner names (UI-UX §6).
+  ///
+  /// In en, this message translates to:
+  /// **'pronunciation: {sounds}'**
+  String ipaSpokenPronunciation(String sounds);
+
+  /// Between two sound names in a spoken transcription.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get ipaSoundSeparator;
+
+  /// Spoken name of the IPA sound p.
+  ///
+  /// In en, this message translates to:
+  /// **'p'**
+  String get ipaSoundP;
+
+  /// Spoken name of the IPA sound b.
+  ///
+  /// In en, this message translates to:
+  /// **'b'**
+  String get ipaSoundB;
+
+  /// Spoken name of the IPA sound t.
+  ///
+  /// In en, this message translates to:
+  /// **'t'**
+  String get ipaSoundT;
+
+  /// Spoken name of the IPA sound d.
+  ///
+  /// In en, this message translates to:
+  /// **'d'**
+  String get ipaSoundD;
+
+  /// Spoken name of the IPA sound k.
+  ///
+  /// In en, this message translates to:
+  /// **'k'**
+  String get ipaSoundK;
+
+  /// Spoken name of the IPA sound ɡ.
+  ///
+  /// In en, this message translates to:
+  /// **'g'**
+  String get ipaSoundG;
+
+  /// Spoken name of the IPA sound f.
+  ///
+  /// In en, this message translates to:
+  /// **'f'**
+  String get ipaSoundF;
+
+  /// Spoken name of the IPA sound v.
+  ///
+  /// In en, this message translates to:
+  /// **'v'**
+  String get ipaSoundV;
+
+  /// Spoken name of the IPA sound θ.
+  ///
+  /// In en, this message translates to:
+  /// **'th as in thin'**
+  String get ipaSoundThVoiceless;
+
+  /// Spoken name of the IPA sound ð.
+  ///
+  /// In en, this message translates to:
+  /// **'th as in this'**
+  String get ipaSoundThVoiced;
+
+  /// Spoken name of the IPA sound s.
+  ///
+  /// In en, this message translates to:
+  /// **'s'**
+  String get ipaSoundS;
+
+  /// Spoken name of the IPA sound z.
+  ///
+  /// In en, this message translates to:
+  /// **'z'**
+  String get ipaSoundZ;
+
+  /// Spoken name of the IPA sound ʃ.
+  ///
+  /// In en, this message translates to:
+  /// **'sh'**
+  String get ipaSoundSh;
+
+  /// Spoken name of the IPA sound ʒ.
+  ///
+  /// In en, this message translates to:
+  /// **'zh as in measure'**
+  String get ipaSoundZh;
+
+  /// Spoken name of the IPA sound tʃ.
+  ///
+  /// In en, this message translates to:
+  /// **'ch'**
+  String get ipaSoundCh;
+
+  /// Spoken name of the IPA sound dʒ.
+  ///
+  /// In en, this message translates to:
+  /// **'j'**
+  String get ipaSoundJudge;
+
+  /// Spoken name of the IPA sound h.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get ipaSoundH;
+
+  /// Spoken name of the IPA sound m.
+  ///
+  /// In en, this message translates to:
+  /// **'m'**
+  String get ipaSoundM;
+
+  /// Spoken name of the IPA sound n.
+  ///
+  /// In en, this message translates to:
+  /// **'n'**
+  String get ipaSoundN;
+
+  /// Spoken name of the IPA sound ŋ.
+  ///
+  /// In en, this message translates to:
+  /// **'ng as in sing'**
+  String get ipaSoundNg;
+
+  /// Spoken name of the IPA sound l.
+  ///
+  /// In en, this message translates to:
+  /// **'l'**
+  String get ipaSoundL;
+
+  /// Spoken name of the IPA sound r (ɹ).
+  ///
+  /// In en, this message translates to:
+  /// **'r'**
+  String get ipaSoundR;
+
+  /// Spoken name of the IPA sound j.
+  ///
+  /// In en, this message translates to:
+  /// **'y as in yes'**
+  String get ipaSoundYes;
+
+  /// Spoken name of the IPA sound w.
+  ///
+  /// In en, this message translates to:
+  /// **'w'**
+  String get ipaSoundW;
+
+  /// Spoken name of the IPA vowel iː.
+  ///
+  /// In en, this message translates to:
+  /// **'long e as in see'**
+  String get ipaSoundFleece;
+
+  /// Spoken name of the IPA vowel i.
+  ///
+  /// In en, this message translates to:
+  /// **'e as in happy'**
+  String get ipaSoundHappy;
+
+  /// Spoken name of the IPA vowel ɪ.
+  ///
+  /// In en, this message translates to:
+  /// **'short i as in sit'**
+  String get ipaSoundKit;
+
+  /// Spoken name of the IPA vowel e / ɛ.
+  ///
+  /// In en, this message translates to:
+  /// **'short e as in bed'**
+  String get ipaSoundDress;
+
+  /// Spoken name of the IPA vowel æ.
+  ///
+  /// In en, this message translates to:
+  /// **'short a as in cat'**
+  String get ipaSoundTrap;
+
+  /// Spoken name of the IPA vowel ʌ.
+  ///
+  /// In en, this message translates to:
+  /// **'short u as in cup'**
+  String get ipaSoundStrut;
+
+  /// Spoken name of the IPA vowel ɑː / ɑ.
+  ///
+  /// In en, this message translates to:
+  /// **'a as in father'**
+  String get ipaSoundPalm;
+
+  /// Spoken name of the IPA vowel ɒ.
+  ///
+  /// In en, this message translates to:
+  /// **'short o as in hot'**
+  String get ipaSoundLot;
+
+  /// Spoken name of the IPA vowel ɔː / ɔ.
+  ///
+  /// In en, this message translates to:
+  /// **'aw as in saw'**
+  String get ipaSoundThought;
+
+  /// Spoken name of the IPA vowel ʊ.
+  ///
+  /// In en, this message translates to:
+  /// **'short oo as in book'**
+  String get ipaSoundFoot;
+
+  /// Spoken name of the IPA vowel uː / u.
+  ///
+  /// In en, this message translates to:
+  /// **'long oo as in food'**
+  String get ipaSoundGoose;
+
+  /// Spoken name of the IPA vowel ɜː / ɝ.
+  ///
+  /// In en, this message translates to:
+  /// **'er as in her'**
+  String get ipaSoundNurse;
+
+  /// Spoken name of the IPA vowel ə (schwa).
+  ///
+  /// In en, this message translates to:
+  /// **'uh as in about'**
+  String get ipaSoundComma;
+
+  /// Spoken name of the IPA vowel ɚ.
+  ///
+  /// In en, this message translates to:
+  /// **'er as in butter'**
+  String get ipaSoundLetter;
+
+  /// Spoken name of the IPA vowel eɪ.
+  ///
+  /// In en, this message translates to:
+  /// **'ay as in day'**
+  String get ipaSoundFace;
+
+  /// Spoken name of the IPA vowel aɪ.
+  ///
+  /// In en, this message translates to:
+  /// **'long i as in my'**
+  String get ipaSoundPrice;
+
+  /// Spoken name of the IPA vowel ɔɪ.
+  ///
+  /// In en, this message translates to:
+  /// **'oy as in boy'**
+  String get ipaSoundChoice;
+
+  /// Spoken name of the IPA vowel əʊ / oʊ.
+  ///
+  /// In en, this message translates to:
+  /// **'long o as in go'**
+  String get ipaSoundGoat;
+
+  /// Spoken name of the IPA vowel aʊ.
+  ///
+  /// In en, this message translates to:
+  /// **'ow as in now'**
+  String get ipaSoundMouth;
+
+  /// Spoken name of the IPA vowel ɪə.
+  ///
+  /// In en, this message translates to:
+  /// **'ear as in near'**
+  String get ipaSoundNear;
+
+  /// Spoken name of the IPA vowel eə / ɛə.
+  ///
+  /// In en, this message translates to:
+  /// **'air as in hair'**
+  String get ipaSoundSquare;
+
+  /// Spoken name of the IPA vowel ʊə.
+  ///
+  /// In en, this message translates to:
+  /// **'oor as in poor'**
+  String get ipaSoundCure;
+
+  /// Spoken for the IPA stress mark ˈ, before the stressed syllable.
+  ///
+  /// In en, this message translates to:
+  /// **'stress'**
+  String get ipaSoundPrimaryStress;
+
+  /// Spoken for the IPA secondary stress mark ˌ.
+  ///
+  /// In en, this message translates to:
+  /// **'light stress'**
+  String get ipaSoundSecondaryStress;
+
+  /// Spoken for an IPA length mark ː that is not part of a long vowel.
+  ///
+  /// In en, this message translates to:
+  /// **'long'**
+  String get ipaSoundLong;
+
   /// Non-blocking banner shown when the typed word already exists.
   ///
   /// In en, this message translates to:

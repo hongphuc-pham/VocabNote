@@ -337,7 +337,14 @@ Searchable FAQ (12 short answers), then:
 - **Every button a screen reader can reach, it can press.** A `Semantics(button: true)` over
   an `ExcludeSemantics` must carry the `onTap` it hides; Flutter's own guidelines skip a node
   with no tap action, so `pressableButtonsGuideline` checks it on every screen and sheet.
-- The IPA is exposed to screen readers as spoken symbol names, not raw glyphs.
+- The IPA is exposed to screen readers as spoken symbol names, not raw glyphs. Each sound is
+  read by the name a learner knows it by, with an example word for vowels — /kɒf/ is
+  "pronunciation: k, short o as in hot, f" (decided 11 Sep). Two-symbol sounds (`tʃ`, `eɪ`,
+  `iː`) are one name; stress is said before its syllable; anything unrecognised is read as
+  itself. The names are ARB strings (`ipaSound…`); `core/utils/ipa_sounds.dart` finds the
+  sounds by longest match over graphemes. It applies to every transcription (`IpaText`), each
+  chip in the highlight editor, its live "selected …" line, and each IPA keyboard key
+  ("Insert ch") — whose label was the glyph itself until M7, with the name only a tooltip.
 - Full keyboard/switch traversal order defined on every screen.
 - Layout tested at 200% text scale and at 320dp width — no clipping, no overflow.
 - `MediaQuery.disableAnimations` disables the flip and all transitions.

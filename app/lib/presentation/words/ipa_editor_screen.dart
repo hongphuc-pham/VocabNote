@@ -9,6 +9,7 @@ import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/entities/word.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
+import 'package:vocabnote/presentation/common/ipa_speech.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/words/highlight_color_sheet.dart';
 import 'package:vocabnote/presentation/words/highlight_legend.dart';
@@ -245,14 +246,21 @@ class _EditorState extends ConsumerState<_Editor> {
               onExtendTo: editor.extendTo,
             ),
             const VnGap(VnSpace.md),
-            // Announced live, so a screen-reader user hears "selected ʃ ɜː"
-            // as the run changes (`UI-UX.md` §4.4).
+            // Announced live, so a screen-reader user hears "selected sh, er
+            // as in her" as the run changes (`UI-UX.md` §4.4) - the sounds,
+            // by their learner names, as the chips are.
             Semantics(
               liveRegion: true,
               child: Text(
                 selected == null
                     ? l10n.ipaEditorNothingSelected
-                    : l10n.ipaEditorSelectedLabel(state.selectionSymbols),
+                    : l10n.ipaEditorSelectedLabel(
+                        spokenIpa(
+                          l10n,
+                          state.selectionSymbols,
+                          announce: false,
+                        ),
+                      ),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.outline,
                 ),
