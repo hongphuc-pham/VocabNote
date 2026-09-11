@@ -236,6 +236,43 @@ Because there is no cloud, export is how a user moves to a new phone.
   each is a full copy of the user's words); and handed to the share sheet.
   `app_meta.last_backup_at` moves only when the sheet reports the file went somewhere, or
   cannot say — never for a file still sitting in a cache folder.
+
+*Built at M6 — import* (`data/backup/backup_importer.dart`, `backup_merge.dart`,
+`backup_rows.dart`):
+
+- **Rows are checked against the live Drift schema first** — its own column list, so a
+  column added later is understood without the reader changing. Unknown columns are ignored;
+  a missing column that has a default is left for SQLite to fill; a missing column without
+  one, or a value of the wrong type, refuses that row. Refused rows, and rows pointing at
+  something the backup does not contain, are counted for the report — never a reason to
+  refuse the rest. Things attached to a word the backup itself had deleted are skipped
+  quietly: they are not broken.
+- **Merge only adds and updates.** It never deletes or hides a word:
+
+  | Table | Matched on | When both sides have it |
+  |---|---|---|
+  | `words` | `id`, then a live word's `headword_normalized` | newer `updated_at` wins the content; a word deleted in the backup is skipped; a word deleted here comes back if the backup's live copy is newer |
+  | `word_notes` | `id` (the word remapped to this phone's) | newer `updated_at` wins |
+  | `ipa_highlights` | `id` | added only if absent, only onto the transcription it was drawn on, and only if its range fits that transcription's grapheme length |
+  | `word_lists` | `id`, then trimmed case-insensitive `name` | newer `updated_at` wins name, colour and icon; new lists go after this phone's |
+  | `word_list_items` | both ids, remapped | added if absent |
+  | `study_cards` | the word, remapped | the card reviewed most recently wins |
+  | `practice_sessions`, `practice_answers` | `id` | added if absent; a session practised from a list follows that list |
+  | `settings` | — | this phone keeps its own — *unless it is still on the defaults*, as a new phone is, in which case it takes the backup's. Otherwise moving to a new phone with the default mode would silently drop the user's review schedule and goal. |
+
+- **Replace** writes a safety copy of the current library to
+  `<app support>/vocabnote/backups/vocabnote-before-replace-<time>.vnb` — the newest three
+  are kept — **before anything is touched**, and does nothing if that copy cannot be
+  written. It then empties every table and writes the backup's rows, each reference checked
+  before its row is written, so no single bad row can abort the rest.
+- **Neither restores the daily reminder.** It needs this phone's notification permission, and
+  only its own switch may ask (F-066); the chosen time is kept.
+- Both run in **one transaction**: a failure part-way leaves the library exactly as it was.
+  That is tested with a SQLite trigger forcing a real failure mid-import, not a hook in the
+  code. The file is decoded off the UI isolate, and refused before anything — even the
+  safety copy — is written.
+- The round trip, export → wipe → import → every table deep-equal, runs on the host in
+  `test/unit/data/backup_replace_test.dart`; the device run lives in `integration_test/`.
 - Import offers **Merge** (default: match on `id`, then on `headword_normalized`; newer
   `updated_at` wins) or **Replace** (explicit confirmation, takes a backup first).
 - Import runs in one transaction and reports a summary: added / updated / skipped.

@@ -49,6 +49,7 @@ List<Override> repositoryOverrides(
   ReminderService? reminderService,
   BackupFiles? backupFiles,
   Future<Directory> Function()? exportDirectory,
+  Future<Directory> Function()? safetyDirectory,
 }) {
   final offline = OfflineIpaSource();
   final client = FreeDictionaryClient(
@@ -84,6 +85,7 @@ List<Override> repositoryOverrides(
         database,
         appVersion: appVersion ?? '0.0.0',
         exportDirectory: exportDirectory,
+        safetyDirectory: safetyDirectory,
       ),
     ),
     // Inert like the two above: the share sheet opens only on Export.

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:vocabnote/core/result.dart';
 import 'package:vocabnote/domain/entities/backup.dart';
 
@@ -12,4 +14,16 @@ abstract interface class UserDataRepository {
   /// Nothing is shared or uploaded here; the file is handed on separately,
   /// and only when the user asks.
   AsyncResult<ExportedBackup> exportBackup();
+
+  /// Reads what a backup file holds, without writing anything.
+  ///
+  /// Fails with an `InvalidBackupFailure` for anything that is not a usable
+  /// backup, so the user hears about it before being asked to choose.
+  AsyncResult<BackupManifest> previewBackup(Uint8List bytes);
+
+  /// Brings a backup in, all at once or not at all.
+  ///
+  /// [ImportMode.replace] takes a safety copy of what is here first, and does
+  /// nothing if that copy cannot be written.
+  AsyncResult<ImportReport> importBackup(Uint8List bytes, ImportMode mode);
 }

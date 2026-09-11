@@ -36,6 +36,61 @@ class BackupManifest {
   int get wordCount => counts['words'] ?? 0;
 }
 
+/// How a backup comes in (F-074).
+enum ImportMode {
+  /// The default: add what is new, update what is newer, remove nothing.
+  merge,
+
+  /// Everything here is replaced by the backup, after a safety copy.
+  replace,
+}
+
+/// What an import did, for the report the user sees (F-074: "Reports
+/// added / updated / skipped").
+@immutable
+class ImportReport {
+  /// Creates a report.
+  const new({
+    this.wordsAdded = 0,
+    this.wordsUpdated = 0,
+    this.wordsSkipped = 0,
+    this.notesAdded = 0,
+    this.highlightsAdded = 0,
+    this.listsAdded = 0,
+    this.rejected = 0,
+  });
+
+  /// Words this phone did not have.
+  final int wordsAdded;
+
+  /// Words this phone had, where the backup's copy was newer.
+  final int wordsUpdated;
+
+  /// Words left as they were: already here and as new, or deleted in the
+  /// backup.
+  final int wordsSkipped;
+
+  /// Notes brought in.
+  final int notesAdded;
+
+  /// Highlights brought in.
+  final int highlightsAdded;
+
+  /// Lists brought in.
+  final int listsAdded;
+
+  /// Rows that could not be used - the wrong shape, or pointing at something
+  /// the backup does not contain. Counted so the report can say so, never a
+  /// reason to refuse the rest.
+  final int rejected;
+
+  @override
+  String toString() =>
+      'ImportReport(words +$wordsAdded ~$wordsUpdated =$wordsSkipped, '
+      'notes +$notesAdded, highlights +$highlightsAdded, '
+      'lists +$listsAdded, rejected $rejected)';
+}
+
 /// A backup written to a file, ready to be handed on.
 @immutable
 class ExportedBackup {

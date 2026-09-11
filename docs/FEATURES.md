@@ -70,7 +70,7 @@ before the milestone is closed.
 | F-071 | M | **How to use — guide** | Always present in Settings. 6 short illustrated cards: add a word · fill from the dictionary · type your own IPA · highlight the sound you struggle with · leave a note · practise daily. Re-openable any time; also shown once at onboarding. |
 | F-072 | M | **Help & feedback** | Always present in Settings: searchable FAQ, "Send feedback" (opens mail with app version, OS version and device model pre-filled — nothing else, and it is shown to the user before sending), and a GitHub Issues link. No data is transmitted without an explicit tap. |
 | F-073 | M | Export backup | Produces `.vnb` ZIP, shared via the OS share sheet. |
-| F-074 | M | Import backup | Merge (default) or Replace (confirm + auto-backup first). Reports added/updated/skipped. |
+| F-074 | M | Import backup | Merge (default) or Replace (confirm + auto-backup first). Reports added/updated/skipped. *Built at M6: a merge never deletes or hides a word; a phone still on its default settings takes the backup's; neither mode switches the reminder on. The full rules are in `DATABASE.md` §5.* |
 | F-075 | M | Data sources & licences | Lists FreeDictionaryAPI.com / Wiktionary (CC BY-SA 4.0) with a link back to each source page, CMUdict, the OFL fonts, and package licences via `showLicensePage()`. |
 | F-076 | M | Privacy note | Plain-English: "VocabNote has no account and no analytics. Your words never leave your phone unless you export them. Looking up a word sends only that word to freedictionaryapi.com." |
 | F-077 | S | Onboarding | 3 slides + the guide; skippable; never shown again after completion. |
