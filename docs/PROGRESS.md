@@ -60,6 +60,9 @@ Before pushing — CI runs exactly these, in this order:
 
 ```bash
 dart format --output=none --set-exit-if-changed .
+dart run build_runner build && flutter gen-l10n && git diff --exit-code --stat
+                                             # generated code committed and current; any
+                                             # edit to a @Riverpod class moves its hash
 dart run tool/check_licences.dart            # permissive licences only
 dart run tool/check_migration_safety.dart    # no destructive migration patterns
 flutter test test/migration                  # blocking
@@ -146,7 +149,8 @@ found doing it, both fixed — see §6.
 
 **Never verified, and cannot be from Windows:**
 
-- **iOS build.** The CI job exists but an iOS build has never been seen to run.
+- **iOS on a device.** An unsigned iOS build passes in CI (it did on PR #3), but the app has
+  never been run on an iPhone or a simulator.
 - **A physical phone.** Everything so far is the emulator, on a software GPU.
 
 **Deliberately deferred, by milestone:**
