@@ -325,9 +325,14 @@ Searchable FAQ (12 short answers), then:
 
 ## 6. Accessibility (blocking, not optional)
 
-- Contrast ≥ 4.5:1 for text, ≥ 3:1 for UI edges, verified in both themes.
+- Contrast ≥ 4.5:1 for text, ≥ 3:1 for UI edges, verified in both themes
+  (`theme_contrast_test.dart`, from the theme itself — §2).
 - Touch targets ≥ 48×48dp, including IPA symbol chips.
 - Every icon-only button has a `Semantics` label; the flip card announces its state.
+- **Checked on every screen, light and dark** (`accessibility_guidelines_test.dart`): each
+  screen is walked top to bottom through the real router and, at every stop, Flutter's
+  48dp tap-target, labelled-tap-target and text-contrast guidelines must pass. They only see
+  what is built and on screen, which is why the walk.
 - The IPA is exposed to screen readers as spoken symbol names, not raw glyphs.
 - Full keyboard/switch traversal order defined on every screen.
 - Layout tested at 200% text scale and at 320dp width — no clipping, no overflow.
