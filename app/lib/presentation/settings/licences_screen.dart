@@ -157,7 +157,6 @@ class _FontRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: context.metrics.spaceSm),
       child: OverflowBar(
         alignment: MainAxisAlignment.spaceBetween,
-        overflowAlignment: OverflowBarAlignment.start,
         children: <Widget>[
           Column(
             mainAxisSize: MainAxisSize.min,
