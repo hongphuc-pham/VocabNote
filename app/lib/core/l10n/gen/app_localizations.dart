@@ -1101,6 +1101,210 @@ abstract class AppL10n {
   /// **'Couldn\'t make the backup just now. Your words are safe - please try again.'**
   String get backupExportFailed;
 
+  /// Button that chooses a backup file to bring in.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get backupImport;
+
+  /// The import button's label while a backup is being written.
+  ///
+  /// In en, this message translates to:
+  /// **'Bringing your words in…'**
+  String get backupImporting;
+
+  /// Under the import button.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring words in from a backup file. You\'ll see what\'s in it before anything changes.'**
+  String get backupImportHint;
+
+  /// The chosen file is not a backup at all.
+  ///
+  /// In en, this message translates to:
+  /// **'That file isn\'t a VocabNote backup. Backups end in .vnb.'**
+  String get importProblemNotABackup;
+
+  /// The chosen file is far larger than any backup could be.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is too large to be a VocabNote backup.'**
+  String get importProblemTooLarge;
+
+  /// The backup is ours but broken - often cut short by an interrupted download.
+  ///
+  /// In en, this message translates to:
+  /// **'That backup is damaged and can\'t be read. If you still have the phone it came from, try exporting it again.'**
+  String get importProblemDamaged;
+
+  /// The chosen file could not be read at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open that file. Please try again.'**
+  String get importProblemUnreadable;
+
+  /// Title of the sheet showing what a chosen backup holds.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring in this backup?'**
+  String get importPreviewTitle;
+
+  /// How many words a backup holds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word} other{{count} words}}'**
+  String importPreviewWords(int count);
+
+  /// How many lists a backup holds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no lists} =1{1 list} other{{count} lists}}'**
+  String importPreviewLists(int count);
+
+  /// When the backup was made. The date is already formatted for the user's locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Made {when}'**
+  String importPreviewMade(String when);
+
+  /// Import choice: merge. The default.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to my words'**
+  String get importModeMerge;
+
+  /// What merging does.
+  ///
+  /// In en, this message translates to:
+  /// **'New words are added and newer copies win. Nothing on this phone is removed.'**
+  String get importModeMergeHint;
+
+  /// Import choice: replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace everything'**
+  String get importModeReplace;
+
+  /// What replacing does, and that there is a way back.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything on this phone becomes what\'s in the backup. A copy of what\'s here now is kept first.'**
+  String get importModeReplaceHint;
+
+  /// Button that goes ahead with the chosen import mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get importContinue;
+
+  /// Title of the typed confirmation before a replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace everything on this phone?'**
+  String get replaceConfirmTitle;
+
+  /// What a replace does, before the user types the confirmation word.
+  ///
+  /// In en, this message translates to:
+  /// **'Your words, notes, highlights, lists and practice history here will be swapped for the backup\'s. A copy of what\'s here now is kept on this phone first.'**
+  String get replaceConfirmBody;
+
+  /// The word the user types to confirm a replace (RULES 11). Matched without regard to case.
+  ///
+  /// In en, this message translates to:
+  /// **'REPLACE'**
+  String get replaceConfirmWord;
+
+  /// The button that carries out a confirmed replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get replaceConfirmAction;
+
+  /// Prompt above the field in a typed confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Type {word} to confirm'**
+  String typedConfirmPrompt(String word);
+
+  /// Title of the report after an import.
+  ///
+  /// In en, this message translates to:
+  /// **'Your backup is in'**
+  String get importReportTitle;
+
+  /// Words a merge added.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No new words} =1{1 word added} other{{count} words added}}'**
+  String importReportAdded(int count);
+
+  /// Words a merge updated with a newer copy.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word updated} other{{count} words updated}}'**
+  String importReportUpdated(int count);
+
+  /// Words a merge left as they were.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 word was already here} other{{count} words were already here}}'**
+  String importReportSkipped(int count);
+
+  /// Words a replace restored.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No words restored} =1{1 word restored} other{{count} words restored}}'**
+  String importReportRestored(int count);
+
+  /// Notes brought in, as one item of a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 note} other{{count} notes}}'**
+  String importReportNotes(int count);
+
+  /// Highlights brought in, as one item of a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 highlight} other{{count} highlights}}'**
+  String importReportHighlights(int count);
+
+  /// Lists brought in, as one item of a list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 list} other{{count} lists}}'**
+  String importReportLists(int count);
+
+  /// The other things an import brought, already joined with listSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'Also brought in: {items}'**
+  String importReportAlso(String items);
+
+  /// Rows that could not be used. Worth knowing, never alarming.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item couldn\'t be read and was left out.} other{{count} items couldn\'t be read and were left out.}}'**
+  String importReportRejected(int count);
+
+  /// After a replace: the way back exists.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of what was here before is kept on this phone.'**
+  String get importReportSafetyCopy;
+
+  /// Closes the import report.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get importReportDone;
+
+  /// Snackbar when an import failed part-way and was rolled back.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t bring the backup in. Nothing on this phone was changed.'**
+  String get importFailed;
+
   /// Row showing the app version.
   ///
   /// In en, this message translates to:

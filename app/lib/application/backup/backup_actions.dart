@@ -1,8 +1,15 @@
-/// Making a backup and handing it over (F-073).
+/// Making a backup and handing it over (F-073), and choosing one to bring in
+/// (F-074).
 library;
 
+import 'dart:typed_data';
+
+import 'package:meta/meta.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vocabnote/application/repositories.dart';
+import 'package:vocabnote/core/failure.dart';
+import 'package:vocabnote/core/result.dart';
+import 'package:vocabnote/domain/entities/backup.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
 
 part 'backup_actions.g.dart';
@@ -18,6 +25,51 @@ enum ExportOutcome {
 
   /// The file could not be written, or the share sheet would not open.
   failed,
+}
+
+/// A backup file chosen and read, waiting for the user to say how it comes
+/// in.
+@immutable
+class PickedBackup {
+  /// Creates the picked backup.
+  const new({required this.bytes, required this.manifest});
+
+  /// The file, as read.
+  final Uint8List bytes;
+
+  /// What it says it holds.
+  final BackupManifest manifest;
+}
+
+/// What choosing a backup file came to.
+@immutable
+sealed class PickOutcome {
+  const new();
+}
+
+/// The picker was closed without choosing.
+final class PickCancelled extends PickOutcome {
+  /// Creates the outcome.
+  const new();
+}
+
+/// The file cannot be used; [problem] says why, or is null when the file
+/// could not be opened at all.
+final class PickRefused extends PickOutcome {
+  /// Creates the outcome.
+  const new(this.problem);
+
+  /// Why it was refused.
+  final BackupProblem? problem;
+}
+
+/// A usable backup, read and previewed. Nothing has been written.
+final class PickReady extends PickOutcome {
+  /// Creates the outcome.
+  const new(this.backup);
+
+  /// The backup, ready to import.
+  final PickedBackup backup;
 }
 
 /// When the last backup was handed over, or null if never.
@@ -57,5 +109,54 @@ class BackupActions extends _$BackupActions {
         ref.invalidate(lastBackupAtProvider);
         return ExportOutcome.shared;
     }
+  }
+
+  /// Lets the user choose a backup, and reads what it holds.
+  ///
+  /// Writes nothing: the user sees what is inside - or why it cannot be used -
+  /// before being asked how it should come in.
+  Future<PickOutcome> pickBackup() async {
+    final picked = await ref.read(backupFilesProvider).pick();
+    final Uint8List bytes;
+    switch (picked) {
+      case Err(:final failure):
+        return PickRefused(_problemOf(failure));
+      case Ok(value: null):
+        return const PickCancelled();
+      case Ok(:final Uint8List value):
+        bytes = value;
+    }
+
+    final preview = await ref
+        .read(userDataRepositoryProvider)
+        .previewBackup(bytes);
+    return switch (preview) {
+      Ok(value: final manifest) => PickReady(
+        PickedBackup(bytes: bytes, manifest: manifest),
+      ),
+      Err(:final failure) => PickRefused(_problemOf(failure)),
+    };
+  }
+
+  static BackupProblem? _problemOf(AppFailure failure) =>
+      failure is InvalidBackupFailure ? failure.problem : null;
+
+  /// Brings [backup] in, or returns null if it could not be - in which case
+  /// nothing on the phone changed.
+  Future<ImportReport?> importBackup(
+    PickedBackup backup,
+    ImportMode mode,
+  ) async {
+    final report =
+        (await ref
+                .read(userDataRepositoryProvider)
+                .importBackup(backup.bytes, mode))
+            .valueOrNull;
+    if (report != null && mode == ImportMode.replace) {
+      // The restored settings have the reminder off - it needs this phone's
+      // permission - so nothing may still be booked with the OS.
+      await ref.read(reminderServiceProvider).cancel();
+    }
+    return report;
   }
 }

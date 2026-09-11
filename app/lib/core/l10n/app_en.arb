@@ -760,6 +760,207 @@
   "@backupExportFailed": {
     "description": "Snackbar when the backup could not be written or shared. Reassures first."
   },
+  "backupImport": "Import backup",
+  "@backupImport": {
+    "description": "Button that chooses a backup file to bring in."
+  },
+  "backupImporting": "Bringing your words in…",
+  "@backupImporting": {
+    "description": "The import button's label while a backup is being written."
+  },
+  "backupImportHint": "Bring words in from a backup file. You'll see what's in it before anything changes.",
+  "@backupImportHint": {
+    "description": "Under the import button."
+  },
+  "importProblemNotABackup": "That file isn't a VocabNote backup. Backups end in .vnb.",
+  "@importProblemNotABackup": {
+    "description": "The chosen file is not a backup at all."
+  },
+  "importProblemTooLarge": "That file is too large to be a VocabNote backup.",
+  "@importProblemTooLarge": {
+    "description": "The chosen file is far larger than any backup could be."
+  },
+  "importProblemDamaged": "That backup is damaged and can't be read. If you still have the phone it came from, try exporting it again.",
+  "@importProblemDamaged": {
+    "description": "The backup is ours but broken - often cut short by an interrupted download."
+  },
+  "importProblemUnreadable": "Couldn't open that file. Please try again.",
+  "@importProblemUnreadable": {
+    "description": "The chosen file could not be read at all."
+  },
+  "importPreviewTitle": "Bring in this backup?",
+  "@importPreviewTitle": {
+    "description": "Title of the sheet showing what a chosen backup holds."
+  },
+  "importPreviewWords": "{count, plural, =1{1 word} other{{count} words}}",
+  "@importPreviewWords": {
+    "description": "How many words a backup holds.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importPreviewLists": "{count, plural, =0{no lists} =1{1 list} other{{count} lists}}",
+  "@importPreviewLists": {
+    "description": "How many lists a backup holds.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importPreviewMade": "Made {when}",
+  "@importPreviewMade": {
+    "description": "When the backup was made. The date is already formatted for the user's locale.",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "importModeMerge": "Add to my words",
+  "@importModeMerge": {
+    "description": "Import choice: merge. The default."
+  },
+  "importModeMergeHint": "New words are added and newer copies win. Nothing on this phone is removed.",
+  "@importModeMergeHint": {
+    "description": "What merging does."
+  },
+  "importModeReplace": "Replace everything",
+  "@importModeReplace": {
+    "description": "Import choice: replace."
+  },
+  "importModeReplaceHint": "Everything on this phone becomes what's in the backup. A copy of what's here now is kept first.",
+  "@importModeReplaceHint": {
+    "description": "What replacing does, and that there is a way back."
+  },
+  "importContinue": "Continue",
+  "@importContinue": {
+    "description": "Button that goes ahead with the chosen import mode."
+  },
+  "replaceConfirmTitle": "Replace everything on this phone?",
+  "@replaceConfirmTitle": {
+    "description": "Title of the typed confirmation before a replace."
+  },
+  "replaceConfirmBody": "Your words, notes, highlights, lists and practice history here will be swapped for the backup's. A copy of what's here now is kept on this phone first.",
+  "@replaceConfirmBody": {
+    "description": "What a replace does, before the user types the confirmation word."
+  },
+  "replaceConfirmWord": "REPLACE",
+  "@replaceConfirmWord": {
+    "description": "The word the user types to confirm a replace (RULES 11). Matched without regard to case."
+  },
+  "replaceConfirmAction": "Replace",
+  "@replaceConfirmAction": {
+    "description": "The button that carries out a confirmed replace."
+  },
+  "typedConfirmPrompt": "Type {word} to confirm",
+  "@typedConfirmPrompt": {
+    "description": "Prompt above the field in a typed confirmation.",
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "importReportTitle": "Your backup is in",
+  "@importReportTitle": {
+    "description": "Title of the report after an import."
+  },
+  "importReportAdded": "{count, plural, =0{No new words} =1{1 word added} other{{count} words added}}",
+  "@importReportAdded": {
+    "description": "Words a merge added.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportUpdated": "{count, plural, =1{1 word updated} other{{count} words updated}}",
+  "@importReportUpdated": {
+    "description": "Words a merge updated with a newer copy.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportSkipped": "{count, plural, =1{1 word was already here} other{{count} words were already here}}",
+  "@importReportSkipped": {
+    "description": "Words a merge left as they were.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportRestored": "{count, plural, =0{No words restored} =1{1 word restored} other{{count} words restored}}",
+  "@importReportRestored": {
+    "description": "Words a replace restored.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportNotes": "{count, plural, =1{1 note} other{{count} notes}}",
+  "@importReportNotes": {
+    "description": "Notes brought in, as one item of a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportHighlights": "{count, plural, =1{1 highlight} other{{count} highlights}}",
+  "@importReportHighlights": {
+    "description": "Highlights brought in, as one item of a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportLists": "{count, plural, =1{1 list} other{{count} lists}}",
+  "@importReportLists": {
+    "description": "Lists brought in, as one item of a list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportAlso": "Also brought in: {items}",
+  "@importReportAlso": {
+    "description": "The other things an import brought, already joined with listSeparator.",
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "importReportRejected": "{count, plural, =1{1 item couldn't be read and was left out.} other{{count} items couldn't be read and were left out.}}",
+  "@importReportRejected": {
+    "description": "Rows that could not be used. Worth knowing, never alarming.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importReportSafetyCopy": "A copy of what was here before is kept on this phone.",
+  "@importReportSafetyCopy": {
+    "description": "After a replace: the way back exists."
+  },
+  "importReportDone": "Done",
+  "@importReportDone": {
+    "description": "Closes the import report."
+  },
+  "importFailed": "Couldn't bring the backup in. Nothing on this phone was changed.",
+  "@importFailed": {
+    "description": "Snackbar when an import failed part-way and was rolled back."
+  },
   "settingsVersion": "Version",
   "@settingsVersion": {
     "description": "Row showing the app version."

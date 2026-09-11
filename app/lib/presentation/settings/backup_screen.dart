@@ -4,17 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vocabnote/application/backup/backup_actions.dart';
+import 'package:vocabnote/core/failure.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/domain/entities/backup.dart';
 import 'package:vocabnote/domain/repositories/backup_files.dart';
+import 'package:vocabnote/presentation/common/typed_confirm_dialog.dart';
 import 'package:vocabnote/presentation/design/gap.dart';
 import 'package:vocabnote/presentation/design/section.dart';
+import 'package:vocabnote/presentation/settings/import_preview_sheet.dart';
+import 'package:vocabnote/presentation/settings/import_report_dialog.dart';
 
 /// Backup & restore (F-073, F-074, `docs/UI-UX.md` §4.9).
 ///
 /// One primary action: make a backup. There is no cloud, so this file is how
 /// a user moves their words to a new phone - the screen says what is in it,
-/// when the last one was made, and that nothing is uploaded.
+/// when the last one was made, and that nothing is uploaded. Bringing one in
+/// is the second button, and shows what a file holds before anything changes.
 class BackupScreen extends ConsumerStatefulWidget {
   /// Creates the screen.
   const new({super.key});
@@ -25,6 +31,10 @@ class BackupScreen extends ConsumerStatefulWidget {
 
 class _BackupScreenState extends ConsumerState<BackupScreen> {
   bool _exporting = false;
+  bool _importing = false;
+  bool _bringingIn = false;
+
+  bool get _busy => _exporting || _importing;
 
   Future<void> _export(BuildContext buttonContext) async {
     final messenger = ScaffoldMessenger.of(context);
@@ -50,6 +60,68 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
         );
     }
   }
+
+  Future<void> _import() async {
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppL10n.of(context);
+    final actions = ref.read(backupActionsProvider.notifier);
+
+    setState(() => _importing = true);
+    try {
+      final picked = await actions.pickBackup();
+      if (!mounted) return;
+      final PickedBackup backup;
+      switch (picked) {
+        case PickCancelled():
+          return;
+        case PickRefused(:final problem):
+          messenger.showSnackBar(
+            SnackBar(content: Text(_problemText(l10n, problem))),
+          );
+          return;
+        case PickReady(backup: final ready):
+          backup = ready;
+      }
+
+      final mode = await ImportPreviewSheet.show(context, backup.manifest);
+      if (mode == null || !mounted) return;
+      if (mode == ImportMode.replace &&
+          !await showTypedConfirmation(
+            context,
+            title: l10n.replaceConfirmTitle,
+            body: l10n.replaceConfirmBody,
+            word: l10n.replaceConfirmWord,
+            action: l10n.replaceConfirmAction,
+          )) {
+        return;
+      }
+
+      setState(() => _bringingIn = true);
+      final report = await actions.importBackup(backup, mode);
+      if (!mounted) return;
+      if (report == null) {
+        messenger.showSnackBar(SnackBar(content: Text(l10n.importFailed)));
+        return;
+      }
+      await showImportReport(context, report, mode);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _importing = false;
+          _bringingIn = false;
+        });
+      }
+    }
+  }
+
+  /// Why a file cannot be brought in, as advice rather than a diagnosis.
+  static String _problemText(AppL10n l10n, BackupProblem? problem) =>
+      switch (problem) {
+        BackupProblem.notABackup => l10n.importProblemNotABackup,
+        BackupProblem.tooLarge => l10n.importProblemTooLarge,
+        BackupProblem.damaged => l10n.importProblemDamaged,
+        null => l10n.importProblemUnreadable,
+      };
 
   /// Where the button is, for the iPad's share popover.
   static ShareAnchor? _anchorOf(BuildContext context) {
@@ -89,9 +161,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
           const VnGap(VnSpace.xl),
           Builder(
             builder: (buttonContext) => FilledButton.icon(
-              onPressed: _exporting
-                  ? null
-                  : () => unawaited(_export(buttonContext)),
+              onPressed: _busy ? null : () => unawaited(_export(buttonContext)),
               icon: const Icon(Icons.ios_share),
               label: Text(
                 _exporting ? l10n.backupPreparing : l10n.backupExport,
@@ -100,6 +170,14 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
           ),
           const VnGap(VnSpace.sm),
           VnQuietText(l10n.backupExportHint),
+          const VnGap(VnSpace.xl),
+          OutlinedButton.icon(
+            onPressed: _busy ? null : () => unawaited(_import()),
+            icon: const Icon(Icons.file_open_outlined),
+            label: Text(_bringingIn ? l10n.backupImporting : l10n.backupImport),
+          ),
+          const VnGap(VnSpace.sm),
+          VnQuietText(l10n.backupImportHint),
         ],
       ),
     );

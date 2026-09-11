@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:vocabnote/application/repositories.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
-import 'package:vocabnote/data/backup/share_plus_backup_files.dart';
+import 'package:vocabnote/data/backup/platform_backup_files.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/dictionary/dictionary_cache.dart';
 import 'package:vocabnote/data/dictionary/free_dictionary_client.dart';
@@ -90,7 +90,7 @@ List<Override> repositoryOverrides(
     ),
     // Inert like the two above: the share sheet opens only on Export.
     backupFilesProvider.overrideWithValue(
-      backupFiles ?? const SharePlusBackupFiles(),
+      backupFiles ?? const PlatformBackupFiles(),
     ),
     dictionaryRepositoryProvider.overrideWithValue(
       DictionaryRepositoryImpl(

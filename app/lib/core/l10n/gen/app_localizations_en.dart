@@ -603,6 +603,207 @@ class AppL10nEn extends AppL10n {
       'Couldn\'t make the backup just now. Your words are safe - please try again.';
 
   @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImporting => 'Bringing your words in…';
+
+  @override
+  String get backupImportHint =>
+      'Bring words in from a backup file. You\'ll see what\'s in it before anything changes.';
+
+  @override
+  String get importProblemNotABackup =>
+      'That file isn\'t a VocabNote backup. Backups end in .vnb.';
+
+  @override
+  String get importProblemTooLarge =>
+      'That file is too large to be a VocabNote backup.';
+
+  @override
+  String get importProblemDamaged =>
+      'That backup is damaged and can\'t be read. If you still have the phone it came from, try exporting it again.';
+
+  @override
+  String get importProblemUnreadable =>
+      'Couldn\'t open that file. Please try again.';
+
+  @override
+  String get importPreviewTitle => 'Bring in this backup?';
+
+  @override
+  String importPreviewWords(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words',
+      one: '1 word',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importPreviewLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lists',
+      one: '1 list',
+      zero: 'no lists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importPreviewMade(String when) {
+    return 'Made $when';
+  }
+
+  @override
+  String get importModeMerge => 'Add to my words';
+
+  @override
+  String get importModeMergeHint =>
+      'New words are added and newer copies win. Nothing on this phone is removed.';
+
+  @override
+  String get importModeReplace => 'Replace everything';
+
+  @override
+  String get importModeReplaceHint =>
+      'Everything on this phone becomes what\'s in the backup. A copy of what\'s here now is kept first.';
+
+  @override
+  String get importContinue => 'Continue';
+
+  @override
+  String get replaceConfirmTitle => 'Replace everything on this phone?';
+
+  @override
+  String get replaceConfirmBody =>
+      'Your words, notes, highlights, lists and practice history here will be swapped for the backup\'s. A copy of what\'s here now is kept on this phone first.';
+
+  @override
+  String get replaceConfirmWord => 'REPLACE';
+
+  @override
+  String get replaceConfirmAction => 'Replace';
+
+  @override
+  String typedConfirmPrompt(String word) {
+    return 'Type $word to confirm';
+  }
+
+  @override
+  String get importReportTitle => 'Your backup is in';
+
+  @override
+  String importReportAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words added',
+      one: '1 word added',
+      zero: 'No new words',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportUpdated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words updated',
+      one: '1 word updated',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words were already here',
+      one: '1 word was already here',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportRestored(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count words restored',
+      one: '1 word restored',
+      zero: 'No words restored',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportNotes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes',
+      one: '1 note',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportHighlights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count highlights',
+      one: '1 highlight',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lists',
+      one: '1 list',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importReportAlso(String items) {
+    return 'Also brought in: $items';
+  }
+
+  @override
+  String importReportRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items couldn\'t be read and were left out.',
+      one: '1 item couldn\'t be read and was left out.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importReportSafetyCopy =>
+      'A copy of what was here before is kept on this phone.';
+
+  @override
+  String get importReportDone => 'Done';
+
+  @override
+  String get importFailed =>
+      'Couldn\'t bring the backup in. Nothing on this phone was changed.';
+
+  @override
   String get settingsVersion => 'Version';
 
   @override

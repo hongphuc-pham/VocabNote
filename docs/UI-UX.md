@@ -242,6 +242,15 @@ About           Version · Data sources & licences · Privacy
   main list would bury *Help* below the fold.
 - **Privacy** opens a sheet; the same note is a section of *Data sources & licences*. No
   route of its own.
+- **Import** (F-074) is the second button on *Backup & restore*. The picker offers any file —
+  Android cannot filter by an extension it has never heard of — and a file that is not a
+  backup is named as such in a snackbar ("Backups end in .vnb"), as is one too large or
+  damaged. A real backup opens a sheet saying what it holds and when it was made, with
+  **Add to my words** (merge) already chosen and **Replace everything** beside it. Replace
+  then asks for `REPLACE` to be typed (RULES §11) and says that a copy of what is here is
+  kept first. Nothing is written until then. The report that follows gives words added,
+  updated and already here, the other things in one line, and a quiet line for anything
+  that could not be read.
 
 ### 4.10 How to use (guide)
 Six cards, each an illustration + a sentence + a *Try it* button that deep-links to the real

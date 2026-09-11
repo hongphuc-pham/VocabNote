@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:meta/meta.dart';
 import 'package:vocabnote/core/result.dart';
 import 'package:vocabnote/domain/entities/backup.dart';
@@ -50,4 +52,11 @@ class ShareAnchor {
 abstract interface class BackupFiles {
   /// Offers [backup] to the OS share sheet.
   AsyncResult<ShareOutcome> share(ExportedBackup backup, {ShareAnchor? anchor});
+
+  /// Lets the user choose a backup file, and reads it.
+  ///
+  /// Null when the picker is closed without choosing. A file too large to be
+  /// a backup fails as `InvalidBackupFailure(tooLarge)`, refused on its size
+  /// before any of it is read.
+  AsyncResult<Uint8List?> pick();
 }
