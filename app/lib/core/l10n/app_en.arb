@@ -308,6 +308,35 @@
   "@practiceNothingDue": {
     "description": "Encouraging line when no cards are due. Never a warning (UI-UX 4.6)."
   },
+  "practiceGoalProgress": "{count} of {goal} today",
+  "@practiceGoalProgress": {
+    "description": "The daily goal on the practice hub: different words practised today, out of the goal (F-065). Never a warning.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceGoalReached": "Today's goal reached - nice work",
+  "@practiceGoalReached": {
+    "description": "Shown once today's words reach the daily goal (F-065)."
+  },
+  "practiceStreak": "{days, plural, =1{1 day in a row} other{{days} days in a row}}",
+  "@practiceStreak": {
+    "description": "Days practised in a row (F-065). A streak of zero is never shown.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceGoalStart": "Any card you practise today counts",
+  "@practiceGoalStart": {
+    "description": "Under the goal when there is no streak yet. Encouraging, never 'you lost your streak' (RULES 6)."
+  },
   "practiceNothingDueTitle": "All caught up",
   "@practiceNothingDueTitle": {
     "description": "Shown when a daily review is started with nothing due."

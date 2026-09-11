@@ -53,6 +53,8 @@ class PracticeHubScreen extends ConsumerWidget {
           : ListView(
               padding: EdgeInsets.all(metrics.spaceLg),
               children: <Widget>[
+                const _GoalCard(),
+                const VnGap(VnSpace.md),
                 for (final descriptor in descriptors)
                   Padding(
                     padding: EdgeInsets.only(bottom: metrics.spaceMd),
@@ -65,6 +67,82 @@ class PracticeHubScreen extends ConsumerWidget {
                   ),
               ],
             ),
+    );
+  }
+}
+
+/// Today's goal and the run of days behind it (F-065, `docs/UI-UX.md` §4.6).
+///
+/// Encouraging copy, never a warning (`docs/RULES.md` §6). A streak of zero is
+/// not mentioned at all — there is no "you lost your streak" — and today is
+/// never "at risk": a day is not missed until it is over.
+class _GoalCard extends ConsumerWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progress = ref.watch(practiceProgressProvider).value;
+    // Nothing rather than a zero while the first query runs: "0 of 20 today"
+    // for a frame would read as a verdict.
+    if (progress == null) return const SizedBox.shrink();
+
+    final theme = Theme.of(context);
+    final l10n = AppL10n.of(context);
+    final metrics = context.metrics;
+    final goal = ref.watch(appSettingsOrDefaultsProvider).dailyGoal;
+    final streak = progress.streak;
+
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(metrics.spaceLg),
+        // One sentence to a screen reader — "3 of 20 today. 2 days in a row." —
+        // rather than a ring, a number and a line read out separately.
+        child: MergeSemantics(
+          child: Row(
+            children: <Widget>[
+              // The words carry the meaning and the ring draws the same fact,
+              // so colour is never the only way to tell (WCAG 1.4.11).
+              ExcludeSemantics(
+                child: SizedBox.square(
+                  dimension: metrics.minTouchTarget,
+                  child: CircularProgressIndicator(
+                    value: progress.fractionOf(goal),
+                    strokeWidth: metrics.spaceXs,
+                    color: theme.colorScheme.secondary,
+                    backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                  ),
+                ),
+              ),
+              const VnGap(VnSpace.lg, axis: Axis.horizontal),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      progress.goalReached(goal)
+                          ? l10n.practiceGoalReached
+                          : l10n.practiceGoalProgress(
+                              progress.wordsToday,
+                              goal,
+                            ),
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    const VnGap(VnSpace.xs),
+                    Text(
+                      streak > 0
+                          ? l10n.practiceStreak(streak)
+                          : l10n.practiceGoalStart,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

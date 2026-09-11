@@ -7,6 +7,7 @@ import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/daos/practice_dao.dart';
 import 'package:vocabnote/data/repositories/mappers.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
+import 'package:vocabnote/domain/entities/practice_progress.dart';
 import 'package:vocabnote/domain/entities/practice_session.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
 import 'package:vocabnote/domain/repositories/practice_repository.dart';
@@ -176,6 +177,38 @@ class PracticeRepositoryImpl implements PracticeRepository {
                 .toList(),
         onError: (_, _) => _dbFailure('read session answers'),
       );
+
+  @override
+  ResultStream<PracticeProgress> watchProgress() {
+    final now = _now();
+    final today = DateTime(now.year, now.month, now.day);
+    final since = DateTime(
+      now.year,
+      now.month,
+      now.day - PracticeProgress.lookBackDays,
+    );
+
+    return _db.practiceDao
+        .watchAnswerQuarterHours(since)
+        .asyncMap(
+          (quarters) async => PracticeProgress(
+            today: today,
+            // A one-shot read beside the watch, so both halves describe the
+            // same moment - and no `.first` on a second watch stream.
+            wordsToday: await _db.practiceDao.countWordsAnsweredSince(today),
+            daysPractised: <DateTime>{
+              for (final quarter in quarters) _localDate(quarter),
+            },
+          ),
+        )
+        .guarded(onError: (_, _) => _dbFailure('watch practice progress'));
+  }
+
+  /// The date [instant] falls on, on this device, at local midnight.
+  static DateTime _localDate(DateTime instant) {
+    final local = instant.toLocal();
+    return DateTime(local.year, local.month, local.day);
+  }
 
   @override
   ResultStream<List<PracticeSession>> watchRecentSessions({int limit = 30}) =>

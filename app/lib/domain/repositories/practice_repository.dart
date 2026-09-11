@@ -1,5 +1,6 @@
 import 'package:vocabnote/core/result.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
+import 'package:vocabnote/domain/entities/practice_progress.dart';
 import 'package:vocabnote/domain/entities/practice_session.dart';
 import 'package:vocabnote/domain/entities/study_card.dart';
 import 'package:vocabnote/domain/entities/word.dart';
@@ -106,4 +107,11 @@ abstract interface class PracticeRepository {
 
   /// Recent finished sessions, for the streak and the goal ring.
   ResultStream<List<PracticeSession>> watchRecentSessions({int limit});
+
+  /// Watches today's words and the days practised — the goal ring and the
+  /// streak (F-065). Every mode counts: a quick test is practice too.
+  ///
+  /// Not built on [watchRecentSessions]: that stops at a number of sessions,
+  /// and a busy day can use them all.
+  ResultStream<PracticeProgress> watchProgress();
 }

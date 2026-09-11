@@ -537,6 +537,30 @@ abstract class AppL10n {
   /// **'Nothing due right now - a quick test still counts.'**
   String get practiceNothingDue;
 
+  /// The daily goal on the practice hub: different words practised today, out of the goal (F-065). Never a warning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {goal} today'**
+  String practiceGoalProgress(int count, int goal);
+
+  /// Shown once today's words reach the daily goal (F-065).
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s goal reached - nice work'**
+  String get practiceGoalReached;
+
+  /// Days practised in a row (F-065). A streak of zero is never shown.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day in a row} other{{days} days in a row}}'**
+  String practiceStreak(int days);
+
+  /// Under the goal when there is no streak yet. Encouraging, never 'you lost your streak' (RULES 6).
+  ///
+  /// In en, this message translates to:
+  /// **'Any card you practise today counts'**
+  String get practiceGoalStart;
+
   /// Shown when a daily review is started with nothing due.
   ///
   /// In en, this message translates to:

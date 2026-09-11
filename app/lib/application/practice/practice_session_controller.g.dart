@@ -45,7 +45,7 @@ final class PracticeSessionRunnerProvider
 }
 
 String _$practiceSessionRunnerHash() =>
-    r'651c778468428c12fd5f16abcd2e4e9d706add65';
+    r'7990697b91c76f469841aaa81259fc06608a25c5';
 
 /// Runs one practice session.
 

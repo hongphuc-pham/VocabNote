@@ -251,6 +251,52 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
             ]))
           .get();
 
+  /// How many different words were answered at or after [since].
+  ///
+  /// Today's progress towards the daily goal (F-065): a word asked twice today
+  /// — a repeat, or two sessions — is one word practised.
+  Future<int> countWordsAnsweredSince(DateTime since) {
+    final words = practiceAnswers.wordId.count(distinct: true);
+    final query = selectOnly(practiceAnswers)
+      ..addColumns(<Expression<Object>>[words])
+      ..where(
+        practiceAnswers.answeredAt.isBiggerOrEqualValue(
+          since.toUtc().millisecondsSinceEpoch,
+        ),
+      );
+    return query.map((row) => row.read(words) ?? 0).getSingle();
+  }
+
+  /// The quarter-hours since [since] in which anything was answered, as
+  /// instants — the raw material of the streak (F-065).
+  ///
+  /// Quarter-hours rather than days, because which *local* day an answer falls
+  /// on depends on the device's offset, which SQLite does not reliably know.
+  /// Every offset in use is a multiple of fifteen minutes, so a quarter-hour
+  /// never straddles a local midnight and the caller can date each one
+  /// exactly. There are at most 96 a day, so the list stays small however many
+  /// answers there were.
+  Stream<List<DateTime>> watchAnswerQuarterHours(DateTime since) {
+    return customSelect(
+      'SELECT DISTINCT answered_at / $_quarterHourMs AS quarter '
+      'FROM practice_answers WHERE answered_at >= ?',
+      variables: <Variable<Object>>[
+        Variable.withInt(since.toUtc().millisecondsSinceEpoch),
+      ],
+      readsFrom: <ResultSetImplementation<dynamic, dynamic>>{practiceAnswers},
+    ).watch().map(
+      (rows) => <DateTime>[
+        for (final row in rows)
+          DateTime.fromMillisecondsSinceEpoch(
+            row.read<int>('quarter') * _quarterHourMs,
+            isUtc: true,
+          ),
+      ],
+    );
+  }
+
+  static const int _quarterHourMs = 15 * 60 * 1000;
+
   /// The most recent finished sessions - the streak and history on the hub.
   Stream<List<PracticeSessionRow>> watchRecentSessions({int limit = 30}) =>
       (select(practiceSessions)

@@ -251,6 +251,28 @@ class AppL10nEn extends AppL10n {
       'Nothing due right now - a quick test still counts.';
 
   @override
+  String practiceGoalProgress(int count, int goal) {
+    return '$count of $goal today';
+  }
+
+  @override
+  String get practiceGoalReached => 'Today\'s goal reached - nice work';
+
+  @override
+  String practiceStreak(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days in a row',
+      one: '1 day in a row',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get practiceGoalStart => 'Any card you practise today counts';
+
+  @override
   String get practiceNothingDueTitle => 'All caught up';
 
   @override

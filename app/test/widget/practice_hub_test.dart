@@ -146,6 +146,55 @@ void main() {
       expect(button.onPressed, isNull);
     });
 
+    testWidgets("the goal ring counts today's words and the run of days", (
+      tester,
+    ) async {
+      // F-065, UI-UX §4.6: "12 of 20 today".
+      await seedSession(db, id: 's1');
+      final now = DateTime.now();
+      for (var i = 0; i < 3; i++) {
+        await seedAnswer(
+          db,
+          id: 'a$i',
+          sessionId: 's1',
+          wordId: 'w$i',
+          answeredAt: now,
+        );
+      }
+      await openHub(tester);
+
+      expect(find.text('3 of 20 today'), findsOneWidget);
+      expect(find.text('1 day in a row'), findsOneWidget);
+    });
+
+    testWidgets('with nothing practised yet it encourages, never warns', (
+      tester,
+    ) async {
+      // RULES §6: no loss aversion. There is no streak to lose, and it says
+      // so by not mentioning one.
+      await openHub(tester);
+
+      expect(find.text('0 of 20 today'), findsOneWidget);
+      expect(find.text('Any card you practise today counts'), findsOneWidget);
+      expect(find.textContaining('lost'), findsNothing);
+      expect(find.textContaining('streak'), findsNothing);
+    });
+
+    testWidgets('the ring reads as one sentence to a screen reader', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await openHub(tester);
+
+      expect(
+        find.bySemanticsLabel(
+          RegExp('0 of 20 today\nAny card you practise today counts'),
+        ),
+        findsOneWidget,
+      );
+      handle.dispose();
+    });
+
     testWidgets('the daily button counts what is actually due', (tester) async {
       await openHub(tester);
       expect(find.text('Daily review (6 due)'), findsOneWidget);

@@ -67,7 +67,7 @@ final class ListActionsProvider extends $NotifierProvider<ListActions, void> {
   }
 }
 
-String _$listActionsHash() => r'1b41c4a9cdee038eda346610811251bdb4a1b3bf';
+String _$listActionsHash() => r'56a281538d6dfca09c8d06c7e87fb25e09a0000c';
 
 /// The write side of lists.
 ///
