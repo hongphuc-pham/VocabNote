@@ -46,6 +46,20 @@ abstract final class AppSurfaces {
 
   /// Hairlines, dark theme.
   static const Color outlineVariantDark = Color(0xFF3A3B42);
+
+  /// Quiet text and field outlines, light theme.
+  ///
+  /// Pinned because the app uses `outline` for *text* (`VnQuietText`, captions,
+  /// the IPA slashes), not only for borders. Material's generated tone is
+  /// meant for 3:1 boundaries and measured 3.45:1 as text on the quietest
+  /// surface (M7 audit); this is the nearest lightness on the same hue that
+  /// reads at 4.5:1 on every surface, and it stays quieter than
+  /// `onSurfaceVariant`. `theme_contrast_test.dart` holds both.
+  static const Color outlineLight = Color(0xFF62665C);
+
+  /// Quiet text and field outlines, dark theme. As [outlineLight]; Material's
+  /// tone measured 3.86:1.
+  static const Color outlineDark = Color(0xFF9B9E93);
 }
 
 /// The only spacing values allowed: 4 · 8 · 12 · 16 · 24 · 32.

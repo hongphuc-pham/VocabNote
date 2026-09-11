@@ -30,6 +30,7 @@ An olive-and-terracotta field notebook, not a gamified quiz app.
 | `surface` | `#FBFAFF` | `#121318` | page background |
 | `surfaceContainer` | `#F1F0F7` | `#1D1E24` | cards, sheets |
 | `outlineVariant` | `#DDDCE5` | `#3A3B42` | hairlines |
+| `outline` | `#62665C` | `#9B9E93` | quiet text, captions, field outlines |
 
 **The three brand values are seeds, not role values.** Each one generates its own Material
 tonal palette, and a role is always taken together with its `on-` partner from the *same*
@@ -39,13 +40,21 @@ partner generated from a different palette, which is not readable: that shipped 
 as white on `#FF8A5B` at 2.32:1, and as a *purple* `onTertiary` on teal.
 
 The surfaces are the exception and stay pinned. They are near-neutral, so they carry no hue
-to disagree with.
+to disagree with. So is `outline`, because the app reads it as **text** (quiet lines,
+captions, the IPA slashes), not only as a border: Material's tone is meant for 3:1
+boundaries and measured 3.45:1 as text on the quietest surface (M7). The pinned value is the
+nearest lightness on the same hue that reads at 4.5:1 everywhere, and stays quieter than
+`onSurfaceVariant`.
 
-**Contrast is asserted, not assumed.** `test/unit/core/theme_contrast_test.dart` holds every
-pair below to WCAG AA in both brightnesses — 4.5:1 for text, 3:1 for icons and boundaries:
-`onSurface`/`surface`, `onSurface`/`surfaceContainer`, `onSurfaceVariant`/`surface`,
-`onPrimary`/`primary`, `onSecondary`/`secondary`, `onTertiary`/`tertiary`,
-`outline`/`surface`, `primary`/`surface`.
+**Contrast is asserted, not assumed.** `test/unit/core/theme_contrast_test.dart` holds, in
+both brightnesses and to WCAG AA (unrounded): every colour used for text — `onSurface`,
+`onSurfaceVariant`, `outline`, `primary`, `error` — at 4.5:1 on every surface it sits on
+(`surface`, `surfaceContainer`, `surfaceContainerHighest`); every `on-` role at 4.5:1 on its
+fill or container, and snackbar text; `outline`, `primary` and `secondary` at 3:1 as edges
+and icons; and each IPA highlight — text at 4.5:1 on its tint, the underline at 3:1 on the
+surface and on the tint. Decoration (`outlineVariant`, the inactive onboarding dots) and
+disabled controls are exempt by name. Flutter's `textContrastGuideline` is a second net
+only: it guesses a background from rendered pixels and is known to pass subtle failures.
 
 **No dynamic colour.** Material You replaced the primary seed outright, so on Android 12+
 most users would never have seen the app's own identity. The platform channel that read
@@ -57,7 +66,7 @@ deficiencies, and never used for anything else:
 
 | Token | Light fill / line | Dark fill / line |
 |---|---|---|
-| `amber` | `#F2B70529` / `#B98400` | `#F2B7053D` / `#F2C55C` |
+| `amber` | `#F2B70529` / `#A37400` | `#F2B7053D` / `#F2C55C` |
 | `coral` | `#F2664B29` / `#C4402A` | `#F2664B3D` / `#FF9377` |
 | `violet` | `#8A6BF229` / `#5B41C4` | `#8A6BF23D` / `#B8A2FF` |
 | `teal` | `#16A38C29` / `#0C7565` | `#16A38C3D` / `#5DD6C0` |
