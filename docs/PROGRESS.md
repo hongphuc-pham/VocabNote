@@ -4,7 +4,7 @@
 binding ones. This says where the work actually is, what is waiting on you, and how to pick
 it up without rediscovering anything.
 
-Last updated: **11 September 2026**, at the end of M6.
+Last updated: **13 September 2026**, during M7.
 
 ---
 
@@ -18,14 +18,14 @@ Last updated: **11 September 2026**, at the end of M6.
 | M3 — Pronunciation & highlighting | ✅ done | PR #2 (`0b82fc7`) |
 | M4 — Lists & notes | ✅ done | PR #3 (`b25f154`) |
 | M5 — Practice framework + flashcards | ✅ done | PR #3 |
-| **M6 — Settings, guide, help, backup** | ✅ built, **in review** | `feat/m6-settings` |
-| M7 — Polish & accessibility | next | — |
+| M6 — Settings, guide, help, backup | ✅ done | PR #4 (`540b4f9`) |
+| **M7 — Polish & accessibility** | 🔨 in progress | `feat/m7-polish` |
 | M8 — Release | not started | — |
 
 ```
-803 tests passing (perf-tagged timings apart) · 1 integration test passing on the emulator
-flutter analyze clean · dart format clean · CI green on GitHub
-474 l10n strings · schema version 2 (M6 changed nothing in it)
+916 tests passing (8 perf + 1 golden run apart) · 2 integration tests on the emulator
+flutter analyze clean · dart format clean · licences and migration safety clean
+529 l10n strings · schema version 2 (M7 changes nothing in it)
 ```
 
 ---
@@ -99,6 +99,7 @@ Nothing blocks M7. These deserve a decision when you have a moment.
 | 3 | ~~**Index on `study_cards(box, lapses)`**~~ | ✅ Settled in M7: the index had existed since M5's v2 migration, and cannot serve this sort anyway. The real cost was the join reading every card column and discarding it; `useColumns: false` took the sort from ~100ms to ~62ms on 5,000 words, and its gate from 150ms to 100ms. No schema change. |
 | 4 | **The feedback address** | *Send feedback* stays hidden until a build sets `--dart-define=FEEDBACK_EMAIL=…` (decided 11 Sep: fill it at M8). Once shipped the address is public, so it is yours to choose. Until then Help offers GitHub Issues. |
 | 5 | **Play Data safety, one reading to confirm** | A feedback email the user sends from their own mail app carries the app version and device model. Google's docs exempt user-initiated transfers the user expects, but do not name this case; `DATA-SOURCES.md` §7 records it as the reading relied on. Worth a look before the M8 store listing. |
+| 6 | **Cold start misses F-092, and it looks like our code** | Measured at M7 (§5): 4.56s to the launch background on the emulator, and the profile trace puts **5.70s of the 7.52s to first frame *after* framework init** — `bootstrap` and the first build, not engine start-up, so a faster phone does not make it go away. Either chase it now (instrument `bootstrap`; migrate-on-open in `DatabaseOpener` is the suspect) or carry it to M8 beside the real-phone check. Recorded as **not met** either way. |
 
 Two smaller ones, mentioned once and not worth blocking on:
 
@@ -146,6 +147,48 @@ the real share sheet, import through the real file picker (merge and replace), *
 data*, and the licences pages — and `integration_test/backup_round_trip_test.dart`
 (export → wipe → import, every table deep-equal) passes there. Two privacy defects were
 found doing it, both fixed — see §6.
+
+At M7, on 13 September, an accessibility pass on the same emulator: dark theme, reduce motion
+(all three animation scales at 0) and the platform accessibility tree, read with
+`uiautomator dump`. Onboarding announces "Page 1 of 3" and advances with animation off; the
+IPA symbol row reaches a screen reader as learner names — *Insert short a as in cat*, *Insert
+uh as in about* — and not as raw glyphs, which is what F-093 and `UI-UX.md` §6 ask for. The
+semantics were switched on with Android's Accessibility Menu rather than TalkBack, because
+TalkBack's touch exploration changes what a scripted tap does; **so the labels are verified,
+but how TalkBack actually pronounces them has still not been heard by anyone.** That, like
+the iPhone, waits for M8.
+
+**Measured on the emulator at M7 (13 September) — and F-092 is not met.** Every figure below
+is from `Pixel_9_Pro` on a software GPU, with nothing else running; a real phone at M8 is
+what settles them (§3). Read them with that in mind, but not as an excuse: the *split* is
+what matters, and the split does not point at the machine.
+
+| What | Figure | How |
+|---|---|---|
+| Cold start, release APK | median **4560ms** (5 runs, all `LaunchState: COLD`) | `am start -S -W` |
+| → engine + framework init | 1.82s | `--trace-startup`, profile |
+| → **after framework init** | **5.70s** | same |
+| → first frame / rasterized | 7.52s / 9.47s | same |
+| Scrolling 5,000 words | build median **4.3ms**, raster median **14.2ms**, worst build 252.9ms | `flutter drive --profile`, 204 frames |
+
+Three things this says, in order of how much they matter:
+
+1. **Cold start fails F-092's 2s budget, and the cost is ours.** Roughly three quarters of
+   the 7.52s to first frame falls *after* framework init — `bootstrap` plus the first build,
+   not engine start-up. The software GPU shows up in the 7.52s → 9.47s raster step and comes
+   nowhere near explaining 5.70s, so a faster phone scales the number down without changing
+   which part is heavy. `bootstrap` opens the database and runs migrations before `runApp`,
+   and the log shows `Skipped 274 frames`. Not yet chased — see §3.
+2. **The 4560ms figure is a lower bound, not the answer.** `am start -W` stops timing at the
+   activity's first window draw, which is `LaunchTheme`'s launch background
+   (`AndroidManifest.xml:17`), and Flutter never calls `reportFullyDrawn()`. "Starts in 4.5s"
+   would be flattering it.
+3. **Scrolling is fine.** Both medians fit inside a 60Hz frame even on this emulator. One
+   252.9ms build frame (~15 dropped) is a start-up frame, recorded and not chased.
+
+Caveats stated so the numbers are not over-read: profile mode carries VM-service and
+`ProfileInstaller` overhead and is slower than the release build it describes, and ART was
+JIT-compiling framework code cold.
 
 **Never verified, and cannot be from Windows:**
 

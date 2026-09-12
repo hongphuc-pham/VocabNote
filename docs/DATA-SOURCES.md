@@ -202,6 +202,14 @@ certainty; re-check it when the declarations are written.
 - Everything else — words, IPA, highlights, notes, practice history — stays in the app's
   private database on the device and leaves only when the user exports a backup.
 
+*Checked at M7 against the dependency list (F-097):* the app's runtime dependencies hold no
+analytics, ads or attribution SDK. The only HTTP client is `dio`, used by the dictionary
+client for a look-up the user asks for; `device_info_plus` and `package_info_plus` read the
+device model and app version locally, for the feedback preview the user sees before sending;
+`flutter_tts` speaks through the device's own engine. Re-run the eye over
+`app/pubspec.yaml` whenever a dependency is added — `check_licences.dart` guards licences,
+not behaviour.
+
 This is the text that must match both the store privacy declarations (Play Data Safety, Apple
 App Privacy) and `F-076` in the app. If one changes, all three change in the same PR.
 
