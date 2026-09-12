@@ -353,6 +353,26 @@
   "@practiceNoCardsBody": {
     "description": "Body when a quick test pool is empty."
   },
+  "retryAction": "Try again",
+  "@retryAction": {
+    "description": "Button on an error state that repeats whatever failed."
+  },
+  "practiceFailedTitle": "This session couldn't start",
+  "@practiceFailedTitle": {
+    "description": "Title when starting a practice session threw."
+  },
+  "practiceFailedBody": "Something went wrong picking the cards. Try again, or close practice and come back to it.",
+  "@practiceFailedBody": {
+    "description": "Body when starting a practice session threw: what happened, what to do (UI-UX §5)."
+  },
+  "practiceCountsFailedTitle": "Couldn't read your words",
+  "@practiceCountsFailedTitle": {
+    "description": "Title on the practice hub when the word count could not be read."
+  },
+  "practiceCountsFailedBody": "Practice needs to know what's in your library. Try again, and if it keeps happening, restart the app.",
+  "@practiceCountsFailedBody": {
+    "description": "Body on the practice hub when the word count could not be read."
+  },
   "practiceCloseLabel": "Close practice",
   "@practiceCloseLabel": {
     "description": "Screen-reader label for the close button during a session."

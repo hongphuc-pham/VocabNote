@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabnote/app.dart';
+import 'package:vocabnote/application/words/word_list_controller.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
@@ -26,11 +27,15 @@ void main() {
     EditableText.debugDeterministicCursor = false;
   });
 
-  Future<void> openHub(WidgetTester tester) async {
+  Future<void> openHub(
+    WidgetTester tester, {
+    List<Override> extra = const <Override>[],
+  }) async {
     container = ProviderContainer(
       overrides: <Override>[
         appDatabaseProvider.overrideWithValue(db),
         ...repositoryOverrides(db),
+        ...extra,
       ],
     );
     addTearDown(container.dispose);
@@ -61,6 +66,26 @@ void main() {
 
       expect(find.text('Nothing to practise yet'), findsOneWidget);
       expect(find.text('Add word'), findsWidgets);
+    });
+  });
+
+  group('when the library cannot be counted', () {
+    testWidgets('says so, instead of "add your first word"', (tester) async {
+      // The count used to be read as `.value ?? 0`, so a failed read looked
+      // exactly like an empty library and told someone with 500 words to add
+      // their first one (M7).
+      await openHub(
+        tester,
+        extra: <Override>[
+          totalWordCountProvider.overrideWith(
+            (ref) => Stream<int>.error(StateError('no reading it')),
+          ),
+        ],
+      );
+
+      expect(find.text("Couldn't read your words"), findsOneWidget);
+      expect(find.text('Try again'), findsOneWidget);
+      expect(find.text('Nothing to practise yet'), findsNothing);
     });
   });
 

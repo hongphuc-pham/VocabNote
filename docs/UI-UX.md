@@ -210,11 +210,17 @@ Detail = a filtered Words screen with **Practise this list** in the app bar.
 - One card per registered game. The flashcard card shows two buttons:
   **Daily review (7 due)** and **Quick test**.
 - Games below `minCards` render greyed with "Add 4 words to unlock".
+- If the library cannot be counted, the hub says so and offers **Try again** — *Built at M7*:
+  the count was read as "0 on failure", so a failed read told someone with a full library to
+  add their first word.
 - Quick-test config is a **bottom sheet**: source (All / list / Favourites), size
   (5 · 10 · 20 · All — the *All* chip shows "max 30"), prompt side, autoplay toggle, **Start**.
 
 ### 4.7 Flashcard run
 - Slim progress bar; `3/10` and a close button (confirms before abandoning a daily session).
+- A session that cannot start says so and offers **Try again** — *Built at M7*: the start is
+  fire-and-forget, so a failure left the screen spinning with nothing to read and nothing to
+  do. Nothing due, or a pool with no cards, keeps its own empty state.
 - Front: the prompt side, centred, with the play button. "Tap to reveal" hint on round 1 only.
 - Back: word · IPA with highlights · definition · first note.
 - Grading: three wide buttons — **Again** (outline), **Good** (filled), **Easy** (tonal) —

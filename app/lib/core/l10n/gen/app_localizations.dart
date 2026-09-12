@@ -585,6 +585,36 @@ abstract class AppL10n {
   /// **'Nothing matched that choice. Try a different source.'**
   String get practiceNoCardsBody;
 
+  /// Generic retry button.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get retryAction;
+
+  /// Title when starting a practice session threw.
+  ///
+  /// In en, this message translates to:
+  /// **'This session couldn\'t start'**
+  String get practiceFailedTitle;
+
+  /// Body when starting a practice session threw: what happened, what to do (UI-UX §5).
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong picking the cards. Try again, or close practice and come back to it.'**
+  String get practiceFailedBody;
+
+  /// Title on the practice hub when the word count could not be read.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t read your words'**
+  String get practiceCountsFailedTitle;
+
+  /// Body on the practice hub when the word count could not be read.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice needs to know what\'s in your library. Try again, and if it keeps happening, restart the app.'**
+  String get practiceCountsFailedBody;
+
   /// Screen-reader label for the close button during a session.
   ///
   /// In en, this message translates to:
@@ -2336,12 +2366,6 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Something went wrong reading your database. Nothing has been lost.'**
   String get wordsLoadFailedBody;
-
-  /// Generic retry button.
-  ///
-  /// In en, this message translates to:
-  /// **'Try again'**
-  String get retryAction;
 
   /// Menu item that deletes a word.
   ///

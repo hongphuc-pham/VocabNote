@@ -16,6 +16,13 @@ import 'package:vocabnote/presentation/practice/games/flashcard/flashcard_game.d
 
 import '../unit/data/db_fixtures.dart';
 
+/// Fails whatever the runner asks of it, so starting a session throws.
+class _BrokenPractice implements PracticeRepository {
+  @override
+  dynamic noSuchMethod(Invocation invocation) =>
+      throw StateError('the practice repository is broken');
+}
+
 /// The run screen's chrome (`docs/UI-UX.md` §4.7).
 void main() {
   late AppDatabase db;
@@ -35,11 +42,14 @@ void main() {
   tearDown(() => db.close());
 
   /// Opens a quick test on the run screen and lets its session start.
-  Future<void> openRun(WidgetTester tester) async {
+  Future<void> openRun(
+    WidgetTester tester, {
+    PracticeRepository? practice,
+  }) async {
     container = ProviderContainer(
       overrides: <Override>[
         appDatabaseProvider.overrideWithValue(db),
-        ...repositoryOverrides(db),
+        ...repositoryOverrides(db, practiceRepository: practice),
       ],
     );
     addTearDown(container.dispose);
@@ -72,6 +82,18 @@ void main() {
     );
     await tester.pumpAndSettle();
   }
+
+  testWidgets('a session that cannot start says so, and offers another go', (
+    tester,
+  ) async {
+    // Nothing awaits the start, so a throw used to leave the screen spinning
+    // for ever with nothing to read and nothing to do (M7).
+    await openRun(tester, practice: _BrokenPractice());
+
+    expect(find.text("This session couldn't start"), findsOneWidget);
+    expect(find.text('Try again'), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
 
   testWidgets('the grades stay clear of the gesture bar', (tester) async {
     // Found on the emulator: at 200% text the grade buttons grew down into

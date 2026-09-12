@@ -287,6 +287,23 @@ class AppL10nEn extends AppL10n {
       'Nothing matched that choice. Try a different source.';
 
   @override
+  String get retryAction => 'Try again';
+
+  @override
+  String get practiceFailedTitle => 'This session couldn\'t start';
+
+  @override
+  String get practiceFailedBody =>
+      'Something went wrong picking the cards. Try again, or close practice and come back to it.';
+
+  @override
+  String get practiceCountsFailedTitle => 'Couldn\'t read your words';
+
+  @override
+  String get practiceCountsFailedBody =>
+      'Practice needs to know what\'s in your library. Try again, and if it keeps happening, restart the app.';
+
+  @override
   String get practiceCloseLabel => 'Close practice';
 
   @override
@@ -1447,9 +1464,6 @@ class AppL10nEn extends AppL10n {
   @override
   String get wordsLoadFailedBody =>
       'Something went wrong reading your database. Nothing has been lost.';
-
-  @override
-  String get retryAction => 'Try again';
 
   @override
   String get deleteWordAction => 'Delete';

@@ -33,7 +33,10 @@ class PracticeHubScreen extends ConsumerWidget {
     final l10n = AppL10n.of(context);
     final metrics = context.metrics;
     final registry = ref.watch(gameRegistryProvider);
-    final wordCount = ref.watch(totalWordCountProvider).value ?? 0;
+    final words = ref.watch(totalWordCountProvider);
+    // Null while it loads; a failure is told apart from an empty library
+    // below, or a read that failed would read as "no words yet" (M7).
+    final wordCount = words.value ?? 0;
     final dueCount = ref.watch(dueCardCountProvider).value ?? 0;
     final descriptors = registry.available(wordCount);
 
@@ -42,7 +45,15 @@ class PracticeHubScreen extends ConsumerWidget {
         title: Text(l10n.practiceTitle),
         actions: const <Widget>[SettingsAction()],
       ),
-      body: wordCount == 0
+      body: words.hasError
+          ? EmptyState(
+              icon: Icons.error_outline,
+              title: l10n.practiceCountsFailedTitle,
+              body: l10n.practiceCountsFailedBody,
+              actionLabel: l10n.retryAction,
+              onAction: () => ref.invalidate(totalWordCountProvider),
+            )
+          : wordCount == 0
           ? EmptyState(
               icon: Icons.school_outlined,
               title: l10n.practiceEmptyTitle,
