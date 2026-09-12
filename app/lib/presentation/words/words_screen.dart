@@ -8,6 +8,7 @@ import 'package:vocabnote/application/words/word_list_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/domain/repositories/word_query.dart';
 import 'package:vocabnote/domain/repositories/word_repository.dart';
 import 'package:vocabnote/presentation/common/empty_state.dart';
@@ -183,7 +184,7 @@ Future<void> _deleteWithUndo(
     ..showSnackBar(
       SnackBar(
         content: Text(l10n.wordDeletedSnack(entry.word.headword.value)),
-        duration: const Duration(seconds: 5),
+        duration: AppTiming.undoWindow,
         action: SnackBarAction(
           label: l10n.undoAction,
           onPressed: () => unawaited(actions.restore(entry.word.id)),

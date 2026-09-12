@@ -12,6 +12,7 @@ import 'package:vocabnote/application/words/word_detail_controller.dart';
 import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/router/routes.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
+import 'package:vocabnote/core/theme/tokens.dart';
 import 'package:vocabnote/core/utils/external_links.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
@@ -267,10 +268,9 @@ class _PronunciationState extends State<_Pronunciation> {
 
   /// How long a tapped legend line points at its run.
   ///
-  /// Long enough to find the symbols, short enough that it does not read as a
-  /// permanent selection. Emphasis rather than movement, so reduce-motion has
-  /// nothing to suppress (F-093).
-  static const Duration _emphasisDuration = Duration(milliseconds: 1600);
+  /// Emphasis rather than movement, so reduce-motion has nothing to suppress
+  /// (F-093). The length is a design value, not a number chosen here.
+  static const Duration _emphasisDuration = AppTiming.legendEmphasis;
 
   @override
   void dispose() {

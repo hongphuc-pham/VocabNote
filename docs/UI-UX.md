@@ -102,7 +102,12 @@ satisfies the design's stated intent. Switching would bundle a second font to lo
 - Spacing scale: 4 · 8 · 12 · 16 · 24 · 32 (nothing else)
 - Elevation: tonal surfaces only; no drop shadows except the FAB
 - Motion: 200ms `easeOutCubic` for enter, 150ms for exit; card flip 320ms `easeInOutCubic`;
-  **all animation is skipped when `MediaQuery.disableAnimations` is true**
+  **all animation stops when `MediaQuery.disableAnimations` is true** — the app's own
+  durations go to zero through `AppMotion.durationFor`, and Flutter cuts the transitions it
+  owns (screens, sheets, dialogs, the implicit `Animated…` widgets) to 5% of their length,
+  a frame or two. Nothing in `presentation/` may opt out of that or name a duration of its
+  own: `no_unmanaged_motion_test.dart` and `reduce_motion_test.dart` hold both.
+  Durations where nothing moves — the Undo window, the legend emphasis — are `AppTiming`.
 
 ## 3. Navigation
 

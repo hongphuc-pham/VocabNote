@@ -154,6 +154,22 @@ abstract final class AppMotion {
       MediaQuery.disableAnimationsOf(context) ? Duration.zero : duration;
 }
 
+/// How long things wait, where nothing moves.
+///
+/// Apart from [AppMotion]: these are not animations, so reduce-motion has
+/// nothing to suppress here - a window closes at the same speed either way.
+/// They are still design values rather than numbers in a widget (RULES §22).
+abstract final class AppTiming {
+  /// How long *Undo* stays on screen after a delete (RULES §11).
+  static const Duration undoWindow = Duration(seconds: 5);
+
+  /// How long a tapped legend line points at its run (F-024).
+  ///
+  /// Long enough to find the symbols, short enough not to read as a permanent
+  /// selection.
+  static const Duration legendEmphasis = Duration(milliseconds: 1600);
+}
+
 /// Bundled font families (`docs/DATA-SOURCES.md` §5). Both are SIL OFL 1.1.
 abstract final class AppFonts {
   /// All UI text.
