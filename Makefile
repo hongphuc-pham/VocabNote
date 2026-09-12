@@ -24,7 +24,8 @@ EMULATOR ?= Pixel_9_Pro
 
 .DEFAULT_GOAL := help
 .PHONY: help setup gen l10n fmt fmt-check analyze licences migration-safety \
-        test test-unit test-widget test-migration test-arch ci \
+        test test-perf test-golden goldens-update test-unit test-widget \
+        test-migration test-arch ci \
         emulator devices run run-emulator apk aab clean doctor
 
 help: ## Show this help
@@ -63,11 +64,17 @@ migration-safety: ## Fail on destructive migration patterns (RULES §7)
 
 # --------------------------------------------------------------------- tests
 
-test: ## Run the suite (everything except the timed measurements)
-	cd $(APP) && $(FLUTTER) test --exclude-tags perf
+test: ## Run the suite (everything except the timed measurements and the pictures)
+	cd $(APP) && $(FLUTTER) test --exclude-tags "perf || golden"
 
 test-perf: ## The wall-clock budgets, alone - see app/dart_test.yaml
 	cd $(APP) && $(FLUTTER) test --tags perf -j 1
+
+test-golden: ## The pictures of the UI - compare only; see test/flutter_test_config.dart
+	cd $(APP) && $(FLUTTER) test --tags golden
+
+goldens-update: ## Redraw the pictures after a deliberate UI change, then commit them
+	cd $(APP) && $(FLUTTER) test --tags golden --update-goldens
 
 test-unit: ## Unit tests only — domain, application, data, core
 	cd $(APP) && $(FLUTTER) test test/unit
@@ -82,7 +89,7 @@ test-arch: ## The layer-boundary and grapheme rules (RULES §20, §21)
 	cd $(APP) && $(FLUTTER) test test/architecture
 
 # The full gate, in CI's exact order. Run this before pushing.
-ci: fmt-check licences migration-safety test-migration analyze test test-perf ## Everything CI runs, in order
+ci: fmt-check licences migration-safety test-migration analyze test test-golden test-perf ## Everything CI runs, in order
 	@echo "All checks passed."
 
 # ------------------------------------------------------------------ the app
