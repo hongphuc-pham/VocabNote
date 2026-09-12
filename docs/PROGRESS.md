@@ -99,7 +99,7 @@ Nothing blocks M7. These deserve a decision when you have a moment.
 | 3 | ~~**Index on `study_cards(box, lapses)`**~~ | ✅ Settled in M7: the index had existed since M5's v2 migration, and cannot serve this sort anyway. The real cost was the join reading every card column and discarding it; `useColumns: false` took the sort from ~100ms to ~62ms on 5,000 words, and its gate from 150ms to 100ms. No schema change. |
 | 4 | **The feedback address** | *Send feedback* stays hidden until a build sets `--dart-define=FEEDBACK_EMAIL=…` (decided 11 Sep: fill it at M8). Once shipped the address is public, so it is yours to choose. Until then Help offers GitHub Issues. |
 | 5 | **Play Data safety, one reading to confirm** | A feedback email the user sends from their own mail app carries the app version and device model. Google's docs exempt user-initiated transfers the user expects, but do not name this case; `DATA-SOURCES.md` §7 records it as the reading relied on. Worth a look before the M8 store listing. |
-| 6 | **Cold start misses F-092, and it looks like our code** | Measured at M7 (§5): 4.56s to the launch background on the emulator, and the profile trace puts **5.70s of the 7.52s to first frame *after* framework init** — `bootstrap` and the first build, not engine start-up, so a faster phone does not make it go away. Either chase it now (instrument `bootstrap`; migrate-on-open in `DatabaseOpener` is the suspect) or carry it to M8 beside the real-phone check. Recorded as **not met** either way. |
+| 6 | **Cold start misses F-092, and it is one line of `bootstrap`** | Measured and then instrumented at M7 (§5): of the 5162ms between framework init and the first frame, **`resolveAppVersion()` is 4872ms — 94%**. Opening and migrating the database is 26ms, so the migration theory first recorded here was wrong. Nothing before the first frame needs the app version (About and the feedback email want it), so the fix is to make it lazy or to start it unawaited like the 30-day purge already is. **Deliberately not fixed in M7** — you timeboxed this to instrumentation, and 4.9s for one channel call wants a real phone's number before anyone changes start-up. Recorded as **not met**. |
 
 Two smaller ones, mentioned once and not worth blocking on:
 
@@ -176,9 +176,23 @@ Three things this says, in order of how much they matter:
 1. **Cold start fails F-092's 2s budget, and the cost is ours.** Roughly three quarters of
    the 7.52s to first frame falls *after* framework init — `bootstrap` plus the first build,
    not engine start-up. The software GPU shows up in the 7.52s → 9.47s raster step and comes
-   nowhere near explaining 5.70s, so a faster phone scales the number down without changing
-   which part is heavy. `bootstrap` opens the database and runs migrations before `runApp`,
-   and the log shows `Skipped 274 frames`. Not yet chased — see §3.
+   nowhere near explaining it, so a faster phone scales the number down without changing
+   which part is heavy. **Instrumented on 13 September, and it is one call:**
+
+   | `bootstrap` step | cumulative | own cost |
+   |---|---|---|
+   | binding, error log, licences, error handlers | 8ms | 8ms |
+   | database opened **and migrated** | 34ms | **26ms** |
+   | `resolveAppVersion()` | 4906ms | **4872ms** |
+   | onboarding flag | 4935ms | 29ms |
+   | first frame | 5162ms | 227ms (the first build) |
+
+   `resolveAppVersion()` — a `package_info_plus` platform-channel call — is **94%** of the
+   window; the same run's `timeAfterFrameworkInit` was 5162ms, matching the last mark exactly,
+   so nothing is hidden between the marks. Opening and migrating the database costs 26ms, so
+   the migration was never the problem. Nothing before the first frame needs the app version:
+   it is wanted by the About screen and the feedback email. **Not fixed in M7** — measure it
+   on a phone first (§3).
 2. **The 4560ms figure is a lower bound, not the answer.** `am start -W` stops timing at the
    activity's first window draw, which is `LaunchTheme`'s launch background
    (`AndroidManifest.xml:17`), and Flutter never calls `reportFullyDrawn()`. "Starts in 4.5s"
