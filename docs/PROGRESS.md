@@ -4,7 +4,7 @@
 binding ones. This says where the work actually is, what is waiting on you, and how to pick
 it up without rediscovering anything.
 
-Last updated: **13 September 2026**, during M7.
+Last updated: **14 September 2026**, M7 merged; M8 not started.
 
 ---
 
@@ -19,7 +19,7 @@ Last updated: **13 September 2026**, during M7.
 | M4 — Lists & notes | ✅ done | PR #3 (`b25f154`) |
 | M5 — Practice framework + flashcards | ✅ done | PR #3 |
 | M6 — Settings, guide, help, backup | ✅ done | PR #4 (`540b4f9`) |
-| **M7 — Polish & accessibility** | 🔨 in progress | `feat/m7-polish` |
+| M7 — Polish & accessibility | ✅ done — F-092 cold start **not met** (§3 row 6) | PRs #5 (`9dce7bd`), #6 (`b787b8f`) |
 | M8 — Release | not started | — |
 
 ```
@@ -41,7 +41,8 @@ downloaded from the official archive:
 - `C:\src\flutter\bin` was added to the **user** PATH (persists across sessions)
 - Web and all desktop targets are disabled (`flutter config --no-enable-web` etc.)
 - Android SDK and JDK 17 were already present
-- The GitHub CLI (`gh`) is **not** installed; pull requests are opened on github.com.
+- The GitHub CLI (`gh`) is installed (winget, 13 Sep) but **not logged in**; until
+  `gh auth login` is run, pull requests are opened on github.com.
 
 If `flutter --version` fails in a new shell, prepend the path:
 `$env:PATH = "C:\src\flutter\bin;$env:PATH"`
@@ -90,7 +91,8 @@ dart run tool/build_ipa_fallback.dart
 
 ## 3. Waiting on you
 
-Nothing blocks M7. These deserve a decision when you have a moment.
+Nothing blocks the code. M8 (release) needs things only you can provide — store accounts,
+a signing key, the feedback address — and these deserve a decision when you have a moment.
 
 | # | Decision | Why it is here |
 |---|---|---|
@@ -146,7 +148,7 @@ milestone since M3. At M6, on 11 September: onboarding on a fresh install, expor
 the real share sheet, import through the real file picker (merge and replace), *Delete all
 data*, and the licences pages — and `integration_test/backup_round_trip_test.dart`
 (export → wipe → import, every table deep-equal) passes there. Two privacy defects were
-found doing it, both fixed — see §6.
+found doing it, both fixed — see §7.
 
 At M7, on 13 September, an accessibility pass on the same emulator: dark theme, reduce motion
 (all three animation scales at 0) and the platform accessibility tree, read with
@@ -223,7 +225,42 @@ JIT-compiling framework code cold.
 
 ---
 
-## 6. What M6 turned out to be
+## 6. What M7 turned out to be
+
+Features **F-090–F-097**: states, motion, contrast, semantics, 200% text, goldens, and the
+performance budgets. Built in eight slices over two PRs, each fix mutation-checked. **F-092
+(cold start) is not met** and goes to M8 with its cause measured (§5).
+
+**Seven things were found rather than built:**
+
+1. **Quiet text failed contrast.** `outline`, used as the app's quiet text colour, measured
+   3.45:1 on its containers, and the amber IPA underline 2.39:1. Both pinned in the theme;
+   `theme_contrast_test.dart` now checks every colour pair the app uses, not ten of them.
+2. **Five buttons a screen reader could reach but not press** — IPA symbol chips, colour
+   swatches, legend lines, the UK/US play buttons and `VnTapTarget` carried a button label and
+   no tap action, so every stock guideline skipped them. Fixed, and
+   `pressableButtonsGuideline` now fails any enabled button without one.
+3. **The IPA symbol keys read as raw glyphs.** Each key now says its learner name (*Insert
+   short a as in cat*), and so does `IpaText` — confirmed in the emulator's accessibility tree.
+4. **A list card's action button was 40dp**, and the flashcard's swipe detector added an
+   unlabelled node to the tree.
+5. **The practice hub read a failed word count as an empty library**, telling someone with
+   words to add their first; **a practice run span for ever** if starting it threw. Both now
+   say what happened and offer *Try again*.
+6. **The least-known sort was reading every card column and discarding it.** ~100ms → ~62ms
+   on 5,000 words, no schema change (§3 row 3).
+7. **F-094's iOS floor was wrong** — 15.0, Flutter 3.47's own, not 13.
+
+**Goldens:** six, generated on Windows and compared byte for byte on Linux CI. Two more were
+written and deleted after looking at them, and why is the rule for any new one: `ipa_text`
+showed no highlight at all (CI goldens obscure text, and highlights are text decoration), and
+`button_row` differed across platforms by 0.31% (its layout is decided by measuring text, and
+font metrics differ). **A golden is worth keeping only if what it shows survives both —
+shape, spacing, surface colour, fixed layout.**
+
+**Carried to M8:** the F-092 fix, a physical phone, an iPhone, and hearing TalkBack.
+
+## 7. What M6 turned out to be
 
 Features **F-070–F-077 and F-079**: the settings screen, the *How to use* guide, Help &
 feedback, backup export and import, data sources & licences, the privacy note, first-run
@@ -252,7 +289,7 @@ mutation-checked.
 - A *Dictionary look-up* switch was added under *Your data* (`UI-UX.md` §4.9).
 - Merging takes the backup's settings only when this phone is still on the defaults.
 
-## 7. What M3 turned out to be
+## 8. What M3 turned out to be
 
 Features **F-020–F-025**, all met. Two screens (word detail, IPA highlight editor), six
 controllers, one device-speech adapter behind a domain interface.
@@ -294,7 +331,7 @@ controllers, one device-speech adapter behind a domain interface.
    was fixed) dismissed the row mid-word and sent the next keystroke nowhere. Fixed with
    `canRequestFocus: false` and covered by `test/widget/ipa_keyboard_row_test.dart`.
 
-## 8. Issue tracking
+## 9. Issue tracking
 
 `bd` (beads) is installed on this machine but **not initialised in this repository** — there
 is no database and no issues. It was left that way on purpose: initialising a tracker is a

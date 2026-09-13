@@ -6,11 +6,12 @@ You type a word, get (or write) its IPA, highlight the exact sounds you keep get
 leave yourself notes, listen to it, and practise it as flashcards. No account. No server.
 No subscription. Your words live on your phone and stay yours.
 
-> **Status: M0–M6 built; M7 (polish & accessibility) in progress.** You can add words by hand
+> **Status: M0–M7 built; M8 (release) next.** You can add words by hand
 > or from the dictionary, search them instantly, hear them in UK or US English, colour the
 > exact IPA symbols you keep getting wrong, keep lists and notes, practise with flashcards on
 > a spaced schedule, and back everything up to one file you can bring back on another phone.
-> Settings, a *How to use* guide and *Help & feedback* are in. Release is M8.
+> Settings, a *How to use* guide and *Help & feedback* are in, and M7 checked every screen
+> for contrast, tap targets, screen-reader labels, reduced motion and 200% text.
 >
 > 916 tests passing (timed and golden checks run apart) · `flutter analyze --fatal-infos
 > --fatal-warnings` clean · backup round trip and a 5,000-word scroll measured on the Android
