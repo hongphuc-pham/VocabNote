@@ -85,7 +85,7 @@ before the milestone is closed.
 | F-091 | M | Every core action works with no network. |
 | F-092 | M | Cold start to interactive ≤ 2s on a mid-range Android device. |
 | F-093 | M | Accessibility: WCAG AA contrast, ≥48dp targets, semantic labels on all icon buttons, supports 200% text scale without clipping, respects reduce-motion. |
-| F-094 | M | Android 8+ (API 26) and iOS 13+. |
+| F-094 | M | Android 8+ (API 26) and iOS 15+. *Checked at M7 against the build:* Android `minSdk` is 24 (Android 7.1), so the promise holds with room to spare; iOS is **15.0**, which is Flutter 3.47's own floor — iOS 13 was never buildable on this toolchain, and the line said 13 until M7. Running on an iPhone is still unverified (`PROGRESS.md` §5). |
 | F-095 | S | Full light + dark themes; no hard-coded colours anywhere. |
 | F-096 | S | English UI with l10n scaffolding in place (Vietnamese as the first candidate second locale). |
 | F-097 | M | No analytics, no ads, no third-party SDK that phones home. |

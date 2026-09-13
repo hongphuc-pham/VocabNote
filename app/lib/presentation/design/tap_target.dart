@@ -65,6 +65,10 @@ class VnTapTarget extends StatelessWidget {
       button: true,
       label: label,
       selected: selected,
+      // The tap belongs on this node too: `ExcludeSemantics` below hides the
+      // ink response's own, and a button a screen reader can find but not
+      // press is worse than none (found in M7).
+      onTap: onTap,
       customSemanticsActions: <CustomSemanticsAction, VoidCallback>{
         if (longPress != null && longPressName != null)
           CustomSemanticsAction(label: longPressName): longPress,

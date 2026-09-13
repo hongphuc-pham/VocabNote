@@ -96,7 +96,7 @@ void main() {
       await pumpEditor(tester, id);
 
       expect(find.bySemanticsLabel('k'), findsOneWidget);
-      expect(find.bySemanticsLabel('ɒ'), findsOneWidget);
+      expect(find.bySemanticsLabel('short o as in hot'), findsOneWidget);
       expect(find.bySemanticsLabel('f'), findsOneWidget);
     });
 
@@ -113,10 +113,11 @@ void main() {
       final id = await seedWord();
       await pumpEditor(tester, id);
 
-      await tester.tap(find.bySemanticsLabel('ɒ'));
+      await tester.tap(find.bySemanticsLabel('short o as in hot'));
       await tester.pumpAndSettle();
 
-      expect(find.text('selected ɒ'), findsOneWidget);
+      // The sound by its learner name, not the glyph (UI-UX §6, M7).
+      expect(find.text('selected short o as in hot'), findsOneWidget);
     });
 
     testWidgets('tapping a second chip extends the run, no drag needed', (
@@ -131,7 +132,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // UI-UX §1: no action may live only behind a gesture.
-      expect(find.text('selected k ɒ f'), findsOneWidget);
+      expect(find.text('selected k, short o as in hot, f'), findsOneWidget);
     });
   });
 
@@ -143,7 +144,7 @@ void main() {
       await pumpEditor(tester, id);
 
       // Select the vowel.
-      await tester.tap(find.bySemanticsLabel('ɒ'));
+      await tester.tap(find.bySemanticsLabel('short o as in hot'));
       await tester.pumpAndSettle();
 
       // Open the colour sheet.

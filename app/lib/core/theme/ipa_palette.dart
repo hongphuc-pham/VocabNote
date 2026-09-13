@@ -43,9 +43,11 @@ class IpaPalette extends ThemeExtension<IpaPalette> {
   /// The light-theme palette.
   ///
   /// Fills carry alpha `0x29` (~16%); lines are darkened so they read against
-  /// a light surface.
+  /// a light surface - every line at 3:1 on every surface and on its own tint
+  /// (`theme_contrast_test.dart`). Amber was `#B98400` until the M7 audit
+  /// measured it at 2.39:1 on its tint over the quietest surface.
   static const IpaPalette light = IpaPalette(
-    amber: IpaHighlightColors(fill: Color(0x29F2B705), line: Color(0xFFB98400)),
+    amber: IpaHighlightColors(fill: Color(0x29F2B705), line: Color(0xFFA37400)),
     coral: IpaHighlightColors(fill: Color(0x29F2664B), line: Color(0xFFC4402A)),
     violet: IpaHighlightColors(
       fill: Color(0x298A6BF2),

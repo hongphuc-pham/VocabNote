@@ -287,6 +287,23 @@ class AppL10nEn extends AppL10n {
       'Nothing matched that choice. Try a different source.';
 
   @override
+  String get retryAction => 'Try again';
+
+  @override
+  String get practiceFailedTitle => 'This session couldn\'t start';
+
+  @override
+  String get practiceFailedBody =>
+      'Something went wrong picking the cards. Try again, or close practice and come back to it.';
+
+  @override
+  String get practiceCountsFailedTitle => 'Couldn\'t read your words';
+
+  @override
+  String get practiceCountsFailedBody =>
+      'Practice needs to know what\'s in your library. Try again, and if it keeps happening, restart the app.';
+
+  @override
   String get practiceCloseLabel => 'Close practice';
 
   @override
@@ -1449,9 +1466,6 @@ class AppL10nEn extends AppL10n {
       'Something went wrong reading your database. Nothing has been lost.';
 
   @override
-  String get retryAction => 'Try again';
-
-  @override
   String get deleteWordAction => 'Delete';
 
   @override
@@ -1535,6 +1549,161 @@ class AppL10nEn extends AppL10n {
   String ipaSymbolLabel(String symbol) {
     return 'Insert $symbol';
   }
+
+  @override
+  String ipaSpokenPronunciation(String sounds) {
+    return 'pronunciation: $sounds';
+  }
+
+  @override
+  String get ipaSoundSeparator => ', ';
+
+  @override
+  String get ipaSoundP => 'p';
+
+  @override
+  String get ipaSoundB => 'b';
+
+  @override
+  String get ipaSoundT => 't';
+
+  @override
+  String get ipaSoundD => 'd';
+
+  @override
+  String get ipaSoundK => 'k';
+
+  @override
+  String get ipaSoundG => 'g';
+
+  @override
+  String get ipaSoundF => 'f';
+
+  @override
+  String get ipaSoundV => 'v';
+
+  @override
+  String get ipaSoundThVoiceless => 'th as in thin';
+
+  @override
+  String get ipaSoundThVoiced => 'th as in this';
+
+  @override
+  String get ipaSoundS => 's';
+
+  @override
+  String get ipaSoundZ => 'z';
+
+  @override
+  String get ipaSoundSh => 'sh';
+
+  @override
+  String get ipaSoundZh => 'zh as in measure';
+
+  @override
+  String get ipaSoundCh => 'ch';
+
+  @override
+  String get ipaSoundJudge => 'j';
+
+  @override
+  String get ipaSoundH => 'h';
+
+  @override
+  String get ipaSoundM => 'm';
+
+  @override
+  String get ipaSoundN => 'n';
+
+  @override
+  String get ipaSoundNg => 'ng as in sing';
+
+  @override
+  String get ipaSoundL => 'l';
+
+  @override
+  String get ipaSoundR => 'r';
+
+  @override
+  String get ipaSoundYes => 'y as in yes';
+
+  @override
+  String get ipaSoundW => 'w';
+
+  @override
+  String get ipaSoundFleece => 'long e as in see';
+
+  @override
+  String get ipaSoundHappy => 'e as in happy';
+
+  @override
+  String get ipaSoundKit => 'short i as in sit';
+
+  @override
+  String get ipaSoundDress => 'short e as in bed';
+
+  @override
+  String get ipaSoundTrap => 'short a as in cat';
+
+  @override
+  String get ipaSoundStrut => 'short u as in cup';
+
+  @override
+  String get ipaSoundPalm => 'a as in father';
+
+  @override
+  String get ipaSoundLot => 'short o as in hot';
+
+  @override
+  String get ipaSoundThought => 'aw as in saw';
+
+  @override
+  String get ipaSoundFoot => 'short oo as in book';
+
+  @override
+  String get ipaSoundGoose => 'long oo as in food';
+
+  @override
+  String get ipaSoundNurse => 'er as in her';
+
+  @override
+  String get ipaSoundComma => 'uh as in about';
+
+  @override
+  String get ipaSoundLetter => 'er as in butter';
+
+  @override
+  String get ipaSoundFace => 'ay as in day';
+
+  @override
+  String get ipaSoundPrice => 'long i as in my';
+
+  @override
+  String get ipaSoundChoice => 'oy as in boy';
+
+  @override
+  String get ipaSoundGoat => 'long o as in go';
+
+  @override
+  String get ipaSoundMouth => 'ow as in now';
+
+  @override
+  String get ipaSoundNear => 'ear as in near';
+
+  @override
+  String get ipaSoundSquare => 'air as in hair';
+
+  @override
+  String get ipaSoundCure => 'oor as in poor';
+
+  @override
+  String get ipaSoundPrimaryStress => 'stress';
+
+  @override
+  String get ipaSoundSecondaryStress => 'light stress';
+
+  @override
+  String get ipaSoundLong => 'long';
 
   @override
   String duplicateBanner(String word) {

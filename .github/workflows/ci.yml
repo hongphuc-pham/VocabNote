@@ -75,7 +75,15 @@ jobs:
         run: flutter analyze --fatal-infos --fatal-warnings
 
       - name: Test
-        run: flutter test --coverage --reporter expanded --exclude-tags perf
+        run: |
+          flutter test --coverage --reporter expanded \
+            --exclude-tags "perf || golden"
+
+      # Pictures of the UI (`app/test/golden/`). They are generated on the
+      # developer's machine and committed; this only compares. Regenerating
+      # them here would compare them with themselves.
+      - name: Goldens
+        run: flutter test --tags golden --reporter expanded
 
       # Timed budgets, run alone. Under the suite's own parallelism these
       # measure how loaded the runner is rather than how fast the query is.

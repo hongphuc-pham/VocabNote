@@ -174,6 +174,10 @@ class _Swatch extends StatelessWidget {
       selected: isSelected,
       // Named, so the choice is never colour-only (F-093).
       label: l10n.ipaEditorColorLabel(name),
+      // The tap belongs on this node too: `ExcludeSemantics` below hides the
+      // detector's own, and a button a screen reader can find but not press
+      // is worse than none (found in M7).
+      onTap: onTap,
       child: ExcludeSemantics(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

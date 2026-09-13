@@ -30,6 +30,7 @@ import 'package:vocabnote/domain/repositories/backup_files.dart';
 import 'package:vocabnote/domain/repositories/diagnostics_source.dart';
 import 'package:vocabnote/domain/repositories/error_log.dart';
 import 'package:vocabnote/domain/repositories/link_opener.dart';
+import 'package:vocabnote/domain/repositories/practice_repository.dart';
 import 'package:vocabnote/domain/repositories/reminder_service.dart';
 import 'package:vocabnote/domain/repositories/speech_service.dart';
 
@@ -65,6 +66,9 @@ List<Override> repositoryOverrides(
   ErrorLog? errorLog,
   LinkOpener? linkOpener,
   DiagnosticsSource? diagnostics,
+  // Injectable like the services above, so a test can make practice fail and
+  // see what the run screen does about it.
+  PracticeRepository? practiceRepository,
 }) {
   final offline = OfflineIpaSource();
   // One cache, shared: *Delete all data* must clear the very instance the
@@ -82,7 +86,7 @@ List<Override> repositoryOverrides(
     wordRepositoryProvider.overrideWithValue(WordRepositoryImpl(database)),
     listRepositoryProvider.overrideWithValue(ListRepositoryImpl(database)),
     practiceRepositoryProvider.overrideWithValue(
-      PracticeRepositoryImpl(database),
+      practiceRepository ?? PracticeRepositoryImpl(database),
     ),
     settingsRepositoryProvider.overrideWithValue(
       SettingsRepositoryImpl(database),

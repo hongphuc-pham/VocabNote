@@ -71,11 +71,12 @@ class ListCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  // Standard density, so the target stays 48dp (UI-UX §6):
+                  // compact made it 40dp, which the M7 guideline test caught.
                   IconButton(
                     icon: const Icon(Icons.more_vert),
                     tooltip: l10n.listActionsLabel(summary.list.name),
                     onPressed: onActions,
-                    visualDensity: VisualDensity.compact,
                   ),
                 ],
               ),

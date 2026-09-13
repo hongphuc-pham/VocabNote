@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vocabnote/core/extensions/grapheme.dart';
+import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
+import 'package:vocabnote/presentation/common/ipa_speech.dart';
 
 /// Renders an IPA string with the user's highlights (F-022, F-024).
 ///
@@ -59,9 +61,10 @@ class IpaText extends StatelessWidget {
 
   /// Overrides the screen-reader text.
   ///
-  /// M7 replaces the default with spoken symbol names; until then the raw
-  /// glyphs are announced, which at least reads as *something* rather than
-  /// being silently skipped.
+  /// By default the transcription is read as the sounds it spells, by their
+  /// learner names - "pronunciation: k, short o as in hot, f" - because a
+  /// screen reader handed the glyphs names them ("turned script a"), which
+  /// means nothing to a learner (`ipa_speech.dart`, UI-UX §6).
   final String? semanticsLabel;
 
   @override
@@ -88,11 +91,11 @@ class IpaText extends StatelessWidget {
       style: baseStyle,
       maxLines: maxLines,
       overflow: maxLines == null ? TextOverflow.clip : TextOverflow.ellipsis,
-      semanticsLabel: semanticsLabel ?? _defaultSemantics(),
+      semanticsLabel:
+          semanticsLabel ??
+          spokenIpa(AppL10n.of(context), ipa, announce: showSlashes),
     );
   }
-
-  String _defaultSemantics() => showSlashes ? 'pronunciation $ipa' : ipa;
 
   /// Splits the string at every highlight boundary and styles each run.
   ///

@@ -103,6 +103,9 @@ class _LegendLine extends StatelessWidget {
     return Semantics(
       button: true,
       label: l10n.detailLegendJumpLabel(label),
+      // The tap belongs on this node too: `ExcludeSemantics` below hides the
+      // ink well's own (found in M7).
+      onTap: onTap,
       child: ExcludeSemantics(
         child: InkWell(
           onTap: onTap,

@@ -30,6 +30,7 @@ An olive-and-terracotta field notebook, not a gamified quiz app.
 | `surface` | `#FBFAFF` | `#121318` | page background |
 | `surfaceContainer` | `#F1F0F7` | `#1D1E24` | cards, sheets |
 | `outlineVariant` | `#DDDCE5` | `#3A3B42` | hairlines |
+| `outline` | `#62665C` | `#9B9E93` | quiet text, captions, field outlines |
 
 **The three brand values are seeds, not role values.** Each one generates its own Material
 tonal palette, and a role is always taken together with its `on-` partner from the *same*
@@ -39,13 +40,21 @@ partner generated from a different palette, which is not readable: that shipped 
 as white on `#FF8A5B` at 2.32:1, and as a *purple* `onTertiary` on teal.
 
 The surfaces are the exception and stay pinned. They are near-neutral, so they carry no hue
-to disagree with.
+to disagree with. So is `outline`, because the app reads it as **text** (quiet lines,
+captions, the IPA slashes), not only as a border: Material's tone is meant for 3:1
+boundaries and measured 3.45:1 as text on the quietest surface (M7). The pinned value is the
+nearest lightness on the same hue that reads at 4.5:1 everywhere, and stays quieter than
+`onSurfaceVariant`.
 
-**Contrast is asserted, not assumed.** `test/unit/core/theme_contrast_test.dart` holds every
-pair below to WCAG AA in both brightnesses — 4.5:1 for text, 3:1 for icons and boundaries:
-`onSurface`/`surface`, `onSurface`/`surfaceContainer`, `onSurfaceVariant`/`surface`,
-`onPrimary`/`primary`, `onSecondary`/`secondary`, `onTertiary`/`tertiary`,
-`outline`/`surface`, `primary`/`surface`.
+**Contrast is asserted, not assumed.** `test/unit/core/theme_contrast_test.dart` holds, in
+both brightnesses and to WCAG AA (unrounded): every colour used for text — `onSurface`,
+`onSurfaceVariant`, `outline`, `primary`, `error` — at 4.5:1 on every surface it sits on
+(`surface`, `surfaceContainer`, `surfaceContainerHighest`); every `on-` role at 4.5:1 on its
+fill or container, and snackbar text; `outline`, `primary` and `secondary` at 3:1 as edges
+and icons; and each IPA highlight — text at 4.5:1 on its tint, the underline at 3:1 on the
+surface and on the tint. Decoration (`outlineVariant`, the inactive onboarding dots) and
+disabled controls are exempt by name. Flutter's `textContrastGuideline` is a second net
+only: it guesses a background from rendered pixels and is known to pass subtle failures.
 
 **No dynamic colour.** Material You replaced the primary seed outright, so on Android 12+
 most users would never have seen the app's own identity. The platform channel that read
@@ -57,7 +66,7 @@ deficiencies, and never used for anything else:
 
 | Token | Light fill / line | Dark fill / line |
 |---|---|---|
-| `amber` | `#F2B70529` / `#B98400` | `#F2B7053D` / `#F2C55C` |
+| `amber` | `#F2B70529` / `#A37400` | `#F2B7053D` / `#F2C55C` |
 | `coral` | `#F2664B29` / `#C4402A` | `#F2664B3D` / `#FF9377` |
 | `violet` | `#8A6BF229` / `#5B41C4` | `#8A6BF23D` / `#B8A2FF` |
 | `teal` | `#16A38C29` / `#0C7565` | `#16A38C3D` / `#5DD6C0` |
@@ -93,7 +102,12 @@ satisfies the design's stated intent. Switching would bundle a second font to lo
 - Spacing scale: 4 · 8 · 12 · 16 · 24 · 32 (nothing else)
 - Elevation: tonal surfaces only; no drop shadows except the FAB
 - Motion: 200ms `easeOutCubic` for enter, 150ms for exit; card flip 320ms `easeInOutCubic`;
-  **all animation is skipped when `MediaQuery.disableAnimations` is true**
+  **all animation stops when `MediaQuery.disableAnimations` is true** — the app's own
+  durations go to zero through `AppMotion.durationFor`, and Flutter cuts the transitions it
+  owns (screens, sheets, dialogs, the implicit `Animated…` widgets) to 5% of their length,
+  a frame or two. Nothing in `presentation/` may opt out of that or name a duration of its
+  own: `no_unmanaged_motion_test.dart` and `reduce_motion_test.dart` hold both.
+  Durations where nothing moves — the Undo window, the legend emphasis — are `AppTiming`.
 
 ## 3. Navigation
 
@@ -196,11 +210,17 @@ Detail = a filtered Words screen with **Practise this list** in the app bar.
 - One card per registered game. The flashcard card shows two buttons:
   **Daily review (7 due)** and **Quick test**.
 - Games below `minCards` render greyed with "Add 4 words to unlock".
+- If the library cannot be counted, the hub says so and offers **Try again** — *Built at M7*:
+  the count was read as "0 on failure", so a failed read told someone with a full library to
+  add their first word.
 - Quick-test config is a **bottom sheet**: source (All / list / Favourites), size
   (5 · 10 · 20 · All — the *All* chip shows "max 30"), prompt side, autoplay toggle, **Start**.
 
 ### 4.7 Flashcard run
 - Slim progress bar; `3/10` and a close button (confirms before abandoning a daily session).
+- A session that cannot start says so and offers **Try again** — *Built at M7*: the start is
+  fire-and-forget, so a failure left the screen spinning with nothing to read and nothing to
+  do. Nothing due, or a pool with no cards, keeps its own empty state.
 - Front: the prompt side, centred, with the play button. "Tap to reveal" hint on round 1 only.
 - Back: word · IPA with highlights · definition · first note.
 - Grading: three wide buttons — **Again** (outline), **Good** (filled), **Easy** (tonal) —
@@ -316,10 +336,26 @@ Searchable FAQ (12 short answers), then:
 
 ## 6. Accessibility (blocking, not optional)
 
-- Contrast ≥ 4.5:1 for text, ≥ 3:1 for UI edges, verified in both themes.
+- Contrast ≥ 4.5:1 for text, ≥ 3:1 for UI edges, verified in both themes
+  (`theme_contrast_test.dart`, from the theme itself — §2).
 - Touch targets ≥ 48×48dp, including IPA symbol chips.
 - Every icon-only button has a `Semantics` label; the flip card announces its state.
-- The IPA is exposed to screen readers as spoken symbol names, not raw glyphs.
+- **Checked on every screen, light and dark** (`accessibility_guidelines_test.dart`): each
+  screen is walked top to bottom through the real router and, at every stop, Flutter's
+  48dp tap-target, labelled-tap-target and text-contrast guidelines must pass. They only see
+  what is built and on screen, which is why the walk. The sheets and dialogs get the same
+  (`accessibility_sheets_test.dart`).
+- **Every button a screen reader can reach, it can press.** A `Semantics(button: true)` over
+  an `ExcludeSemantics` must carry the `onTap` it hides; Flutter's own guidelines skip a node
+  with no tap action, so `pressableButtonsGuideline` checks it on every screen and sheet.
+- The IPA is exposed to screen readers as spoken symbol names, not raw glyphs. Each sound is
+  read by the name a learner knows it by, with an example word for vowels — /kɒf/ is
+  "pronunciation: k, short o as in hot, f" (decided 11 Sep). Two-symbol sounds (`tʃ`, `eɪ`,
+  `iː`) are one name; stress is said before its syllable; anything unrecognised is read as
+  itself. The names are ARB strings (`ipaSound…`); `core/utils/ipa_sounds.dart` finds the
+  sounds by longest match over graphemes. It applies to every transcription (`IpaText`), each
+  chip in the highlight editor, its live "selected …" line, and each IPA keyboard key
+  ("Insert ch") — whose label was the glyph itself until M7, with the name only a tooltip.
 - Full keyboard/switch traversal order defined on every screen.
 - Layout tested at 200% text scale and at 320dp width — no clipping, no overflow.
 - `MediaQuery.disableAnimations` disables the flip and all transitions.

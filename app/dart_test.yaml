@@ -14,5 +14,15 @@
 # Both are in the Makefile and both run in CI. This is not hiding the signal -
 # they still fail the build if a query regresses. It is measuring the thing the
 # test claims to measure.
+# `golden` marks the pixel comparisons (`test/golden/`). They are pictures of
+# the UI, so they fail for reasons a logic test never does - a font, a theme
+# tweak, a different machine - and they are slower. Kept as their own step:
+#
+#     flutter test --exclude-tags perf --exclude-tags golden   # the suite
+#     flutter test --tags golden                               # the pictures
+#
+# The images are generated here (`--update-goldens`) and committed; CI only
+# compares. CI regenerating them would compare them with themselves.
 tags:
   perf:
+  golden:

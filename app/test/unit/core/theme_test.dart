@@ -16,6 +16,7 @@ void main() {
         AppSurfaces.surfaceContainerLight,
       );
       expect(theme.colorScheme.outlineVariant, AppSurfaces.outlineVariantLight);
+      expect(theme.colorScheme.outline, AppSurfaces.outlineLight);
     });
 
     test('builds a dark theme with the dark surfaces', () {
@@ -27,6 +28,7 @@ void main() {
         AppSurfaces.surfaceContainerDark,
       );
       expect(theme.colorScheme.outlineVariant, AppSurfaces.outlineVariantDark);
+      expect(theme.colorScheme.outline, AppSurfaces.outlineDark);
     });
 
     test('carries the Phonetic Naturalist brand seeds', () {

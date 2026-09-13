@@ -4,7 +4,7 @@
 binding ones. This says where the work actually is, what is waiting on you, and how to pick
 it up without rediscovering anything.
 
-Last updated: **11 September 2026**, at the end of M6.
+Last updated: **13 September 2026**, during M7.
 
 ---
 
@@ -18,14 +18,14 @@ Last updated: **11 September 2026**, at the end of M6.
 | M3 — Pronunciation & highlighting | ✅ done | PR #2 (`0b82fc7`) |
 | M4 — Lists & notes | ✅ done | PR #3 (`b25f154`) |
 | M5 — Practice framework + flashcards | ✅ done | PR #3 |
-| **M6 — Settings, guide, help, backup** | ✅ built, **in review** | `feat/m6-settings` |
-| M7 — Polish & accessibility | next | — |
+| M6 — Settings, guide, help, backup | ✅ done | PR #4 (`540b4f9`) |
+| **M7 — Polish & accessibility** | 🔨 in progress | `feat/m7-polish` |
 | M8 — Release | not started | — |
 
 ```
-803 tests passing (perf-tagged timings apart) · 1 integration test passing on the emulator
-flutter analyze clean · dart format clean · CI green on GitHub
-474 l10n strings · schema version 2 (M6 changed nothing in it)
+916 tests passing (8 perf + 1 golden run apart) · 2 integration tests on the emulator
+flutter analyze clean · dart format clean · licences and migration safety clean
+529 l10n strings · schema version 2 (M7 changes nothing in it)
 ```
 
 ---
@@ -96,9 +96,10 @@ Nothing blocks M7. These deserve a decision when you have a moment.
 |---|---|---|
 | 1 | **Riverpod 3, not 2** | Your stack said Riverpod 2. It is not installable alongside Drift — `riverpod_generator` 2.x needs `source_gen ^2`, `drift_dev` needs `>=3` — and 2.6.1 is 22 months unmaintained. Proceeded with 3.4.3. Recorded in `ARCHITECTURE.md` §3.1. Reversible only by dropping Drift, which breaks ADR-001. |
 | 2 | **`riverpod_lint` is absent** | Impossible to install: `custom_lint` caps at `analyzer ^8`, `drift_dev` needs `>=13`. The layer rule is enforced by `test/architecture/layer_boundaries_test.dart` instead, which fails the build the same way. Not re-checked at M6. |
-| 3 | **Index on `study_cards(box, lapses)`** | The least-known sort takes ~80ms on 5,000 words — the slowest query in the app by 15×. An index would fix it, but that is a schema change: version bump, migration, tests. Logged as an M7 item. |
+| 3 | ~~**Index on `study_cards(box, lapses)`**~~ | ✅ Settled in M7: the index had existed since M5's v2 migration, and cannot serve this sort anyway. The real cost was the join reading every card column and discarding it; `useColumns: false` took the sort from ~100ms to ~62ms on 5,000 words, and its gate from 150ms to 100ms. No schema change. |
 | 4 | **The feedback address** | *Send feedback* stays hidden until a build sets `--dart-define=FEEDBACK_EMAIL=…` (decided 11 Sep: fill it at M8). Once shipped the address is public, so it is yours to choose. Until then Help offers GitHub Issues. |
 | 5 | **Play Data safety, one reading to confirm** | A feedback email the user sends from their own mail app carries the app version and device model. Google's docs exempt user-initiated transfers the user expects, but do not name this case; `DATA-SOURCES.md` §7 records it as the reading relied on. Worth a look before the M8 store listing. |
+| 6 | **Cold start misses F-092, and it is one line of `bootstrap`** | Measured and then instrumented at M7 (§5): of the 5162ms between framework init and the first frame, **`resolveAppVersion()` is 4872ms — 94%**. Opening and migrating the database is 26ms, so the migration theory first recorded here was wrong. Nothing before the first frame needs the app version (About and the feedback email want it), so the fix is to make it lazy or to start it unawaited like the 30-day purge already is. **Deliberately not fixed in M7** — you timeboxed this to instrumentation, and 4.9s for one channel call wants a real phone's number before anyone changes start-up. Recorded as **not met**. |
 
 Two smaller ones, mentioned once and not worth blocking on:
 
@@ -146,6 +147,62 @@ the real share sheet, import through the real file picker (merge and replace), *
 data*, and the licences pages — and `integration_test/backup_round_trip_test.dart`
 (export → wipe → import, every table deep-equal) passes there. Two privacy defects were
 found doing it, both fixed — see §6.
+
+At M7, on 13 September, an accessibility pass on the same emulator: dark theme, reduce motion
+(all three animation scales at 0) and the platform accessibility tree, read with
+`uiautomator dump`. Onboarding announces "Page 1 of 3" and advances with animation off; the
+IPA symbol row reaches a screen reader as learner names — *Insert short a as in cat*, *Insert
+uh as in about* — and not as raw glyphs, which is what F-093 and `UI-UX.md` §6 ask for. The
+semantics were switched on with Android's Accessibility Menu rather than TalkBack, because
+TalkBack's touch exploration changes what a scripted tap does; **so the labels are verified,
+but how TalkBack actually pronounces them has still not been heard by anyone.** That, like
+the iPhone, waits for M8.
+
+**Measured on the emulator at M7 (13 September) — and F-092 is not met.** Every figure below
+is from `Pixel_9_Pro` on a software GPU, with nothing else running; a real phone at M8 is
+what settles them (§3). Read them with that in mind, but not as an excuse: the *split* is
+what matters, and the split does not point at the machine.
+
+| What | Figure | How |
+|---|---|---|
+| Cold start, release APK | median **4560ms** (5 runs, all `LaunchState: COLD`) | `am start -S -W` |
+| → engine + framework init | 1.82s | `--trace-startup`, profile |
+| → **after framework init** | **5.70s** | same |
+| → first frame / rasterized | 7.52s / 9.47s | same |
+| Scrolling 5,000 words | build median **4.3ms**, raster median **14.2ms**, worst build 252.9ms | `flutter drive --profile`, 204 frames |
+
+Three things this says, in order of how much they matter:
+
+1. **Cold start fails F-092's 2s budget, and the cost is ours.** Roughly three quarters of
+   the 7.52s to first frame falls *after* framework init — `bootstrap` plus the first build,
+   not engine start-up. The software GPU shows up in the 7.52s → 9.47s raster step and comes
+   nowhere near explaining it, so a faster phone scales the number down without changing
+   which part is heavy. **Instrumented on 13 September, and it is one call:**
+
+   | `bootstrap` step | cumulative | own cost |
+   |---|---|---|
+   | binding, error log, licences, error handlers | 8ms | 8ms |
+   | database opened **and migrated** | 34ms | **26ms** |
+   | `resolveAppVersion()` | 4906ms | **4872ms** |
+   | onboarding flag | 4935ms | 29ms |
+   | first frame | 5162ms | 227ms (the first build) |
+
+   `resolveAppVersion()` — a `package_info_plus` platform-channel call — is **94%** of the
+   window; the same run's `timeAfterFrameworkInit` was 5162ms, matching the last mark exactly,
+   so nothing is hidden between the marks. Opening and migrating the database costs 26ms, so
+   the migration was never the problem. Nothing before the first frame needs the app version:
+   it is wanted by the About screen and the feedback email. **Not fixed in M7** — measure it
+   on a phone first (§3).
+2. **The 4560ms figure is a lower bound, not the answer.** `am start -W` stops timing at the
+   activity's first window draw, which is `LaunchTheme`'s launch background
+   (`AndroidManifest.xml:17`), and Flutter never calls `reportFullyDrawn()`. "Starts in 4.5s"
+   would be flattering it.
+3. **Scrolling is fine.** Both medians fit inside a 60Hz frame even on this emulator. One
+   252.9ms build frame (~15 dropped) is a start-up frame, recorded and not chased.
+
+Caveats stated so the numbers are not over-read: profile mode carries VM-service and
+`ProfileInstaller` overhead and is slower than the release build it describes, and ART was
+JIT-compiling framework code cold.
 
 **Never verified, and cannot be from Windows:**
 

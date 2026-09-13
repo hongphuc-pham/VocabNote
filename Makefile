@@ -24,7 +24,8 @@ EMULATOR ?= Pixel_9_Pro
 
 .DEFAULT_GOAL := help
 .PHONY: help setup gen l10n fmt fmt-check analyze licences migration-safety \
-        test test-unit test-widget test-migration test-arch ci \
+        test test-perf test-golden goldens-update test-unit test-widget \
+        test-migration test-arch ci measure-scroll measure-startup \
         emulator devices run run-emulator apk aab clean doctor
 
 help: ## Show this help
@@ -63,11 +64,17 @@ migration-safety: ## Fail on destructive migration patterns (RULES §7)
 
 # --------------------------------------------------------------------- tests
 
-test: ## Run the suite (everything except the timed measurements)
-	cd $(APP) && $(FLUTTER) test --exclude-tags perf
+test: ## Run the suite (everything except the timed measurements and the pictures)
+	cd $(APP) && $(FLUTTER) test --exclude-tags "perf || golden"
 
 test-perf: ## The wall-clock budgets, alone - see app/dart_test.yaml
 	cd $(APP) && $(FLUTTER) test --tags perf -j 1
+
+test-golden: ## The pictures of the UI - compare only; see test/flutter_test_config.dart
+	cd $(APP) && $(FLUTTER) test --tags golden
+
+goldens-update: ## Redraw the pictures after a deliberate UI change, then commit them
+	cd $(APP) && $(FLUTTER) test --tags golden --update-goldens
 
 test-unit: ## Unit tests only — domain, application, data, core
 	cd $(APP) && $(FLUTTER) test test/unit
@@ -81,8 +88,25 @@ test-migration: ## Migration tests — blocking, never skip (RULES §29)
 test-arch: ## The layer-boundary and grapheme rules (RULES §20, §21)
 	cd $(APP) && $(FLUTTER) test test/architecture
 
+# ------------------------------------------------- measurements, on a device
+#
+# Not part of `ci`: these need an emulator or a phone, and CI has neither.
+# They print figures rather than asserting budgets - a software-GPU emulator
+# is not a phone, so a gate here would either be meaningless or flaky.
+# The figures go in docs/PROGRESS.md §5 with the machine named beside them.
+#
+# `flutter test -d <device>` cannot do this: it has no --profile, and debug
+# frame times are inflated by assertions past the point of meaning.
+
+measure-scroll: ## Frame times scrolling 5,000 words (profile; needs a device)
+	cd $(APP) && $(FLUTTER) drive --driver=test_driver/integration_test.dart \
+	  --target=integration_test/words_scroll_perf_test.dart --profile
+
+measure-startup: ## Cold-start breakdown (profile; writes app/build/start_up_info.json)
+	cd $(APP) && $(FLUTTER) run --profile --trace-startup
+
 # The full gate, in CI's exact order. Run this before pushing.
-ci: fmt-check licences migration-safety test-migration analyze test test-perf ## Everything CI runs, in order
+ci: fmt-check licences migration-safety test-migration analyze test test-golden test-perf ## Everything CI runs, in order
 	@echo "All checks passed."
 
 # ------------------------------------------------------------------ the app

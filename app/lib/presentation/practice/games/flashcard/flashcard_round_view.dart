@@ -147,6 +147,12 @@ class _Card extends StatelessWidget {
       button: !revealed,
       onTap: revealed ? null : onReveal,
       child: GestureDetector(
+        // The swipes are shortcuts for the reveal above and the grade buttons
+        // below, never the only way. Left in the semantics tree they made an
+        // unlabelled node of their own - a tap plus four scroll actions - that
+        // a screen reader would announce as nothing (found by the M7 guideline
+        // test). The labelled reveal is the `Semantics` above.
+        excludeFromSemantics: true,
         onTap: onReveal,
         // Swipe up reveals, as an alternative to tapping - never the only way
         // (UI-UX §1).

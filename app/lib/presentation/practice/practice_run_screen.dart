@@ -42,6 +42,7 @@ class PracticeRunScreen extends ConsumerStatefulWidget {
 class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
   bool _starting = true;
   bool _empty = false;
+  bool _failed = false;
   late GameConfig _config;
 
   /// The daily review the user's settings describe.
@@ -66,22 +67,44 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
     _config = widget.config ?? _dailyFromSettings();
     final settings = ref.read(appSettingsOrDefaultsProvider);
     final game = ref.read(gameRegistryProvider).byId(widget.gameId);
-    final started = await ref
-        .read(practiceSessionRunnerProvider.notifier)
-        .start(
-          config: _config,
-          game: game,
-          // The user's own pace, not the default. `fromJson` falls back to the
-          // documented table if the stored value is ever unusable, so a
-          // corrupt setting can never stop practice.
-          schedule: ReviewSchedule.fromStoredJson(settings.reviewScheduleJson),
-          againRepeats: settings.againRepeats,
-        );
+    final bool started;
+    try {
+      started = await ref
+          .read(practiceSessionRunnerProvider.notifier)
+          .start(
+            config: _config,
+            game: game,
+            // The user's own pace, not the default. `fromJson` falls back to
+            // the documented table if the stored value is ever unusable, so a
+            // corrupt setting can never stop practice.
+            schedule: ReviewSchedule.fromStoredJson(
+              settings.reviewScheduleJson,
+            ),
+            againRepeats: settings.againRepeats,
+          );
+    } on Object {
+      // Nothing awaits `_start`, so a throw here used to leave the screen
+      // spinning for ever with no way to know why (M7).
+      if (!mounted) return;
+      setState(() {
+        _starting = false;
+        _failed = true;
+      });
+      return;
+    }
     if (!mounted) return;
     setState(() {
       _starting = false;
       _empty = !started;
     });
+  }
+
+  void _retry() {
+    setState(() {
+      _starting = true;
+      _failed = false;
+    });
+    unawaited(_start());
   }
 
   /// Says the headword.
@@ -173,9 +196,16 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
       // gesture bar at large text. The app bar already keeps the top clear.
       body: SafeArea(
         top: false,
-        child: switch ((_starting, _empty, state?.current)) {
-          (true, _, _) => const Center(child: CircularProgressIndicator()),
-          (_, true, _) => EmptyState(
+        child: switch ((_starting, _failed, _empty, state?.current)) {
+          (true, _, _, _) => const Center(child: CircularProgressIndicator()),
+          (_, true, _, _) => EmptyState(
+            icon: Icons.error_outline,
+            title: l10n.practiceFailedTitle,
+            body: l10n.practiceFailedBody,
+            actionLabel: l10n.retryAction,
+            onAction: _retry,
+          ),
+          (_, _, true, _) => EmptyState(
             icon: Icons.done_all,
             title: _config.mode == PracticeMode.daily
                 ? l10n.practiceNothingDueTitle
@@ -184,7 +214,7 @@ class _PracticeRunScreenState extends ConsumerState<PracticeRunScreen> {
                 ? l10n.practiceNothingDueBody
                 : l10n.practiceNoCardsBody,
           ),
-          (_, _, final GameRound round) => game.buildRoundView(
+          (_, _, _, final GameRound round) => game.buildRoundView(
             context,
             round,
             GameRoundCallbacks(

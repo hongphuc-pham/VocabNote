@@ -46,6 +46,20 @@ abstract final class AppSurfaces {
 
   /// Hairlines, dark theme.
   static const Color outlineVariantDark = Color(0xFF3A3B42);
+
+  /// Quiet text and field outlines, light theme.
+  ///
+  /// Pinned because the app uses `outline` for *text* (`VnQuietText`, captions,
+  /// the IPA slashes), not only for borders. Material's generated tone is
+  /// meant for 3:1 boundaries and measured 3.45:1 as text on the quietest
+  /// surface (M7 audit); this is the nearest lightness on the same hue that
+  /// reads at 4.5:1 on every surface, and it stays quieter than
+  /// `onSurfaceVariant`. `theme_contrast_test.dart` holds both.
+  static const Color outlineLight = Color(0xFF62665C);
+
+  /// Quiet text and field outlines, dark theme. As [outlineLight]; Material's
+  /// tone measured 3.86:1.
+  static const Color outlineDark = Color(0xFF9B9E93);
 }
 
 /// The only spacing values allowed: 4 · 8 · 12 · 16 · 24 · 32.
@@ -138,6 +152,22 @@ abstract final class AppMotion {
   /// it. Golden and widget tests assert the zero case.
   static Duration durationFor(BuildContext context, Duration duration) =>
       MediaQuery.disableAnimationsOf(context) ? Duration.zero : duration;
+}
+
+/// How long things wait, where nothing moves.
+///
+/// Apart from [AppMotion]: these are not animations, so reduce-motion has
+/// nothing to suppress here - a window closes at the same speed either way.
+/// They are still design values rather than numbers in a widget (RULES §22).
+abstract final class AppTiming {
+  /// How long *Undo* stays on screen after a delete (RULES §11).
+  static const Duration undoWindow = Duration(seconds: 5);
+
+  /// How long a tapped legend line points at its run (F-024).
+  ///
+  /// Long enough to find the symbols, short enough not to read as a permanent
+  /// selection.
+  static const Duration legendEmphasis = Duration(milliseconds: 1600);
 }
 
 /// Bundled font families (`docs/DATA-SOURCES.md` §5). Both are SIL OFL 1.1.

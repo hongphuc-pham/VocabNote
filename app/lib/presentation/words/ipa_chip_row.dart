@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vocabnote/core/l10n/gen/app_localizations.dart';
 import 'package:vocabnote/core/theme/app_metrics.dart';
 import 'package:vocabnote/core/theme/app_theme.dart';
 import 'package:vocabnote/core/theme/ipa_palette.dart';
 import 'package:vocabnote/domain/entities/ipa_highlight.dart';
 import 'package:vocabnote/domain/value_objects/grapheme_range.dart';
+import 'package:vocabnote/presentation/common/ipa_speech.dart';
 
 /// The transcription as individually hit-testable chips (`UI-UX.md` §4.4).
 ///
@@ -171,9 +173,13 @@ class _Chip extends StatelessWidget {
     return Semantics(
       button: true,
       selected: isSelected,
-      // The raw symbol. M7 replaces this with spoken symbol names; until then
-      // announcing the glyph beats announcing nothing.
-      label: symbol,
+      // The sound, by its learner name ("short o as in hot"), not the glyph -
+      // a screen reader handed the glyph names its shape (UI-UX §6).
+      label: spokenSymbol(AppL10n.of(context), symbol),
+      // The tap belongs on this node too: `ExcludeSemantics` below hides the
+      // detector's own, and a chip a screen reader can find but not select
+      // would lock it out of the highlight editor (found in M7).
+      onTap: onTap,
       child: ExcludeSemantics(
         child: GestureDetector(
           // Opaque so the whole 48dp lands, not just the glyph inside it.

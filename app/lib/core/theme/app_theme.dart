@@ -221,6 +221,8 @@ abstract final class AppTheme {
       outlineVariant: isLight
           ? AppSurfaces.outlineVariantLight
           : AppSurfaces.outlineVariantDark,
+      // Read as text too, so pinned to text contrast (see the token).
+      outline: isLight ? AppSurfaces.outlineLight : AppSurfaces.outlineDark,
     );
   }
 
