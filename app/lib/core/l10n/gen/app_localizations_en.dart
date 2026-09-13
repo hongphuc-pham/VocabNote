@@ -1204,6 +1204,13 @@ class AppL10nEn extends AppL10n {
   String get settingsPrivacyHint => 'What leaves your phone, and when';
 
   @override
+  String get settingsSupport => 'Buy me a coffee';
+
+  @override
+  String get settingsSupportHint =>
+      'Schwa Notes is free. A tip on Ko-fi is kind, unlocks nothing, and is never expected.';
+
+  @override
   String get privacyHeading => 'Privacy';
 
   @override

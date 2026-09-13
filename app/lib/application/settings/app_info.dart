@@ -35,3 +35,9 @@ bool showOnboarding(Ref ref) => false;
 @Riverpod(keepAlive: true)
 String? feedbackAddress(Ref ref) =>
     FeedbackEmail.address.isEmpty ? null : FeedbackEmail.address;
+
+/// Where *Buy me a coffee* goes, or null when there is nowhere yet - which
+/// hides the row. A provider rather than the constant itself so a test can
+/// show the row without a real page.
+@Riverpod(keepAlive: true)
+Uri? supportLink(Ref ref) => ProjectLinks.support;

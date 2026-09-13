@@ -7,11 +7,13 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vocabnote/app.dart';
 import 'package:vocabnote/application/practice/scheduler/review_schedule.dart';
+import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/data/composition_root.dart';
 import 'package:vocabnote/data/db/app_database.dart';
 import 'package:vocabnote/data/db/database_provider.dart';
 import 'package:vocabnote/domain/entities/app_settings.dart';
 
+import '../unit/application/fake_links.dart';
 import '../unit/application/fake_reminder_service.dart';
 import '../unit/application/fake_speech_service.dart';
 
@@ -22,12 +24,14 @@ void main() {
   late ProviderContainer container;
   late FakeReminderService reminders;
   late FakeSpeechService speech;
+  late FakeLinkOpener links;
 
   setUp(() async {
     db = AppDatabase.memory();
     await db.customSelect('SELECT 1').get();
     reminders = FakeReminderService();
     speech = FakeSpeechService();
+    links = FakeLinkOpener();
   });
 
   tearDown(() => db.close());
@@ -35,15 +39,19 @@ void main() {
   Future<void> launch(
     WidgetTester tester, {
     FutureOr<String>? appVersion,
+    Uri? supportLink,
   }) async {
     container = ProviderContainer(
       overrides: <Override>[
         appDatabaseProvider.overrideWithValue(db),
+        if (supportLink != null)
+          supportLinkProvider.overrideWithValue(supportLink),
         ...repositoryOverrides(
           db,
           appVersion: appVersion,
           reminderService: reminders,
           speechService: speech,
+          linkOpener: links,
         ),
       ],
     );
@@ -62,8 +70,9 @@ void main() {
   Future<void> openSettings(
     WidgetTester tester, {
     FutureOr<String>? appVersion,
+    Uri? supportLink,
   }) async {
-    await launch(tester, appVersion: appVersion);
+    await launch(tester, appVersion: appVersion, supportLink: supportLink);
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
   }
@@ -141,6 +150,44 @@ void main() {
         expect(find.text('1.2.3'), findsOneWidget);
       },
     );
+
+    // M8: a gentle tip link, and only once there is a page to go to.
+    testWidgets('Buy me a coffee is absent while there is no Ko-fi page', (
+      tester,
+    ) async {
+      await openSettings(tester);
+      await scrollTo(tester, find.text('Privacy'));
+      // Drag past the end, so the whole bottom of the list is built and on
+      // screen and the absence below Privacy means something.
+      await tester.drag(
+        find
+            .descendant(
+              of: find.byType(ListView),
+              matching: find.byType(Scrollable),
+            )
+            .first,
+        const Offset(0, -800),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Privacy'), findsOneWidget);
+      expect(find.text('Buy me a coffee'), findsNothing);
+    });
+
+    testWidgets('with a page, it says a tip unlocks nothing and opens it', (
+      tester,
+    ) async {
+      final page = Uri.parse('https://ko-fi.com/example');
+      await openSettings(tester, supportLink: page);
+
+      final row = find.text('Buy me a coffee');
+      await scrollTo(tester, row);
+      expect(find.textContaining('unlocks nothing'), findsOneWidget);
+
+      await tester.tap(row);
+      await tester.pumpAndSettle();
+      expect(links.opened, <Uri>[page]);
+    });
 
     testWidgets('always offers How to use and Help & feedback (RULES §4)', (
       tester,

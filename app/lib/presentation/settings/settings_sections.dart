@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:vocabnote/application/backup/backup_actions.dart';
+import 'package:vocabnote/application/repositories.dart';
 import 'package:vocabnote/application/settings/app_info.dart';
 import 'package:vocabnote/application/settings/settings_actions.dart';
 import 'package:vocabnote/application/settings/settings_controller.dart';
@@ -272,8 +273,29 @@ class AboutSettings extends ConsumerWidget {
           subtitle: Text(l10n.settingsPrivacyHint),
           onTap: () => unawaited(PrivacyNote.show(context)),
         ),
+        // Last, quiet, and absent until there is a page to go to. It unlocks
+        // nothing, and says so.
+        if (ref.watch(supportLinkProvider) case final Uri link)
+          ListTile(
+            title: Text(l10n.settingsSupport),
+            subtitle: Text(l10n.settingsSupportHint),
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () => unawaited(_openSupport(context, ref, link)),
+          ),
       ],
     );
+  }
+
+  Future<void> _openSupport(
+    BuildContext context,
+    WidgetRef ref,
+    Uri link,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppL10n.of(context);
+    if (!await ref.read(linkOpenerProvider).open(link)) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.helpLinkFailed)));
+    }
   }
 }
 

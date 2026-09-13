@@ -181,3 +181,54 @@ final class FeedbackAddressProvider
 }
 
 String _$feedbackAddressHash() => r'41dd36b0a2f884195f8fa357cf1938e6607f6558';
+
+/// Where *Buy me a coffee* goes, or null when there is nowhere yet - which
+/// hides the row. A provider rather than the constant itself so a test can
+/// show the row without a real page.
+
+@ProviderFor(supportLink)
+final supportLinkProvider = SupportLinkProvider._();
+
+/// Where *Buy me a coffee* goes, or null when there is nowhere yet - which
+/// hides the row. A provider rather than the constant itself so a test can
+/// show the row without a real page.
+
+final class SupportLinkProvider extends $FunctionalProvider<Uri?, Uri?, Uri?>
+    with $Provider<Uri?> {
+  /// Where *Buy me a coffee* goes, or null when there is nowhere yet - which
+  /// hides the row. A provider rather than the constant itself so a test can
+  /// show the row without a real page.
+  SupportLinkProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'supportLinkProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$supportLinkHash();
+
+  @$internal
+  @override
+  $ProviderElement<Uri?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Uri? create(Ref ref) {
+    return supportLink(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Uri? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Uri?>(value),
+    );
+  }
+}
+
+String _$supportLinkHash() => r'43b464cd2f7886f01be337b9fe30e274bc3e9cba';

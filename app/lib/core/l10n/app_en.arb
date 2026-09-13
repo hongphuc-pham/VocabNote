@@ -1419,6 +1419,14 @@
   "@settingsPrivacyHint": {
     "description": "Under the Privacy row."
   },
+  "settingsSupport": "Buy me a coffee",
+  "@settingsSupport": {
+    "description": "Last row of About, shown only when the build has a Ko-fi page. Opens it in the browser."
+  },
+  "settingsSupportHint": "Schwa Notes is free. A tip on Ko-fi is kind, unlocks nothing, and is never expected.",
+  "@settingsSupportHint": {
+    "description": "Under the Buy me a coffee row. Must stay true: the tip changes nothing in the app."
+  },
   "privacyHeading": "Privacy",
   "@privacyHeading": {
     "description": "Heading of the privacy note."

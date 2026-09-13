@@ -1977,6 +1977,18 @@ abstract class AppL10n {
   /// **'What leaves your phone, and when'**
   String get settingsPrivacyHint;
 
+  /// Last row of About, shown only when the build has a Ko-fi page. Opens it in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy me a coffee'**
+  String get settingsSupport;
+
+  /// Under the Buy me a coffee row. Must stay true: the tip changes nothing in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Schwa Notes is free. A tip on Ko-fi is kind, unlocks nothing, and is never expected.'**
+  String get settingsSupportHint;
+
   /// Heading of the privacy note.
   ///
   /// In en, this message translates to:
