@@ -23,7 +23,7 @@ Last updated: **13 September 2026**, during M7.
 | M8 — Release | not started | — |
 
 ```
-916 tests passing (8 perf + 1 golden run apart) · 2 integration tests on the emulator
+916 tests passing (8 perf + 6 golden run apart) · 2 integration tests on the emulator
 flutter analyze clean · dart format clean · licences and migration safety clean
 529 l10n strings · schema version 2 (M7 changes nothing in it)
 ```
