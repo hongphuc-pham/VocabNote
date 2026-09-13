@@ -198,7 +198,7 @@ void main() {
       client = FreeDictionaryClient(
         dio: dio,
         baseUrl: 'https://example.test/api/v1',
-        userAgent: 'VocabNote/test',
+        userAgent: 'SchwaNotes/test',
         sleep: (d) async => sleeps.add(d),
       );
     });
@@ -207,7 +207,7 @@ void main() {
       adapter.respond(200, jsonEncode(<String, Object?>{'word': 'cough'}));
       await client.lookup('cough');
 
-      expect(adapter.lastHeaders?['user-agent'], 'VocabNote/test');
+      expect(adapter.lastHeaders?['user-agent'], 'SchwaNotes/test');
     });
 
     // F-092: the version in the User-Agent comes from a platform channel that
@@ -224,10 +224,10 @@ void main() {
       adapter.respond(200, jsonEncode(<String, Object?>{'word': 'cough'}));
 
       final lookup = pending.lookup('cough');
-      agent.complete('VocabNote/1.2.3');
+      agent.complete('SchwaNotes/1.2.3');
       await lookup;
 
-      expect(adapter.lastHeaders?['user-agent'], 'VocabNote/1.2.3');
+      expect(adapter.lastHeaders?['user-agent'], 'SchwaNotes/1.2.3');
     });
 
     test(

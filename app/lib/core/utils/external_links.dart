@@ -33,7 +33,7 @@ abstract final class ProjectLinks {
   /// Where problems are reported (F-072). Opened in the browser; nothing is
   /// sent from the app.
   static final Uri issues = Uri.parse(
-    'https://github.com/hongphuc-pham/VocabNote/issues',
+    'https://github.com/hongphuc-pham/SchwaNotes/issues',
   );
 }
 
@@ -45,7 +45,8 @@ abstract final class ProjectLinks {
 /// link much past ~2,000 characters.
 abstract final class FeedbackEmail {
   /// The address, set at build time with `--dart-define=FEEDBACK_EMAIL=…`.
-  /// Empty until M8, which hides *Send feedback*.
+  /// Empty hides *Send feedback*. v1.0 leaves it empty on purpose: feedback is
+  /// GitHub Issues only (owner, M8).
   static const String address = String.fromEnvironment('FEEDBACK_EMAIL');
 
   /// The longest `mailto:` link built - under the ~2,000 characters every

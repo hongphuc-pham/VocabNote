@@ -234,7 +234,7 @@ class UserDataRepositoryImpl implements UserDataRepository {
     final folder = await _safetyFolder();
     await folder.create(recursive: true);
     final stamp = DateFormat('yyyyMMdd-HHmmss').format(now.toLocal());
-    await File(p.join(folder.path, 'vocabnote-before-replace-$stamp.vnb'))
+    await File(p.join(folder.path, 'schwanotes-before-replace-$stamp.vnb'))
         .writeAsBytes(bytes, flush: true);
 
     // Newest first: the name is the moment, so it sorts as time does.

@@ -82,7 +82,7 @@ List<Override> repositoryOverrides(
   final client = FreeDictionaryClient(
     // Descriptive, as community APIs expect (docs/DATA-SOURCES.md §1).
     userAgent: version.then(
-      (v) => 'VocabNote/$v (github.com/hongphuc-pham/VocabNote)',
+      (v) => 'SchwaNotes/$v (github.com/hongphuc-pham/SchwaNotes)',
     ),
   );
 

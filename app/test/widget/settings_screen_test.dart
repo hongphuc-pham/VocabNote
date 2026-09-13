@@ -354,7 +354,7 @@ void main() {
       expect(reminderOn(tester), isFalse);
       expect(
         find.text(
-          'Notifications are off for VocabNote. You can allow them in your '
+          'Notifications are off for Schwa Notes. You can allow them in your '
           "phone's settings.",
         ),
         findsOneWidget,
