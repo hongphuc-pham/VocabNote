@@ -77,5 +77,5 @@ First release. Note English words with their IPA, highlight the sounds you keep 
 | Privacy policy | `https://hongphuc-pham.github.io/SchwaNotes/privacy.html` |
 | App icon | `store/graphics/icon-512.png` (512 × 512, 32-bit PNG) |
 | Feature graphic | `store/graphics/feature-graphic.png` (1024 × 500, 24-bit PNG, no alpha) |
-| Phone screenshots | `store/screenshots/phone-*.png` (at least 2; 4 or more recommended) |
+| Phone screenshots | `store/screenshots/phone-1…4-*.png`: My words, a word with its highlight, the highlight editor, a flashcard. Taken from the release build on the emulator, then padded at the sides to exactly 1428 × 2856 and saved as 24-bit PNG, because Play refuses alpha and a long side more than twice the short one (the raw 1280 × 2856 captures are 2.23:1). Play recommends four or more, at 1080 px or wider. |
 | Price | **Free.** Note: a free app can never later be changed to paid. |
