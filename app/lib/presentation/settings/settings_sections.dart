@@ -261,7 +261,8 @@ class AboutSettings extends ConsumerWidget {
         SettingsHeader(l10n.settingsAboutSection),
         ListTile(
           title: Text(l10n.settingsVersion),
-          subtitle: Text(ref.watch(appVersionProvider)),
+          // Empty until the platform answers; start-up does not wait (F-092).
+          subtitle: Text(ref.watch(appVersionProvider).value ?? ''),
         ),
         _LinkTile(title: l10n.licencesTitle, route: Routes.licences),
         // A sheet rather than a route: one paragraph does not earn a place

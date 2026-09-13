@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Riverpod 3 moved `Override` out of the main barrel file.
@@ -30,12 +32,16 @@ void main() {
 
   tearDown(() => db.close());
 
-  Future<void> launch(WidgetTester tester) async {
+  Future<void> launch(
+    WidgetTester tester, {
+    FutureOr<String>? appVersion,
+  }) async {
     container = ProviderContainer(
       overrides: <Override>[
         appDatabaseProvider.overrideWithValue(db),
         ...repositoryOverrides(
           db,
+          appVersion: appVersion,
           reminderService: reminders,
           speechService: speech,
         ),
@@ -53,8 +59,11 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  Future<void> openSettings(WidgetTester tester) async {
-    await launch(tester);
+  Future<void> openSettings(
+    WidgetTester tester, {
+    FutureOr<String>? appVersion,
+  }) async {
+    await launch(tester, appVersion: appVersion);
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
   }
@@ -114,6 +123,24 @@ void main() {
         expect(find.text(heading), findsOneWidget);
       }
     });
+
+    // F-092: the version is a platform-channel call that took 4.9s of a cold
+    // start on the emulator, so nothing may wait for it - not the first frame,
+    // and not this screen.
+    testWidgets(
+      'About does not wait for the version, and shows it once known',
+      (tester) async {
+        final version = Completer<String>();
+        await openSettings(tester, appVersion: version.future);
+        await scrollTo(tester, find.text('Version'));
+        // The tile is built and on screen, so this absence means something.
+        expect(find.text('1.2.3'), findsNothing);
+
+        version.complete('1.2.3');
+        await tester.pumpAndSettle();
+        expect(find.text('1.2.3'), findsOneWidget);
+      },
+    );
 
     testWidgets('always offers How to use and Help & feedback (RULES §4)', (
       tester,
