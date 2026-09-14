@@ -32,7 +32,11 @@ Console account. Work top to bottom; each step says where its material is.
 - [x] **A contact email** for the listing: `william.phucpham@gmail.com` (shown publicly).
 - [ ] **Rename the repository** to `SchwaNotes` (GitHub → Settings → General). Every link in the
       app, the site and this folder already uses that name; GitHub redirects the old URLs.
-      Afterwards, locally: `git remote set-url origin https://github.com/hongphuc-pham/SchwaNotes.git`
+      **Only after the rename has happened on GitHub**, locally:
+      `git remote set-url origin https://github.com/hongphuc-pham/SchwaNotes.git`.
+      In the other order every push and pull fails with `Repository not found`, because the new
+      address does not exist yet. To undo that:
+      `git remote set-url origin https://github.com/hongphuc-pham/VocabNote.git`.
 
 ## 2. Create the app
 
