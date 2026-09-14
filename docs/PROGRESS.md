@@ -9,6 +9,61 @@ only you can take are §3 rows 7–10 and `store/README.md`.
 
 ---
 
+## ▶ Resume here (14 September 2026)
+
+**Where it stands.** M0–M7 are merged. M8 — everything a Google Play release needs that does not
+need your Play Console account — is built, tested (931 tests, goldens 6, perf 8, analyze clean)
+and pushed to **`feat/m8-release`**, not yet merged. The app is now **Schwa Notes**
+(`io.github.hongphuc_pham.schwanotes`). What M8 found and fixed is in §6.
+
+**Done by you so far**
+- ✅ Ko-fi page: `https://ko-fi.com/williamphucpham` — wired into Settings → About and the site.
+- ✅ Upload key created (14 Sep) at `C:\Users\hongp\keys\schwanotes-upload.jks`, alias `upload`,
+  `CN=Hong Phuc Pham, O=Schwa Notes`, valid to 2054; `app/android/key.properties` written
+  (git-ignored — checked). A signed release bundle was built and carries this key. Upload-key
+  certificate SHA-256:
+  `E0:CD:C0:EA:E5:C1:7D:90:B4:A2:8D:82:0A:5D:0E:31:3B:BE:C7:14:81:65:6C:37:32:E3:2E:AF:AD:A2:70:C9`
+  (Play Console shows the upload key's fingerprint under App signing; it should match).
+- ✅ Play listing contact email chosen (your Gmail).
+
+**Still to do, in this order**
+1. **Back up the keystore and its password** somewhere other than this PC (password manager +
+   a copy of the `.jks`). Clear the clipboard if the base64 is still on it
+   (`Set-Clipboard -Value ' '`, and delete it from Win+V history).
+2. **Rename the repository on GitHub** to `SchwaNotes` (Settings → General). Your local `origin`
+   already points at `https://github.com/hongphuc-pham/SchwaNotes.git`, so **`git push` and
+   `git pull` fail with "Repository not found" until the rename is done**. Until then, push with
+   `git push https://github.com/hongphuc-pham/VocabNote.git feat/m8-release`, or undo with
+   `git remote set-url origin https://github.com/hongphuc-pham/VocabNote.git`.
+3. **Open and merge the M8 pull request** from `feat/m8-release` (after the rename, the address is
+   `github.com/hongphuc-pham/SchwaNotes/pull/new/feat/m8-release`). CI must be green.
+4. **Turn on GitHub Pages**: Settings → Pages → Source: *GitHub Actions*. After the merge to
+   `main`, open `https://hongphuc-pham.github.io/SchwaNotes/privacy.html` in a private window.
+5. **Add the four GitHub secrets** (Settings → Secrets and variables → Actions) — only needed for
+   the tag-triggered Release workflow; a manual upload does not need them:
+   `UPLOAD_KEYSTORE_BASE64` (from
+   `[Convert]::ToBase64String([IO.File]::ReadAllBytes('C:\Users\hongp\keys\schwanotes-upload.jks')) | Set-Clipboard`),
+   `UPLOAD_KEYSTORE_PASSWORD`, `UPLOAD_KEY_ALIAS` = `upload`, `UPLOAD_KEY_PASSWORD`.
+6. **Google Play Console** — `store/README.md`, top to bottom: create the app, the *App content*
+   declarations (`store/data-safety.md`, `store/content-rating.md`), the listing
+   (`store/listing.md`, `store/graphics/`, `store/screenshots/`), then a **closed test**: upload
+   the bundle, accept Play App Signing, invite **15+ testers** (`store/testers.md`) and keep 12
+   opted in for **14 days**. Then apply for production and roll out at 10% for 48 hours.
+
+**The bundle to upload.** `cd app; flutter build appbundle --release` →
+`app/build/app/outputs/bundle/release/app-release.aab` (version 1.0.0, build 1). With
+`key.properties` present it is signed with your upload key. Every later upload needs a higher
+build number in `app/pubspec.yaml` (`1.0.1+2`, …).
+
+**Still unverified** (§5, §6): cold start on a real phone (F-092 not yet demonstrated), the backup
+round trip on the renamed build, the launcher's themed icon, TalkBack's voice, any iPhone. The
+closed test is the first chance to see them.
+
+**Commands** are in §2 below; the local task notes, if you want the full discovery log, are in
+`plans/active/m8-release/` (git-ignored, on this PC only).
+
+---
+
 ## 1. Where we are
 
 | Milestone | Status | Where |
@@ -120,7 +175,7 @@ a signing key, the feedback address — and these deserve a decision when you ha
 | 7 | **Rename the repository to `SchwaNotes`** | Decided 14 Sep. Every link — in the app, the look-up's User-Agent, the site, the privacy policy and the store pack — already uses `hongphuc-pham/SchwaNotes`; GitHub redirects the old URLs. After renaming: `git remote set-url origin https://github.com/hongphuc-pham/SchwaNotes.git`. |
 | 8 | ~~**A contact email for the Play listing**~~ | ✅ Your Gmail (14 Sep). Shown publicly on the listing, and named as the privacy contact on the site. |
 | 9 | ~~**Your Ko-fi page**~~ | ✅ `https://ko-fi.com/williamphucpham`, wired into Settings → About and the site (14 Sep). The row is hidden in any build where `ProjectLinks.support` is null. Chosen at M8 over Buy Me a Coffee (5% fee, Stripe payouts in 44 countries) and GitHub Sponsors (supporters need a GitHub account): Ko-fi takes 0% of one-off tips, supporters pay by card, PayPal, Apple Pay or Google Pay without an account, and it pays out to PayPal or Stripe. Google Play treats a tip that unlocks nothing as a peer-to-peer payment, so no Play Billing (Payments policy, answer 10281818). |
-| 10 | **The upload key and Pages** | Run `app/tool/make_upload_key.ps1` (it asks for a password; back up the keystore), add the four secrets it prints, and turn on *Settings → Pages → Source: GitHub Actions*. `store/README.md` walks the rest. |
+| 10 | **The upload key and Pages** | ✅ Upload key created 14 Sep (see *Resume here*). Still to do: back it up off this PC, add the four GitHub secrets, and turn on *Settings → Pages → Source: GitHub Actions*. `store/README.md` walks the rest. |
 | 5 | **Play Data safety, one reading to confirm** | A feedback email the user sends from their own mail app carries the app version and device model. Google's docs exempt user-initiated transfers the user expects, but do not name this case; `DATA-SOURCES.md` §7 records it as the reading relied on. Worth a look before the M8 store listing. |
 | 6 | **Cold start: the app's own cost is fixed (M8); the 2s budget still needs a real phone** | *M8, 14 Sep:* `bootstrap` no longer waits for the version (`9c140ed`). Same-boot interleaved traces: first frame 2495 → 579ms, but first frame on screen 3.0 → 2.6s on the emulator's software GPU (§5). Run it on a phone before calling F-092 met. *Before M8:* | Measured and then instrumented at M7 (§5): of the 5162ms between framework init and the first frame, **`resolveAppVersion()` is 4872ms — 94%**. Opening and migrating the database is 26ms, so the migration theory first recorded here was wrong. Nothing before the first frame needs the app version (About and the feedback email want it), so the fix is to make it lazy or to start it unawaited like the 30-day purge already is. **Deliberately not fixed in M7** — you timeboxed this to instrumentation, and 4.9s for one channel call wants a real phone's number before anyone changes start-up. Recorded as **not met**. |
 

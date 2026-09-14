@@ -18,7 +18,8 @@ Console account. Work top to bottom; each step says where its material is.
 
 ## 1. Before opening Play Console
 
-- [ ] **Create the upload key** — once, and keep it safe. From `app\tool`:
+- [x] **Create the upload key** — done 14 Sep (`C:\Users\hongp\keys\schwanotes-upload.jks`,
+      alias `upload`); still to back up off this PC. How it was made, from `app\tool`:
       `powershell -ExecutionPolicy Bypass -File .\make_upload_key.ps1`
       (Windows refuses `.\make_upload_key.ps1` on its own — scripts are disabled by default, and
       `-ExecutionPolicy Bypass` lifts that for this one run only, changing no setting). It asks
