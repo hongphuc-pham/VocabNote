@@ -40,11 +40,14 @@ void main() {
     WidgetTester tester, {
     FutureOr<String>? appVersion,
     Uri? supportLink,
+    bool noSupportPage = false,
   }) async {
     container = ProviderContainer(
       overrides: <Override>[
         appDatabaseProvider.overrideWithValue(db),
-        if (supportLink != null)
+        if (noSupportPage)
+          supportLinkProvider.overrideWithValue(null)
+        else if (supportLink != null)
           supportLinkProvider.overrideWithValue(supportLink),
         ...repositoryOverrides(
           db,
@@ -71,8 +74,14 @@ void main() {
     WidgetTester tester, {
     FutureOr<String>? appVersion,
     Uri? supportLink,
+    bool noSupportPage = false,
   }) async {
-    await launch(tester, appVersion: appVersion, supportLink: supportLink);
+    await launch(
+      tester,
+      appVersion: appVersion,
+      supportLink: supportLink,
+      noSupportPage: noSupportPage,
+    );
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
   }
@@ -155,7 +164,8 @@ void main() {
     testWidgets('Buy me a coffee is absent while there is no Ko-fi page', (
       tester,
     ) async {
-      await openSettings(tester);
+      // The shipped build has a page, so "no page" is forced here.
+      await openSettings(tester, noSupportPage: true);
       await scrollTo(tester, find.text('Privacy'));
       // Drag past the end, so the whole bottom of the list is built and on
       // screen and the absence below Privacy means something.

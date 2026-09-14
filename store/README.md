@@ -18,9 +18,11 @@ Console account. Work top to bottom; each step says where its material is.
 
 ## 1. Before opening Play Console
 
-- [ ] **Create the upload key** — once, and keep it safe. Run `app/tool/make_upload_key.ps1`
-      (it asks for a password and writes `app/android/key.properties` and the keystore, both
-      git-ignored). **Back up the keystore and password somewhere other than this PC.** With Play
+- [ ] **Create the upload key** — once, and keep it safe. From `app\tool`:
+      `powershell -ExecutionPolicy Bypass -File .\make_upload_key.ps1`
+      (Windows refuses `.\make_upload_key.ps1` on its own — scripts are disabled by default, and
+      `-ExecutionPolicy Bypass` lifts that for this one run only, changing no setting). It asks
+      for a password and writes `app/android/key.properties` and the keystore, both git-ignored. **Back up the keystore and password somewhere other than this PC.** With Play
       App Signing, losing the upload key is recoverable through Google support, but slow.
 - [ ] **Build the signed bundle:** `cd app; flutter build appbundle --release` →
       `app/build/app/outputs/bundle/release/app-release.aab`. Or push a tag `v1.0.0`: the
@@ -76,5 +78,5 @@ Play Console → **Create app**
 ## 6. After it is live
 
 - [ ] Replace "Coming soon to Google Play" on `site/index.html` with the store link.
-- [ ] Add the Ko-fi URL (Settings link and the site) once the page exists.
+- [x] Ko-fi page (`https://ko-fi.com/williamphucpham`) wired into Settings and the site (14 Sep).
 - [ ] Record the release in `docs/PROGRESS.md` §1.

@@ -90,6 +90,14 @@ void main() {
     });
   });
 
+  test("Buy me a coffee goes to the owner's Ko-fi page, over https", () {
+    // A tip there unlocks nothing; the link is public and not a secret.
+    expect(
+      ProjectLinks.support.toString(),
+      'https://ko-fi.com/williamphucpham',
+    );
+  });
+
   test('GitHub Issues is the project page, over https', () {
     expect(
       ProjectLinks.issues.toString(),

@@ -36,15 +36,14 @@ abstract final class ProjectLinks {
     'https://github.com/hongphuc-pham/SchwaNotes/issues',
   );
 
-  /// The owner's Ko-fi page, behind *Buy me a coffee* in Settings (M8), or
-  /// null - which hides the row - until the page exists. Set it to
-  /// `Uri.parse('https://ko-fi.com/<name>')`.
+  /// The owner's Ko-fi page, behind *Buy me a coffee* in Settings (M8).
+  /// `supportLinkProvider` reads it and may be null, which hides the row.
   ///
   /// A tip there unlocks nothing in the app. That is what keeps it outside
   /// Google Play Billing: Play treats a tip that goes wholly to the creator and
   /// grants no digital content as a peer-to-peer payment (Payments policy,
   /// support.google.com/googleplay/android-developer/answer/10281818).
-  static const Uri? support = null;
+  static final Uri support = Uri.parse('https://ko-fi.com/williamphucpham');
 }
 
 /// The *Send feedback* email (F-072).
